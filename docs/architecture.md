@@ -67,7 +67,7 @@ Every record a tool returns has an id (`L0042` log line, `M07` metric series, `C
 
 ## Single-agent baseline
 
-`evaluation/baseline.py` runs one agent with all five tools, the same model, the same total tool budget, the same fault injection, the same hypothesis schema and the same citation and conclusion policy. Only the collaboration structure differs.
+`evaluation/baseline.py` runs one agent with all five tools, the same model, the same total tool budget, the same fault injection, the same hypothesis schema and the same citation and conclusion policy. Only the collaboration structure differs. Because the baseline has no critic, the conclusion rule sees only the contradictions it reports itself. This asymmetry is discussed in `docs/evaluation_results.md`.
 
 ## Files
 
@@ -83,4 +83,5 @@ Every record a tool returns has an id (`L0042` log line, `M07` metric series, `C
 | `scenarios.py` | Loads scenario telemetry (never ground truth) |
 | `evaluation/` | Baseline, grading/aggregation, runner |
 | `render.py` | Markdown report |
-| `scripts/generate_scenarios.py` | Deterministic synthetic data generator |
+| `scripts/generate_scenarios.py` | Deterministic synthetic data generator (writes `data/MANIFEST.json`) |
+| `scripts/run_evaluation.py`, `scripts/analyze_results.py` | Run both systems over all scenarios; outcome and failed-criteria analysis |

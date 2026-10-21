@@ -1,0 +1,394 @@
+{
+  "system": "baseline",
+  "incident_id": "S08",
+  "error": null,
+  "latency_s": 22.124,
+  "usage": {
+    "llm_calls": 5,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 49668,
+    "completion_tokens": 4011,
+    "reasoning_tokens": 118,
+    "total_tokens": 53679,
+    "cost_usd": 0.0069723,
+    "llm_time_s": 22.11,
+    "by_role": {
+      "baseline": {
+        "calls": 5,
+        "prompt_tokens": 49668,
+        "completion_tokens": 4011,
+        "cost_usd": 0.0069723
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 10,
+    "rejected_calls": 0,
+    "attempts": 16,
+    "failed_calls": 3,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 90840,
+    "by_status": {
+      "ok": 7,
+      "timeout": 3
+    },
+    "by_tool": {
+      "query_metrics": 2,
+      "query_logs": 3,
+      "get_change_history": 3,
+      "get_dependencies": 1,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 10
+    }
+  },
+  "citations": {
+    "valid": 43,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S08",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.60, margin 0.40, 5 verified supporting and 2 contradicting evidence items (29%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.60, margin 0.40, 5 verified supporting and 2 contradicting evidence items (29%)"
+      ],
+      "top_hypothesis": "payment-service / deployment_regression",
+      "top_confidence": 0.6,
+      "margin_over_runner_up": 0.4,
+      "verified_support": [
+        "C09",
+        "M33",
+        "M36",
+        "P02",
+        "D04"
+      ],
+      "contradicting_evidence": [
+        "H11",
+        "H12"
+      ],
+      "contradiction_share": 0.286,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.6,
+    "summary": "payment-service error rate jumped from about 0.2% to about 21% starting 11:00:00Z, one reading after the v3.2.0 deploy at 10:57:00Z. v3.2.0 changed payments table writes (idempotency_key) and upgraded the ORM 5.x to 6.x, with the schema migration run separately. Database, CPU, memory, latency and traffic metrics stayed flat, and no config or database changes were recorded. The leading hypothesis is that v3.2.0 was deployed without its schema migration, causing write failures. Log queries timed out on all attempts, so the error signature is unconfirmed, and confidence is moderate.",
+    "root_cause": {
+      "id": "H1",
+      "service": "payment-service",
+      "category": "deployment_regression",
+      "mechanism": "v3.2.0 writes idempotency_key and uses ORM 6.x against payments tables; if the migration was not applied, or ORM 6 mapping differs, payment writes fail, giving about 21% errors and checkout 5xx via sync_http.",
+      "supporting_evidence": [
+        "C09",
+        "M33",
+        "M36",
+        "P02",
+        "D04"
+      ],
+      "contradicting_evidence": [
+        "H11",
+        "H12"
+      ],
+      "assumptions": [
+        "Migration not applied (unverified).",
+        "Errors are write-path only."
+      ],
+      "confidence": 0.6
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "payment-service",
+        "category": "deployment_regression",
+        "mechanism": "v3.2.0 writes idempotency_key and uses ORM 6.x against payments tables; if the migration was not applied, or ORM 6 mapping differs, payment writes fail, giving about 21% errors and checkout 5xx via sync_http.",
+        "supporting_evidence": [
+          "C09",
+          "M33",
+          "M36",
+          "P02",
+          "D04"
+        ],
+        "contradicting_evidence": [
+          "H11",
+          "H12"
+        ],
+        "assumptions": [
+          "Migration not applied (unverified).",
+          "Errors are write-path only."
+        ],
+        "confidence": 0.6
+      },
+      {
+        "id": "H2",
+        "service": "payments-db",
+        "category": "config_error",
+        "mechanism": "A schema or config difference on the database side causes write rejections for the new columns, without showing up in CPU, connections or the health check.",
+        "supporting_evidence": [
+          "M33"
+        ],
+        "contradicting_evidence": [
+          "M37",
+          "M38",
+          "M40",
+          "M41",
+          "H12"
+        ],
+        "assumptions": [
+          "The database has no tracked changes, so the schema change is untracked."
+        ],
+        "confidence": 0.2
+      },
+      {
+        "id": "H3",
+        "service": "payment-provider",
+        "category": "dependency_failure",
+        "mechanism": "The external provider starts rejecting or timing out payment calls, causing the failures.",
+        "supporting_evidence": [
+          "M33"
+        ],
+        "contradicting_evidence": [
+          "H10",
+          "M34"
+        ],
+        "assumptions": [
+          "The status page reflects the real provider state."
+        ],
+        "confidence": 0.1
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "payment-service error_rate went from 0.15\u20130.26% (10:00\u201310:55) to 21.26% at 11:00:00Z, peaking at 23.55% at 11:10:00Z and at 20.61% at 11:30:00Z.",
+        "evidence_ids": [
+          "M33"
+        ]
+      },
+      {
+        "statement": "A deploy of payment-service v3.2.0 completed at 10:57:00Z: it adds idempotency_key to payments table writes and upgrades the ORM 5.x to 6.x; the schema migration was run separately.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "payment-service request_rate stayed between 57.8 and 62.3 req/s with no visible surge across 10:00\u201311:30.",
+        "evidence_ids": [
+          "M36"
+        ]
+      },
+      {
+        "statement": "payment-service latency_p99 stayed between 434 and 465 ms; cpu_pct 31.7\u201333.8%; memory_pct 53\u201357%.",
+        "evidence_ids": [
+          "M34",
+          "M32",
+          "M35"
+        ]
+      },
+      {
+        "statement": "payments-db connections (116\u2013125), cpu (33.8\u201335.9%), query_latency_p99 (11.6\u201312.5 ms) and replication lag (about 0.4 s) stayed flat across the window.",
+        "evidence_ids": [
+          "M37",
+          "M38",
+          "M40",
+          "M41"
+        ]
+      },
+      {
+        "statement": "The payments-db health check passed (SELECT 1 ok) and payment-service /health returned 200 at 11:28:00Z.",
+        "evidence_ids": [
+          "H12",
+          "H11"
+        ]
+      },
+      {
+        "statement": "The only infra change was the Kubernetes node pool upgrade at 02:00Z, about nine hours before onset.",
+        "evidence_ids": [
+          "C08"
+        ]
+      },
+      {
+        "statement": "A past incident (2026-02-11) had payment-service 500s and SQL column errors after an ORM migration, where the deploy shipped before its schema migration was applied.",
+        "evidence_ids": [
+          "P02"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The v3.2.0 schema migration has not been applied to payments-db, based on the 'run separately' note; this has not been verified.",
+      "The health checks are shallow and do not exercise payments table writes, so a passing health check does not rule out write failures.",
+      "The payments-db change history shows no changes, so the database schema was not altered by a tracked change.",
+      "The error rate of about 21% matches the share of payment writes that fail, which is consistent with the new code path hitting a missing column or type mismatch.",
+      "(unverified - no valid evidence cited) payment-service log queries (WARN and ERROR, and narrow 'column' queries) timed out on every attempt, so no log lines were retrieved."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "v3.2.0 deployed without its schema migration (or with an ORM 6.x incompatibility) is the most likely root cause, with payment-service as the origin.",
+        "evidence_ids": [
+          "C09",
+          "M33",
+          "P02"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "The payment-provider and database infrastructure are unlikely to be the origin, because their signals are flat and the database health check passes.",
+        "evidence_ids": [
+          "M37",
+          "M38",
+          "M40",
+          "M41",
+          "H10",
+          "H12"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "Checkout errors are most likely propagated from payment-service via the sync_http dependency; checkout-service's own health check is shallow and reports healthy.",
+        "evidence_ids": [
+          "D04",
+          "H03"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "The TLS certificate expiry from P06 is an unlikely explanation, since the error onset coincides with a deploy and no certificate change was recorded.",
+        "evidence_ids": [
+          "P06",
+          "C09"
+        ],
+        "confidence": 0.3
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Roll back payment-service to v3.1.x now to stop failed payments.",
+        "priority": "immediate",
+        "rationale": "The deploy at 10:57Z immediately precedes the onset at 11:00Z, and rollback is the fastest way to restore service."
+      },
+      {
+        "action": "Confirm whether the v3.2.0 schema migration has been applied to payments-db; if not, run it or hold the rollback until the schema is verified.",
+        "priority": "immediate",
+        "rationale": "A deploy without its migration would produce write errors, which the logs could not confirm."
+      },
+      {
+        "action": "Check payment-service error logs once the log backend recovers, looking for SQL column or type errors.",
+        "priority": "immediate",
+        "rationale": "Log queries timed out, so the error signature is unverified."
+      },
+      {
+        "action": "Add a deploy gate that blocks rollout until migrations are applied and a write-path smoke test passes.",
+        "priority": "short_term",
+        "rationale": "Repeats the 2026-02-11 failure mode (P02)."
+      },
+      {
+        "action": "Make health checks exercise payments table writes, and add alerting on payment-service error rate.",
+        "priority": "short_term",
+        "rationale": "The current /health check reported healthy during a 21% error rate."
+      },
+      {
+        "action": "Stage ORM major-version upgrades separately from behavioural changes.",
+        "priority": "long_term",
+        "rationale": "v3.2.0 combined an ORM major upgrade with a schema change."
+      }
+    ],
+    "open_questions": [
+      "What do the payment-service error log lines show (SQL column error, ORM mapping error, or provider error)? Logs timed out on all retries.",
+      "Was the v3.2.0 schema migration applied, and when?",
+      "Is the 21% error rate limited to payment writes, or does it also affect reads and the payment-provider calls?",
+      "Did the payment-provider return errors? Its health was reported only from the status page.",
+      "Why are checkout-service's health checks healthy during a sustained error rate?"
+    ],
+    "data_gaps": [
+      "query_logs(start=2026-09-08T10:00:00Z, end=2026-09-08T11:30:00Z, service=payment-service, min_level=WARN, limit=30) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-08T10:55:00Z, end=2026-09-08T11:30:00Z, service=payment-service, min_level=ERROR, limit=10) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-08T11:00:00Z, end=2026-09-08T11:05:00Z, service=payment-service, min_level=INFO, contains=column, limit=5) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)"
+    ],
+    "data_gaps_total": 3,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S08",
+      "title": "payment-service errors",
+      "reported_at": "2026-09-08T11:30:00Z",
+      "alert": "ALERT [P1] payment-service error rate 22% since ~11:00 UTC; payments failing.",
+      "affected_services": [
+        "payment-service",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-08T10:00:00Z",
+      "window_end": "2026-09-08T11:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 43,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "M32",
+      "M33",
+      "M34",
+      "M35",
+      "M36",
+      "C08",
+      "C09",
+      "D04",
+      "D08",
+      "D09",
+      "H03",
+      "H10",
+      "H11",
+      "H12",
+      "M37",
+      "M38",
+      "M39",
+      "M40",
+      "M41",
+      "P02",
+      "P01",
+      "P05",
+      "P06",
+      "P04"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S08",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 22.124,
+    "tool_calls": 10,
+    "failed_tool_calls": 3,
+    "llm_calls": 5,
+    "prompt_tokens": 49668,
+    "completion_tokens": 4011,
+    "total_tokens": 53679,
+    "cost_usd": 0.0069723,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.6,
+    "top_service": "payment-service",
+    "top_category": "deployment_regression",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 0.75,
+    "key_evidence_retrieved": 0.75,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 1
+  }
+}

@@ -1,0 +1,447 @@
+{
+  "system": "baseline",
+  "incident_id": "S02",
+  "error": null,
+  "latency_s": 21.25,
+  "usage": {
+    "llm_calls": 3,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 34972,
+    "completion_tokens": 4041,
+    "reasoning_tokens": 452,
+    "total_tokens": 39013,
+    "cost_usd": 0.0055177,
+    "llm_time_s": 21.228,
+    "by_role": {
+      "baseline": {
+        "calls": 3,
+        "prompt_tokens": 34972,
+        "completion_tokens": 4041,
+        "cost_usd": 0.0055177
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 8,
+    "rejected_calls": 0,
+    "attempts": 8,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 960,
+    "by_status": {
+      "ok": 8
+    },
+    "by_tool": {
+      "query_metrics": 3,
+      "get_change_history": 1,
+      "query_logs": 2,
+      "get_dependencies": 1,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 8
+    }
+  },
+  "citations": {
+    "valid": 59,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S02",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.85, margin 0.77, 7 verified supporting and 3 contradicting evidence items (30%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.85, margin 0.77, 7 verified supporting and 3 contradicting evidence items (30%)"
+      ],
+      "top_hypothesis": "payment-service / config_error",
+      "top_confidence": 0.85,
+      "margin_over_runner_up": 0.77,
+      "verified_support": [
+        "C09",
+        "L0193",
+        "L0197",
+        "M33",
+        "M34",
+        "M12",
+        "L0194"
+      ],
+      "contradicting_evidence": [
+        "L0131",
+        "L0164",
+        "L0207"
+      ],
+      "contradiction_share": 0.3,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.85,
+    "summary": "Payment failures began at 10:00 UTC, right after payment-service's connection-acquire timeout was cut from 5000 ms to 50 ms at 09:58 UTC (config change C09). Payment-service logs show its payments-db pool saturated (active=12, idle=0, waiting=31) and timing out at 50 ms, which returns 503s to checkout. The database itself looks healthy (connections flat, query latency normal), so the fault appears to be the client-side timeout change rather than database capacity. Confidence is high but not fully verified: no direct test of the timeout value was run, and checkout's full error volume is only partly visible.",
+    "root_cause": {
+      "id": "H1",
+      "service": "payment-service",
+      "category": "config_error",
+      "mechanism": "Reducing db.pool.connection_timeout_ms from 5000 to 50 ms at 09:58 causes requests waiting for a payments-db pool connection (active=12, waiting=31) to time out, returning 503s to checkout, while the DB itself stays healthy.",
+      "supporting_evidence": [
+        "C09",
+        "L0193",
+        "L0197",
+        "M33",
+        "M34",
+        "M12",
+        "L0194"
+      ],
+      "contradicting_evidence": [
+        "L0131",
+        "L0164",
+        "L0207"
+      ],
+      "assumptions": [
+        "The config key controls the acquire timeout for the payments-db pool.",
+        "Waits normally fall under 50 ms."
+      ],
+      "confidence": 0.85
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "payment-service",
+        "category": "config_error",
+        "mechanism": "Reducing db.pool.connection_timeout_ms from 5000 to 50 ms at 09:58 causes requests waiting for a payments-db pool connection (active=12, waiting=31) to time out, returning 503s to checkout, while the DB itself stays healthy.",
+        "supporting_evidence": [
+          "C09",
+          "L0193",
+          "L0197",
+          "M33",
+          "M34",
+          "M12",
+          "L0194"
+        ],
+        "contradicting_evidence": [
+          "L0131",
+          "L0164",
+          "L0207"
+        ],
+        "assumptions": [
+          "The config key controls the acquire timeout for the payments-db pool.",
+          "Waits normally fall under 50 ms."
+        ],
+        "confidence": 0.85
+      },
+      {
+        "id": "H2",
+        "service": "payments-db",
+        "category": "resource_exhaustion",
+        "mechanism": "Connection or capacity exhaustion on payments-db slows connection grants so the pool times out.",
+        "supporting_evidence": [
+          "L0193",
+          "L0212"
+        ],
+        "contradicting_evidence": [
+          "M37",
+          "M40",
+          "M41",
+          "H12"
+        ],
+        "assumptions": [
+          "The DB-side pool limit is not visible in the metrics."
+        ],
+        "confidence": 0.08
+      },
+      {
+        "id": "H3",
+        "service": "payment-provider",
+        "category": "dependency_failure",
+        "mechanism": "External provider slowness or errors cause payment-service 5xx and checkout failures.",
+        "supporting_evidence": [
+          "L0194"
+        ],
+        "contradicting_evidence": [
+          "M34",
+          "H10"
+        ],
+        "assumptions": [
+          "Provider-side errors would show as provider response timeouts; only 2 such log lines were seen."
+        ],
+        "confidence": 0.05
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "A config change set payment-service db.pool.connection_timeout_ms from 5000 to 50 (ticket OPS-2291, by j.alvarez) at 09:58:00Z.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "payment-service error_rate jumped from ~0.2% (09:55 point 0.25%) to 28.43% at 10:00:00Z and stayed 25-29% through 10:30.",
+        "evidence_ids": [
+          "M33"
+        ]
+      },
+      {
+        "statement": "payment-service latency_p99 dropped from ~433-461 ms to ~135-145 ms starting 10:00:00Z.",
+        "evidence_ids": [
+          "M34"
+        ]
+      },
+      {
+        "statement": "payment-service logs show 45 'Timeout acquiring connection from pool payments-db after 50ms (active=12, idle=0, waiting=31)' errors, first at 10:00:17Z.",
+        "evidence_ids": [
+          "L0193",
+          "L0197",
+          "L0199",
+          "L0205",
+          "L0253"
+        ]
+      },
+      {
+        "statement": "checkout-service error_rate rose from ~0.3% to 12.45% at 10:00:00Z, and its logs show 'payment-service call failed: 503 Service Unavailable' starting 10:00:19Z.",
+        "evidence_ids": [
+          "M12",
+          "L0194",
+          "L0201"
+        ]
+      },
+      {
+        "statement": "payments-db connections stayed at 116-125 throughout 09:00-10:30, with query_latency_p99 about 11.5-12.5 ms and replication lag about 0.4 s.",
+        "evidence_ids": [
+          "M37",
+          "M40",
+          "M41"
+        ]
+      },
+      {
+        "statement": "payment-service CPU (~32-34%) and memory (~53-57%) were flat across the window.",
+        "evidence_ids": [
+          "M32",
+          "M35"
+        ]
+      },
+      {
+        "statement": "payments-db health check reports 'accepting connections; SELECT 1 ok' at 10:28Z; payment-service /health returned 200.",
+        "evidence_ids": [
+          "H12",
+          "H11"
+        ]
+      },
+      {
+        "statement": "Only 3 'insufficient funds' declines appear in payment-service logs in the window, spread across 09:40-10:02.",
+        "evidence_ids": [
+          "L0131",
+          "L0164",
+          "L0207"
+        ]
+      },
+      {
+        "statement": "Other changes in the prior 3 days (inventory v4.1.9, search v5.3.1, payment v3.1.3 on 09-01 04:00, checkout v2.13.4 on 09-01 14:00, node pool upgrade 09-02 01:00) all predate the 10:00 onset by many hours.",
+        "evidence_ids": [
+          "C03",
+          "C04",
+          "C05",
+          "C07",
+          "C08"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The 50 ms value is applied to the payments-db pool acquire timeout in payment-service (the config key name implies this), and the change took effect at 09:58 with no other concurrent changes.",
+      "Connection acquisition waits are normally well below 50 ms under the ~60 req/s load, so the reduced timeout causes failures even without database slowness.",
+      "payments-db health checks are shallow and do not measure pool-level or write-path behaviour.",
+      "Checkout's 12% error rate reflects payment 503s propagating without a retry that masks them, so checkout's error count is not fully visible in the sampled logs."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The root cause is the 09:58 config change reducing payment-service's payments-db connection acquire timeout from 5000 ms to 50 ms, which makes normal pool waits exceed the timeout and produces 503s that propagate to checkout.",
+        "evidence_ids": [
+          "C09",
+          "L0193",
+          "M33",
+          "M12",
+          "L0194"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "statement": "A genuine payments-db capacity or connection exhaustion problem is unlikely, since DB connections, CPU and query latency stayed flat while errors spiked.",
+        "evidence_ids": [
+          "M37",
+          "M38",
+          "M40"
+        ],
+        "confidence": 0.8
+      },
+      {
+        "statement": "The 'insufficient funds' declines are background noise and not the cause of the 5xx spike.",
+        "evidence_ids": [
+          "L0131",
+          "L0164",
+          "L0207"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "statement": "Reverting the timeout to 5000 ms should restore payment success, since latency was normal before the change.",
+        "evidence_ids": [
+          "C09",
+          "M34",
+          "M33"
+        ],
+        "confidence": 0.75
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Revert db.pool.connection_timeout_ms on payment-service from 50 back to 5000 ms (roll back OPS-2291 change).",
+        "priority": "immediate",
+        "rationale": "The change at 09:58 directly precedes the 10:00 onset; reverting is the fastest mitigation."
+      },
+      {
+        "action": "Confirm recovery: payment-service error_rate returns below 1% and checkout 503 warnings stop.",
+        "priority": "immediate",
+        "rationale": "Verifies the hypothesis and the mitigation."
+      },
+      {
+        "action": "Review OPS-2291 with the author before any further tail-latency tuning; the reduced timeout traded latency for hard failures.",
+        "priority": "short_term",
+        "rationale": "Changing a timeout that gates pool acquisition should be load-tested first."
+      },
+      {
+        "action": "Add a config-change guard or canary requirement for payment-service DB pool settings.",
+        "priority": "short_term",
+        "rationale": "Prevents a single-value change from taking down the payment path."
+      },
+      {
+        "action": "Add pool-wait and acquire-timeout alerts on payment-service, and a deep health check that exercises a pool acquire and write.",
+        "priority": "long_term",
+        "rationale": "Current /health and DB SELECT 1 checks stayed green during a full outage."
+      }
+    ],
+    "open_questions": [
+      "Was the 50 ms value meant for a different pool or environment, and what was the intended effect on tail latency?",
+      "Why does checkout's error rate (12%) sit well below payment-service's (28%); is there retry or fallback masking the failures?",
+      "Did the change in fact take effect on all payment-service replicas, or only some?",
+      "Is there any 09:58-10:00 DB-side event not visible in the sampled metrics?"
+    ],
+    "data_gaps": [],
+    "data_gaps_total": 0,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S02",
+      "title": "payment failures at checkout",
+      "reported_at": "2026-09-02T10:30:00Z",
+      "alert": "ALERT [P1] checkout-service payment step failing: error rate 12% since ~10:00 UTC; payment-service 5xx elevated.",
+      "affected_services": [
+        "checkout-service",
+        "payment-service"
+      ],
+      "window_start": "2026-09-02T09:00:00Z",
+      "window_end": "2026-09-02T10:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 59,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "M32",
+      "M33",
+      "M34",
+      "M35",
+      "M36",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "C03",
+      "C04",
+      "C05",
+      "C06",
+      "C07",
+      "C08",
+      "C09",
+      "L0131",
+      "L0164",
+      "L0193",
+      "L0197",
+      "L0199",
+      "L0205",
+      "L0207",
+      "L0211",
+      "L0212",
+      "L0215",
+      "L0218",
+      "L0224",
+      "L0228",
+      "L0231",
+      "L0235",
+      "L0238",
+      "L0242",
+      "L0246",
+      "L0251",
+      "L0253",
+      "D04",
+      "D08",
+      "D09",
+      "H03",
+      "H10",
+      "H11",
+      "H12",
+      "M37",
+      "M38",
+      "M39",
+      "M40",
+      "M41",
+      "P06",
+      "P01",
+      "P05",
+      "L0194",
+      "L0201",
+      "L0209",
+      "L0216",
+      "L0300"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S02",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 21.25,
+    "tool_calls": 8,
+    "failed_tool_calls": 0,
+    "llm_calls": 3,
+    "prompt_tokens": 34972,
+    "completion_tokens": 4041,
+    "total_tokens": 39013,
+    "cost_usd": 0.0055177,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.85,
+    "top_service": "payment-service",
+    "top_category": "config_error",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 2
+  }
+}

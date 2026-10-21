@@ -1,0 +1,456 @@
+{
+  "system": "baseline",
+  "incident_id": "S04",
+  "error": null,
+  "latency_s": 26.1,
+  "usage": {
+    "llm_calls": 5,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 75363,
+    "completion_tokens": 4822,
+    "reasoning_tokens": 532,
+    "total_tokens": 80185,
+    "cost_usd": 0.0099473,
+    "llm_time_s": 26.082,
+    "by_role": {
+      "baseline": {
+        "calls": 5,
+        "prompt_tokens": 75363,
+        "completion_tokens": 4822,
+        "cost_usd": 0.0099473
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 12,
+    "rejected_calls": 0,
+    "attempts": 12,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 1440,
+    "by_status": {
+      "ok": 12
+    },
+    "by_tool": {
+      "query_metrics": 3,
+      "get_change_history": 2,
+      "query_logs": 4,
+      "get_dependencies": 2,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 12
+    }
+  },
+  "citations": {
+    "valid": 52,
+    "invalid": 6
+  },
+  "report": {
+    "incident_id": "S04",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.80, margin 0.70, 8 verified supporting and 0 contradicting evidence items (0%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.80, margin 0.70, 8 verified supporting and 0 contradicting evidence items (0%)"
+      ],
+      "top_hypothesis": "payment-provider / dependency_failure",
+      "top_confidence": 0.8,
+      "margin_over_runner_up": 0.7,
+      "verified_support": [
+        "L0186",
+        "M33",
+        "M34",
+        "L0200",
+        "H10",
+        "L0188",
+        "M02",
+        "M12"
+      ],
+      "contradicting_evidence": [],
+      "contradiction_share": 0.0,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.8,
+    "summary": "Checkout and API-gateway 5xx began at 16:00:00Z, and every checkout failure sampled in the logs is a 502 from payment-service. payment-service in turn is failing its calls to the external payment-provider with 503s, and its 'payment-provider' circuit breaker opened. The provider's own status page reports degraded Charges API errors. The most likely origin is the external payment provider outage, not the internal services. The search-service v5.3.2 deploy at 15:40 is coincident but has no visible path to payment or checkout.",
+    "root_cause": {
+      "id": "H-1",
+      "service": "payment-provider",
+      "category": "dependency_failure",
+      "mechanism": "The external payment provider's Charges API began failing with 503s at about 16:00Z. payment-service retries three times per charge, its latency rises to about 10 s, and the circuit breaker opens. checkout-service then fails orders with payment-service 502s, which the gateway reports as 5xx.",
+      "supporting_evidence": [
+        "L0186",
+        "M33",
+        "M34",
+        "L0200",
+        "H10",
+        "L0188",
+        "M02",
+        "M12"
+      ],
+      "contradicting_evidence": [],
+      "assumptions": [
+        "The status page is accurate and the outage is ongoing at 16:28Z.",
+        "No other caller of the provider is involved."
+      ],
+      "confidence": 0.8
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H-1",
+        "service": "payment-provider",
+        "category": "dependency_failure",
+        "mechanism": "The external payment provider's Charges API began failing with 503s at about 16:00Z. payment-service retries three times per charge, its latency rises to about 10 s, and the circuit breaker opens. checkout-service then fails orders with payment-service 502s, which the gateway reports as 5xx.",
+        "supporting_evidence": [
+          "L0186",
+          "M33",
+          "M34",
+          "L0200",
+          "H10",
+          "L0188",
+          "M02",
+          "M12"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "The status page is accurate and the outage is ongoing at 16:28Z.",
+          "No other caller of the provider is involved."
+        ],
+        "confidence": 0.8
+      },
+      {
+        "id": "H-2",
+        "service": "payment-service",
+        "category": "config_error",
+        "mechanism": "An internal payment-service issue (for example, a TLS or client config for the provider, or retry/timeout settings) causes the provider calls to fail with 503s, and checkout shows 502s.",
+        "supporting_evidence": [
+          "L0186",
+          "L0200",
+          "M34"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "The change history covers all config changes to payment-service."
+        ],
+        "confidence": 0.1
+      },
+      {
+        "id": "H-3",
+        "service": "search-service",
+        "category": "deployment_regression",
+        "mechanism": "The v5.3.2 ranking model refresh loads the system or adds latency that spills over to checkout.",
+        "supporting_evidence": [
+          "C09"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "There is a hidden dependency that the graph does not show."
+        ],
+        "confidence": 0.05
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "checkout-service error_rate was flat at about 0.24\u20130.35% until 15:55:00Z, then jumped to 21.17% at 16:00:00Z and stayed between 19.85% and 22.47% through 16:30:00Z.",
+        "evidence_ids": [
+          "M12"
+        ]
+      },
+      {
+        "statement": "api-gateway error_rate went from 0.33\u20130.45% before 16:00:00Z to 7.73% at 16:00:00Z, with values of 7.47\u20138.28% through 16:30:00Z.",
+        "evidence_ids": [
+          "M02"
+        ]
+      },
+      {
+        "statement": "payment-service error_rate jumped from 0.20% at 15:55:00Z to 39.13% at 16:00:00Z and peaked at 41.94% at 16:10:00Z.",
+        "evidence_ids": [
+          "M33"
+        ]
+      },
+      {
+        "statement": "payment-service latency_p99 rose from 464.17 ms at 15:55:00Z to 9857.35 ms at 16:00:00Z and was 10355.04 ms at 16:30:00Z.",
+        "evidence_ids": [
+          "M34"
+        ]
+      },
+      {
+        "statement": "Checkout logs show 'order ... failed: payment-service returned 502 Bad Gateway' errors starting at 16:00:27Z.",
+        "evidence_ids": [
+          "L0188",
+          "L0190"
+        ]
+      },
+      {
+        "statement": "payment-service logs show 'POST https://api.payprovider.example/v2/charges failed: 503 Service Unavailable (attempt 3/3)' starting at 16:00:02Z, which is before the first checkout 502.",
+        "evidence_ids": [
+          "L0186",
+          "L0192"
+        ]
+      },
+      {
+        "statement": "The payment-service circuit breaker 'payment-provider' changed CLOSED -> OPEN at 16:02:04Z, with further OPEN transitions at 16:10:06Z, 16:17:50Z and 16:25:02Z.",
+        "evidence_ids": [
+          "L0200",
+          "L0256",
+          "L0312",
+          "L0368"
+        ]
+      },
+      {
+        "statement": "The payment-provider dependency has health 'degraded' with status page text 'Elevated error rates on Charges API (investigating)'. The health checks for payment-service, payments-db, checkout-service, api-gateway and auth-service all returned HTTP 200 or SELECT 1 OK at 16:28:00Z.",
+        "evidence_ids": [
+          "H10",
+          "H11",
+          "H12",
+          "H01",
+          "H03"
+        ]
+      },
+      {
+        "statement": "payment-service CPU (about 32\u201334%), memory (about 53\u201357%) and request rate (about 58\u201362 req/s) stayed in their normal ranges across the incident window.",
+        "evidence_ids": [
+          "M32",
+          "M35",
+          "M36"
+        ]
+      },
+      {
+        "statement": "The only change in the window is search-service deploy v5.3.2 ('ranking model refresh') at 15:40:00Z. The only other change is a Kubernetes node pool upgrade at 07:00:00Z.",
+        "evidence_ids": [
+          "C09",
+          "C08"
+        ]
+      },
+      {
+        "statement": "search-service logs show only four shard-3 latency WARNs (703\u2013983 ms) between 15:32 and 16:05, and it has no dependency edge to payment-service or checkout-service.",
+        "evidence_ids": [
+          "L0097",
+          "L0150",
+          "L0155",
+          "L0225"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The payment-provider status-page entry reflects the real provider outage, and the provider is not a service with its own telemetry here.",
+      "The health checks are shallow and do not exercise the payment charge path, so 'healthy' for payment-service does not prove it can charge successfully.",
+      "payment-service is the only caller of payment-provider in this window.",
+      "The 502s seen by checkout-service are passed through from payment-service's failed upstream calls."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The primary origin is the external payment provider's Charges API outage. payment-service surfaces it as 503s and its circuit breaker opens, and checkout and gateway 5xx are downstream propagation of that failure.",
+        "evidence_ids": [
+          "L0186",
+          "L0200",
+          "H10",
+          "M33",
+          "L0188",
+          "M02"
+        ],
+        "confidence": 0.8
+      },
+      {
+        "statement": "The search-service v5.3.2 deploy at 15:40 is unlikely to be the cause. Its timing is about 20 minutes before onset, it has no dependency path to checkout or payment, and its only WARNs are modest shard latency.",
+        "evidence_ids": [
+          "C09",
+          "L0097",
+          "M12"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "statement": "Internal payment-service fault is unlikely as a primary cause. Its CPU, memory and request rate are flat, its health check is OK, and the failures are 503s from the provider call.",
+        "evidence_ids": [
+          "M32",
+          "M35",
+          "M36",
+          "H11",
+          "L0186"
+        ],
+        "confidence": 0.7
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Confirm the payment-provider outage with the provider's status and incident channel, and fail over to a secondary payment provider or route to a degraded-mode queue if one is available.",
+        "priority": "immediate",
+        "rationale": "The root failure is outside our systems, so only a failover or queueing stops the customer-facing payment failures."
+      },
+      {
+        "action": "Keep the payment-provider circuit breaker open and reduce the retry count (3 attempts) and the 10 s latency, so checkout fails fast and threads are not exhausted.",
+        "priority": "immediate",
+        "rationale": "payment-service p99 is about 10 s, and the retries add load and latency."
+      },
+      {
+        "action": "Tell customers about the payment failures and suppress automatic retries of failed orders until the provider recovers.",
+        "priority": "immediate",
+        "rationale": "Customers are reporting failed payments."
+      },
+      {
+        "action": "Add a payment-provider dependency health check that exercises a real charge path (in a sandbox) and alert on the circuit breaker opening.",
+        "priority": "short_term",
+        "rationale": "Current health checks return 200 while payments fail, so they hide the outage."
+      },
+      {
+        "action": "Add a multi-provider payment fallback and timeouts/bulkheads on the checkout to payment call.",
+        "priority": "long_term",
+        "rationale": "Prevents a single external provider from causing a P1 outage."
+      }
+    ],
+    "open_questions": [
+      "Is the provider outage confirmed by the provider's own telemetry? Only the status page entry was returned.",
+      "Why does payment-service return 502 to checkout while its own logs show 503 from the provider? The mapping should be verified.",
+      "Did any failures come from a provider-side change rather than a generic outage?",
+      "Is search-service v5.3.2 really unrelated? Its timing is coincidental and no direct path exists in the data."
+    ],
+    "data_gaps": [],
+    "data_gaps_total": 0,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S04",
+      "title": "checkout and payment errors",
+      "reported_at": "2026-09-04T16:30:00Z",
+      "alert": "ALERT [P1] checkout-service error rate 21% and api-gateway 5xx 8% since ~16:00 UTC. Customers report failed payments.",
+      "affected_services": [
+        "checkout-service",
+        "api-gateway"
+      ],
+      "window_start": "2026-09-04T15:00:00Z",
+      "window_end": "2026-09-04T16:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 52,
+      "invalid": 6
+    },
+    "evidence_ids": [
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "C09",
+      "L0188",
+      "L0190",
+      "L0196",
+      "L0199",
+      "L0204",
+      "L0205",
+      "L0210",
+      "L0215",
+      "L0218",
+      "L0221",
+      "L0222",
+      "L0227",
+      "L0232",
+      "L0233",
+      "L0237",
+      "L0240",
+      "L0246",
+      "L0247",
+      "L0254",
+      "L0255",
+      "D01",
+      "D04",
+      "D05",
+      "D06",
+      "D07",
+      "H01",
+      "H02",
+      "H03",
+      "H07",
+      "H08",
+      "H11",
+      "M32",
+      "M33",
+      "M34",
+      "M35",
+      "M36",
+      "D08",
+      "D09",
+      "H10",
+      "H12",
+      "L0186",
+      "L0192",
+      "L0203",
+      "L0208",
+      "L0213",
+      "L0219",
+      "L0226",
+      "L0231",
+      "L0235",
+      "L0242",
+      "L0251",
+      "L0259",
+      "L0262",
+      "L0265",
+      "L0278",
+      "L0281",
+      "L0287",
+      "L0295",
+      "L0302",
+      "L0308",
+      "C08",
+      "P01",
+      "P06",
+      "P03",
+      "L0097",
+      "L0150",
+      "L0155",
+      "L0225",
+      "L0200",
+      "L0256",
+      "L0312",
+      "L0368"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S04",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 26.1,
+    "tool_calls": 12,
+    "failed_tool_calls": 0,
+    "llm_calls": 5,
+    "prompt_tokens": 75363,
+    "completion_tokens": 4822,
+    "total_tokens": 80185,
+    "cost_usd": 0.0099473,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.8,
+    "top_service": "payment-provider",
+    "top_category": "dependency_failure",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 0.896551724137931,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 1
+  }
+}

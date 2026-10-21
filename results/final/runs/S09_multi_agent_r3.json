@@ -1,0 +1,2163 @@
+{
+  "system": "multi_agent",
+  "incident_id": "S09",
+  "error": null,
+  "latency_s": 149.468,
+  "usage": {
+    "llm_calls": 28,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 264978,
+    "completion_tokens": 34308,
+    "reasoning_tokens": 3088,
+    "total_tokens": 299286,
+    "cost_usd": 0.0436518,
+    "llm_time_s": 184.843,
+    "by_role": {
+      "orchestrator": {
+        "calls": 3,
+        "prompt_tokens": 13883,
+        "completion_tokens": 2044,
+        "cost_usd": 0.0024102999999999998
+      },
+      "dependency": {
+        "calls": 7,
+        "prompt_tokens": 24318,
+        "completion_tokens": 6291,
+        "cost_usd": 0.0055773
+      },
+      "observability": {
+        "calls": 11,
+        "prompt_tokens": 90628,
+        "completion_tokens": 13033,
+        "cost_usd": 0.015579299999999999
+      },
+      "reasoning": {
+        "calls": 3,
+        "prompt_tokens": 56205,
+        "completion_tokens": 4816,
+        "cost_usd": 0.008028500000000001
+      },
+      "critic": {
+        "calls": 3,
+        "prompt_tokens": 57075,
+        "completion_tokens": 4922,
+        "cost_usd": 0.008168499999999999
+      },
+      "reporting": {
+        "calls": 1,
+        "prompt_tokens": 22869,
+        "completion_tokens": 3202,
+        "cost_usd": 0.0038879
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 30,
+    "rejected_calls": 4,
+    "attempts": 31,
+    "failed_calls": 0,
+    "partial_calls": 1,
+    "simulated_tool_latency_ms": 3800,
+    "by_status": {
+      "ok": 29,
+      "partial": 1
+    },
+    "by_tool": {
+      "get_change_history": 6,
+      "get_dependencies": 4,
+      "query_metrics": 10,
+      "query_logs": 7,
+      "search_past_incidents": 3
+    },
+    "by_agent": {
+      "dependency": 13,
+      "observability": 17
+    }
+  },
+  "citations": {
+    "valid": 338,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S09",
+    "system": "multi_agent",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.55, margin 0.25, 7 verified supporting and 1 contradicting evidence items (12%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.55, margin 0.25, 7 verified supporting and 1 contradicting evidence items (12%)"
+      ],
+      "top_hypothesis": "inventory-service / config_error",
+      "top_confidence": 0.55,
+      "margin_over_runner_up": 0.25,
+      "verified_support": [
+        "M23",
+        "M21",
+        "M22",
+        "L0190",
+        "L0313",
+        "M25",
+        "M15"
+      ],
+      "contradicting_evidence": [
+        "M19"
+      ],
+      "contradiction_share": 0.125,
+      "blocking_objections": [
+        "unsupported_claim: The claim that the flag gates the recomputeAll request-path code is not evidenced in the ledger; C09 only records a percentage change. Without this link, the fl [C09, L0186]"
+      ],
+      "non_blocking_objections": 5
+    },
+    "confidence": 0.55,
+    "summary": "System determination is CONCLUSIVE at confidence 0.55 with margin 0.25 over the runner-up, 7 verified supporting and 1 contradicting evidence item (12%). The leading hypothesis is that the realtime_stock_recalc flag raised to 100% at 14:55Z drove StockRecalculator.recomputeAll saturation of inventory-service, producing the 15:00Z p99 step, CPU jump and error rate rise. Inventory p99 rose from about 90 ms to about 2.3-2.5 s, CPU from about 30% to about 98%, and error rate from about 0.2% to about 9%, with flat request rate. Checkout-service latency tracked inventory while its own resources and traffic stayed flat, so it appears to be a downstream victim. A co-cause candidate remains open: inventory-db CPU stepped at 15:00Z with 1900 ms stock_levels queries logged from 15:00:05Z, one second before the first recomputeAll breach, and the db p99 metric conflicts with those logs. The flag-to-code-path link is assumed rather than evidenced, and the 5-minute resolution limits ordering, so the cause should be treated as a leading lead with an unresolved db co-cause question.",
+    "root_cause": {
+      "id": "H1",
+      "service": "inventory-service",
+      "category": "config_error",
+      "mechanism": "Feature flag realtime_stock_recalc was raised from 5% to 100% at 14:55Z, which plausibly routes all requests through StockRecalculator.recomputeAll over 48211 SKUs. This saturates inventory-service CPU (98-99%) and pushes requests past the 2000ms deadline, producing the p99 step to about 2.3-2.5s and the error rate near 9%.",
+      "supporting_evidence": [
+        "C09",
+        "M23",
+        "M21",
+        "M22",
+        "L0186",
+        "L0190",
+        "L0313",
+        "M25",
+        "M15"
+      ],
+      "contradicting_evidence": [
+        "M19"
+      ],
+      "assumptions": [
+        "The flag gates the recomputeAll code path in the request path; this is not shown in the ledger",
+        "No other relevant change occurred in the window",
+        "Five-minute sampling leaves the flag-to-onset gap uncertain"
+      ],
+      "confidence": 0.55
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "inventory-service",
+        "category": "config_error",
+        "mechanism": "Feature flag realtime_stock_recalc was raised from 5% to 100% at 14:55Z, which plausibly routes all requests through StockRecalculator.recomputeAll over 48211 SKUs. This saturates inventory-service CPU (98-99%) and pushes requests past the 2000ms deadline, producing the p99 step to about 2.3-2.5s and the error rate near 9%.",
+        "supporting_evidence": [
+          "C09",
+          "M23",
+          "M21",
+          "M22",
+          "L0186",
+          "L0190",
+          "L0313",
+          "M25",
+          "M15"
+        ],
+        "contradicting_evidence": [
+          "M19"
+        ],
+        "assumptions": [
+          "The flag gates the recomputeAll code path in the request path; this is not shown in the ledger",
+          "No other relevant change occurred in the window",
+          "Five-minute sampling leaves the flag-to-onset gap uncertain"
+        ],
+        "confidence": 0.55
+      },
+      {
+        "id": "H2",
+        "service": "inventory-db",
+        "category": "dependency_failure",
+        "mechanism": "An unfiltered SELECT sku, qty FROM stock_levels workload from about 15:00Z raises inventory-db CPU from about 30% to 60%+ and produces 1900ms queries. Inventory-service requests waiting on the database combine with other work to exceed deadlines, which raises p99 and errors. It may be a co-trigger with H1 rather than an alternative to it.",
+        "supporting_evidence": [
+          "M17",
+          "L0185",
+          "L0204",
+          "L0205",
+          "L0312",
+          "L0030",
+          "L0101"
+        ],
+        "contradicting_evidence": [
+          "M19",
+          "M16",
+          "M20",
+          "H06"
+        ],
+        "assumptions": [
+          "The 1900ms slow-query logs reflect real query latency and query_latency_p99_ms measures a different path",
+          "The database load is independent of recomputeAll rather than a consequence of it",
+          "The 15:00:05Z slow query precedes the 15:00:06Z deadline breach at sampling resolution"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "id": "H3",
+        "service": "inventory-service",
+        "category": "other",
+        "mechanism": "An unidentified scheduled job or trigger outside the change history starts recomputeAll at about 15:00Z. The resulting full-catalogue recomputation saturates inventory-service CPU and causes deadline breaches, independent of the flag change.",
+        "supporting_evidence": [
+          "L0186",
+          "M21"
+        ],
+        "contradicting_evidence": [
+          "C09",
+          "M22"
+        ],
+        "assumptions": [
+          "A non-recorded trigger explains recomputeAll starting at 15:00Z",
+          "The scheduled-job check was not run, so this reflects absence of data"
+        ],
+        "confidence": 0.08
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "inventory-service latency_p99_ms was about 87-93 ms through 14:55Z, then stepped to 2311 ms at 15:00:00Z and stayed about 2.3-2.5 s through 15:30Z.",
+        "evidence_ids": [
+          "M23"
+        ]
+      },
+      {
+        "statement": "inventory-service cpu_pct was about 29-31% before 15:00Z, reached 98.43% at 15:00Z, peaked at 99.94% at 15:05Z and was 95.08% at 15:30Z; error_rate rose from about 0.2% to 9.33% at 15:00Z.",
+        "evidence_ids": [
+          "M21",
+          "M22"
+        ]
+      },
+      {
+        "statement": "inventory-service and checkout-service request rates stayed flat across the window (about 135-145 and 82-88 req/s), with no spike at 15:00Z.",
+        "evidence_ids": [
+          "M25",
+          "M15"
+        ]
+      },
+      {
+        "statement": "checkout-service latency_p99_ms stepped from about 310 ms to 2513 ms at 15:00:00Z, while its cpu_pct, memory_pct and error_rate showed no step.",
+        "evidence_ids": [
+          "M13",
+          "M11",
+          "M14",
+          "M12"
+        ]
+      },
+      {
+        "statement": "Change C09 at 14:55:00Z raised feature flag realtime_stock_recalc from 5% to 100% of inventory-service traffic; no other change was recorded for inventory-service, inventory-db or checkout-service between 14:00 and 15:30Z.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "Thirty inventory-service WARNs 'request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)' appear from 15:00:06Z, recurring roughly every 1-2 minutes through 15:30Z; no inventory ERROR logs were returned.",
+        "evidence_ids": [
+          "L0186",
+          "L0190",
+          "L0313"
+        ]
+      },
+      {
+        "statement": "inventory-db cpu_pct stepped from about 30% to 60.56% at 15:00Z and stayed about 62-64% through 15:30Z.",
+        "evidence_ids": [
+          "M17"
+        ]
+      },
+      {
+        "statement": "inventory-db logged 'slow query 1900ms: SELECT sku, qty FROM stock_levels' from 15:00:05Z, about every 4 minutes, versus two earlier slow queries of 1010 ms and 1180 ms that had a WHERE warehouse_id clause.",
+        "evidence_ids": [
+          "L0185",
+          "L0204",
+          "L0312",
+          "L0030",
+          "L0101"
+        ]
+      },
+      {
+        "statement": "inventory-db query_latency_p99_ms stayed flat at about 8.7-9.3 ms across the window, conflicting with the 1900 ms slow-query logs; connections, replication lag and disk were flat.",
+        "evidence_ids": [
+          "M19",
+          "M16",
+          "M20",
+          "M18"
+        ]
+      },
+      {
+        "statement": "Dependency health checks at 15:28Z all returned healthy; these checks are shallow (HTTP /health or SELECT 1) and do not measure latency.",
+        "evidence_ids": [
+          "H03",
+          "H05",
+          "H06",
+          "H07"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The realtime_stock_recalc flag gates the recomputeAll code path in the request path; the ledger records only the percentage change.",
+      "No other relevant change or scheduled job occurred in the window; scheduler and job data were not retrieved.",
+      "The 1900 ms slow-query log entries reflect real query latency, and query_latency_p99_ms measures a different query path.",
+      "Five-minute metric sampling is adequate to order onset, so the db slow query and the service breach are treated as simultaneous at this resolution.",
+      "Shallow health checks at 15:28Z (after onset) are taken as indicating no hard outage, not as evidence about latency."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The flag change realtime_stock_recalc to 100% at 14:55Z is the leading candidate cause of the inventory-service latency and CPU step via StockRecalculator.recomputeAll; the mechanism is not verified.",
+        "evidence_ids": [
+          "C09",
+          "L0186",
+          "M23",
+          "M21"
+        ],
+        "confidence": 0.55
+      },
+      {
+        "statement": "Inventory-db stock_levels scans may be a co-cause rather than only a consequence, because they begin one second before the first service deadline breach; this cannot be settled at current resolution.",
+        "evidence_ids": [
+          "L0185",
+          "L0186",
+          "M17"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "statement": "Checkout-service latency is most likely a downstream effect of its synchronous calls to inventory-service, not an independent origin.",
+        "evidence_ids": [
+          "D05",
+          "M13",
+          "M11",
+          "M15"
+        ],
+        "confidence": 0.7
+      },
+      {
+        "statement": "Traffic volume does not explain the event; the change is a compute or CPU change rather than a load surge.",
+        "evidence_ids": [
+          "M25",
+          "M15",
+          "M24"
+        ],
+        "confidence": 0.8
+      },
+      {
+        "statement": "A non-flag scheduled trigger starting recomputeAll at about 15:00Z is possible but unsupported, because no job data was retrieved.",
+        "evidence_ids": [
+          "L0186"
+        ],
+        "confidence": 0.08
+      },
+      {
+        "statement": "The pre-onset cache-miss storms and checkout card-decline errors are probably unrelated background noise, since they predate the step and do not coincide with it.",
+        "evidence_ids": [
+          "L0034",
+          "L0040",
+          "L0061",
+          "L0005"
+        ],
+        "confidence": 0.4
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Roll back realtime_stock_recalc from 100% to the previous 5% (or 0%) to test whether recomputeAll latency and inventory CPU recover.",
+        "priority": "immediate",
+        "rationale": "C09 is the only change near onset and is reversible; rollback is a low-risk test of the leading hypothesis and a mitigation if it holds."
+      },
+      {
+        "action": "Monitor inventory-db CPU and stock_levels slow-query rate after rollback to see whether the unfiltered SELECT load also falls.",
+        "priority": "immediate",
+        "rationale": "The db co-cause question can be partly answered by whether db load clears with the flag change."
+      },
+      {
+        "action": "Shed or throttle checkout traffic to inventory-service if rollback does not restore latency, to protect checkout while the cause is confirmed.",
+        "priority": "immediate",
+        "rationale": "Inventory is saturated at 98-99% CPU with 9% errors and checkout is alerting; this is a containment measure, not a fix."
+      },
+      {
+        "action": "Confirm whether realtime_stock_recalc gates the recomputeAll request-path code, using the flag configuration and code review.",
+        "priority": "short_term",
+        "rationale": "The flag-to-code-path link is the main unverified assumption behind the leading hypothesis."
+      },
+      {
+        "action": "Reconcile the inventory-db query_latency_p99_ms metric with the 1900 ms slow-query logs and pull db-client latency for inventory-service.",
+        "priority": "short_term",
+        "rationale": "The metric conflict must be resolved before the db co-cause can be ruled in or out."
+      },
+      {
+        "action": "Retrieve 1-minute resolution metrics and logs for 14:50-15:10Z to determine which side moved first.",
+        "priority": "short_term",
+        "rationale": "The current 5-minute samples cannot order the db slow query against the service deadline breach."
+      },
+      {
+        "action": "Add query-level or stock_levels-scan guards and make recomputeAll run off the request path or in batch, with deadline-aware fallback.",
+        "priority": "long_term",
+        "rationale": "Prevents a full-catalogue recompute of 48211 SKUs from saturating CPU and database in the request path."
+      },
+      {
+        "action": "Add pre-release load testing and alerting for flag changes affecting recompute paths, with per-instance and cache metrics.",
+        "priority": "long_term",
+        "rationale": "The incident would have been caught by a staged rollout and latency guardrails; current data lacked per-instance and cache visibility."
+      }
+    ],
+    "open_questions": [
+      "Does realtime_stock_recalc gate the recomputeAll path, and does latency fall when it is rolled back to 5%?",
+      "Did the inventory-db stock_levels slow queries start before, at, or after the first service deadline breach at 1-minute or finer resolution?",
+      "Why does inventory-db query_latency_p99_ms stay flat while 1900 ms slow queries are logged?",
+      "Was any scheduled job or trigger independent of the flag starting recomputeAll or full stock_levels scans near 15:00Z?",
+      "What are inventory-service p50, per-instance p99 and inventory-cache metrics for 14:55-15:05Z, and are they uniform across instances?"
+    ],
+    "data_gaps": [
+      "query_metrics(start=2026-09-09T14:00:00Z, end=2026-09-09T15:30:00Z, service=inventory-service) -> partial: PARTIAL RESULT: metrics shard unavailable; 2 of 5 records returned. 5 series",
+      "inventory-service WARN/ERROR logs for 14:50-15:10Z, including any deadline-breach or recomputeAll messages: not retrieved (tool call rejected). (reported 2x)",
+      "Only 2 of 5 inventory-service metrics came back on the first query (metrics shard unavailable). cpu_pct and error_rate were obtained; latency_p99_ms and request_rate came from separate retries.",
+      "Inventory p50 latency was not retrieved, and checkout p50 was not retrieved at all, so the p50 crossing time is unknown.",
+      "No per-endpoint, per-instance or per-region breakdown was obtained. The uniformity question is unanswered.",
+      "Inventory memory, disk and downstream dependency metrics were not queried.",
+      "Checkout's p99 is inferred to track inventory, but checkout's own downstream calls were not checked directly.",
+      "No change-history or deploy data was queried, so the trigger for recomputeAll starting at 15:00Z is unknown.",
+      "The first-crossing time is judged from 5-minute samples: the first breached sample is 15:00:00Z, and the true crossing could be up to 5 minutes earlier.",
+      "34 further gap report(s) in 34 group(s) omitted here (mostly about: inventory-service, latency, inventory-db, checked, queried, query); the full list is in the run record."
+    ],
+    "data_gaps_total": 44,
+    "termination_reason": "max_rounds_reached"
+  },
+  "state": {
+    "brief": {
+      "id": "S09",
+      "title": "inventory latency",
+      "reported_at": "2026-09-09T15:30:00Z",
+      "alert": "ALERT [P2] inventory-service p99 latency 2.4s (SLO 300ms) since ~15:00 UTC; checkout pages slow.",
+      "affected_services": [
+        "inventory-service",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-09T14:00:00Z",
+      "window_end": "2026-09-09T15:30:00Z"
+    },
+    "plan": {
+      "incident_understanding": "inventory-service p99 latency rose to 2.4s against a 300ms SLO since about 15:00 UTC, and checkout-service is slow as a downstream consumer. Telemetry covers 14:00 to 15:30 UTC, so onset timing can be checked against the 15:00 start. The cause could be a recent deployment or config change to inventory-service, a slow or degraded dependency (database, cache, or another upstream), resource saturation in inventory-service itself, or a traffic spike.",
+      "candidate_explanations": [
+        "A recent deployment or config change in inventory-service introduced a regression causing slow queries or added latency.",
+        "A downstream dependency of inventory-service (database, cache, or another service) became slow or degraded, propagating latency upward.",
+        "inventory-service is resource-saturated (CPU, memory, connection pool exhaustion) due to a traffic surge or leak, independent of any change.",
+        "A feature flag or infrastructure event (network, node pool, autoscaling) changed behaviour around 15:00 UTC."
+      ],
+      "tasks": [
+        {
+          "key": "t1",
+          "agent": "observability",
+          "objective": "Characterise the latency symptom: when p99 and p50 for inventory-service and checkout-service first crossed SLO relative to 15:00 UTC, whether the increase is gradual or a step, and whether it is uniform across endpoints/instances. Also check request rate and error rate over the same window to rule out a traffic spike, and capture the dominant error or slow-operation signatures in logs.",
+          "focus_services": [
+            "inventory-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t2",
+          "agent": "dependency",
+          "objective": "Check change history from roughly 14:00 to 15:30 UTC for deployments, config changes, feature flags, and infra events affecting inventory-service and its direct dependencies; identify any change landing within minutes before the ~15:00 onset. Also map inventory-service's downstream dependencies and their health checks for the same window.",
+          "focus_services": [
+            "inventory-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t3",
+          "agent": "observability",
+          "objective": "Using the onset time from the symptom characterisation, check metrics and logs of inventory-service's downstream dependencies (database, cache, and upstream calls) for latency or error increases starting at the same time, and check inventory-service resource metrics (CPU, memory, connection pool, GC) for saturation.",
+          "focus_services": [
+            "inventory-service"
+          ],
+          "depends_on": [
+            "t1"
+          ]
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": "T1",
+        "agent": "observability",
+        "objective": "Characterise the latency symptom: when p99 and p50 for inventory-service and checkout-service first crossed SLO relative to 15:00 UTC, whether the increase is gradual or a step, and whether it is uniform across endpoints/instances. Also check request rate and error rate over the same window to rule out a traffic spike, and capture the dominant error or slow-operation signatures in logs.",
+        "focus_services": [
+          "inventory-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "Both inventory-service and checkout-service show a sharp step change at 15:00:00Z, not a gradual rise. Inventory p99 went from about 87-93 ms to about 2.3-2.5 s, and checkout p99 went from about 310-332 ms to about 2.5-2.7 s. Inventory CPU jumped from about 30% to about 98%, and inventory error rate from about 0.2% to about 9%. Request rates for both services stayed flat (about 135-144 req/s and 82-88 req/s), so traffic volume does not explain the change. Inventory WARN logs point to StockRecalculator.recomputeAll exceeding its 2000 ms deadline with sku_count=48211, starting at 15:00:06Z. Checkout's own errors are unrelated card declines and slow-reservation warnings that began earlier, and its p99 tracks inventory. Inventory p50 and per-endpoint or per-instance breakdowns were not obtained.",
+          "observations": [
+            {
+              "statement": "inventory-service latency_p99_ms was flat at about 87-93 ms from 14:00 to 14:55Z, then stepped to 2311.39 ms at 15:00:00Z and stayed between about 2311 and 2478 ms through 15:30Z (last 2436.03 ms). This is a step change, not a gradual climb.",
+              "evidence_ids": [
+                "M23"
+              ]
+            },
+            {
+              "statement": "checkout-service latency_p99_ms was about 309-332 ms from 14:00 to 14:55Z, then jumped to 2512.95 ms at 15:00:00Z and ranged about 2512-2699 ms through 15:30Z.",
+              "evidence_ids": [
+                "M13"
+              ]
+            },
+            {
+              "statement": "inventory-service cpu_pct was about 29-31% from 14:00 to 14:55Z and jumped to 98.43% at 15:00:00Z, peaking at 99.94% at 15:05Z and falling to 95.08% by 15:30Z.",
+              "evidence_ids": [
+                "M21"
+              ]
+            },
+            {
+              "statement": "inventory-service error_rate was about 0.16-0.25% before 15:00Z and jumped to 9.33% at 15:00:00Z, staying at about 8.7-9.6% through 15:30Z.",
+              "evidence_ids": [
+                "M22"
+              ]
+            },
+            {
+              "statement": "inventory-service request_rate was flat at 135-145 req/s across the window (mean 140.29, max 144.59 at 14:20Z), with no spike at 15:00Z.",
+              "evidence_ids": [
+                "M25"
+              ]
+            },
+            {
+              "statement": "checkout-service request_rate was flat at 82-88 req/s (mean 84.71), and its error_rate stayed at about 0.26-0.35% throughout, with no rise at 15:00Z.",
+              "evidence_ids": [
+                "M15",
+                "M12"
+              ]
+            },
+            {
+              "statement": "checkout-service cpu_pct (about 40-42%) and memory_pct (about 56-60%) showed no step at 15:00Z.",
+              "evidence_ids": [
+                "M11",
+                "M14"
+              ]
+            },
+            {
+              "statement": "Inventory WARN logs contain 30 entries of 'request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)'. The first is at 15:00:06Z and they recur roughly every 1-2 minutes through 15:30:00Z.",
+              "evidence_ids": [
+                "L0186",
+                "L0190",
+                "L0313"
+              ]
+            },
+            {
+              "statement": "Inventory also logged 3 'cache miss storm for sku prefix' WARNs (57, 62 and 80 misses/s) at 14:09:47Z, 14:11:57Z and 14:19:19Z, all before the 15:00Z step.",
+              "evidence_ids": [
+                "L0034",
+                "L0040",
+                "L0061"
+              ]
+            },
+            {
+              "statement": "Checkout WARN/ERROR logs are 3 'order rejected: card declined by issuer' ERRORs (14:00:32Z, 14:17:07Z, 14:23:35Z), 2 'slow inventory reservation' WARNs (1200 ms at 14:11:52Z, 1362 ms at 14:36:40Z), and 1 'retrying idempotent call to payment-service (attempt 2)' at 15:11:00Z. None of these are timed to the 15:00Z step.",
+              "evidence_ids": [
+                "L0005",
+                "L0055",
+                "L0074",
+                "L0039",
+                "L0112",
+                "L0230"
+              ]
+            },
+            {
+              "statement": "Inventory's 33 WARN lines are the only inventory log lines returned; no inventory ERROR lines were returned.",
+              "evidence_ids": [
+                "L0186",
+                "L0313"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The inventory latency step is most likely caused by StockRecalculator.recomputeAll running over a 48211-SKU set starting at about 15:00Z. It saturated inventory CPU and pushed requests past their deadline. This is a hypothesis to test, not a confirmed root cause.",
+              "evidence_ids": [
+                "L0186",
+                "M21",
+                "M23"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "Checkout latency is most likely downstream of inventory. Checkout p99 steps at the same 15:00:00Z timestamp as inventory p99, and checkout's own CPU, memory, traffic and error rate are flat.",
+              "evidence_ids": [
+                "M13",
+                "M23",
+                "M11",
+                "M15"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "Traffic volume does not explain the event. Both services' request rates are flat across the window.",
+              "evidence_ids": [
+                "M25",
+                "M15"
+              ],
+              "confidence": 0.8
+            },
+            {
+              "statement": "The pre-existing inventory cache-miss storms and checkout card-decline errors are probably background noise. They occurred before the step and do not coincide with it.",
+              "evidence_ids": [
+                "L0034",
+                "L0040",
+                "L0061",
+                "L0005"
+              ],
+              "confidence": 0.4
+            }
+          ],
+          "data_gaps": [
+            "Only 2 of 5 inventory-service metrics came back on the first query (metrics shard unavailable). cpu_pct and error_rate were obtained; latency_p99_ms and request_rate came from separate retries.",
+            "Inventory p50 latency was not retrieved, and checkout p50 was not retrieved at all, so the p50 crossing time is unknown.",
+            "No per-endpoint, per-instance or per-region breakdown was obtained. The uniformity question is unanswered.",
+            "Inventory memory, disk and downstream dependency metrics were not queried.",
+            "Checkout's p99 is inferred to track inventory, but checkout's own downstream calls were not checked directly.",
+            "No change-history or deploy data was queried, so the trigger for recomputeAll starting at 15:00Z is unknown.",
+            "The first-crossing time is judged from 5-minute samples: the first breached sample is 15:00:00Z, and the true crossing could be up to 5 minutes earlier."
+          ],
+          "suggested_followups": [
+            "Pull inventory-service latency_p50_ms and checkout-service latency_p50_ms for 14:50-15:05Z to establish when p50 crossed SLO.",
+            "Break down inventory p99 and error rate by endpoint and by instance to test whether the slowdown is uniform.",
+            "Check change and deploy history near 15:00Z for a scheduled job, config change or deploy that starts StockRecalculator.recomputeAll, and confirm the sku_count=48211 trigger.",
+            "Query logs for 'recomputeAll' or 'StockRecalculator' over a wider window to see whether earlier runs occurred and whether their timing matches the step.",
+            "Check whether checkout's inventory client is timing out or retrying against inventory, and whether checkout errors rise after 15:00Z."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T2",
+        "agent": "dependency",
+        "objective": "Check change history from roughly 14:00 to 15:30 UTC for deployments, config changes, feature flags, and infra events affecting inventory-service and its direct dependencies; identify any change landing within minutes before the ~15:00 onset. Also map inventory-service's downstream dependencies and their health checks for the same window.",
+        "focus_services": [
+          "inventory-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 3,
+        "findings": {
+          "summary": "A single change, C09, landed on inventory-service at 14:55:00Z, five minutes before the ~15:00 onset: the realtime_stock_recalc feature flag went from 5% to 100% of traffic. It is a strong lead for the latency. All dependency health checks at 15:28Z returned healthy, but these checks are shallow and do not measure latency, so they cannot rule out a slowdown.",
+          "observations": [
+            {
+              "statement": "Change C09 at 2026-09-09T14:55:00Z: feature flag realtime_stock_recalc enabled for 100% of inventory-service traffic, previously 5%, by p.nguyen, status completed.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "No other deploy, config change, rollback or infra event was recorded for inventory-service, its dependencies or checkout-service between 14:00 and 15:30Z.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "inventory-service has three edges: checkout-service calls it over sync_http, and it calls inventory-db (database) and inventory-cache (cache).",
+              "evidence_ids": [
+                "D05",
+                "D10",
+                "D11"
+              ]
+            },
+            {
+              "statement": "checkout-service calls payment-service, inventory-service, auth-service and notification-queue.",
+              "evidence_ids": [
+                "D04",
+                "D05",
+                "D06",
+                "D07"
+              ]
+            },
+            {
+              "statement": "Health checks at 2026-09-09T15:28:00Z: inventory-service HTTP /health 200; inventory-cache HTTP /health 200; inventory-db accepting connections and SELECT 1 ok; checkout-service HTTP /health 200; auth-service, notification-queue and payment-service all 200.",
+              "evidence_ids": [
+                "H07",
+                "H05",
+                "H06",
+                "H03",
+                "H02",
+                "H08",
+                "H11"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The flag change C09 is a plausible cause of the inventory-service p99 latency rise. Moving the realtime recalc path from 5% to 100% of traffic would add work per request, and the timing matches the ~15:00 onset.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "The latency is probably inside inventory-service, not in its dependencies. The dependency health checks are shallow, so this is weak evidence against a DB or cache fault. A DB or cache slowdown that the SELECT 1 and /health checks do not exercise remains possible.",
+              "evidence_ids": [
+                "H06",
+                "H05",
+                "H07"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "checkout-service is probably a victim, not the origin. Its slowness is likely its synchronous call to inventory-service, which is the only dependency of checkout that carries the change.",
+              "evidence_ids": [
+                "D05",
+                "C09"
+              ],
+              "confidence": 0.6
+            }
+          ],
+          "data_gaps": [
+            "Health checks are shallow (HTTP /health and SELECT 1 only) and give no latency data. The dependency checks cannot confirm or rule out the p99 slowdown.",
+            "No per-component latency or trace data was queried, so the inventory-db and inventory-cache latency is unverified.",
+            "Past incidents were not searched because the tool-call budget was spent; no prior-incident hypotheses were checked.",
+            "Change history was queried for the 14:00\u201315:30 window only, so it does not show whether the flag was flipped back or changed again after 15:30."
+          ],
+          "suggested_followups": [
+            "Check inventory-service p99 latency and CPU before and after 14:55Z, and compare requests with realtime_stock_recalc on and off.",
+            "Confirm whether the flag can be rolled back to 5% and whether p99 recovers. A rollback test would separate C09 from other causes.",
+            "Query inventory-db and inventory-cache query-latency metrics for 14:45\u201315:15Z to rule them out.",
+            "Search past incidents for realtime recalc or feature-flag rollout latency regressions."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T3",
+        "agent": "observability",
+        "objective": "Using the onset time from the symptom characterisation, check metrics and logs of inventory-service's downstream dependencies (database, cache, and upstream calls) for latency or error increases starting at the same time, and check inventory-service resource metrics (CPU, memory, connection pool, GC) for saturation.",
+        "focus_services": [
+          "inventory-service"
+        ],
+        "depends_on": [
+          "T1"
+        ],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "Inventory-service p99 latency, CPU and error rate all stepped at 15:00:00Z with flat request rate. The step coincides with StockRecalculator.recomputeAll deadline warnings (sku_count=48211) starting 15:00:06Z. inventory-db CPU also stepped from about 30% to about 60% at 15:00Z, with slow 'SELECT sku, qty FROM stock_levels' queries at about 1.9 s from 15:00:05Z. The database query_latency_p99_ms metric stayed flat at about 9 ms, which conflicts with the slow-query logs. Connection count and replication lag were flat. The inventory-service memory series was flat, and no ERROR-level logs appeared in inventory-service between 14:50 and 15:30. No inventory-cache metrics exist, so the cache could not be checked. Upstream service-level calls were not checked.",
+          "observations": [
+            {
+              "statement": "inventory-service latency_p99_ms was about 87-93 ms from 14:00 to 14:55Z, then stepped to 2311.39 ms at 15:00:00Z and stayed between about 2311 and 2478 ms through 15:30Z.",
+              "evidence_ids": [
+                "M23"
+              ]
+            },
+            {
+              "statement": "inventory-service cpu_pct was about 29-31% before 15:00Z, jumped to 98.43% at 15:00:00Z, peaked at 99.94% at 15:05Z and was 95.08% at 15:30Z.",
+              "evidence_ids": [
+                "M21"
+              ]
+            },
+            {
+              "statement": "inventory-service error_rate was about 0.16-0.25% before 15:00Z and jumped to 9.33% at 15:00:00Z, staying about 8.7-9.6% through 15:30Z.",
+              "evidence_ids": [
+                "M22"
+              ]
+            },
+            {
+              "statement": "inventory-service request_rate stayed flat at 135-145 req/s with no step at 15:00Z.",
+              "evidence_ids": [
+                "M25"
+              ]
+            },
+            {
+              "statement": "inventory-service memory_pct stayed between 47.6% and 50.5% for the whole window, with no step at 15:00Z.",
+              "evidence_ids": [
+                "M24"
+              ]
+            },
+            {
+              "statement": "The first StockRecalculator.recomputeAll deadline WARN (2000ms, sku_count=48211) is at 15:00:06Z; 30 such WARNs recur roughly every 1-2 minutes through 15:27Z.",
+              "evidence_ids": [
+                "L0186",
+                "L0190",
+                "L0302"
+              ]
+            },
+            {
+              "statement": "Three 'cache miss storm' WARNs appeared before onset, at 14:09:47Z, 14:11:57Z and 14:19:19Z, and none appeared after 15:00Z in the returned results.",
+              "evidence_ids": [
+                "L0034",
+                "L0040",
+                "L0061"
+              ]
+            },
+            {
+              "statement": "inventory-db cpu_pct stepped from about 29.6-31% at 14:55Z to 60.56% at 15:00Z and stayed about 62-64% through 15:30Z.",
+              "evidence_ids": [
+                "M17"
+              ]
+            },
+            {
+              "statement": "inventory-db logs show 'slow query 1900ms: SELECT sku, qty FROM stock_levels' from 15:00:05Z onward (about every 4 minutes), with a canceling-statement ERROR at 15:05:23Z. Slow queries of 1010 ms and 1180 ms also appeared earlier at 14:08:39Z and 14:32:38Z.",
+              "evidence_ids": [
+                "L0185",
+                "L0204",
+                "L0205",
+                "L0312",
+                "L0030",
+                "L0101"
+              ]
+            },
+            {
+              "statement": "inventory-db query_latency_p99_ms stayed flat at about 8.7-9.3 ms across the whole window, with no step at 15:00Z. This conflicts with the 1900 ms slow-query logs.",
+              "evidence_ids": [
+                "M19"
+              ]
+            },
+            {
+              "statement": "inventory-db connections (86-93) and replication_lag_s (0.29-0.31 s) stayed flat, and disk_used_pct stayed about 52-56%.",
+              "evidence_ids": [
+                "M16",
+                "M20",
+                "M18"
+              ]
+            },
+            {
+              "statement": "No ERROR-level logs were returned for inventory-service between 14:50Z and 15:30Z.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The inventory p99 step and CPU saturation at 15:00Z line up with the start of recomputeAll deadline breaches (sku_count=48211). This points to a heavy full-catalogue recalculation running in the request path as the most likely trigger.",
+              "evidence_ids": [
+                "L0186",
+                "M23",
+                "M21"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The 15:00Z step in inventory-db CPU and the 1900 ms 'SELECT sku, qty FROM stock_levels' queries suggest the database is also doing heavier work at the same time. This could be a consequence of the recalculation load rather than an independent cause.",
+              "evidence_ids": [
+                "M17",
+                "L0185"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "Database-side latency does not explain the step. The flat query_latency_p99_ms and flat connection count argue against the database being the bottleneck, though the conflict with the slow-query logs is unresolved.",
+              "evidence_ids": [
+                "M19",
+                "M16"
+              ],
+              "confidence": 0.45
+            },
+            {
+              "statement": "Memory, request volume and replication are not the drivers of the step, so the change looks like a CPU or compute change rather than traffic or a memory problem.",
+              "evidence_ids": [
+                "M24",
+                "M25",
+                "M20"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "No inventory-cache metrics exist (query returned no records), so cache latency and errors at 15:00Z could not be checked. Cache miss storms were seen only before onset.",
+            "Upstream calls from inventory-service were not checked, and no metrics or logs exist for other inventory dependencies.",
+            "inventory-service GC and connection-pool metrics were not returned; only cpu, memory, error, latency and request metrics were available.",
+            "inventory-service ERROR-level logs were checked only for 14:50-15:30Z, and the query returned 0 lines.",
+            "Conflict between inventory-db query_latency_p99_ms (flat ~9 ms) and inventory-db 1900 ms slow-query logs was not resolved.",
+            "Per-endpoint and per-instance breakdowns and inventory p50 were not obtained.",
+            "The tool-call budget (6) was exhausted, so further narrowing of queries was not possible."
+          ],
+          "suggested_followups": [
+            "Check inventory-service GC, thread-pool and connection-pool metrics for 14:55-15:05Z to confirm or rule out saturation.",
+            "Confirm the inventory cache service name and check its latency and errors at 15:00Z.",
+            "Check upstream calls from inventory-service and their timing.",
+            "Resolve the conflict between inventory-db query_latency_p99_ms and the slow-query logs (check whether the metric is filtered by query or instance).",
+            "Check the change history for a deploy or config change to StockRecalculator or a scheduled job at about 15:00Z, and check what triggers recomputeAll with sku_count=48211."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T4",
+        "agent": "observability",
+        "objective": "Resolve the conflict between inventory-db query_latency_p99_ms (flat ~9ms) and the 1900ms slow-query logs for SELECT sku, qty FROM stock_levels. Check whether db-side query latency and inventory-service db-client latency both step at 15:00Z, and whether the slow-query rate rises at 15:00Z versus its earlier baseline. Also retrieve inventory-service p50 and per-instance p99 to test onset timing and uniformity.",
+        "focus_services": [
+          "inventory-db",
+          "inventory-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "The conflict is resolved by the data: inventory-db's query_latency_p99_ms stays flat at ~9ms, but that metric does not reflect the slow `SELECT sku, qty FROM stock_levels` statements, which are logged at 1900ms. Both database-side and service-side signals step at 15:00:00Z. Inventory-db CPU rises from ~30% to ~60%, and inventory-service CPU rises from ~30% to ~98%. The inventory-service p99 jumps from ~90ms to ~2.3s, and its error_rate goes from ~0.2% to ~9%. Slow-query logs show 2 WARNs before 15:00 (1010ms at 14:08:39Z and 1180ms at 14:32:38Z) and 8 from 15:00:05Z to 15:30:00Z, all at 1900ms. The service logs show 'request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)' starting at 15:00:06Z, roughly every 1\u20132 minutes. The most likely pattern is a full-table recalculation job starting at 15:00 that runs against inventory-db, saturates inventory-service CPU, and produces slow stock_levels queries. This is an inference and has not been confirmed.",
+          "observations": [
+            {
+              "statement": "inventory-db query_latency_p99_ms stays flat at 8.66\u20139.34ms across 14:00\u201315:30, with no step at 15:00Z (first 9.0, last 8.72).",
+              "evidence_ids": [
+                "M19"
+              ]
+            },
+            {
+              "statement": "inventory-db cpu_pct steps from 29.6% at 14:55Z to 60.56% at 15:00Z and stays 62\u201364% through 15:30Z (max 64.26% at 15:15Z).",
+              "evidence_ids": [
+                "M17"
+              ]
+            },
+            {
+              "statement": "inventory-db connections stay in the 86\u201393 range before and after 15:00Z with no step; replication_lag_s stays at ~0.3s; disk_used_pct stays at 52\u201356%.",
+              "evidence_ids": [
+                "M16",
+                "M20",
+                "M18"
+              ]
+            },
+            {
+              "statement": "Slow-query WARNs for 'SELECT sku, qty FROM stock_levels' total 10 across 14:00\u201315:30: 2 before 15:00 (1010ms at 14:08:39Z, 1180ms at 14:32:38Z, both with a WHERE warehouse_id clause) and 8 at or after 15:00 (all 1900ms, the first at 15:00:05Z, then 15:04:56, 15:09:04, 15:13:00, 15:17:14, 15:21:40, 15:25:42, 15:30:00Z).",
+              "evidence_ids": [
+                "L0030",
+                "L0101",
+                "L0185",
+                "L0204",
+                "L0220",
+                "L0238",
+                "L0255",
+                "L0276",
+                "L0293",
+                "L0312"
+              ]
+            },
+            {
+              "statement": "inventory-service latency_p99_ms is ~87\u201393ms through 14:55Z, then jumps to 2311ms at 15:00Z and stays 2.3\u20132.5s through 15:30Z (max 2478ms at 15:15Z).",
+              "evidence_ids": [
+                "M23"
+              ]
+            },
+            {
+              "statement": "inventory-service cpu_pct steps from 29.2% at 14:55Z to 98.43% at 15:00Z (max 99.94% at 15:05Z) and is still 95.08% at 15:30Z.",
+              "evidence_ids": [
+                "M21"
+              ]
+            },
+            {
+              "statement": "inventory-service error_rate steps from ~0.2% to 9.33% at 15:00Z and stays 8.7\u20139.6% through 15:30Z.",
+              "evidence_ids": [
+                "M22"
+              ]
+            },
+            {
+              "statement": "inventory-service 'request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)' appears 30 times from 15:00:06Z to 15:27:17Z, with none in the earlier part of the window returned by the query.",
+              "evidence_ids": [
+                "L0186",
+                "L0190",
+                "L0192",
+                "L0198",
+                "L0302"
+              ]
+            },
+            {
+              "statement": "Earlier cache-miss-storm WARNs (57, 62 and 80 misses/s) occur at 14:09:47Z, 14:11:57Z and 14:19:19Z, before the 15:00 step. Their relation to the later events is unknown.",
+              "evidence_ids": [
+                "L0034",
+                "L0040",
+                "L0061"
+              ]
+            },
+            {
+              "statement": "inventory-service request_rate stays at 135\u2013145 req/s before and after 15:00Z, with no step. memory_pct stays at 48\u201350%.",
+              "evidence_ids": [
+                "M25",
+                "M24"
+              ]
+            },
+            {
+              "statement": "Inventory-db query_latency_p99_ms is normal while the 1900ms statements are logged, so the p99 metric and the slow-query log disagree.",
+              "evidence_ids": [
+                "M19",
+                "L0185",
+                "L0312"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The db-side slow-query onset and the service-side p99/CPU/error step all begin in the same 5-minute bucket starting at 15:00Z (first slow query at 15:00:05Z, first deadline breach at 15:00:06Z), so the onset is simultaneous at the resolution available and does not show which side moved first.",
+              "evidence_ids": [
+                "L0185",
+                "L0186",
+                "M23",
+                "M17"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "The inventory-db query_latency_p99_ms metric likely does not capture this query path (for example, it may measure a different query class or be sampled differently). That would explain the conflict, but it is unverified.",
+              "evidence_ids": [
+                "M19",
+                "L0312"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "The slow-query rate rises at 15:00Z: 0 in the ~60 minutes before 15:00 at this log level, and 8 in the 30 minutes after, about 16 per hour versus none per hour. The 1900ms statements are a new, unfiltered 'SELECT sku, qty FROM stock_levels' with no WHERE clause, which suggests a full-table scan, consistent with the 48211-SKU recalculation.",
+              "evidence_ids": [
+                "L0185",
+                "L0312",
+                "L0186"
+              ],
+              "confidence": 0.55
+            },
+            {
+              "statement": "The step is uniform across the inventory-service signals (p99, CPU, error rate), which points to a shared cause and not one affected instance. Per-instance data was not available, so uniformity across instances is not confirmed.",
+              "evidence_ids": [
+                "M23",
+                "M21",
+                "M22"
+              ],
+              "confidence": 0.4
+            }
+          ],
+          "data_gaps": [
+            "inventory-service p50 latency is not available: the metric 'latency_p50_ms' does not exist (available: cpu_pct, error_rate, latency_p99_ms, memory_pct, request_rate).",
+            "Per-instance p99 breakdown is not available: the metric API does not support instance-level series.",
+            "No db-client latency series exists for inventory-service, so the db-client step at 15:00Z could not be checked directly.",
+            "Logs were queried with a 'slow' substring and WARN+ filters only, so DEBUG/INFO slow-query records and the full StockRecalculator job logs (start, end, trigger) were not checked.",
+            "No checkout-service data was collected; it was outside the focus services."
+          ],
+          "suggested_followups": [
+            "Check change history and deploy/cron records for a StockRecalculator.recomputeAll schedule or deploy at 15:00Z.",
+            "Query inventory-service logs for recomputeAll start/finish or trigger events, and confirm whether the job runs on a schedule.",
+            "Obtain per-instance inventory-service p99 and CPU to test uniformity.",
+            "Verify how inventory-db query_latency_p99_ms is computed and whether it covers the stock_levels full scan.",
+            "Check whether the 14:08 and 14:32 slow queries and cache-miss storms are a precursor pattern from earlier runs of the same job."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T5",
+        "agent": "dependency",
+        "objective": "Check for any scheduled job, batch, or trigger outside the feature flag that would start stock_levels SELECTs or StockRecalculator.recomputeAll at about 14:55-15:00Z. Also search past incidents for realtime_stock_recalc or recomputeAll CPU saturation to see whether this flag rollout caused similar problems before, and check whether the flag was changed again after 15:30Z.",
+        "focus_services": [
+          "inventory-service",
+          "inventory-db"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "Only one change lies near onset: feature flag realtime_stock_recalc was raised from 5% to 100% of traffic at 14:55:00Z (C09), five minutes before the ~15:00Z p99 latency alert. That timing fits the symptom onset, and the flag change could plausibly add load on stock recalculation. However, no telemetry, query-level data or scheduled-job data was gathered, so the mechanism is unverified. No change to the flag or to any service was recorded after 15:00Z. Both databases and services pass shallow health checks, which do not rule out saturation. The past-incident search found no prior realtime_stock_recalc or recomputeAll CPU saturation incident.",
+          "observations": [
+            {
+              "statement": "Flag realtime_stock_recalc was changed from 5% to 100% of traffic by p.nguyen at 2026-09-09T14:55:00Z, status completed.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "inventory-service has exactly one change record between 14:00Z and 15:30Z, which is the flag change C09. inventory-db has no change records in that window.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "Change history across all services from 15:00Z onward returned no changes, so no flag re-change after 15:30Z appears in the data returned.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "The health check for inventory-db at 15:28Z reports 'accepting connections; SELECT 1 ok'. This is a shallow check and does not exercise stock_levels queries.",
+              "evidence_ids": [
+                "H06"
+              ]
+            },
+            {
+              "statement": "inventory-service /health returned 200 at 15:28Z, and inventory-cache /health returned 200 at 15:28Z. checkout-service /health returned 200 at 15:28Z. These checks are shallow.",
+              "evidence_ids": [
+                "H07",
+                "H05",
+                "H03"
+              ]
+            },
+            {
+              "statement": "Dependency edges: checkout-service calls inventory-service synchronously over HTTP; inventory-service depends on inventory-db (database) and inventory-cache (cache).",
+              "evidence_ids": [
+                "D05",
+                "D10",
+                "D11"
+              ]
+            },
+            {
+              "statement": "Past-incident search for realtime_stock_recalc or recomputeAll CPU saturation returned 0 matches.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "A past incident (P03, 2026-04-03) involved inventory errors and high database load from a cache eviction storm, with cache memory as the root cause. It is not a match for a flag-driven recompute.",
+              "evidence_ids": [
+                "P03"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The flag raise at 14:55Z is the leading candidate. Moving realtime stock recalculation from 5% to 100% of traffic could increase stock_levels SELECTs and recomputation load on inventory-db, which would raise inventory-service p99 and slow checkout via the synchronous call.",
+              "evidence_ids": [
+                "C09",
+                "D05",
+                "D10"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "Because inventory-db health is shallow and no database metrics were gathered, the database-saturation hypothesis is neither confirmed nor excluded. The cache-eviction pattern from P03 is a weaker alternative and has no supporting evidence in this window.",
+              "evidence_ids": [
+                "H06",
+                "P03"
+              ],
+              "confidence": 0.25
+            },
+            {
+              "statement": "No evidence was found for a scheduled job or batch outside the flag that would start recomputeAll near 14:55-15:00Z. This is an absence of data, not proof that none exists.",
+              "evidence_ids": [],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "Scheduled jobs, cron, batch or triggers were not checked. The change-history tool covers only recorded changes, and no scheduler or job-definition source was queried. Whether a non-flag trigger for recomputeAll or stock_levels SELECTs existed at 14:55-15:00Z is unknown.",
+            "No telemetry was queried: no inventory-db CPU, query-rate, lock or stock_levels SELECT data, and no inventory-service latency or CPU series. The causal link from C09 to the latency is therefore unverified.",
+            "The past-incident search for realtime_stock_recalc returned 0 matches. A search by the term recomputeAll alone, or by the flag name without service filters, was not run.",
+            "Health checks are shallow (HTTP 200 or SELECT 1 only) and dated 15:28Z. They do not show load-related degradation.",
+            "The post-15:30Z flag check was limited to the change-history window (15:00Z onward as queried). Changes recorded after the query time were not verified.",
+            "Changes to services other than inventory-service and inventory-db were not queried, apart from the all-services query from 15:00Z."
+          ],
+          "suggested_followups": [
+            "Check inventory-db CPU, active connections, and stock_levels query rate and latency for 14:50-15:10Z, to test whether load rose at the flag change.",
+            "Check the flag's current state and its rollout history for any change after 15:30Z, and whether the 5% to 100% step is reversible.",
+            "Query the job scheduler for any recomputeAll or stock recalculation job scheduled around 14:55-15:00Z.",
+            "Check inventory-service profiles or CPU for StockRecalculator.recomputeAll time share, and compare p99 before and after 14:55Z.",
+            "If the hypothesis holds, consider reverting the flag to 5% as a mitigation, and confirm that p99 recovers."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T6",
+        "agent": "dependency",
+        "objective": "Check scheduled jobs, cron entries, batch schedules and triggers for inventory-service and inventory-db that could start StockRecalculator.recomputeAll or full SELECT sku, qty FROM stock_levels scans at or shortly before 15:00 UTC on 2026-09-09, and whether any such job was enabled independently of realtime_stock_recalc. Also search past incidents for recomputeAll alone or the flag name without service filters.",
+        "focus_services": [
+          "inventory-service",
+          "inventory-db"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "The only change near onset on inventory-service is C09 at 14:55:00Z: feature flag realtime_stock_recalc enabled for 100% of traffic (previously 5%). No change records exist for inventory-db. No scheduled job, cron, batch or trigger data was retrieved, so I could not confirm or rule out a recomputeAll or full stock_levels scan at ~15:00 UTC. The past-incident search with a service filter returned nothing. Health checks at 15:28Z are all green, but they are shallow.",
+          "observations": [
+            {
+              "statement": "inventory-service change C09 at 2026-09-09T14:55:00Z: feature flag realtime_stock_recalc enabled for 100% of traffic (previously 5%), by p.nguyen, status completed.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "No change records for inventory-db between 2026-09-09T00:00:00Z and 2026-09-09T15:30:00Z.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Past-incident search for recomputeAll / full stock_levels scan / realtime_stock_recalc returned 0 incidents.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Dependency edges: checkout-service calls inventory-service (sync_http); inventory-service calls inventory-db (database) and inventory-cache (cache).",
+              "evidence_ids": [
+                "D05",
+                "D10",
+                "D11"
+              ]
+            },
+            {
+              "statement": "Health checks at 2026-09-09T15:28:00Z: checkout-service, inventory-cache, inventory-service HTTP /health 200 healthy; inventory-db healthy, accepting connections, SELECT 1 ok.",
+              "evidence_ids": [
+                "H03",
+                "H05",
+                "H06",
+                "H07"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "Enabling realtime_stock_recalc to 100% at 14:55Z precedes the alert's ~15:00Z onset by about 5 minutes and is the strongest timing lead. If the flag triggers per-request or per-update recalculation against stock_levels, it could add DB load and latency in inventory-service. The record does not show the flag's mechanism, so this is unconfirmed.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "The change record does not show a full-table recompute job. Whether a scheduled recomputeAll or full SELECT sku, qty FROM stock_levels scan ran at 15:00Z is unknown, since no job data was retrieved.",
+              "evidence_ids": [],
+              "confidence": 0.3
+            },
+            {
+              "statement": "Shallow health checks passing does not rule out a latency problem in inventory-db. The db check only ran SELECT 1, so it would not reveal slow scans or lock contention.",
+              "evidence_ids": [
+                "H06"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The alert lists checkout-service as alerting, but its health is green. Checkout is a caller of inventory-service, so its slowness is probably downstream of inventory latency rather than an independent origin.",
+              "evidence_ids": [
+                "D05",
+                "H03"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "No scheduled-job, cron, batch-schedule or trigger data was retrieved for inventory-service or inventory-db, so the T6 question about a job starting recomputeAll or a full stock_levels scan at or before 15:00Z is unanswered.",
+            "Could not check whether any such job was enabled independently of the realtime_stock_recalc flag.",
+            "Change history was only checked for inventory-service and inventory-db. Other services and config/infra changes at other scopes were not checked.",
+            "Past-incident search was filtered to keywords only; there was no check without service filter on the flag name alone. The result was empty, so it is not evidence either way.",
+            "No telemetry (latency, DB query, lock or CPU metrics) was retrieved, so the link between C09 and the p99 rise is unverified.",
+            "Health checks are shallow and were taken at 15:28Z, after onset."
+          ],
+          "suggested_followups": [
+            "Pull scheduler/cron/batch job definitions for inventory-service and inventory-db and check for any job running StockRecalculator.recomputeAll or SELECT sku, qty FROM stock_levels around 15:00Z.",
+            "Check the realtime_stock_recalc flag's implementation: does it trigger full recomputation or per-request queries against stock_levels?",
+            "Compare inventory-db query latency and active queries/locks for 14:50Z\u201315:05Z against the flag change at 14:55Z.",
+            "Consider rolling back or reducing realtime_stock_recalc to 5% as a test, and watch whether p99 recovers.",
+            "Search past incidents for the flag name and for 'inventory-service latency' without a service filter."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T7",
+        "agent": "observability",
+        "objective": "At 1-minute resolution for 14:50-15:10Z, determine whether recomputeAll or request-path latency and inventory-db client latency track the realtime_stock_recalc flag change, and identify which side moved first: the db slow query or the service deadline breach. Also reconcile inventory-db query_latency_p99_ms (flat ~9ms) with the 1900ms slow-query logs.",
+        "focus_services": [
+          "inventory-service",
+          "inventory-db"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "No telemetry was obtained for T7. All four tool calls (inventory-service metrics, inventory-db metrics, inventory-service WARN+ logs, inventory-db WARN+ logs) were rejected with 'tool-call budget exhausted' before returning any data. I cannot say whether recomputeAll or request-path latency tracks the realtime_stock_recalc flag change, which side moved first, or how the flat ~9ms inventory-db query_latency_p99_ms reconciles with the 1900ms slow-query logs. No observations or inferences are supported by returned records.",
+          "observations": [],
+          "interpretations": [],
+          "data_gaps": [
+            "inventory-service latency_p99_ms, request_rate, error_rate and cpu/memory for 14:50-15:10Z: not retrieved (tool call rejected, budget exhausted).",
+            "inventory-db query_latency_p99_ms, connections, cpu_pct, and replication_lag_s for 14:50-15:10Z: not retrieved (tool call rejected).",
+            "inventory-service WARN/ERROR logs for 14:50-15:10Z, including any deadline-breach or recomputeAll messages: not retrieved (tool call rejected).",
+            "inventory-db WARN/ERROR logs for 14:50-15:10Z, including the 1900ms slow-query entries: not retrieved (tool call rejected).",
+            "No 1-minute resolution data was obtained; the tool only offers 5-minute metric points, so the 1-minute alignment requested in T7 is also unmet even with a working budget.",
+            "The realtime_stock_recalc flag change timestamp was not confirmed from telemetry or change history.",
+            "Ordering of the db slow query versus the service deadline breach is unknown.",
+            "The reconciliation of flat ~9ms inventory-db p99 against 1900ms slow-query logs is unverified; possible explanations (e.g. metric aggregation, sampling, or the metric measuring a different query class) were not tested."
+          ],
+          "suggested_followups": [
+            "Query inventory-service latency_p99_ms and inventory-db query_latency_p99_ms for 14:50-15:10Z together, and check the 5-minute granularity limit against the 1-minute requirement.",
+            "Query inventory-service logs for 'realtime_stock_recalc', 'recomputeAll', and 'deadline' in the same window to find the flag-change and deadline-breach timestamps.",
+            "Query inventory-db logs for 'slow query' or durations near 1900ms to get the first slow-query timestamp and its statement text.",
+            "Pull the change-history record for the realtime_stock_recalc flag to confirm its exact change time.",
+            "Check inventory-db connections and pool-wait metrics to test whether client-side latency queues behind the database or is independent of it.",
+            "Re-run T7 with a fresh tool budget; the four queries above are the minimum needed."
+          ]
+        },
+        "error": null
+      }
+    ],
+    "rounds": [
+      {
+        "number": 1,
+        "task_ids": [
+          "T1",
+          "T2",
+          "T3"
+        ],
+        "new_evidence": 79,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "inventory-service",
+              "category": "config_error",
+              "mechanism": "Feature flag realtime_stock_recalc was raised from 5% to 100% at 14:55Z, five minutes before the 15:00Z step. This sends all traffic through StockRecalculator.recomputeAll over 48211 SKUs, saturating inventory-service CPU (98-99%) and pushing requests past the 2000ms deadline, which drives p99 to about 2.3-2.5s and errors to about 9%.",
+              "supporting_evidence": [
+                "C09",
+                "M23",
+                "M21",
+                "M22",
+                "L0186",
+                "L0190",
+                "L0313",
+                "M25",
+                "M15"
+              ],
+              "contradicting_evidence": [
+                "M19",
+                "L0034",
+                "L0040",
+                "L0061"
+              ],
+              "assumptions": [
+                "The flag gates the recomputeAll code path in the request path",
+                "The 14:55Z flag change is the only relevant change in the window",
+                "Flag change timing is within the 5-minute sampling resolution of the 15:00Z step"
+              ],
+              "confidence": 0.75
+            },
+            {
+              "id": "H2",
+              "service": "inventory-db",
+              "category": "dependency_failure",
+              "mechanism": "A slow or contended SELECT sku, qty FROM stock_levels workload starting at 15:00Z pushes inventory-db CPU from about 30% to 60%+, with 1900ms queries. Inventory-service then waits on the database and its requests exceed deadlines, causing the p99 step.",
+              "supporting_evidence": [
+                "M17",
+                "L0185",
+                "L0204",
+                "L0205",
+                "L0312",
+                "L0030",
+                "L0101"
+              ],
+              "contradicting_evidence": [
+                "M19",
+                "M16",
+                "M20",
+                "H06"
+              ],
+              "assumptions": [
+                "The 1900ms slow-query logs reflect real query latency",
+                "query_latency_p99_ms metric is inaccurate or measures a different path",
+                "The DB load is an independent cause rather than a consequence of recomputeAll"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "id": "H3",
+              "service": "inventory-service",
+              "category": "other",
+              "mechanism": "Pre-existing cache miss storms in inventory-cache (or recomputeAll triggered by an unidentified scheduled job) cause expensive full-catalogue recomputation starting at 15:00Z. This saturates inventory-service CPU and causes deadline breaches without any change event.",
+              "supporting_evidence": [
+                "L0034",
+                "L0040",
+                "L0061",
+                "L0186",
+                "M21"
+              ],
+              "contradicting_evidence": [
+                "C09",
+                "M22"
+              ],
+              "assumptions": [
+                "A change or trigger not in the change history explains recomputeAll starting at 15:00Z",
+                "Cache-miss storms are causally related to recomputation load",
+                "inventory-cache metrics are unavailable and cannot be checked"
+              ],
+              "confidence": 0.1
+            }
+          ],
+          "reasoning": "The step at 15:00:00Z on inventory-service p99, CPU and error rate is sharp and occurs with flat traffic, so traffic surge is excluded. The only change in the window is C09, which landed at 14:55Z, five minutes before onset and the flag went to 100% of traffic. Its content, a realtime stock recalc, directly matches the recomputeAll deadline breaches that begin at 15:00:06Z, so it is a plausible cause rather than mere coincidence. Checkout's latency steps at the same time while its own resources and error rate stay flat, so checkout is a victim of inventory. The inventory-db CPU step and slow queries may be a consequence of the same recalculation load, and the flat db query_latency_p99 metric conflicts with those logs, which lowers confidence in H2. The earlier cache-miss storms and card declines predate onset and do not explain the step. Confidence is capped because the 14:55Z-to-15:00Z timing is at sampling resolution, the per-instance and p50 data are missing, and inventory-cache was not checked.",
+          "evidence_needed": [
+            "Confirm C09 gates the recomputeAll code path and check whether recomputeAll latency falls after rolling the flag back to 5%",
+            "Retrieve inventory-service p50 and per-instance latency to test uniformity and timing precision of onset",
+            "Resolve the conflict between inventory-db query_latency_p99_ms and the 1900ms slow-query logs",
+            "Query inventory-cache metrics and latency for the 14:55-15:05Z window",
+            "Check for any scheduled job or trigger that would start recomputeAll independent of the flag"
+          ],
+          "response_to_critique": null
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "H1 (feature flag realtime_stock_recalc to 100% at 14:55Z driving recomputeAll saturation) is well supported by timing, the recomputeAll deadline WARNs starting 15:00:06Z, and flat traffic. However, the analysis overstates confidence: the flag-to-code-path link is assumed not verified, the 5-minute sampling leaves the onset timing uncertain, and inventory-db shows a real CPU step plus 1900ms slow queries at 15:00:05Z that the H2 analysis dismisses mainly on a flat p99 metric that conflicts with those logs. The db load could be an independent contributor or a co-trigger rather than only a consequence, and this is not ruled out. Also no past-incident or per-instance data was obtained.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "The claim that C09 gates the recomputeAll request path is an assumption; the ledger only shows a flag name and the recomputeAll warnings, not the gating relationship.",
+              "evidence_ids": [
+                "C09",
+                "L0186"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "inventory-db CPU stepped to 60% at 15:00Z with 1900ms SELECT sku, qty FROM stock_levels queries starting 15:00:05Z, which is before the first recomputeAll deadline WARN is nominally the cause. Whether the db load is a consequence of recomputeAll or an independent trigger (e.g. a scheduled query) is not separated, so H1 cannot yet be said to exclude H2 as a co-cause.",
+              "evidence_ids": [
+                "M17",
+                "L0185",
+                "L0186"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "misread_evidence",
+              "severity": "material",
+              "detail": "H2 is downweighted because query_latency_p99_ms is flat at about 9ms, but the slow-query logs and inventory-db CPU step are direct evidence of slow queries. A flat aggregate metric may measure a different path or be mis-scoped; it should not outweigh the logs without verification.",
+              "evidence_ids": [
+                "M19",
+                "L0185",
+                "L0204",
+                "L0312"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.75 is high given the unresolved db-slow-query conflict, the 5-minute timing resolution, and the absence of p50, per-instance, and cache data.",
+              "evidence_ids": [
+                "M23",
+                "M21",
+                "M22"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "H3 cites cache-miss storms, but these all predate onset by 40+ minutes and no cache metrics exist; it is effectively unsupported and low confidence is appropriate.",
+              "evidence_ids": [
+                "L0034",
+                "L0040",
+                "L0061"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "missing_evidence",
+              "severity": "minor",
+              "detail": "Past incidents were not searched, and the scheduled-job trigger question for recomputeAll was not checked; these are obtainable with the dependency agent.",
+              "evidence_ids": [
+                "C09"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Resolve the conflict between inventory-db query_latency_p99_ms (flat ~9ms) and the 1900ms slow-query logs for SELECT sku, qty FROM stock_levels; check whether query latency from the db side and from inventory-service's db client metrics both step at 15:00Z, and check inventory-service p50 and per-instance latency for onset timing.",
+              "focus_services": [
+                "inventory-db",
+                "inventory-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Check for any scheduled job, batch, or trigger (outside the feature flag) that would start a stock-level SELECT or recomputeAll at about 15:00Z, and search past incidents for realtime_stock_recalc or recomputeAll saturation to see whether the flag rollout has caused this before.",
+              "focus_services": [
+                "inventory-service",
+                "inventory-db"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "H1 (flag realtime_stock_recalc raised to 100% at 14:55Z driving recomputeAll saturation) leads, but the critic identified material unresolved alternatives: inventory-db CPU step and 1900ms slow queries at 15:00:05Z conflict with a flat db p99 metric, and it is unknown whether db load is a consequence or an independent trigger. The flag-to-code-path gating is unverified and no past-incident or scheduled-job check was done. Specific missing evidence could change the ranking, and budget remains, so one more round of targeted tasks is justified.",
+          "new_tasks": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Resolve the conflict between inventory-db query_latency_p99_ms (flat ~9ms) and the 1900ms slow-query logs for SELECT sku, qty FROM stock_levels. Check whether db-side query latency and inventory-service db-client latency both step at 15:00Z, and whether the slow-query rate rises at 15:00Z versus its earlier baseline. Also retrieve inventory-service p50 and per-instance p99 to test onset timing and uniformity.",
+              "focus_services": [
+                "inventory-db",
+                "inventory-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Check for any scheduled job, batch, or trigger outside the feature flag that would start stock_levels SELECTs or StockRecalculator.recomputeAll at about 14:55-15:00Z. Also search past incidents for realtime_stock_recalc or recomputeAll CPU saturation to see whether this flag rollout caused similar problems before, and check whether the flag was changed again after 15:30Z.",
+              "focus_services": [
+                "inventory-service",
+                "inventory-db"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "task_ids": [
+          "T4",
+          "T5"
+        ],
+        "new_evidence": 1,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "inventory-service",
+              "category": "config_error",
+              "mechanism": "Feature flag realtime_stock_recalc was raised from 5% to 100% at 14:55Z, sending all traffic through StockRecalculator.recomputeAll over 48211 SKUs. This saturates inventory-service CPU (98-99%) and drives requests past the 2000ms deadline, producing the p99 step to about 2.3-2.5s and error rate near 9%.",
+              "supporting_evidence": [
+                "C09",
+                "M23",
+                "M21",
+                "M22",
+                "L0186",
+                "L0190",
+                "L0313",
+                "M25",
+                "M15"
+              ],
+              "contradicting_evidence": [
+                "M19",
+                "L0034",
+                "L0040",
+                "L0061"
+              ],
+              "assumptions": [
+                "The flag gates the recomputeAll code path in the request path; this is not verified in the ledger",
+                "The 14:55Z flag change is the only relevant change in the window",
+                "The 5-minute sampling resolution leaves the flag-to-onset gap uncertain"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "id": "H2",
+              "service": "inventory-db",
+              "category": "dependency_failure",
+              "mechanism": "A new unfiltered SELECT sku, qty FROM stock_levels workload from 15:00Z raises inventory-db CPU from about 30% to 60%+ and produces 1900ms queries. Inventory-service waits on the database, so requests exceed deadlines and p99 steps up. This may be a co-trigger with H1 rather than an alternative to it.",
+              "supporting_evidence": [
+                "M17",
+                "L0185",
+                "L0204",
+                "L0205",
+                "L0312",
+                "L0030",
+                "L0101"
+              ],
+              "contradicting_evidence": [
+                "M19",
+                "M16",
+                "M20",
+                "H06"
+              ],
+              "assumptions": [
+                "The 1900ms slow-query logs reflect real query latency and the query_latency_p99_ms metric measures a different path",
+                "The database load is independent of recomputeAll rather than a consequence of it",
+                "The 15:00:05Z slow query precedes the 15:00:06Z deadline breach at sampling resolution"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "id": "H3",
+              "service": "inventory-service",
+              "category": "other",
+              "mechanism": "An unidentified scheduled job or trigger outside the change history starts recomputeAll at about 15:00Z. The resulting full-catalogue recomputation saturates inventory-service CPU and causes deadline breaches, possibly linked to the earlier cache-miss storms.",
+              "supporting_evidence": [
+                "L0186",
+                "M21",
+                "L0034",
+                "L0040",
+                "L0061"
+              ],
+              "contradicting_evidence": [
+                "C09",
+                "M22"
+              ],
+              "assumptions": [
+                "A non-recorded trigger explains recomputeAll starting at 15:00Z",
+                "Cache-miss storms are causally related to recomputation load, which is unverified and predates onset by 40+ minutes",
+                "Scheduled-job data was not checked"
+              ],
+              "confidence": 0.1
+            }
+          ],
+          "reasoning": "The step in inventory p99, CPU and error rate at 15:00:00Z with flat traffic rules out a traffic surge. The only change in the window, C09 (flag to 100% at 14:55Z), precedes onset and its content matches the recomputeAll deadline breaches starting 15:00:06Z, so H1 leads, though the flag-to-code-path link is assumed. Inventory-db CPU stepped at 15:00Z with 1900ms stock_levels queries from 15:00:05Z, which is a real conflict with the flat query_latency_p99 metric; H2 is kept as a plausible co-cause, not dismissed, because the aggregate metric may be mis-scoped. Checkout latency steps with inventory and its own resources are flat, so checkout is a victim. Earlier cache-miss storms and card declines predate onset and do not explain the step. Confidence is capped by 5-minute timing resolution, missing p50, per-instance and cache data, and the unresolved db metric conflict.",
+          "evidence_needed": [
+            "Confirm C09 gates the recomputeAll path and whether recomputeAll latency falls after rolling the flag back to 5%",
+            "Resolve the conflict between inventory-db query_latency_p99_ms and the 1900ms slow-query logs, and check the db-client latency series",
+            "Determine which side moved first at 1-minute or finer resolution: inventory-db slow query or inventory-service deadline breach",
+            "Retrieve inventory-service p50 and per-instance p99 to test uniformity",
+            "Query inventory-cache metrics for 14:55-15:05Z",
+            "Check scheduled jobs or triggers that could start recomputeAll or full stock_levels scans independent of the flag"
+          ],
+          "response_to_critique": "Gating of recomputeAll by the flag is now stated as an assumption, lowering H1 confidence to 0.70. H2 is no longer dismissed on the flat p99 metric; its confidence rises to 0.30 and it is treated as a possible co-trigger, with the metric conflict listed as unresolved. The db-side-first question is listed as needed evidence and not claimed as resolved. H3 is reduced to 0.10 because its cache-miss support predates onset by 40+ minutes. The missing past-incident search and scheduled-job check are listed as evidence needed."
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "H1 (flag C09 driving recomputeAll) is the best-supported lead, and its timing and deadline-breach logs fit. But the link from the flag to the recomputeAll code path is unverified, and the inventory-db evidence (CPU step and 1900ms full stock_levels scans starting 15:00:05Z, one second before the first deadline breach) is not ruled out as a co-cause or independent trigger. Confidence 0.70 is higher than the assumptions justify. One more targeted check is needed before accepting.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "The analysis treats C09 as gating the recomputeAll path, but no ledger record shows the flag controls that path or that recomputeAll latency changed when the flag moved. The causal chain from flag to recomputeAll is assumed, not evidenced.",
+              "evidence_ids": [
+                "C09",
+                "L0186"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "inventory-db CPU stepped to 60% at 15:00 and the 1900ms full-table stock_levels SELECT appeared at 15:00:05Z, before the first recomputeAll deadline breach at 15:00:06Z. A database-side or independent query workload could start the stall, and H1 does not explain why the db load began at the same moment. This competing cause fits the evidence and is not excluded.",
+              "evidence_ids": [
+                "M17",
+                "L0185",
+                "L0186"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "ignored_contradiction",
+              "severity": "material",
+              "detail": "inventory-db query_latency_p99_ms stayed flat at about 9ms while 1900ms queries were logged. The analysis explains this only as a possible metric mis-scope, which is unverified. The contradiction is central to whether the database is a cause, and H1 gives it no weight.",
+              "evidence_ids": [
+                "M19",
+                "L0185",
+                "L0312"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "0.70 confidence rests on an unverified gating assumption, unresolved db metric conflict, and 5-minute resolution. The cache-miss WARNs (L0034, L0040, L0061) are listed as contradictions but predate onset and are not contradictions; this inflates the apparent contradiction count. Confidence should be lower until the flag-to-path link is confirmed.",
+              "evidence_ids": [
+                "M19",
+                "L0034",
+                "L0040",
+                "L0061"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "The 1900ms slow queries are below the 2000ms deadline, so on their own they cannot directly cause deadline breaches. H2's mechanism needs the db wait to combine with other work to exceed 2000ms; this step is not shown and the timing argument (15:00:05 precedes 15:00:06) is at 1-second resolution against 5-minute samples.",
+              "evidence_ids": [
+                "L0185",
+                "L0186"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "H3 posits an unidentified scheduled trigger, but the scheduled-job check was never run, so its 0.10 confidence reflects absence of data, not evidence. It should stay low unless a scheduler query is run.",
+              "evidence_ids": [
+                "L0186"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "dependency",
+              "objective": "Check scheduled jobs, cron entries, batch schedules and triggers for inventory-service and inventory-db that could start StockRecalculator.recomputeAll or full SELECT sku, qty FROM stock_levels scans at or shortly before 15:00 UTC on 2026-09-09, and check whether any such job was enabled independently of realtime_stock_recalc.",
+              "focus_services": [
+                "inventory-service",
+                "inventory-db"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "observability",
+              "objective": "Determine whether recomputeAll duration or the inventory-service latency step tracks the realtime_stock_recalc flag: query recomputeAll or request-path latency and inventory-db client latency for 14:50-15:10Z at 1-minute resolution, and identify which side (db slow query or service deadline breach) moved first.",
+              "focus_services": [
+                "inventory-service",
+                "inventory-db"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "H1 (flag realtime_stock_recalc to 100% at 14:55Z driving recomputeAll CPU saturation) leads, but the flag-to-code-path link is unverified and the inventory-db step at 15:00Z with 1900ms stock_levels queries is an unresolved co-cause; the db metric conflict and the sub-minute ordering of db slow queries versus service deadline breaches could change the leading conclusion. One final round with remaining budget can test these: a scheduler/job check for independent recomputeAll or full stock_levels scans, and a 1-minute recomputeAll/db-client latency comparison for 14:50-15:10Z.",
+          "new_tasks": [
+            {
+              "key": "t6",
+              "agent": "dependency",
+              "objective": "Check scheduled jobs, cron entries, batch schedules and triggers for inventory-service and inventory-db that could start StockRecalculator.recomputeAll or full SELECT sku, qty FROM stock_levels scans at or shortly before 15:00 UTC on 2026-09-09, and whether any such job was enabled independently of realtime_stock_recalc. Also search past incidents for recomputeAll alone or the flag name without service filters.",
+              "focus_services": [
+                "inventory-service",
+                "inventory-db"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t7",
+              "agent": "observability",
+              "objective": "At 1-minute resolution for 14:50-15:10Z, determine whether recomputeAll or request-path latency and inventory-db client latency track the realtime_stock_recalc flag change, and identify which side moved first: the db slow query or the service deadline breach. Also reconcile inventory-db query_latency_p99_ms (flat ~9ms) with the 1900ms slow-query logs.",
+              "focus_services": [
+                "inventory-service",
+                "inventory-db"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 3,
+        "task_ids": [
+          "T6",
+          "T7"
+        ],
+        "new_evidence": 0,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "inventory-service",
+              "category": "config_error",
+              "mechanism": "Feature flag realtime_stock_recalc was raised from 5% to 100% at 14:55Z, which plausibly routes all requests through StockRecalculator.recomputeAll over 48211 SKUs. This saturates inventory-service CPU (98-99%) and pushes requests past the 2000ms deadline, producing the p99 step to about 2.3-2.5s and the error rate near 9%.",
+              "supporting_evidence": [
+                "C09",
+                "M23",
+                "M21",
+                "M22",
+                "L0186",
+                "L0190",
+                "L0313",
+                "M25",
+                "M15"
+              ],
+              "contradicting_evidence": [
+                "M19"
+              ],
+              "assumptions": [
+                "The flag gates the recomputeAll code path in the request path; this is not shown in the ledger",
+                "No other relevant change occurred in the window",
+                "Five-minute sampling leaves the flag-to-onset gap uncertain"
+              ],
+              "confidence": 0.55
+            },
+            {
+              "id": "H2",
+              "service": "inventory-db",
+              "category": "dependency_failure",
+              "mechanism": "An unfiltered SELECT sku, qty FROM stock_levels workload from about 15:00Z raises inventory-db CPU from about 30% to 60%+ and produces 1900ms queries. Inventory-service requests waiting on the database combine with other work to exceed deadlines, which raises p99 and errors. It may be a co-trigger with H1 rather than an alternative to it.",
+              "supporting_evidence": [
+                "M17",
+                "L0185",
+                "L0204",
+                "L0205",
+                "L0312",
+                "L0030",
+                "L0101"
+              ],
+              "contradicting_evidence": [
+                "M19",
+                "M16",
+                "M20",
+                "H06"
+              ],
+              "assumptions": [
+                "The 1900ms slow-query logs reflect real query latency and query_latency_p99_ms measures a different path",
+                "The database load is independent of recomputeAll rather than a consequence of it",
+                "The 15:00:05Z slow query precedes the 15:00:06Z deadline breach at sampling resolution"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "id": "H3",
+              "service": "inventory-service",
+              "category": "other",
+              "mechanism": "An unidentified scheduled job or trigger outside the change history starts recomputeAll at about 15:00Z. The resulting full-catalogue recomputation saturates inventory-service CPU and causes deadline breaches, independent of the flag change.",
+              "supporting_evidence": [
+                "L0186",
+                "M21"
+              ],
+              "contradicting_evidence": [
+                "C09",
+                "M22"
+              ],
+              "assumptions": [
+                "A non-recorded trigger explains recomputeAll starting at 15:00Z",
+                "The scheduled-job check was not run, so this reflects absence of data"
+              ],
+              "confidence": 0.08
+            }
+          ],
+          "reasoning": "The step in inventory p99, CPU and error rate at 15:00:00Z with flat request rate rules out a traffic surge. C09 (flag to 100% at 14:55Z) precedes onset by about 5 minutes and its content plausibly matches the recomputeAll deadline breaches starting 15:00:06Z, so H1 leads, but the flag-to-code-path link is assumed and not evidenced. Inventory-db CPU stepped at 15:00Z with 1900ms stock_levels scans from 15:00:05Z, one second before the first breach; this is a real co-cause candidate that H1 does not explain, and the flat query_latency_p99 metric conflicts with it, so H2 keeps meaningful weight. Checkout tracks inventory while its own CPU, memory, traffic and errors are flat, so it is a victim. Earlier cache-miss storms and card declines predate onset and are not contradictions. Confidence is capped by 5-minute resolution, missing p50, per-instance and cache data, and the unresolved db metric conflict.",
+          "evidence_needed": [
+            "Confirm whether realtime_stock_recalc gates the recomputeAll path, and whether recomputeAll latency falls after rolling the flag back to 5%",
+            "Resolve the conflict between inventory-db query_latency_p99_ms and the 1900ms slow-query logs, and pull the db-client latency series",
+            "Determine which side moved first at 1-minute or finer resolution: the db slow query or the service deadline breach",
+            "Check scheduled jobs or triggers that could start recomputeAll or full stock_levels scans independent of the flag",
+            "Retrieve inventory-service p50, per-instance p99 and inventory-cache metrics for 14:55-15:05Z"
+          ],
+          "response_to_critique": "Unsupported gating claim: accepted; H1 confidence lowered from 0.70 to 0.55 and the gating link is listed as an assumption needing a rollback test. Db alternative: accepted; H2 kept at 0.30 as a co-cause and no longer dismissed. Ignored db metric contradiction: accepted; it is now listed as contradicting evidence for H1 and H2 and treated as unresolved. Cache-miss WARNs: accepted; they are removed from H1 contradictions because they predate onset. H2 misread: accepted; H2 now needs a combining mechanism for the wait to exceed 2000ms, which is stated as an assumption. H3 unsupported: accepted; confidence reduced to 0.08 and it is framed as absence of data."
+        },
+        "critique": {
+          "verdict": "revise",
+          "summary": "H1 (flag realtime_stock_recalc to 100% at 14:55Z driving recomputeAll saturation) remains the leading hypothesis and is consistent with the timing, the recomputeAll deadline WARNs from 15:00:06Z and the inventory CPU step. However, the analysis overstates the link: the flag-to-code-path mechanism is unverified, the 15:00:05Z inventory-db slow query precedes the first service breach and the db CPU stepped at the same time, and the db query_latency_p99 metric conflicts with the slow-query logs, which is unresolved. Confidence 0.55 is higher than the evidence supports given these gaps. No further investigation is available, so the conclusion must be stated as an unresolved co-cause question with H1 leading.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "The claim that the flag gates the recomputeAll request-path code is not evidenced in the ledger; C09 only records a percentage change. Without this link, the flag could be a coincident change rather than the mechanism.",
+              "evidence_ids": [
+                "C09",
+                "L0186"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.55 is not justified given the unverified mechanism, 5-minute resolution, and the unresolved db metric conflict. The analysis should lower confidence and state it as a leading lead.",
+              "evidence_ids": [
+                "C09",
+                "M23",
+                "M21"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "Inventory-db slow stock_levels queries (1900ms) start at 15:00:05Z, one second before the first recomputeAll breach, and db CPU steps at the same time. Stock_levels SELECTs could be the cause of the service deadlines rather than a consequence of recomputeAll, so H2 cannot be dismissed as merely a victim. The 15:00:05 vs 15:00:06 ordering is at 5-minute sample resolution for metrics, but the log timestamps themselves are specific.",
+              "evidence_ids": [
+                "L0185",
+                "L0186",
+                "M17"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "The analysis treats query_latency_p99_ms flatness (M19) as contradicting H2, but that metric's scope is unknown; flat p99 is an unreliable counter-signal given the slow-query logs. It should not weigh heavily against H2 either way.",
+              "evidence_ids": [
+                "M19",
+                "L0312"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "ignored_contradiction",
+              "severity": "minor",
+              "detail": "The 2 pre-onset slow stock_levels queries (1010ms, 1180ms) and the cache-miss storms show stock_levels slowness predates the flag change, which weakens the claim that the flag is the sole source of the db load pattern.",
+              "evidence_ids": [
+                "L0030",
+                "L0101",
+                "L0034"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "H3 (unidentified scheduled trigger) was not checked because the scheduler and job data were never retrieved; the low 0.08 weight reflects absence of data, not evidence against it. This is a data gap, not a refutation.",
+              "evidence_ids": [
+                "C09"
+              ]
+            }
+          ],
+          "followup_requests": []
+        },
+        "decision": null
+      }
+    ],
+    "termination_reason": "max_rounds_reached",
+    "citations": {
+      "valid": 338,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "C09",
+      "D05",
+      "D10",
+      "D11",
+      "H03",
+      "H05",
+      "H06",
+      "H07",
+      "D04",
+      "D06",
+      "D07",
+      "H02",
+      "H08",
+      "H11",
+      "M21",
+      "M22",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "L0034",
+      "L0040",
+      "L0061",
+      "L0186",
+      "L0190",
+      "L0192",
+      "L0198",
+      "L0203",
+      "L0207",
+      "L0211",
+      "L0215",
+      "L0219",
+      "L0225",
+      "L0228",
+      "L0233",
+      "L0236",
+      "L0241",
+      "L0247",
+      "L0249",
+      "L0254",
+      "L0258",
+      "L0264",
+      "L0266",
+      "L0273",
+      "L0277",
+      "L0280",
+      "L0285",
+      "L0289",
+      "L0295",
+      "L0302",
+      "L0306",
+      "L0310",
+      "L0313",
+      "L0005",
+      "L0039",
+      "L0055",
+      "L0074",
+      "L0112",
+      "L0230",
+      "M23",
+      "M25",
+      "M24",
+      "M16",
+      "M17",
+      "M18",
+      "M19",
+      "M20",
+      "L0030",
+      "L0101",
+      "L0185",
+      "L0204",
+      "L0205",
+      "L0220",
+      "L0238",
+      "L0255",
+      "L0276",
+      "L0293",
+      "L0312",
+      "P03"
+    ],
+    "trace": [
+      {
+        "t": 5.326,
+        "actor": "orchestrator",
+        "event": "planned",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 5.326,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T1",
+          "T2"
+        ]
+      },
+      {
+        "t": 14.734,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T2",
+        "tool_calls": 3
+      },
+      {
+        "t": 23.461,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T1",
+        "tool_calls": 6
+      },
+      {
+        "t": 23.462,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T3"
+        ]
+      },
+      {
+        "t": 44.771,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T3",
+        "tool_calls": 6
+      },
+      {
+        "t": 60.256,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 64.36,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T4",
+          "T5"
+        ]
+      },
+      {
+        "t": 64.36,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T4",
+          "T5"
+        ]
+      },
+      {
+        "t": 79.601,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T5",
+        "tool_calls": 6
+      },
+      {
+        "t": 86.258,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T4",
+        "tool_calls": 5
+      },
+      {
+        "t": 106.195,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 110.097,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T6",
+          "T7"
+        ]
+      },
+      {
+        "t": 110.097,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T6",
+          "T7"
+        ]
+      },
+      {
+        "t": 120.971,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T6",
+        "tool_calls": 4
+      },
+      {
+        "t": 121.118,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T7",
+        "tool_calls": 4
+      },
+      {
+        "t": 135.462,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "revise",
+        "requests": 0
+      },
+      {
+        "t": 135.462,
+        "actor": "engine",
+        "event": "terminated",
+        "reason": "max_rounds_reached",
+        "round": 3
+      },
+      {
+        "t": 135.462,
+        "actor": "engine",
+        "event": "conclusion",
+        "status": "conclusive",
+        "reasons": [
+          "confidence 0.55, margin 0.25, 7 verified supporting and 1 contradicting evidence items (12%)"
+        ]
+      }
+    ]
+  },
+  "grade": {
+    "system": "multi_agent",
+    "incident_id": "S09",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 149.468,
+    "tool_calls": 30,
+    "failed_tool_calls": 0,
+    "llm_calls": 28,
+    "prompt_tokens": 264978,
+    "completion_tokens": 34308,
+    "total_tokens": 299286,
+    "cost_usd": 0.0436518,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.55,
+    "top_service": "inventory-service",
+    "top_category": "config_error",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": 3,
+    "termination_reason": "max_rounds_reached",
+    "repeat": 3
+  }
+}

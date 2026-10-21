@@ -1,0 +1,125 @@
+﻿S01 multi_agent r1: correct=False status=inconclusive top=checkout-service/deployment_regression tools=30 tokens=311925 156.2s
+S01 multi_agent r2: correct=False status=inconclusive top=checkout-service/deployment_regression tools=30 tokens=310295 139.4s
+S01 multi_agent r3: correct=False status=inconclusive top=checkout-service/deployment_regression tools=30 tokens=246877 119.1s
+S01 baseline    r1: correct=True status=conclusive top=checkout-service/deployment_regression tools=9 tokens=38309 20.6s
+S01 baseline    r2: correct=True status=conclusive top=checkout-service/deployment_regression tools=8 tokens=48182 19.8s
+S01 baseline    r3: correct=True status=conclusive top=checkout-service/deployment_regression tools=8 tokens=37943 21.1s
+S02 multi_agent r1: correct=True status=conclusive top=payment-service/config_error tools=30 tokens=309871 153.0s
+S02 multi_agent r2: correct=True status=conclusive top=payment-service/config_error tools=30 tokens=288793 125.9s
+S02 multi_agent r3: correct=False status=inconclusive top=payment-service/config_error tools=30 tokens=309608 146.9s
+S02 baseline    r1: correct=True status=conclusive top=payment-service/config_error tools=8 tokens=39631 22.6s
+S02 baseline    r2: correct=True status=conclusive top=payment-service/config_error tools=8 tokens=39013 21.2s
+S02 baseline    r3: correct=True status=conclusive top=payment-service/config_error tools=7 tokens=33074 18.6s
+S03 multi_agent r1: correct=False status=inconclusive top=notification-worker/resource_exhaustion tools=30 tokens=335858 163.0s
+S03 multi_agent r2: correct=True status=conclusive top=notification-worker/resource_exhaustion tools=26 tokens=211099 107.0s
+S03 multi_agent r3: correct=False status=inconclusive top=notification-worker/resource_exhaustion tools=30 tokens=305625 167.6s
+S03 baseline    r1: correct=True status=conclusive top=notification-worker/deployment_regression tools=11 tokens=62283 31.6s
+S03 baseline    r2: correct=True status=conclusive top=notification-worker/deployment_regression tools=7 tokens=32106 20.1s
+S03 baseline    r3: correct=True status=conclusive top=notification-worker/deployment_regression tools=10 tokens=45186 27.8s
+S04 multi_agent r1: correct=True status=conclusive top=payment-provider/dependency_failure tools=30 tokens=304466 123.8s
+S04 multi_agent r2: correct=False status=conclusive top=payment-service/dependency_failure tools=30 tokens=329017 127.7s
+S04 multi_agent r3: correct=False status=inconclusive top=payment-service/dependency_failure tools=30 tokens=326925 122.2s
+S04 baseline    r1: correct=True status=conclusive top=payment-provider/dependency_failure tools=12 tokens=80185 26.1s
+S04 baseline    r2: correct=True status=conclusive top=payment-provider/dependency_failure tools=13 tokens=60735 23.8s
+S04 baseline    r3: correct=True status=conclusive top=payment-provider/dependency_failure tools=12 tokens=60743 24.5s
+S05 multi_agent r1: correct=True status=conclusive top=auth-service/certificate_expiry tools=29 tokens=269244 114.7s
+S05 multi_agent r2: correct=True status=conclusive top=auth-service/certificate_expiry tools=30 tokens=311731 148.0s
+S05 multi_agent r3: correct=True status=conclusive top=auth-service/certificate_expiry tools=30 tokens=290878 127.4s
+S05 baseline    r1: correct=True status=conclusive top=auth-service/certificate_expiry tools=8 tokens=33692 20.2s
+S05 baseline    r2: correct=True status=conclusive top=auth-service/certificate_expiry tools=9 tokens=45608 21.2s
+S05 baseline    r3: correct=True status=conclusive top=auth-service/certificate_expiry tools=8 tokens=32217 19.5s
+S06 multi_agent r1: correct=True status=conclusive top=inventory-db/infrastructure_failure tools=30 tokens=279217 105.2s
+S06 multi_agent r2: correct=False status=inconclusive top=inventory-db/infrastructure_failure tools=30 tokens=260273 96.1s
+S06 multi_agent r3: correct=False status=inconclusive top=inventory-db/infrastructure_failure tools=30 tokens=303816 139.9s
+S06 baseline    r1: correct=False status=conclusive top=inventory-db/dependency_failure tools=11 tokens=51053 27.0s
+S06 baseline    r2: correct=True status=conclusive top=inventory-db/infrastructure_failure tools=12 tokens=50491 25.9s
+S06 baseline    r3: correct=True status=conclusive top=inventory-db/infrastructure_failure tools=10 tokens=49258 22.8s
+S07 multi_agent r1: correct=False status=inconclusive top=checkout-service/traffic_surge tools=30 tokens=325289 148.7s
+S07 multi_agent r2: correct=True status=conclusive top=checkout-service/traffic_surge tools=30 tokens=314246 162.3s
+S07 multi_agent r3: correct=True status=conclusive top=checkout-service/traffic_surge tools=30 tokens=256558 111.1s
+S07 baseline    r1: correct=True status=conclusive top=checkout-service/traffic_surge tools=9 tokens=54558 23.2s
+S07 baseline    r2: correct=True status=conclusive top=checkout-service/traffic_surge tools=10 tokens=55724 21.6s
+S07 baseline    r3: correct=True status=conclusive top=checkout-service/traffic_surge tools=10 tokens=55816 23.8s
+S08 multi_agent r1: correct=False status=inconclusive top=payment-service/deployment_regression tools=30 tokens=188243 91.7s
+S08 multi_agent r2: correct=False status=inconclusive top=payment-service/deployment_regression tools=30 tokens=188646 94.5s
+S08 multi_agent r3: correct=False status=inconclusive top=payment-service/deployment_regression tools=30 tokens=195395 91.5s
+S08 baseline    r1: correct=True status=conclusive top=payment-service/deployment_regression tools=10 tokens=53679 22.1s
+S08 baseline    r2: correct=False status=inconclusive top=payment-service/deployment_regression tools=9 tokens=39766 19.5s
+S08 baseline    r3: correct=False status=inconclusive top=payment-service/deployment_regression tools=9 tokens=40876 21.6s
+S09 multi_agent r1: correct=False status=inconclusive top=inventory-service/config_error tools=30 tokens=283199 129.9s
+S09 multi_agent r2: correct=False status=inconclusive top=inventory-service/deployment_regression tools=30 tokens=226000 93.7s
+S09 multi_agent r3: correct=True status=conclusive top=inventory-service/config_error tools=30 tokens=299286 149.5s
+S09 baseline    r1: correct=True status=conclusive top=inventory-service/config_error tools=8 tokens=30202 20.9s
+S09 baseline    r2: correct=True status=conclusive top=inventory-service/config_error tools=10 tokens=44457 24.8s
+S09 baseline    r3: correct=True status=conclusive top=inventory-service/config_error tools=9 tokens=47448 26.4s
+S10 multi_agent r1: correct=True status=inconclusive top=search-service/dependency_failure tools=28 tokens=170311 95.9s
+S10 multi_agent r2: correct=True status=inconclusive top=search-service/dependency_failure tools=30 tokens=230424 129.3s
+S10 multi_agent r3: correct=True status=inconclusive top=search-service/dependency_failure tools=29 tokens=198220 107.7s
+S10 baseline    r1: correct=True status=inconclusive top=search-service/dependency_failure tools=10 tokens=47428 24.1s
+S10 baseline    r2: correct=True status=inconclusive top=search-index/resource_exhaustion tools=10 tokens=45593 23.1s
+S10 baseline    r3: correct=True status=inconclusive top=search-index/dependency_failure tools=13 tokens=57892 27.7s
+S11 multi_agent r1: correct=True status=conclusive top=payments-db/resource_exhaustion tools=30 tokens=281776 138.8s
+S11 multi_agent r2: correct=True status=conclusive top=payments-db/resource_exhaustion tools=30 tokens=266387 126.4s
+S11 multi_agent r3: correct=True status=conclusive top=payments-db/resource_exhaustion tools=30 tokens=257100 121.2s
+S11 baseline    r1: correct=True status=conclusive top=payments-db/resource_exhaustion tools=8 tokens=34856 21.6s
+S11 baseline    r2: correct=True status=conclusive top=payments-db/resource_exhaustion tools=10 tokens=51515 24.4s
+S11 baseline    r3: correct=True status=conclusive top=payments-db/resource_exhaustion tools=9 tokens=46892 23.0s
+S12 multi_agent r1: correct=True status=inconclusive top=api-gateway/config_error tools=30 tokens=193386 96.6s
+S12 multi_agent r2: correct=True status=inconclusive top=api-gateway/config_error tools=30 tokens=246123 138.8s
+S12 multi_agent r3: correct=True status=inconclusive top=api-gateway/config_error tools=30 tokens=253126 137.8s
+S12 baseline    r1: correct=False status=conclusive top=api-gateway/config_error tools=8 tokens=30256 19.4s
+S12 baseline    r2: correct=False status=conclusive top=api-gateway/config_error tools=7 tokens=28457 19.4s
+S12 baseline    r3: correct=False status=conclusive top=api-gateway/config_error tools=8 tokens=40260 21.9s
+{
+  "baseline": {
+    "runs": 36,
+    "errored_runs": 0,
+    "accuracy": 0.8333,
+    "accuracy_root_cause_cases": 0.9,
+    "accuracy_inconclusive_cases": 0.5,
+    "top1_lead_accuracy": 0.9667,
+    "top3_recall": 0.9667,
+    "misled_rate": 0.0,
+    "false_inconclusive_rate": 0.0667,
+    "citation_validity": 0.9735,
+    "key_evidence_cited": 0.9061,
+    "key_evidence_retrieved": 0.9061,
+    "mean_tool_calls": 9.3889,
+    "mean_failed_tool_calls": 0.5833,
+    "mean_llm_calls": 3.8611,
+    "mean_invalid_outputs": 0.0,
+    "mean_prompt_tokens": 41331.8611,
+    "mean_completion_tokens": 4373.25,
+    "mean_total_tokens": 45705.1111,
+    "runs_with_unreported_usage": 0,
+    "total_cost_usd": 0.227513,
+    "mean_latency_s": 22.8641,
+    "median_latency_s": 22.383
+  },
+  "multi_agent": {
+    "runs": 36,
+    "errored_runs": 0,
+    "accuracy": 0.5556,
+    "accuracy_root_cause_cases": 0.4667,
+    "accuracy_inconclusive_cases": 1.0,
+    "top1_lead_accuracy": 0.9,
+    "top3_recall": 0.9,
+    "misled_rate": 0.0,
+    "false_inconclusive_rate": 0.5,
+    "citation_validity": 0.9977,
+    "key_evidence_cited": 0.9616,
+    "key_evidence_retrieved": 0.9616,
+    "mean_tool_calls": 29.7778,
+    "mean_failed_tool_calls": 1.3889,
+    "mean_llm_calls": 29.25,
+    "mean_invalid_outputs": 0.3056,
+    "mean_prompt_tokens": 235263.7222,
+    "mean_completion_tokens": 33603.8611,
+    "mean_total_tokens": 268867.5833,
+    "runs_with_unreported_usage": 0,
+    "total_cost_usd": 1.451819,
+    "mean_latency_s": 126.3393,
+    "median_latency_s": 126.918
+  }
+}
+Results written to results\final

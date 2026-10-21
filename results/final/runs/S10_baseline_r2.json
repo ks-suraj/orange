@@ -1,0 +1,346 @@
+{
+  "system": "baseline",
+  "incident_id": "S10",
+  "error": null,
+  "latency_s": 23.117,
+  "usage": {
+    "llm_calls": 5,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 41595,
+    "completion_tokens": 3998,
+    "reasoning_tokens": 321,
+    "total_tokens": 45593,
+    "cost_usd": 0.0061585,
+    "llm_time_s": 23.105,
+    "by_role": {
+      "baseline": {
+        "calls": 5,
+        "prompt_tokens": 41595,
+        "completion_tokens": 3998,
+        "cost_usd": 0.0061585
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 10,
+    "rejected_calls": 0,
+    "attempts": 14,
+    "failed_calls": 3,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 61040,
+    "by_status": {
+      "ok": 7,
+      "error": 1,
+      "timeout": 2
+    },
+    "by_tool": {
+      "query_metrics": 2,
+      "get_change_history": 2,
+      "get_dependencies": 2,
+      "query_logs": 3,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 10
+    }
+  },
+  "citations": {
+    "valid": 39,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S10",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "inconclusive",
+    "status_reason": "top hypothesis confidence 0.35 is below 0.50",
+    "decision": {
+      "status": "inconclusive",
+      "reasons": [
+        "top hypothesis confidence 0.35 is below 0.50"
+      ],
+      "top_hypothesis": "search-index / resource_exhaustion",
+      "top_confidence": 0.35,
+      "margin_over_runner_up": 0.1,
+      "verified_support": [
+        "L0178",
+        "L0185",
+        "L0192",
+        "M03",
+        "P02"
+      ],
+      "contradicting_evidence": [
+        "M02",
+        "H13"
+      ],
+      "contradiction_share": 0.286,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.35,
+    "summary": "api-gateway p99 latency jumped to 1633 ms in the 20:00 UTC sample and returned to about 177 ms by 20:05, matching the P3 alert. The gateway's own CPU, memory, request rate and error rate stayed flat. Its WARN logs point at slow calls to /api/v1/search, and no changes were recorded in the window. search-service and search-index telemetry could not be retrieved (metrics retention gap, log queries timed out), so the upstream cause is unconfirmed. The incident is self-resolved with no customer impact, and the evidence is not conclusive.",
+    "root_cause": null,
+    "ranked_hypotheses": [
+      {
+        "id": "H-A",
+        "service": "search-index",
+        "category": "resource_exhaustion",
+        "mechanism": "A transient load or maintenance event on the search index (for example a rebuild or compaction) slowed /api/v1/search responses for about 5 minutes. The gateway's sync calls then exceeded latency targets, which raised p99 and produced the slow-upstream WARNs until the event ended.",
+        "supporting_evidence": [
+          "L0178",
+          "L0185",
+          "L0192",
+          "M03",
+          "P02"
+        ],
+        "contradicting_evidence": [
+          "M02",
+          "H13"
+        ],
+        "assumptions": [
+          "The search-service calls search-index synchronously, as the dependency graph states.",
+          "The slow calls were on the search path, not elsewhere in search-service."
+        ],
+        "confidence": 0.35
+      },
+      {
+        "id": "H-B",
+        "service": "search-service",
+        "category": "other",
+        "mechanism": "A transient fault inside search-service, such as a GC pause, a slow dependency or a noisy query, slowed search responses for about 5 minutes. The gateway's sync calls then timed out slowly, which raised p99.",
+        "supporting_evidence": [
+          "L0178",
+          "L0185",
+          "L0192",
+          "M03"
+        ],
+        "contradicting_evidence": [
+          "M02",
+          "H14"
+        ],
+        "assumptions": [
+          "search-service is the only service in the search path that the slow WARNs describe."
+        ],
+        "confidence": 0.25
+      },
+      {
+        "id": "H-C",
+        "service": "api-gateway",
+        "category": "traffic_surge",
+        "mechanism": "A burst from client a5617224 near its rate limit added load on the search route. This pushed gateway queueing and search latency up briefly.",
+        "supporting_evidence": [
+          "L0151"
+        ],
+        "contradicting_evidence": [
+          "M05",
+          "M01",
+          "M04"
+        ],
+        "assumptions": [
+          "The client's burst reached the search route at about 20:00 UTC, which the data does not show."
+        ],
+        "confidence": 0.1
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "api-gateway p99 latency was about 175\u2013187 ms for every 5-minute point from 19:00 to 19:55 UTC, then 1633.34 ms at 20:00 UTC and 177.45 ms at 20:05 UTC.",
+        "evidence_ids": [
+          "M03"
+        ]
+      },
+      {
+        "statement": "api-gateway error_rate stayed between 0.34% and 0.45% across 19:00\u201320:30 UTC, with no visible change at 20:00.",
+        "evidence_ids": [
+          "M02"
+        ]
+      },
+      {
+        "statement": "api-gateway cpu_pct (36.5\u201339.5%), memory_pct (50.5\u201354.0%) and request_rate (407\u2013435 req/s) show no visible change around 20:00 UTC.",
+        "evidence_ids": [
+          "M01",
+          "M04",
+          "M05"
+        ]
+      },
+      {
+        "statement": "api-gateway logged 'upstream response slow' WARNs for route /api/v1/search at 19:59:08 (892 ms), 20:01:12 (1072 ms) and 20:03:10 (1079 ms).",
+        "evidence_ids": [
+          "L0178",
+          "L0185",
+          "L0192"
+        ]
+      },
+      {
+        "statement": "api-gateway logged one rate-limiter WARN for client a5617224 near burst limit at 19:50:21 UTC.",
+        "evidence_ids": [
+          "L0151"
+        ]
+      },
+      {
+        "statement": "At 20:28 UTC, health checks for api-gateway, search-service, search-index, auth-service and checkout-service all returned HTTP 200.",
+        "evidence_ids": [
+          "H01",
+          "H02",
+          "H03",
+          "H14",
+          "H13"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The /health checks are shallow and do not exercise the search query path or database writes.",
+      "The search-service latency is the cause of the gateway's slow-upstream warnings, since the gateway's dependencies are search-service, checkout-service and auth-service.",
+      "The 'no changes' result is complete for the change-history source.",
+      "The one-sample 20:00 spike reflects a real transient event and is not a metrics artifact.",
+      "(unverified - no valid evidence cited) No deployments, config changes, feature flags, rollbacks or infra events are recorded for api-gateway or search-service from 2026-09-09 through 20:30 UTC on 2026-09-10.",
+      "(unverified - no valid evidence cited) search-service metrics query returned 'unavailable (retention gap)' for 19:30\u201320:30 UTC.",
+      "(unverified - no valid evidence cited) search-service log queries timed out after 3 attempts for 19:50\u201320:10 and 19:58\u201320:04 UTC."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The most likely origin is a transient slowdown in the search path (search-service or search-index), since all the slow-upstream WARNs are on /api/v1/search and the gateway's own resources were flat. This is not confirmed because search-service telemetry and logs are unavailable.",
+        "evidence_ids": [
+          "M03",
+          "L0178",
+          "L0185",
+          "L0192"
+        ],
+        "confidence": 0.4
+      },
+      {
+        "statement": "A transient burst from a single client (a5617224) is a weaker candidate: the rate-limiter WARN came 10 minutes before the spike, and rate limiting would not by itself produce slow upstream responses.",
+        "evidence_ids": [
+          "L0151"
+        ],
+        "confidence": 0.12
+      },
+      {
+        "statement": "Because no change was recorded, the incident looks like a transient, self-recovering event with no lasting fault. The health checks being green at 20:28 supports recovery but would not detect a search-query-level problem.",
+        "evidence_ids": [
+          "H01",
+          "H14",
+          "H13"
+        ],
+        "confidence": 0.5
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Restore search-service metrics and log retention so the 19:55\u201320:05 UTC window can be examined.",
+        "priority": "immediate",
+        "rationale": "The telemetry gap is the main blocker to confirming the upstream origin."
+      },
+      {
+        "action": "Check search-index for a rebuild, compaction or other maintenance job around 19:58\u201320:03 UTC.",
+        "priority": "immediate",
+        "rationale": "Past incident P02 had a latency spike caused by an index rebuild during peak traffic."
+      },
+      {
+        "action": "Set an alert on search-service latency with a deep health check that runs a real search query.",
+        "priority": "short_term",
+        "rationale": "Current health checks are green and do not reflect the search path."
+      },
+      {
+        "action": "Review the rate-limit policy for client a5617224 and whether its traffic is legitimate.",
+        "priority": "short_term",
+        "rationale": "The client came near its burst limit shortly before the spike."
+      },
+      {
+        "action": "Schedule index maintenance off-peak and enforce that scheduling.",
+        "priority": "long_term",
+        "rationale": "Follows the prevention step from P02."
+      }
+    ],
+    "open_questions": [
+      "What did search-service and search-index do between 19:55 and 20:05 UTC? Their telemetry is missing.",
+      "Why did the log backend time out for search-service, and is that related to the incident?",
+      "Was there a scheduled job on search-index or a traffic spike from client a5617224 at 20:00 UTC?",
+      "Do the 20:00 gateway latency samples show a real user-facing impact beyond the single 5-minute point?"
+    ],
+    "data_gaps": [
+      "query_metrics(start=2026-09-10T19:30:00Z, end=2026-09-10T20:30:00Z, service=search-service) -> error: Error: metrics for search-service unavailable (retention gap)",
+      "query_logs(start=2026-09-10T19:50:00Z, end=2026-09-10T20:10:00Z, service=search-service, min_level=WARN, limit=20) -> timeout: Timed out after 10000 ms: log backend query for search-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-10T19:58:00Z, end=2026-09-10T20:04:00Z, service=search-service, min_level=INFO, limit=10) -> timeout: Timed out after 10000 ms: log backend query for search-service exceeded deadline (gave up after 3 attempts)"
+    ],
+    "data_gaps_total": 3,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S10",
+      "title": "brief gateway latency blip",
+      "reported_at": "2026-09-10T20:30:00Z",
+      "alert": "ALERT [P3] api-gateway p99 latency 1.6s (threshold 1.5s) for ~4 minutes around 20:00 UTC; auto-resolved at 20:05 UTC. No customer reports.",
+      "affected_services": [
+        "api-gateway"
+      ],
+      "window_start": "2026-09-10T19:00:00Z",
+      "window_end": "2026-09-10T20:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 39,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "D01",
+      "D02",
+      "D03",
+      "H01",
+      "H02",
+      "H03",
+      "H14",
+      "L0151",
+      "L0178",
+      "L0185",
+      "L0192",
+      "P02",
+      "P01",
+      "P04",
+      "D14",
+      "H13"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S10",
+    "expected_inconclusive": true,
+    "error": null,
+    "latency_s": 23.117,
+    "tool_calls": 10,
+    "failed_tool_calls": 3,
+    "llm_calls": 5,
+    "prompt_tokens": 41595,
+    "completion_tokens": 3998,
+    "total_tokens": 45593,
+    "cost_usd": 0.0061585,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "inconclusive",
+    "confidence": 0.35,
+    "top_service": "search-index",
+    "top_category": "resource_exhaustion",
+    "top1_lead": false,
+    "top3": null,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": null,
+    "key_evidence_retrieved": null,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 2
+  }
+}

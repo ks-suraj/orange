@@ -1,0 +1,464 @@
+{
+  "system": "baseline",
+  "incident_id": "S01",
+  "error": null,
+  "latency_s": 21.121,
+  "usage": {
+    "llm_calls": 3,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 33586,
+    "completion_tokens": 4357,
+    "reasoning_tokens": 409,
+    "total_tokens": 37943,
+    "cost_usd": 0.0055371,
+    "llm_time_s": 21.107,
+    "by_role": {
+      "baseline": {
+        "calls": 3,
+        "prompt_tokens": 33586,
+        "completion_tokens": 4357,
+        "cost_usd": 0.0055371
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 8,
+    "rejected_calls": 0,
+    "attempts": 8,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 960,
+    "by_status": {
+      "ok": 8
+    },
+    "by_tool": {
+      "query_metrics": 2,
+      "get_change_history": 1,
+      "get_dependencies": 1,
+      "query_logs": 3,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 8
+    }
+  },
+  "citations": {
+    "valid": 58,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S01",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.90, margin 0.85, 8 verified supporting and 1 contradicting evidence items (11%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.90, margin 0.85, 8 verified supporting and 1 contradicting evidence items (11%)"
+      ],
+      "top_hypothesis": "checkout-service / deployment_regression",
+      "top_confidence": 0.9,
+      "margin_over_runner_up": 0.85,
+      "verified_support": [
+        "C09",
+        "L0171",
+        "L0188",
+        "M12",
+        "M02",
+        "L0186",
+        "L0202",
+        "P04"
+      ],
+      "contradicting_evidence": [
+        "L0154"
+      ],
+      "contradiction_share": 0.111,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.9,
+    "summary": "Checkout 5xx errors began at 14:00 UTC, about four minutes after checkout-service v2.14.0 deployed at 13:56. Checkout error rate jumped from about 0.3% to about 18%, and the logs show a NullPointerException in the new DiscountEngine.apply on every sampled failure. The api-gateway 5xx rate (about 6%) is the propagated effect of checkout's 500s on POST /api/v1/checkout. The deploy is the leading cause; the earlier node-pool upgrade and payment TLS are weakly supported or unsupported. Confidence is high but not verified by a rollback or a direct code-line check.",
+    "root_cause": {
+      "id": "H1",
+      "service": "checkout-service",
+      "category": "deployment_regression",
+      "mechanism": "The v2.14.0 discount engine throws an unhandled NullPointerException at DiscountEngine.apply line 88 for some carts. Each failure returns HTTP 500 from checkout, which the gateway passes through as 5xx and which lowers conversion.",
+      "supporting_evidence": [
+        "C09",
+        "L0171",
+        "L0188",
+        "M12",
+        "M02",
+        "L0186",
+        "L0202",
+        "P04"
+      ],
+      "contradicting_evidence": [
+        "L0154"
+      ],
+      "assumptions": [
+        "Only the new deploy changed checkout behaviour at 14:00.",
+        "Failing carts are a subset of traffic (about 18%), so the failure depends on cart data."
+      ],
+      "confidence": 0.9
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "checkout-service",
+        "category": "deployment_regression",
+        "mechanism": "The v2.14.0 discount engine throws an unhandled NullPointerException at DiscountEngine.apply line 88 for some carts. Each failure returns HTTP 500 from checkout, which the gateway passes through as 5xx and which lowers conversion.",
+        "supporting_evidence": [
+          "C09",
+          "L0171",
+          "L0188",
+          "M12",
+          "M02",
+          "L0186",
+          "L0202",
+          "P04"
+        ],
+        "contradicting_evidence": [
+          "L0154"
+        ],
+        "assumptions": [
+          "Only the new deploy changed checkout behaviour at 14:00.",
+          "Failing carts are a subset of traffic (about 18%), so the failure depends on cart data."
+        ],
+        "confidence": 0.9
+      },
+      {
+        "id": "H2",
+        "service": "payment-service",
+        "category": "certificate_expiry",
+        "mechanism": "An expired or mis-rotated TLS certificate on payment-service makes checkout's calls fail, producing 500s in checkout (as in P06).",
+        "supporting_evidence": [
+          "P06"
+        ],
+        "contradicting_evidence": [
+          "H11",
+          "L0188"
+        ],
+        "assumptions": [
+          "The health check does not exercise TLS."
+        ],
+        "confidence": 0.05
+      },
+      {
+        "id": "H3",
+        "service": "platform",
+        "category": "infrastructure_failure",
+        "mechanism": "The node pool upgrade to 1.31 causes instability on some nodes, degrading checkout.",
+        "supporting_evidence": [
+          "C08"
+        ],
+        "contradicting_evidence": [
+          "M01",
+          "M11",
+          "M04",
+          "M14",
+          "H03"
+        ],
+        "assumptions": [
+          "The upgrade effect is delayed by about 9 hours."
+        ],
+        "confidence": 0.04
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "checkout-service v2.14.0 (build 8f3a2c1) was deployed at 2026-09-01T13:56:00Z, described as 'new discount engine replaces legacy pricing rules'.",
+        "evidence_ids": [
+          "C09",
+          "L0171"
+        ]
+      },
+      {
+        "statement": "checkout-service error_rate was about 0.26\u20130.35% from 13:00 to 13:55 and rose to 17.76% at 14:00:00, peaking at 19.5% at 14:25.",
+        "evidence_ids": [
+          "M12"
+        ]
+      },
+      {
+        "statement": "api-gateway error_rate was 0.36\u20130.45% until 13:55 and rose to 6.06% at 14:00:00, peaking at 6.59% at 14:05.",
+        "evidence_ids": [
+          "M02"
+        ]
+      },
+      {
+        "statement": "The first checkout NullPointerException in DiscountEngine.apply (DiscountEngine.java:88) was logged at 14:00:27; 40 such errors appear in the window, and the top WARN/ERROR signature is this NPE.",
+        "evidence_ids": [
+          "L0188",
+          "L0154"
+        ]
+      },
+      {
+        "statement": "api-gateway logged 25 'upstream checkout-service returned 500 for POST /api/v1/checkout' errors, starting at 14:00:08.",
+        "evidence_ids": [
+          "L0186",
+          "L0192",
+          "L0202",
+          "L0205"
+        ]
+      },
+      {
+        "statement": "checkout-service latency_p99 rose from about 325 ms (13:55) to 409 ms at 14:00 and stayed around 400\u2013425 ms.",
+        "evidence_ids": [
+          "M13"
+        ]
+      },
+      {
+        "statement": "Dependency health checks (api-gateway, checkout-service, payment-service, auth-service, inventory-service, notification-queue) all returned HTTP 200 at 14:28.",
+        "evidence_ids": [
+          "H01",
+          "H02",
+          "H03",
+          "H07",
+          "H08",
+          "H11"
+        ]
+      },
+      {
+        "statement": "CPU and memory on api-gateway and checkout-service stayed in normal ranges (checkout cpu 39\u201343%, memory 55\u201360%; gateway cpu 36\u201339%, memory 50\u201354%) with no step change at 14:00.",
+        "evidence_ids": [
+          "M01",
+          "M04",
+          "M11",
+          "M14"
+        ]
+      },
+      {
+        "statement": "Request rate was flat (about 412\u2013437 req/s at the gateway, 82\u201388 req/s at checkout), so no traffic surge is visible.",
+        "evidence_ids": [
+          "M05",
+          "M15"
+        ]
+      },
+      {
+        "statement": "A prior deploy v2.13.4 to checkout-service completed at 2026-08-31T18:00:00Z and checkout errors were normal after it.",
+        "evidence_ids": [
+          "C07",
+          "M12"
+        ]
+      },
+      {
+        "statement": "A Kubernetes node pool upgrade 1.30\u21921.31 completed at 2026-09-01T05:00:00Z, about 9 hours before onset.",
+        "evidence_ids": [
+          "C08"
+        ]
+      },
+      {
+        "statement": "A past incident (P04, 2026-05-12) had the same pattern: NullPointerException in pricing code after a deploy, causing checkout 5xx, fixed by rollback and null checks.",
+        "evidence_ids": [
+          "P04"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The 13:56 deploy is the only checkout-service change in the window; the change history shows none other.",
+      "The health checks are shallow (HTTP /health only) and would not detect a failure in the discount code path or payment TLS.",
+      "The NPE at DiscountEngine.java:88 is triggered by the new discount engine code path in v2.14.0, not by legacy data, since no pre-deploy NPEs appear in the logs.",
+      "Gateway 5xx is mostly checkout's 500s passed through; the gateway error rate is about one third of checkout's, consistent with checkout being hit on a subset of traffic."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The v2.14.0 deploy of checkout-service is the root cause: the new DiscountEngine throws an unhandled NPE on checkout requests, which causes the 500s, and the gateway 5xx rate follows.",
+        "evidence_ids": [
+          "C09",
+          "L0188",
+          "M12",
+          "M02",
+          "L0186"
+        ],
+        "confidence": 0.9
+      },
+      {
+        "statement": "The node pool upgrade is unlikely to be the cause: it was 9 hours before onset, and no resource or health signal changed at 14:00.",
+        "evidence_ids": [
+          "C08",
+          "M01",
+          "M11",
+          "H03"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "statement": "A payment-service TLS or dependency failure is unlikely: checkout errors are NPEs in its own code, payment health is healthy, and no payment-side errors were returned in the sampled logs.",
+        "evidence_ids": [
+          "H11",
+          "L0188"
+        ],
+        "confidence": 0.7
+      },
+      {
+        "statement": "Checkout conversion drop (about 40%) is consistent with checkout returning 500s on roughly 18% of checkout attempts, plus client retries and abandonment.",
+        "evidence_ids": [
+          "M12",
+          "L0193"
+        ],
+        "confidence": 0.5
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Roll back checkout-service from v2.14.0 to v2.13.4 now.",
+        "priority": "immediate",
+        "rationale": "The NPE started within 4 minutes of the deploy and the prior version ran cleanly for 20 hours."
+      },
+      {
+        "action": "Feature-flag or disable the new discount engine path if a rollback is delayed.",
+        "priority": "immediate",
+        "rationale": "Limits the blast radius while the rollback runs."
+      },
+      {
+        "action": "Watch checkout 5xx, api-gateway 5xx and conversion for recovery after rollback.",
+        "priority": "immediate",
+        "rationale": "Confirms the mitigation worked."
+      },
+      {
+        "action": "Fix the null handling at DiscountEngine.apply (line 88), e.g. null coupon or pricing-rule defaults, and add unit tests with null inputs.",
+        "priority": "short_term",
+        "rationale": "Addresses the defect before re-release."
+      },
+      {
+        "action": "Add a canary or staged rollout for checkout with an error-rate gate.",
+        "priority": "short_term",
+        "rationale": "Would have caught an 18% error rate before full rollout."
+      },
+      {
+        "action": "Make the health checks exercise the checkout and discount path, not only /health.",
+        "priority": "long_term",
+        "rationale": "Current health checks stayed green during the 18% error rate."
+      },
+      {
+        "action": "Review the May 2026 pricing NPE postmortem and add a pre-deploy null-input check to the release checklist.",
+        "priority": "long_term",
+        "rationale": "Same failure mode recurred."
+      }
+    ],
+    "open_questions": [
+      "Which discount or coupon inputs trigger the NPE (e.g., a null field from the new rules table)?",
+      "Is the 13:56 to 14:00 gap explained by a rolling restart, with the new pods taking traffic gradually?",
+      "Why do the repeated 'Starting checkout-service v2.14.0' lines appear three times at 13:56\u201313:57?",
+      "Did any payment-side errors occur that the sampled logs did not show?"
+    ],
+    "data_gaps": [],
+    "data_gaps_total": 0,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S01",
+      "title": "api-gateway 5xx spike on checkout",
+      "reported_at": "2026-09-01T14:30:00Z",
+      "alert": "ALERT [P1] api-gateway 5xx rate 6.2% (threshold 2%) for 5 minutes, starting ~14:00 UTC. Checkout conversion down 40%.",
+      "affected_services": [
+        "api-gateway",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-01T13:00:00Z",
+      "window_end": "2026-09-01T14:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 58,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "C07",
+      "C08",
+      "C09",
+      "D01",
+      "D04",
+      "D05",
+      "D06",
+      "D07",
+      "H01",
+      "H02",
+      "H03",
+      "H07",
+      "H08",
+      "H11",
+      "L0188",
+      "L0190",
+      "L0194",
+      "L0198",
+      "L0203",
+      "L0207",
+      "L0210",
+      "L0215",
+      "L0219",
+      "L0222",
+      "L0226",
+      "L0231",
+      "L0235",
+      "L0238",
+      "L0242",
+      "L0247",
+      "L0249",
+      "L0251",
+      "L0254",
+      "L0257",
+      "P04",
+      "P06",
+      "L0154",
+      "L0166",
+      "L0171",
+      "L0172",
+      "L0177",
+      "L0181",
+      "L0186",
+      "L0192",
+      "L0193",
+      "L0202",
+      "L0205"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S01",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 21.121,
+    "tool_calls": 8,
+    "failed_tool_calls": 0,
+    "llm_calls": 3,
+    "prompt_tokens": 33586,
+    "completion_tokens": 4357,
+    "total_tokens": 37943,
+    "cost_usd": 0.0055371,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.9,
+    "top_service": "checkout-service",
+    "top_category": "deployment_regression",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 3
+  }
+}

@@ -1,0 +1,1936 @@
+{
+  "system": "multi_agent",
+  "incident_id": "S06",
+  "error": null,
+  "latency_s": 96.068,
+  "usage": {
+    "llm_calls": 27,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 229705,
+    "completion_tokens": 30568,
+    "reasoning_tokens": 3650,
+    "total_tokens": 260273,
+    "cost_usd": 0.038254500000000004,
+    "llm_time_s": 162.689,
+    "by_role": {
+      "orchestrator": {
+        "calls": 2,
+        "prompt_tokens": 7364,
+        "completion_tokens": 1477,
+        "cost_usd": 0.0014749
+      },
+      "dependency": {
+        "calls": 9,
+        "prompt_tokens": 34069,
+        "completion_tokens": 6590,
+        "cost_usd": 0.006701899999999999
+      },
+      "observability": {
+        "calls": 11,
+        "prompt_tokens": 86325,
+        "completion_tokens": 12909,
+        "cost_usd": 0.015087000000000001
+      },
+      "reasoning": {
+        "calls": 2,
+        "prompt_tokens": 38688,
+        "completion_tokens": 2703,
+        "cost_usd": 0.005220300000000001
+      },
+      "critic": {
+        "calls": 2,
+        "prompt_tokens": 39953,
+        "completion_tokens": 3965,
+        "cost_usd": 0.0059778
+      },
+      "reporting": {
+        "calls": 1,
+        "prompt_tokens": 23306,
+        "completion_tokens": 2924,
+        "cost_usd": 0.0037926
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 30,
+    "rejected_calls": 7,
+    "attempts": 30,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 3600,
+    "by_status": {
+      "ok": 30
+    },
+    "by_tool": {
+      "get_dependencies": 6,
+      "get_change_history": 6,
+      "search_past_incidents": 3,
+      "query_logs": 8,
+      "query_metrics": 7
+    },
+    "by_agent": {
+      "dependency": 15,
+      "observability": 15
+    }
+  },
+  "citations": {
+    "valid": 281,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S06",
+    "system": "multi_agent",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "inconclusive",
+    "status_reason": "contradicting evidence is 50% of the weighed evidence (max 35%)",
+    "decision": {
+      "status": "inconclusive",
+      "reasons": [
+        "contradicting evidence is 50% of the weighed evidence (max 35%)"
+      ],
+      "top_hypothesis": "inventory-db / infrastructure_failure",
+      "top_confidence": 0.6,
+      "margin_over_runner_up": 0.35,
+      "verified_support": [
+        "L0180",
+        "L0183",
+        "L0185",
+        "H07",
+        "D10"
+      ],
+      "contradicting_evidence": [
+        "M16",
+        "M20",
+        "M22",
+        "L0317",
+        "H06"
+      ],
+      "contradiction_share": 0.5,
+      "blocking_objections": [
+        "ignored_contradiction: Replication and connections recovered at 13:10 but the read-only UPDATE errors continue at a steady cadence to 13:30. H1 attributes this to the endpoint still r [M16, M20, M22, L0317, H06]"
+      ],
+      "non_blocking_objections": 5
+    },
+    "confidence": 0.6,
+    "summary": "Stock reservation failures in inventory-service began at 13:00:29Z and continued at a steady cadence through 13:30Z, with the error rate rising from about 0.2% to about 15%. Almost all errors are 'cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)' on stock_reservations. inventory-db lost its replication connection to primary db-inv-1 just before onset, and at 13:28Z its health check reported the primary endpoint resolving to db-inv-2, a read-only standby. The system determination is INCONCLUSIVE: the leading hypothesis (H1, endpoint repointed to read-only standby, confidence 0.60) has contradicting evidence at 50% of weighed evidence, above the 35% limit, and the stale-connection-pool alternative (H2, 0.25) cannot be excluded. Checkout-service impact is not confirmed by its logs.",
+    "root_cause": null,
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "inventory-db",
+        "category": "infrastructure_failure",
+        "mechanism": "At about 12:59-13:00 inventory-db lost its replication connection to primary db-inv-1, and connections and lag disturbed; the primary endpoint now resolves to db-inv-2, a read-only standby, so inventory-service UPDATE stock_reservations writes fail with SQLSTATE 25006 from 13:00:29. The liveness-only health check stays green.",
+        "supporting_evidence": [
+          "L0180",
+          "L0183",
+          "L0185",
+          "L0317",
+          "M16",
+          "M20",
+          "M22",
+          "H06",
+          "H07",
+          "D10"
+        ],
+        "contradicting_evidence": [
+          "M16",
+          "M20"
+        ],
+        "assumptions": [
+          "The endpoint repoint or failover is the origin, though its timing and cause are not in change records",
+          "Connection and lag recovery at 13:10 does not fix the endpoint, so errors persist to 13:30",
+          "Node role of db-inv-2 at 13:28 held during the whole error window"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "id": "H2",
+        "service": "inventory-service",
+        "category": "config_error",
+        "mechanism": "Inventory-service connection pool still targets the old primary or a read-only node after the 13:00 DB disruption, and does not re-resolve the endpoint, so write connections keep failing after DB metrics recover at 13:10. This fits the persistence to 13:30 but needs the DB event as the trigger.",
+        "supporting_evidence": [
+          "L0317",
+          "M16",
+          "M20",
+          "M22",
+          "H06"
+        ],
+        "contradicting_evidence": [
+          "M22"
+        ],
+        "assumptions": [
+          "Pool host and reconnect behaviour were not checked, so this is untested",
+          "The DB event at about 13:00 is the trigger"
+        ],
+        "confidence": 0.25
+      },
+      {
+        "id": "H3",
+        "service": "inventory-service",
+        "category": "deployment_regression",
+        "mechanism": "A latent write-path change in deploy v4.1.9 (SKU bulk lookup, 2026-09-03) misroutes reservation UPDATEs to a read-only connection, activating only when DB conditions change at 13:00.",
+        "supporting_evidence": [
+          "C03",
+          "L0185"
+        ],
+        "contradicting_evidence": [
+          "C03",
+          "M22"
+        ],
+        "assumptions": [
+          "v4.1.9 touched write routing, which the data does not show",
+          "A DB event at 13:00 is the trigger for the latent bug"
+        ],
+        "confidence": 0.08
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "inventory-service error_rate was about 0.15-0.21% from 12:00 to 12:55, then 15.43% in the 13:00 bucket, staying between 14.4% and 15.85% through 13:30.",
+        "evidence_ids": [
+          "M22"
+        ]
+      },
+      {
+        "statement": "The first inventory-service ERROR was at 13:00:29Z: 'UPDATE stock_reservations failed: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)'; the same error continued to 13:30:00Z.",
+        "evidence_ids": [
+          "L0185",
+          "L0317"
+        ]
+      },
+      {
+        "statement": "inventory-db logged 'lost connection to primary db-inv-1 (timeout after 10s)' at 12:59:32Z and 13:00:16Z.",
+        "evidence_ids": [
+          "L0180",
+          "L0183"
+        ]
+      },
+      {
+        "statement": "inventory-db connections fell from 93 to 20 at 13:00-13:05 and recovered to 86 by 13:10; replication lag rose to about 48s and returned to 0.29s by 13:10.",
+        "evidence_ids": [
+          "M16",
+          "M20"
+        ]
+      },
+      {
+        "statement": "inventory-db health at 13:28Z is 'degraded': primary endpoint resolves to db-inv-2 (standby, read-only); inventory-service health is 'healthy' but checks process liveness only, not database writes.",
+        "evidence_ids": [
+          "H06",
+          "H07"
+        ]
+      },
+      {
+        "statement": "Deploy v4.1.9 of inventory-service completed 2026-09-03T09:00Z and checkout-service v2.13.4 on 2026-09-05T17:00Z; no change record for inventory-db or the services falls between 2026-09-05T17:00Z and 13:30Z on 09-06. A node pool upgrade completed at 04:00Z.",
+        "evidence_ids": [
+          "C03",
+          "C07",
+          "C08"
+        ]
+      },
+      {
+        "statement": "inventory-service CPU, memory, p99 latency and request rate show no step change at 13:00; inventory-db CPU, disk and query latency stay in normal ranges.",
+        "evidence_ids": [
+          "M21",
+          "M23",
+          "M24",
+          "M25",
+          "M17",
+          "M18",
+          "M19"
+        ]
+      },
+      {
+        "statement": "Checkout-service error_rate rose from about 0.3% to 6.87% in the 13:00 bucket, but its logs in 12:55-13:30 contain no inventory reservation failure errors; its only related line is a 12:26Z slow-reservation WARN.",
+        "evidence_ids": [
+          "M12",
+          "L0083",
+          "L0151"
+        ]
+      },
+      {
+        "statement": "Heap usage warnings (91% of 1Gi) and cache miss storm warnings occur at times both before and after 13:00.",
+        "evidence_ids": [
+          "L0034",
+          "L0092",
+          "L0112",
+          "L0212",
+          "L0220"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The primary endpoint repoint or failover is the origin of the read-only condition, though its timing and cause are not recorded in any change or log entry.",
+      "Connection and lag recovery at 13:10 did not repair the endpoint, so the errors persisted to 13:30 because the endpoint still resolved to a standby.",
+      "The node role of db-inv-2 held through the whole error window; the 13:28 health detail is taken as representative.",
+      "Inventory-service health checks do not exercise database writes, so their green status does not indicate reservation health.",
+      "The sampled error counts (40 ERROR lines) are representative of the full error population."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The reservation failures are most likely caused by inventory-service writes reaching a read-only database node after a disruption to inventory-db's primary connection at about 12:59-13:00 (H1). The inference is not conclusive because the cause of the endpoint repoint is unlogged and the persistence after 13:10 is unexplained.",
+        "evidence_ids": [
+          "L0180",
+          "L0183",
+          "L0185",
+          "M16",
+          "M20",
+          "H06"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "A stale inventory-service connection pool still bound to the old primary or a read-only node (H2) is a viable alternative that explains the persistence after 13:10; pool target and reconnect state were not checked, so it cannot be excluded.",
+        "evidence_ids": [
+          "M22",
+          "M20",
+          "M16",
+          "L0317"
+        ],
+        "confidence": 0.25
+      },
+      {
+        "statement": "The v4.1.9 deploy (H3) is unlikely to be the cause: it is three days before onset with no timing match, and the data does not show it changed write routing.",
+        "evidence_ids": [
+          "C03",
+          "M22"
+        ],
+        "confidence": 0.08
+      },
+      {
+        "statement": "Checkout-service impact is probably indirect via sync calls to inventory-service, but no log or metric links checkout errors to inventory failures in time.",
+        "evidence_ids": [
+          "D05",
+          "M12",
+          "L0151"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "statement": "Heap pressure and cache miss storms are background noise and not the trigger, since they do not align with the 13:00 step.",
+        "evidence_ids": [
+          "L0034",
+          "L0220",
+          "M24"
+        ],
+        "confidence": 0.6
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Verify which node is the current writable primary and repoint inventory-service's primary endpoint or connection pool to the writable node (db-inv-1 or its promoted successor), after confirming the role.",
+        "priority": "immediate",
+        "rationale": "The 13:28 health check shows the primary endpoint on a read-only standby, and the SQLSTATE 25006 errors persist to 13:30."
+      },
+      {
+        "action": "Restart or reset inventory-service connection pools so that they re-resolve the database endpoint, and confirm whether new connections still fail with SQLSTATE 25006.",
+        "priority": "immediate",
+        "rationale": "This tests the stale-pool alternative (H2) and is a low-risk mitigation if H1 is wrong."
+      },
+      {
+        "action": "Watch the reservation error rate and checkout error rate; consider temporarily failing reservations safely or queueing them until writes succeed, to avoid oversell.",
+        "priority": "immediate",
+        "rationale": "Writes are failing at about 15% and the cause is not yet settled, so a safe holding mitigation limits customer impact."
+      },
+      {
+        "action": "Make the inventory-service health check exercise a database write or a read-write role check, so green health does not mask write failures.",
+        "priority": "short_term",
+        "rationale": "Health checks stayed green during a 15% write failure, which hid the outage."
+      },
+      {
+        "action": "Add alerting on the inventory-db primary endpoint role and on replication connection loss, with failover events logged to the change record.",
+        "priority": "short_term",
+        "rationale": "The endpoint repoint was unlogged, and the replication timeouts at 12:59 and 13:00 gave no alert path."
+      },
+      {
+        "action": "Make connection pools re-resolve the primary endpoint on read-only errors and handle SQLSTATE 25006 with reconnect and retry.",
+        "priority": "long_term",
+        "rationale": "Stale pools would keep failing after any future failover, which is the persistence pattern seen here."
+      },
+      {
+        "action": "Document and test the database failover runbook, including endpoint repoint and rollback steps.",
+        "priority": "long_term",
+        "rationale": "The failover path was not recorded, so the next event would again lack an audit trail."
+      },
+      {
+        "action": "Check the v4.1.9 write-routing diff only if the database and pool checks do not explain the failures.",
+        "priority": "long_term",
+        "rationale": "H3 is weakly supported, so this is a low-priority check."
+      }
+    ],
+    "open_questions": [
+      "Which node was primary before and after 12:59, and why did the primary endpoint resolve to db-inv-2? The failover or repoint record is missing.",
+      "Is db-inv-2 still read-only now, and do new inventory-service connections fail with SQLSTATE 25006?",
+      "What host does each inventory-service connection pool target, and were there reconnect or pool-reset events after 13:00?",
+      "Does checkout-service's 6.9% error rise map to inventory reservation calls? Its logs and metrics for the window were not fully checked.",
+      "Were inventory-service WARN/ERROR logs and metrics for the full error population checked, given that only 40 error lines were sampled?"
+    ],
+    "data_gaps": [
+      "Logs contain no SKU, region, endpoint or request-pattern fields, so the concentration question could not be answered from these logs.",
+      "Checkout-service has only 2 WARN/ERROR lines and 1 INFO match for 'reserv' in the window. Checkout's own failed-reservation calls are not visible, so the checkout-to-inventory time match cannot be established.",
+      "Checkout-service metrics were not queried, so checkout error rate and onset are unknown.",
+      "The inventory-db metrics do not name the node role (primary or replica), so the failover theory is unconfirmed.",
+      "The error_rate metric is 5-minute resolution, so onset is only known to the minute from the first ERROR log (13:00:29Z).",
+      "Only 40 of the ERROR lines were returned (limit 50, with WARNs included), so the full error count is not confirmed.",
+      "The inventory-db database name was guessed; the metrics returned for it match the expected series, but this was not confirmed against a service registry.",
+      "The log sample was capped at 30 of 50 matching lines, so later errors and timing of the WARN lines were not fully examined.",
+      "No checkout-service log lines were returned for WARN/ERROR in 12:55\u201313:30, even though its error rate rose to about 7%. Its errors may be logged at INFO or under a different message, so this is unexplained.",
+      "31 further gap report(s) in 31 group(s) omitted here (mostly about: change, failover, unknown, checkout-service, read-only, logs); the full list is in the run record."
+    ],
+    "data_gaps_total": 40,
+    "termination_reason": "tool_budget_exhausted"
+  },
+  "state": {
+    "brief": {
+      "id": "S06",
+      "title": "stock reservation failures",
+      "reported_at": "2026-09-06T13:30:00Z",
+      "alert": "ALERT [P2] inventory-service error rate 15% since ~13:00 UTC; stock reservations failing at checkout. inventory-service health checks are green.",
+      "affected_services": [
+        "inventory-service",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-06T12:00:00Z",
+      "window_end": "2026-09-06T13:30:00Z"
+    },
+    "plan": {
+      "incident_understanding": "Checkout stock reservations are failing with about 15% error rate on inventory-service since roughly 13:00 UTC, and checkout-service is also alerting. inventory-service health checks are green, so the fault is likely in a specific code path, a downstream dependency, a data or config issue, or a recent change rather than a process crash.",
+      "candidate_explanations": [
+        "A recent deployment or config change to inventory-service introduced a reservation bug or stricter validation",
+        "A downstream dependency (database, warehouse/stock sync, or message queue) is slow or erroring, causing reservation timeouts",
+        "A feature flag or config change in checkout-service changed the reservation request shape or volume, triggering inventory errors",
+        "Stock data inconsistency or a lock/contention issue on hot SKUs during a traffic spike causes reservation conflicts"
+      ],
+      "tasks": [
+        {
+          "key": "t1",
+          "agent": "observability",
+          "objective": "From 12:00 to 13:30 UTC, characterise the failing reservations: error types and messages in inventory-service and checkout-service logs, the onset time to the minute, whether errors are concentrated on specific endpoints, SKUs, regions or request patterns, and whether checkout errors match inventory errors in time.",
+          "focus_services": [
+            "inventory-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t2",
+          "agent": "observability",
+          "objective": "Check metrics for inventory-service and its dependencies from 12:00 to 13:30 UTC: error rate, latency percentiles, request volume, database or downstream call latency and error rates, and resource saturation (CPU, memory, connection pool, threads), to find which component's metrics shift first near 13:00.",
+          "focus_services": [
+            "inventory-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t3",
+          "agent": "dependency",
+          "objective": "Review change history for the 12:00 to 13:30 UTC window and the preceding days: deployments, config changes, feature flag flips, and infra events affecting inventory-service, checkout-service and their upstream and downstream dependencies. Identify any change landing shortly before 13:00 UTC.",
+          "focus_services": [
+            "inventory-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t4",
+          "agent": "dependency",
+          "objective": "Map the service dependency graph for inventory-service and checkout-service and check the health of each direct dependency. Also search past incident postmortems for similar stock reservation failures and their root causes and fixes.",
+          "focus_services": [
+            "inventory-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": "T1",
+        "agent": "observability",
+        "objective": "From 12:00 to 13:30 UTC, characterise the failing reservations: error types and messages in inventory-service and checkout-service logs, the onset time to the minute, whether errors are concentrated on specific endpoints, SKUs, regions or request patterns, and whether checkout errors match inventory errors in time.",
+        "focus_services": [
+          "inventory-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "inventory-service reservation failures begin at 13:00 UTC (first ERROR 13:00:29Z; 15.43% error rate in the 13:00 bucket versus ~0.2% before). Nearly all ERRORs are one signature: 'UPDATE stock_reservations failed: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)'. The same window shows inventory-db connections dropping to 20 and replication lag spiking to ~48s at 13:00-13:05, then recovering by 13:10. Logs do not expose SKU, region or endpoint fields, so concentration by those dimensions could not be tested. Checkout-service shows no reservation-failure errors; its only related signal is one WARN about a slow reservation at 12:26. Checkout errors cannot be matched to inventory errors in time from these logs.",
+          "observations": [
+            {
+              "statement": "inventory-service error_rate is ~0.15-0.21% from 12:00 to 12:55, then jumps to 15.43% in the 13:00 bucket. It stays between 14.4% and 15.85% through 13:30 (last 14.93%).",
+              "evidence_ids": [
+                "M22"
+              ]
+            },
+            {
+              "statement": "The first inventory-service ERROR is at 2026-09-06T13:00:29Z: 'UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)'. Errors continue at a steady cadence through 13:30:00Z (L0317).",
+              "evidence_ids": [
+                "L0185",
+                "L0317"
+              ]
+            },
+            {
+              "statement": "Of the 40 ERROR lines returned for inventory-service in 12:00-13:30, all shown are the same read-only-transaction UPDATE failure. The other WARNs are high heap usage at 91% of 1Gi and cache miss storms for sku prefixes, which appear both before and after 13:00.",
+              "evidence_ids": [
+                "L0185",
+                "L0188",
+                "L0189",
+                "L0034",
+                "L0092",
+                "L0112",
+                "L0129",
+                "L0145"
+              ]
+            },
+            {
+              "statement": "inventory-db connections fall from 93 at 12:55 to 20 at 13:00 and 13:05, then return to 86 by 13:10.",
+              "evidence_ids": [
+                "M16"
+              ]
+            },
+            {
+              "statement": "inventory-db replication_lag_s jumps from 0.3s at 12:55 to 48.38s at 13:00 and 47.51s at 13:05, then returns to 0.29s by 13:10.",
+              "evidence_ids": [
+                "M20"
+              ]
+            },
+            {
+              "statement": "inventory-db cpu, disk, and query_latency_p99 stay in normal ranges through the window (query latency 8.7-9.3 ms, cpu about 29-31%).",
+              "evidence_ids": [
+                "M17",
+                "M18",
+                "M19"
+              ]
+            },
+            {
+              "statement": "inventory-service cpu, memory, latency_p99 and request_rate show no step change at 13:00 (p99 about 86-93 ms, request rate 134-146 req/s), and memory stays at 88-94%.",
+              "evidence_ids": [
+                "M21",
+                "M23",
+                "M25",
+                "M24"
+              ]
+            },
+            {
+              "statement": "Checkout-service logs in 12:00-13:30 show no error about inventory reservation failure. The only related line is a WARN at 12:26:08Z: 'slow inventory reservation: 1147ms for cart 89328118'. The one checkout ERROR is an unrelated card decline at 12:48:57Z.",
+              "evidence_ids": [
+                "L0083",
+                "L0151"
+              ]
+            },
+            {
+              "statement": "The inventory-db metrics for 13:00-13:05 show that the DB briefly restarted or failed over with a read-only period, though this is inferred from the metrics and the SQLSTATE rather than stated in any log.",
+              "evidence_ids": [
+                "M16",
+                "M20",
+                "L0185"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The inventory reservation failures are caused by the inventory-service writing to a database node in read-only mode (SQLSTATE 25006) during a DB event at about 13:00 UTC, most likely a failover or a replica being promoted or demoted. Health checks stay green because they probably do not exercise writes.",
+              "evidence_ids": [
+                "L0185",
+                "M16",
+                "M20"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "The error rate stayed at ~15% after the DB metrics recovered at 13:10. This suggests the service is still pointed at a read-only node, or the failure is persistent, and not a transient blip. Connection and lag recovery alone do not explain the continued failures.",
+              "evidence_ids": [
+                "M22",
+                "M16",
+                "L0317"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "Checkout failures are not visible in checkout-service logs. The alert's claim that checkout reservations are failing is not confirmed by these logs, so checkout impact is probably indirect (for example through inventory call errors that are not logged in checkout).",
+              "evidence_ids": [
+                "L0083",
+                "L0151"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "Heap pressure (91% of 1Gi) and cache miss storms are recurring before and after the onset and do not line up with the 13:00 step. They are unlikely to be the trigger, although they are background noise.",
+              "evidence_ids": [
+                "L0034",
+                "L0092",
+                "L0112",
+                "M24"
+              ],
+              "confidence": 0.6
+            }
+          ],
+          "data_gaps": [
+            "Logs contain no SKU, region, endpoint or request-pattern fields, so the concentration question could not be answered from these logs.",
+            "Checkout-service has only 2 WARN/ERROR lines and 1 INFO match for 'reserv' in the window. Checkout's own failed-reservation calls are not visible, so the checkout-to-inventory time match cannot be established.",
+            "Checkout-service metrics were not queried, so checkout error rate and onset are unknown.",
+            "The inventory-db metrics do not name the node role (primary or replica), so the failover theory is unconfirmed.",
+            "The error_rate metric is 5-minute resolution, so onset is only known to the minute from the first ERROR log (13:00:29Z).",
+            "Only 40 of the ERROR lines were returned (limit 50, with WARNs included), so the full error count is not confirmed."
+          ],
+          "suggested_followups": [
+            "Pull inventory-db role or failover events and the primary/replica identity for 12:55-13:10 UTC.",
+            "Check the inventory-service DB connection config and whether writes route to a replica after 13:00.",
+            "Query checkout-service error_rate and latency metrics and its logs for inventory client timeouts or 5xx responses from 13:00.",
+            "Ask for inventory-service request logs with SKU, region and endpoint fields to test concentration."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T2",
+        "agent": "observability",
+        "objective": "Check metrics for inventory-service and its dependencies from 12:00 to 13:30 UTC: error rate, latency percentiles, request volume, database or downstream call latency and error rates, and resource saturation (CPU, memory, connection pool, threads), to find which component's metrics shift first near 13:00.",
+        "focus_services": [
+          "inventory-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "inventory-service's error rate jumped from about 0.2% to about 15% in the 13:00:00Z bucket and stayed there through 13:30. The errors are almost all 'cannot execute UPDATE in a read-only transaction' on stock_reservations. inventory-db shows a simultaneous disturbance at 13:00: connections fell to 20 and replication lag rose to about 48 s, both recovering by 13:10. Checkout-service's error rate rose in the same bucket (13:00). Its own logs show no WARN/ERROR lines in the window, so it has no direct error evidence. CPU, memory, latency and request rate on inventory-service and checkout-service show no shift before 13:00. The database's CPU, disk and query latency also stayed flat.",
+          "observations": [
+            {
+              "statement": "inventory-service error_rate was 0.15\u20130.21% from 12:00 to 12:55, then 15.43% at 13:00:00Z, and stayed between 14.4% and 15.85% through 13:30:00Z.",
+              "evidence_ids": [
+                "M22"
+              ]
+            },
+            {
+              "statement": "The inventory-service ERROR logs are dominated by 'UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)'. There are 40 of these in the returned sample, the first at 13:00:29Z and the last at 13:22:27Z in the returned window.",
+              "evidence_ids": [
+                "L0185",
+                "L0188",
+                "L0283"
+              ]
+            },
+            {
+              "statement": "inventory-db connections dropped from 93 at 12:55:00Z to 20 at 13:00:00Z and 13:05:00Z, then returned to 86 by 13:10:00Z.",
+              "evidence_ids": [
+                "M16"
+              ]
+            },
+            {
+              "statement": "inventory-db replication_lag_s rose from 0.3 s at 12:55:00Z to 48.38 s at 13:00:00Z and 47.51 s at 13:05:00Z, then returned to 0.29 s by 13:10:00Z.",
+              "evidence_ids": [
+                "M20"
+              ]
+            },
+            {
+              "statement": "inventory-db cpu_pct, disk_used_pct and query_latency_p99_ms stayed in their normal ranges across 12:00\u201313:30 (cpu 29\u201331%, query p99 about 9 ms, no spike at 13:00).",
+              "evidence_ids": [
+                "M17",
+                "M18",
+                "M19"
+              ]
+            },
+            {
+              "statement": "checkout-service error_rate was 0.26\u20130.36% from 12:00 to 12:55, then 6.87% at 13:00:00Z, and stayed between 6.55% and 7.05% through 13:30:00Z.",
+              "evidence_ids": [
+                "M12"
+              ]
+            },
+            {
+              "statement": "checkout-service cpu, memory, p99 latency and request rate showed no shift at 13:00 (p99 about 310\u2013330 ms throughout, request rate 82\u201388 req/s).",
+              "evidence_ids": [
+                "M11",
+                "M13",
+                "M14",
+                "M15"
+              ]
+            },
+            {
+              "statement": "inventory-service cpu, memory, p99 latency (about 86\u201393 ms) and request rate (about 134\u2013146 req/s) show no shift at 13:00. Memory was high throughout, at 88\u201394%, but this predates the incident.",
+              "evidence_ids": [
+                "M21",
+                "M23",
+                "M24",
+                "M25"
+              ]
+            },
+            {
+              "statement": "inventory-service WARN lines were 5 'high heap usage' and 5 'cache miss storm for sku prefix' messages. Their timing was not inspected in this window.",
+              "evidence_ids": [
+                "L0185"
+              ]
+            },
+            {
+              "statement": "The checkout-service WARN/ERROR query for 12:55\u201313:30 returned 0 lines.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The stock reservation failures are caused by inventory-service's writes reaching a database that is in read-only mode. This fits the 13:00 database disturbance (connection drop plus replication lag spike), which suggests a failover, demotion, or a write routing change at about 13:00.",
+              "evidence_ids": [
+                "L0185",
+                "M16",
+                "M20",
+                "M22"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "The database symptoms look like a transient event at 13:00\u201313:05. But the inventory-service write errors continued until at least 13:30 after the database metrics recovered at 13:10, so the read-only condition may persist independently of the lag and connection recovery. This is an unresolved inconsistency.",
+              "evidence_ids": [
+                "M16",
+                "M20",
+                "M22",
+                "L0283"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "inventory-service health checks being green fits the read-path/health probe not exercising writes. The health checks do not catch this failure.",
+              "evidence_ids": [
+                "L0185"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "The inventory-service's own CPU, memory, and request-rate metrics are not the trigger. Its 15% error rate is specific to the write path, so resource exhaustion in inventory-service is unlikely to be the cause.",
+              "evidence_ids": [
+                "M21",
+                "M24",
+                "M25",
+                "M22"
+              ],
+              "confidence": 0.6
+            }
+          ],
+          "data_gaps": [
+            "The inventory-db database name was guessed; the metrics returned for it match the expected series, but this was not confirmed against a service registry.",
+            "The log sample was capped at 30 of 50 matching lines, so later errors and timing of the WARN lines were not fully examined.",
+            "No checkout-service log lines were returned for WARN/ERROR in 12:55\u201313:30, even though its error rate rose to about 7%. Its errors may be logged at INFO or under a different message, so this is unexplained.",
+            "No logs were available from the database itself, so the cause of the read-only state (failover, demotion, parameter change) could not be confirmed.",
+            "Only 6 tool calls were available, so the change history and the source of the read-only status were not examined."
+          ],
+          "suggested_followups": [
+            "Pull inventory-db (and replica) logs and metrics for 12:55\u201313:15 to check for a failover, promotion, or read-only setting change.",
+            "Check the change and deployment history for inventory-service and the database configuration around 13:00 UTC.",
+            "Verify which database endpoint inventory-service connects to and whether it is pointing at a read-only replica.",
+            "Pull checkout-service INFO-level logs and the upstream error codes it receives from inventory-service for 13:00\u201313:30.",
+            "Check whether the read-only errors stopped after 13:22 and whether the error rate is still at 15% at 13:30, since the database metrics had recovered by 13:10."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T3",
+        "agent": "dependency",
+        "objective": "Review change history for the 12:00 to 13:30 UTC window and the preceding days: deployments, config changes, feature flag flips, and infra events affecting inventory-service, checkout-service and their upstream and downstream dependencies. Identify any change landing shortly before 13:00 UTC.",
+        "focus_services": [
+          "inventory-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "No change to inventory-service or checkout-service lands shortly before 13:00 UTC. The nearest changes are a checkout-service deploy on 2026-09-05 and an inventory-service deploy on 2026-09-03. The strongest signal in the data is not a deploy: inventory-db's primary endpoint resolves to db-inv-2, which is a read-only standby, and the inventory-service health check is liveness-only, so it reports green. That pattern fits write failures on reservation. Confidence is moderate because the timing of the DB failover itself is not in the change records.",
+          "observations": [
+            {
+              "statement": "inventory-service deploy v4.1.9 (add SKU bulk lookup endpoint) completed at 2026-09-03T09:00:00Z, about 4 days before the alert.",
+              "evidence_ids": [
+                "C03"
+              ]
+            },
+            {
+              "statement": "checkout-service deploy v2.13.4 (cart page performance tweaks) completed at 2026-09-05T17:00:00Z.",
+              "evidence_ids": [
+                "C07"
+              ]
+            },
+            {
+              "statement": "No change records for inventory-service, checkout-service or inventory-db fall between 2026-09-05T17:00Z and 2026-09-06T13:30Z.",
+              "evidence_ids": [
+                "C03",
+                "C07",
+                "C08"
+              ]
+            },
+            {
+              "statement": "Platform node pool upgrade 1.30 to 1.31 completed at 2026-09-06T04:00:00Z, all nodes Ready. This is about 9 hours before the alert.",
+              "evidence_ids": [
+                "C08"
+              ]
+            },
+            {
+              "statement": "inventory-db health is 'degraded': primary endpoint resolves to db-inv-2 (standby, read-only), checked at 2026-09-06T13:28:00Z.",
+              "evidence_ids": [
+                "H06"
+              ]
+            },
+            {
+              "statement": "inventory-service health is 'healthy' via HTTP /health 200, but the check covers process liveness only and not database writes.",
+              "evidence_ids": [
+                "H07"
+              ]
+            },
+            {
+              "statement": "checkout-service health is 200 at 13:28Z. inventory-cache health is 200 at 13:28Z.",
+              "evidence_ids": [
+                "H03",
+                "H05"
+              ]
+            },
+            {
+              "statement": "Dependency edges: checkout-service calls inventory-service over sync HTTP; inventory-service uses inventory-db (database) and inventory-cache (cache).",
+              "evidence_ids": [
+                "D05",
+                "D10",
+                "D11"
+              ]
+            },
+            {
+              "statement": "Past incident P03 (2026-04-03) had reservation failures from a cache eviction storm, which is a different symptom pattern from a read-only DB endpoint.",
+              "evidence_ids": [
+                "P03"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The most plausible origin is a database write path problem: the primary endpoint points at a read-only standby (db-inv-2), so inventory reservation writes fail. Checkout then sees the errors through its sync call to inventory-service. The green health checks are explained by the liveness-only probe.",
+              "evidence_ids": [
+                "H06",
+                "H07",
+                "D10",
+                "D05"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "No recent deploy or config change explains a failure starting at about 13:00 UTC. Deploys v4.1.9 and v2.13.4 are unlikely causes on timing alone; v4.1.9 could still be a latent cause if it changed write paths, but the data does not show that.",
+              "evidence_ids": [
+                "C03",
+                "C07"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "statement": "The node pool upgrade at 04:00Z is probably not the trigger, given the 9-hour gap and all nodes being Ready. It cannot be fully ruled out, since a DB failover could be a delayed effect.",
+              "evidence_ids": [
+                "C08"
+              ],
+              "confidence": 0.2
+            },
+            {
+              "statement": "The DB endpoint change (failover or DNS/service repoint) is not in the change history. It is either an unlogged change or an automatic failover, and it is the key thing to check.",
+              "evidence_ids": [
+                "H06",
+                "C08"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "The change history has no record of the inventory-db failover or endpoint repoint. The cause and timing of that event are unknown.",
+            "Only one change record was returned for inventory-service and one for checkout-service over 2026-09-03 to 2026-09-06. Config changes and feature flags for these services may be incomplete.",
+            "Dependency graph was not checked for checkout-service's other upstream and downstream services, or for payment-service.",
+            "Telemetry for inventory-db (replication role, write errors, failover logs) was not queried.",
+            "Health checks are shallow: inventory-service /health does not exercise DB writes, and checkout-service health says nothing about reservation success.",
+            "Past-incident search was limited to 2 matches, so there may be closer precedents for DB read-only or failover incidents."
+          ],
+          "suggested_followups": [
+            "Confirm the role of db-inv-2 and when the primary endpoint changed. Check DB failover logs and DNS or service endpoint history from 12:30 to 13:05Z.",
+            "Check whether inventory-service write errors show 'read-only' or equivalent SQL errors, and when they started.",
+            "Check whether v4.1.9 changed any write path or DB connection configuration, and whether it was deployed to all replicas.",
+            "Add a write-path health check for inventory-service and an alert on inventory-db primary role.",
+            "Check whether the node pool upgrade affected the inventory-db pods or their storage."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T4",
+        "agent": "dependency",
+        "objective": "Map the service dependency graph for inventory-service and checkout-service and check the health of each direct dependency. Also search past incident postmortems for similar stock reservation failures and their root causes and fixes.",
+        "focus_services": [
+          "inventory-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "inventory-service's primary database endpoint (inventory-db) resolves to a standby, read-only node (db-inv-2), and its health check is degraded. This is a plausible explanation for stock reservation write failures at checkout, while inventory-service's own health check stays green because it only checks process liveness. No change in the 00:00\u201313:30 UTC window clearly matches the 13:00 onset; the only change was a Kubernetes node pool upgrade at 04:00 UTC. The strongest lead is a DB endpoint/failover issue, not a service deploy.",
+          "observations": [
+            {
+              "statement": "checkout-service calls inventory-service over sync HTTP (checkout-service -> inventory-service).",
+              "evidence_ids": [
+                "D05"
+              ]
+            },
+            {
+              "statement": "inventory-service depends on inventory-db (database) and inventory-cache (cache).",
+              "evidence_ids": [
+                "D10",
+                "D11"
+              ]
+            },
+            {
+              "statement": "inventory-db health is 'degraded': its primary endpoint resolves to db-inv-2, which is a standby and read-only.",
+              "evidence_ids": [
+                "H06"
+              ]
+            },
+            {
+              "statement": "inventory-cache health is healthy (HTTP /health 200).",
+              "evidence_ids": [
+                "H05"
+              ]
+            },
+            {
+              "statement": "inventory-service health is 'healthy' but the check only tests process liveness, not database writes.",
+              "evidence_ids": [
+                "H07"
+              ]
+            },
+            {
+              "statement": "checkout-service health is healthy (HTTP /health 200); its other direct dependencies (payment-service, auth-service, api-gateway, notification-queue) also report healthy.",
+              "evidence_ids": [
+                "H03",
+                "H11",
+                "H02",
+                "H01",
+                "H08"
+              ]
+            },
+            {
+              "statement": "The only change in the 2026-09-06 00:00\u201313:30 UTC window is a Kubernetes node pool upgrade 1.30->1.31 completed at 04:00 UTC by platform-team; no deploy, config or feature-flag change to inventory-service, checkout-service or inventory-db appears.",
+              "evidence_ids": [
+                "C08"
+              ]
+            },
+            {
+              "statement": "Past incident P03 (cache eviction storm, inventory reservation failures) is a similar symptom pattern but its cause was cache memory; inventory-cache is currently healthy.",
+              "evidence_ids": [
+                "P03"
+              ]
+            },
+            {
+              "statement": "Past incident P05 (expired TLS cert on payment-service causing checkout 5xx) is a similar checkout symptom pattern; payment-service is healthy now.",
+              "evidence_ids": [
+                "P05"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The inventory-db primary endpoint pointing to a read-only standby is the most likely cause of reservation write failures, with inventory-service surfacing the errors to checkout-service.",
+              "evidence_ids": [
+                "H06",
+                "D10",
+                "D05"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The inventory-service green health check does not reflect the outage, so the health check should not be trusted to rule out a reservation problem.",
+              "evidence_ids": [
+                "H07"
+              ],
+              "confidence": 0.8
+            },
+            {
+              "statement": "Cache-related cause (P03 pattern) is less likely since inventory-cache reports healthy, but the health check is shallow so this is not ruled out.",
+              "evidence_ids": [
+                "H05",
+                "P03"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "statement": "The 04:00 node upgrade is unlikely to be the direct trigger given it completed about 9 hours before the 13:00 onset, unless it had a delayed effect on DB failover; not verified.",
+              "evidence_ids": [
+                "C08"
+              ],
+              "confidence": 0.25
+            }
+          ],
+          "data_gaps": [
+            "No telemetry or error-rate breakdown was queried; cannot confirm error onset or which dependency returns the errors.",
+            "Change history returned no records for inventory-db (DB failover/promotion events may not be recorded as changes); the cause of the endpoint resolving to a standby is unknown.",
+            "Health checks are shallow (liveness/HTTP only); no write-path check was available for inventory-service or checkout-service.",
+            "No past incident about a DB failover to a read-only standby was found; the search was limited to 2 matches."
+          ],
+          "suggested_followups": [
+            "Check inventory-db failover or DNS/endpoint change events around 12:00\u201313:00 UTC and why the primary endpoint points to db-inv-2.",
+            "Pull inventory-service error logs for reservation write errors (e.g., read-only/replica errors) and confirm onset time versus 13:00 UTC.",
+            "Search past incidents for 'read-only replica failover' or 'database endpoint standby' to test the hypothesis.",
+            "Add or verify a write-path health check for inventory-service."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T5",
+        "agent": "dependency",
+        "objective": "Find any inventory-db failover, promotion, demotion, or endpoint/DNS repoint events between 12:50 and 13:30 UTC, establish which node was primary before and after 13:00, and when the primary endpoint last changed; also check past incidents about a read-only standby or failover affecting writes.",
+        "focus_services": [
+          "inventory-db",
+          "inventory-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "inventory-db health check at 13:28Z reports the primary endpoint resolving to db-inv-2, which is a read-only standby. That is consistent with stock reservation writes failing from ~13:00. No change record shows a failover, promotion, or endpoint repoint, so the cause of the repoint is unexplained. inventory-service's green health check only tests process liveness and does not exercise database writes. The identity of the primary before and after 13:00 and the time of the last endpoint change could not be established.",
+          "observations": [
+            {
+              "statement": "inventory-db health check is 'degraded' at 2026-09-06T13:28:00Z with detail 'primary endpoint resolves to db-inv-2 (standby, read-only)'.",
+              "evidence_ids": [
+                "H06"
+              ]
+            },
+            {
+              "statement": "inventory-service health check is 'healthy' at 2026-09-06T13:28:00Z, and its detail says it checks process liveness only, not database writes.",
+              "evidence_ids": [
+                "H07"
+              ]
+            },
+            {
+              "statement": "inventory-service calls inventory-db through a 'database' edge.",
+              "evidence_ids": [
+                "D10"
+              ]
+            },
+            {
+              "statement": "Change history for inventory-db between 2026-09-06T12:50:00Z and 13:30:00Z returned 0 changes.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Change history for inventory-db over the full 7-day window returned 0 changes.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "The only past incident returned (P03, 2026-04-03) is about inventory cache memory eviction, not a database failover or read-only standby.",
+              "evidence_ids": [
+                "P03"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The primary endpoint pointing at a read-only standby would make stock reservation writes fail, which fits the reported reservation failures at checkout starting around 13:00.",
+              "evidence_ids": [
+                "H06",
+                "H07"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The endpoint repoint was probably made outside the change-history records (for example a DNS or infrastructure action not logged as a change), since no inventory-db change or failover event was returned. This is an inference from missing data, not from a confirmed event.",
+              "evidence_ids": [],
+              "confidence": 0.35
+            },
+            {
+              "statement": "P03 (cache eviction) does not match the current symptom pattern, so it gives no support for a cache-driven cause here.",
+              "evidence_ids": [
+                "P03"
+              ],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "Could not establish which node was primary before 13:00 or after 13:00. Only the 13:28Z health check was retrieved, which shows db-inv-2 as read-only standby now.",
+            "Could not establish when the primary endpoint last changed.",
+            "The change-history query for 12:50\u201313:30 returned zero records. This may reflect missing or incomplete data for DNS, endpoint, or infra events rather than a true absence of events.",
+            "The query for past incidents about a read-only standby or failover affecting writes was rejected because the tool-call budget was exhausted, so that check is incomplete. Only the general query, which returned P03, completed.",
+            "Health-check telemetry for the 12:00\u201313:30 window was not retrieved, so the onset of the endpoint change is not confirmed against the 13:00 alert start.",
+            "The checkout-service dependency chain and any database replication or promotion logs were not examined."
+          ],
+          "suggested_followups": [
+            "Pull inventory-db node role and replication logs (db-inv-1, db-inv-2) for 12:50\u201313:30Z to find which node was primary and when promotion or demotion occurred.",
+            "Check DNS or endpoint change logs for the inventory-db primary record over 12:50\u201313:30Z, including any changes outside the service-tagged change history.",
+            "Search past incidents for read-only standby or failover-caused write failures to test the hypothesis.",
+            "Confirm whether inventory-service write-path health (an actual write probe) fails, to validate the reservation failures directly."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T6",
+        "agent": "observability",
+        "objective": "Check inventory-service database connection logs and metrics from 12:50 to 13:30 UTC: the host each connection pool targets, reconnect or pool-reset events after 13:00, and whether read-only errors stop or continue for new versus existing connections.",
+        "focus_services": [
+          "inventory-service",
+          "inventory-db"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "inventory-service error rate jumped from 0.18% at 12:55 to 15.43% at 13:00 and stayed at roughly 15% through 13:30. Nearly all errors are 'cannot execute UPDATE in a read-only transaction' (SQLSTATE 25006) on stock_reservations. In the same minute, inventory-db lost its replication connection to primary db-inv-1 and replication lag spiked to about 48s. Lag recovered by 13:10, but the read-only errors continued to 13:30. Pool target host and reconnect/pool-reset events were not checked because the tool budget ran out, so the connection-level part of the task is incomplete.",
+          "observations": [
+            {
+              "statement": "inventory-service error_rate was 0.15% at 12:50 and 0.18% at 12:55, then 15.43% at 13:00, peaking at 15.85% at 13:05 and at 14.93% at 13:30.",
+              "evidence_ids": [
+                "M22"
+              ]
+            },
+            {
+              "statement": "inventory-db replication_lag_s was 0.29s at 12:50 and 0.30s at 12:55, rose to 48.38s at 13:00 and 47.51s at 13:05, and returned to 0.29s by 13:10 and stayed near 0.3s through 13:30.",
+              "evidence_ids": [
+                "M20"
+              ]
+            },
+            {
+              "statement": "inventory-db logged 'replication: lost connection to primary db-inv-1 (timeout after 10s)' at 12:59:32 and 13:00:16.",
+              "evidence_ids": [
+                "L0180",
+                "L0183"
+              ]
+            },
+            {
+              "statement": "inventory-db connections fell from 93 at 12:55 to 20 at 13:00 and 13:05, then rose back to 86 at 13:10 and stayed between 82 and 86 through 13:30.",
+              "evidence_ids": [
+                "M16"
+              ]
+            },
+            {
+              "statement": "inventory-service logged 40 ERROR lines 'UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)'. The first is at 13:00:29 (L0185) and the last at 13:30:00 (L0317). The errors continue at a steady rate across 13:10 to 13:30, after replication lag and connection count had recovered.",
+              "evidence_ids": [
+                "L0185",
+                "L0317"
+              ]
+            },
+            {
+              "statement": "No inventory-service ERROR lines were logged before 13:00:29 in the 12:50 to 13:30 window; the first WARN/ERROR of any kind in that window is the 13:00:29 read-only error.",
+              "evidence_ids": [
+                "L0185"
+              ]
+            },
+            {
+              "statement": "inventory-service logged 'high heap usage: 91% of 1Gi' at 13:06:28 and 13:25:14, and 'cache miss storm' warnings at 13:08:37, 13:13:00 and 13:19:44.",
+              "evidence_ids": [
+                "L0212",
+                "L0297",
+                "L0220",
+                "L0243",
+                "L0270"
+              ]
+            },
+            {
+              "statement": "inventory-db logged slow queries on 'SELECT sku, qty FROM stock_levels' at 13:08:58 (869ms), 13:18:31 (806ms) and 13:25:07 (603ms).",
+              "evidence_ids": [
+                "L0225",
+                "L0266",
+                "L0296"
+              ]
+            },
+            {
+              "statement": "inventory-db cpu_pct stayed between 29.0% and 31.1%, and query_latency_p99_ms stayed between 8.7 and 9.3ms across the window.",
+              "evidence_ids": [
+                "M17",
+                "M19"
+              ]
+            },
+            {
+              "statement": "inventory-db disk_used_pct stayed between 52.2% and 56.0%.",
+              "evidence_ids": [
+                "M18"
+              ]
+            },
+            {
+              "statement": "inventory-db logged no read-only, failover or promotion messages in the window; the only errors are the replication timeouts.",
+              "evidence_ids": [
+                "L0180",
+                "L0183"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The replication-to-primary loss at about 12:59 to 13:00 is the most likely trigger for the onset of the read-only errors at 13:00:29. This is consistent with the write path being pointed at a node that is read-only, or at a stale primary, after the connection was disrupted.",
+              "evidence_ids": [
+                "L0180",
+                "L0183",
+                "M20",
+                "L0185"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The read-only errors persist after replication lag and connection count recovered at 13:10. This argues against a simple transient outage that clears on its own, and suggests a lasting state such as a stale pool or a connection still bound to the read-only node. It cannot be confirmed without the pool host and reconnect data.",
+              "evidence_ids": [
+                "M20",
+                "M16",
+                "L0317"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "Green health checks are consistent with health checks not exercising the write path. This is an inference from the alert text, not something the telemetry shows directly.",
+              "evidence_ids": [],
+              "confidence": 0.4
+            },
+            {
+              "statement": "Heap pressure, cache miss storms and slow stock_levels reads appear to be secondary. They begin after the error onset, and inventory-db CPU and p99 latency stayed normal, so they do not explain the read-only failures.",
+              "evidence_ids": [
+                "L0212",
+                "L0220",
+                "L0225",
+                "M17",
+                "M19"
+              ],
+              "confidence": 0.45
+            }
+          ],
+          "data_gaps": [
+            "The pool-target-host query for inventory-service was not run, so it is unknown which host each connection pool targets.",
+            "The query for reconnect and pool-reset events after 13:00 was rejected because the tool-call budget was exhausted, so it is unknown whether pools reconnected or reset.",
+            "The split of read-only errors between new and existing connections was not checked, so it is unknown whether new connections still fail.",
+            "inventory-db logs were searched only for WARN and above. The 'primary' keyword query was rejected, so DEBUG/INFO evidence about failover or role change at db-inv-1 is missing.",
+            "No inventory-db metrics were pulled per host or replica, so it is unknown which node the writes are reaching.",
+            "No data before 12:50 for the replication and connection anomalies, and no change history, was reviewed.",
+            "Two query_logs calls were rejected with 'tool-call budget exhausted', so they returned no data."
+          ],
+          "suggested_followups": [
+            "Query inventory-service for pool or datasource configuration, including the target host and the connection URL, from 12:50 to 13:30.",
+            "Query inventory-service for connection reconnect or pool-reset events after 13:00, and for pool connection creation times, to test whether errors persist only on connections opened before 13:00.",
+            "Query inventory-db for INFO/DEBUG messages about db-inv-1 role changes, failover, promotion or read_only settings between 12:55 and 13:05.",
+            "Check whether the inventory-db primary's read_only flag and the write endpoint are correct after 13:00, and whether the connection pool still points at a node that is now read-only.",
+            "Check the change history for inventory-service and inventory-db deployments or config changes around 12:50 to 13:00."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T7",
+        "agent": "observability",
+        "objective": "Search checkout-service logs at all levels including INFO from 12:55 to 13:30 UTC for failed inventory calls, timeouts, or 5xx responses from inventory-service, to test whether checkout's error-rate rise is caused by inventory reservation failures.",
+        "focus_services": [
+          "checkout-service",
+          "inventory-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "Only one of four planned queries ran. Checkout-service logs from 12:55 to 13:30 UTC returned no lines containing 'inventory' at INFO and above. The other three calls (inventory-service WARN+ logs, inventory-service metrics, checkout-service metrics) were rejected because the tool-call budget was exhausted. The task question is therefore unanswered. There is no evidence confirming or ruling out inventory reservation failures as the cause of checkout's error-rate rise.",
+          "observations": [
+            {
+              "statement": "A checkout-service log query for 2026-09-06T12:55:00Z to 2026-09-06T13:30:00Z at min_level INFO, filtered to messages containing 'inventory', returned 0 matching lines (counts_by_level empty). The returned status was ok, with no record ids.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "The inventory-service WARN+ log query and both metric queries (inventory-service and checkout-service, 12:00 to 13:30 UTC) were rejected with 'tool-call budget is exhausted'. They returned no data.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The zero-match checkout result weakly suggests that checkout logs in this window do not explicitly mention inventory calls. The filter was narrow (a single substring, 'inventory'), so timeouts or 5xx responses worded without that term would not appear. It does not establish that inventory calls succeeded.",
+              "evidence_ids": [],
+              "confidence": 0.2
+            },
+            {
+              "statement": "The inventory-service 15% error rate and the checkout error-rate rise remain unverified. No timing, ordering, or error-signature data was obtained for either service, so the proposed causal link is neither supported nor refuted.",
+              "evidence_ids": [],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "inventory-service WARN/ERROR logs for 12:55 to 13:30 UTC were not retrieved (budget exhausted), so inventory-side failures, 5xx responses, and dominant error signatures are unknown.",
+            "inventory-service metrics (error_rate, latency_p99_ms, request_rate, cpu/memory) were not retrieved, so the onset time of the ~13:00 UTC error spike and whether it preceded checkout's rise are unknown.",
+            "checkout-service metrics (error_rate, latency_p99_ms, request_rate) were not retrieved, so checkout's error-rate rise cannot be timed or compared with inventory's.",
+            "The checkout log query used only the substring 'inventory' at INFO and above. It did not search for timeout, 5xx, 503, 504, reservation, or failed-call wording, so the zero result is not conclusive.",
+            "No checkout-service logs at ERROR/WARN level in the window were retrieved without the 'inventory' filter, so other checkout error sources were not examined.",
+            "No log or metric data was checked for the other dependencies of checkout-service or for deploy and change history."
+          ],
+          "suggested_followups": [
+            "Query inventory-service at WARN/ERROR from 12:55 to 13:30 UTC, looking for 5xx, timeout, and reservation-failure signatures and their first occurrence time.",
+            "Query checkout-service logs at WARN/ERROR from 12:55 to 13:30 UTC with no substring filter, and look for timeout, 5xx, or reservation terms in the top signatures.",
+            "Query error_rate and latency_p99_ms for both inventory-service and checkout-service from 12:00 to 13:30 UTC to establish which rose first and whether they align at ~13:00.",
+            "Check inventory-service deploy and change history near 12:30 to 13:00 UTC, and whether checkout's retry or timeout settings for the inventory call changed."
+          ]
+        },
+        "error": null
+      }
+    ],
+    "rounds": [
+      {
+        "number": 1,
+        "task_ids": [
+          "T1",
+          "T2",
+          "T3",
+          "T4"
+        ],
+        "new_evidence": 87,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "inventory-db",
+              "category": "infrastructure_failure",
+              "mechanism": "A database failover or endpoint repoint at about 13:00 left the inventory-db primary endpoint resolving to db-inv-2, a read-only standby; inventory-service UPDATE stock_reservations writes fail with SQLSTATE 25006, and the liveness-only health check stays green. Checkout sees the errors through its sync HTTP call to inventory-service.",
+              "supporting_evidence": [
+                "L0185",
+                "L0317",
+                "M22",
+                "M16",
+                "M20",
+                "H06",
+                "H07",
+                "D10",
+                "D05"
+              ],
+              "contradicting_evidence": [
+                "M16",
+                "M20"
+              ],
+              "assumptions": [
+                "Connection and lag recovery at 13:10 reflects the metric window, not a fix of the read-only endpoint",
+                "The read-only error signature is caused by the endpoint, not by the write path in inventory-service"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "id": "H2",
+              "service": "inventory-service",
+              "category": "deployment_regression",
+              "mechanism": "A latent write-path change in deploy v4.1.9 (SKU bulk lookup, 2026-09-03) could misroute reservation UPDATEs to a read-only connection, activating only when DB conditions change at 13:00. This explains the write-only failure pattern but not the onset timing.",
+              "supporting_evidence": [
+                "C03",
+                "L0185"
+              ],
+              "contradicting_evidence": [
+                "C03",
+                "M22"
+              ],
+              "assumptions": [
+                "Deploy v4.1.9 touched write routing, which the data does not show",
+                "A DB event at 13:00 is the trigger for the latent bug"
+              ],
+              "confidence": 0.15
+            },
+            {
+              "id": "H3",
+              "service": "inventory-cache",
+              "category": "resource_exhaustion",
+              "mechanism": "A cache eviction storm, as in past incident P03, would cause reservation failures, but the errors here are database write errors and the cache is healthy with only background miss storms that predate 13:00.",
+              "supporting_evidence": [
+                "P03",
+                "L0112",
+                "L0129"
+              ],
+              "contradicting_evidence": [
+                "L0185",
+                "H05",
+                "M22"
+              ],
+              "assumptions": [
+                "Cache state is accurately reflected by health checks"
+              ],
+              "confidence": 0.05
+            }
+          ],
+          "reasoning": "The ledger shows inventory-service error rate jumping from about 0.2% to 15.43% in the 13:00 bucket, with the first ERROR at 13:00:29Z, all errors sharing the read-only-transaction UPDATE signature, and no matching change to inventory-service or inventory-db in the window. inventory-db connections drop to 20 and replication lag spikes to 48s at 13:00-13:05, both recovering by 13:10, and the DB endpoint currently resolves to a read-only standby (H06), which together point to an inventory-db failover or endpoint repoint as origin. The error rate persisting to 13:30 after DB recovery is unexplained and is the main conflicting signal, so confidence is moderate. Checkout errors are not in its logs, so checkout impact is inferred from its 6.9% error-rate rise rather than confirmed. Heap pressure and cache miss storms predate onset and do not line up with the step at 13:00. The v4.1.9 deploy is three days before onset and has no timing match.",
+          "evidence_needed": [
+            "Inventory-db node role and replication history around 13:00 (which node was primary, failover logs)",
+            "Why the primary endpoint resolves to db-inv-2 and whether it is still read-only at 13:30",
+            "Inventory-service connection target and pool configuration after 13:00",
+            "Checkout-service logs or metrics showing how its errors map to inventory calls",
+            "Inventory-service write-path routing diff for v4.1.9"
+          ],
+          "response_to_critique": null
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "H1 (inventory-db read-only endpoint after a 13:00 failover or repoint) is the best-supported hypothesis: the SQLSTATE 25006 signature, the step at 13:00, and H06 showing the primary endpoint still resolving to a read-only standby at 13:28 all fit. Confidence 0.70 is too high, though. The DB metrics recover by 13:10 while errors persist to 13:30, the link to checkout is unconfirmed, and the failover itself is not in any record. Some follow-up is needed before accepting it.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "ignored_contradiction",
+              "severity": "material",
+              "detail": "Replication lag and connections return to normal by 13:10 (M16, M20), but inventory write errors continue at a steady cadence to 13:30 (L0317, M22). The analysis explains this only by assuming the endpoint is still read-only. That is supported by H06 at 13:28, but the endpoint repoint time and cause are not established, so a stale connection pool or a persistent write-path fault could fit the same data.",
+              "evidence_ids": [
+                "M16",
+                "M20",
+                "M22",
+                "L0317",
+                "H06"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "Inventory-service's connection pool may hold sessions to the old primary or old standby after the failover. The read-only error would then persist after the endpoint is corrected. This is a different remediation (pool or config), though the database remains the origin. It is not tested against the connection target or pool configuration.",
+              "evidence_ids": [
+                "H06",
+                "L0185",
+                "M22"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "The claim that checkout sees the errors through its sync call is not supported by checkout logs, which show no reservation-failure lines in the window. Checkout's 6.9% error-rate rise at 13:00 (M12) has no matching log lines and remains unexplained. The checkout link should be treated as inferred, not confirmed.",
+              "evidence_ids": [
+                "M12",
+                "L0083",
+                "L0151"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.70 rests on a database role inference that no log confirms. The DB metrics do not name node role, no failover log is cited, and the health check is a dependency-tool summary. Confidence should be lower until the failover event is confirmed.",
+              "evidence_ids": [
+                "M16",
+                "M20",
+                "H06",
+                "C08"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "C03 is listed as both supporting and contradicting H2. The deploy is three days before onset and no write-routing change is shown, so it should be recorded as contradicting only. The H2 confidence of 0.15 is reasonable.",
+              "evidence_ids": [
+                "C03"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "The cache miss storm WARNs (L0112, L0129) are cited as supporting H3 but they predate onset and occur at similar levels after it. They are background noise rather than support for a cache cause.",
+              "evidence_ids": [
+                "L0112",
+                "L0129",
+                "L0220"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "dependency",
+              "objective": "Find any inventory-db failover, promotion, demotion, or endpoint/DNS repoint events between 12:50 and 13:30 UTC, and any past incidents about a read-only standby or failover affecting writes. Establish which node was primary before and after 13:00 and when the endpoint last changed.",
+              "focus_services": [
+                "inventory-db",
+                "inventory-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "observability",
+              "objective": "Check inventory-service database connection logs or metrics from 12:50 to 13:30 UTC: the connection target or host each pool uses, reconnect or pool-reset events after 13:00, and whether errors stop or continue for new versus existing connections.",
+              "focus_services": [
+                "inventory-service",
+                "inventory-db"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t3",
+              "agent": "observability",
+              "objective": "Search checkout-service logs at all levels (including INFO) from 12:55 to 13:30 UTC for failed inventory calls, timeouts, or 5xx responses from inventory-service, to test whether checkout's 6.9% error-rate rise is caused by inventory reservation failures.",
+              "focus_services": [
+                "checkout-service",
+                "inventory-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "H1 (inventory-db primary endpoint resolving to a read-only standby after a 13:00 failover or repoint) is the leading hypothesis, but confidence is limited: errors persist to 13:30 after DB metrics recover by 13:10, the failover itself is not recorded, the checkout link is unconfirmed, and the connection pool target is untested. Specific missing evidence (node role and endpoint history, inventory-service connection target and pool reset events, checkout INFO-level inventory call failures) could change the conclusion between endpoint repoint and stale pool, so one more round is justified within the remaining budget.",
+          "new_tasks": [
+            {
+              "key": "t5",
+              "agent": "dependency",
+              "objective": "Find any inventory-db failover, promotion, demotion, or endpoint/DNS repoint events between 12:50 and 13:30 UTC, establish which node was primary before and after 13:00, and when the primary endpoint last changed; also check past incidents about a read-only standby or failover affecting writes.",
+              "focus_services": [
+                "inventory-db",
+                "inventory-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t6",
+              "agent": "observability",
+              "objective": "Check inventory-service database connection logs and metrics from 12:50 to 13:30 UTC: the host each connection pool targets, reconnect or pool-reset events after 13:00, and whether read-only errors stop or continue for new versus existing connections.",
+              "focus_services": [
+                "inventory-service",
+                "inventory-db"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t7",
+              "agent": "observability",
+              "objective": "Search checkout-service logs at all levels including INFO from 12:55 to 13:30 UTC for failed inventory calls, timeouts, or 5xx responses from inventory-service, to test whether checkout's error-rate rise is caused by inventory reservation failures.",
+              "focus_services": [
+                "checkout-service",
+                "inventory-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "task_ids": [
+          "T5",
+          "T6",
+          "T7"
+        ],
+        "new_evidence": 5,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "inventory-db",
+              "category": "infrastructure_failure",
+              "mechanism": "At about 12:59-13:00 inventory-db lost its replication connection to primary db-inv-1, and connections and lag disturbed; the primary endpoint now resolves to db-inv-2, a read-only standby, so inventory-service UPDATE stock_reservations writes fail with SQLSTATE 25006 from 13:00:29. The liveness-only health check stays green.",
+              "supporting_evidence": [
+                "L0180",
+                "L0183",
+                "L0185",
+                "L0317",
+                "M16",
+                "M20",
+                "M22",
+                "H06",
+                "H07",
+                "D10"
+              ],
+              "contradicting_evidence": [
+                "M16",
+                "M20"
+              ],
+              "assumptions": [
+                "The endpoint repoint or failover is the origin, though its timing and cause are not in change records",
+                "Connection and lag recovery at 13:10 does not fix the endpoint, so errors persist to 13:30",
+                "Node role of db-inv-2 at 13:28 held during the whole error window"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "id": "H2",
+              "service": "inventory-service",
+              "category": "config_error",
+              "mechanism": "Inventory-service connection pool still targets the old primary or a read-only node after the 13:00 DB disruption, and does not re-resolve the endpoint, so write connections keep failing after DB metrics recover at 13:10. This fits the persistence to 13:30 but needs the DB event as the trigger.",
+              "supporting_evidence": [
+                "L0317",
+                "M16",
+                "M20",
+                "M22",
+                "H06"
+              ],
+              "contradicting_evidence": [
+                "M22"
+              ],
+              "assumptions": [
+                "Pool host and reconnect behaviour were not checked, so this is untested",
+                "The DB event at about 13:00 is the trigger"
+              ],
+              "confidence": 0.25
+            },
+            {
+              "id": "H3",
+              "service": "inventory-service",
+              "category": "deployment_regression",
+              "mechanism": "A latent write-path change in deploy v4.1.9 (SKU bulk lookup, 2026-09-03) misroutes reservation UPDATEs to a read-only connection, activating only when DB conditions change at 13:00.",
+              "supporting_evidence": [
+                "C03",
+                "L0185"
+              ],
+              "contradicting_evidence": [
+                "C03",
+                "M22"
+              ],
+              "assumptions": [
+                "v4.1.9 touched write routing, which the data does not show",
+                "A DB event at 13:00 is the trigger for the latent bug"
+              ],
+              "confidence": 0.08
+            }
+          ],
+          "reasoning": "The first inventory-service ERROR at 13:00:29Z follows the 12:59:32 and 13:00:16 replication-connection losses to db-inv-1 by under a minute, and the error rate steps from 0.18% to 15.43% in the 13:00 bucket, so the DB event precedes and plausibly causes the errors. The read-only SQLSTATE signature and the 13:28 health check showing the primary endpoint resolving to read-only standby db-inv-2 support H1. The main conflict is that errors persist at a steady cadence to 13:30 after lag and connections recover at 13:10, so H2 (stale pool) is a viable alternative that the data cannot separate. Checkout impact is unconfirmed: its 6.9% error rise has no matching logs, so the link to inventory is inferred only. Heap pressure and cache miss storms predate or are unaligned with onset and are not causal. The v4.1.9 deploy is three days before onset with no timing match. Confidence is moderate and reduced by the missing failover record and unverified pool state.",
+          "evidence_needed": [
+            "inventory-db node role history and failover logs around 12:59-13:00 (which node was primary)",
+            "Why the primary endpoint resolves to db-inv-2 and whether it is still read-only at 13:30",
+            "inventory-service connection pool target host and reconnect or pool-reset events after 13:00",
+            "Whether new connections from inventory-service still fail with SQLSTATE 25006",
+            "checkout-service error logs or metrics mapping its 6.9% error rate to inventory calls",
+            "v4.1.9 write-routing diff"
+          ],
+          "response_to_critique": "Lowered H1 confidence from 0.70 to 0.60 because the failover is not in any record and the persistence after 13:10 is unexplained. Added H2 (stale pool or connection bound to the old node) as the alternative the critique raised, with its own confidence. Removed the checkout-via-sync-call claim as confirmed; it is now inferred only. Removed C03 from H3 supporting list (it is kept only as contradicting) and dropped cache evidence (L0112, L0129) from support, since it is background noise. H3 cache hypothesis removed as no longer supported."
+        },
+        "critique": {
+          "verdict": "revise",
+          "summary": "H1 (inventory-db primary endpoint resolving to read-only standby db-inv-2) is the best-supported cause: first inventory ERROR at 13:00:29 follows db-inv-1 replication losses at 12:59:32 and 13:00:16, the SQLSTATE 25006 signature is consistent, and the 13:28 health check shows the endpoint on a read-only standby. However, the analysis overstates confidence: the error rate persists after lag and connections recover at 13:10, the node role of db-inv-2 during the error window is not directly established, and H2 (stale pool) explains the persistence as well. Checkout impact is unlinked. No further investigation is available, so the conclusion should be stated with reduced confidence and the open questions flagged. H3 is weakly supported and should be treated as unlikely.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.60 is reasonable, but the failover/repoint origin is inferred from metrics and SQLSTATE, not from a node-role log. The analysis should state that the primary endpoint repoint is unexplained and unlogged.",
+              "evidence_ids": [
+                "M16",
+                "M20",
+                "L0185",
+                "H06"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "ignored_contradiction",
+              "severity": "material",
+              "detail": "Replication and connections recovered at 13:10 but the read-only UPDATE errors continue at a steady cadence to 13:30. H1 attributes this to the endpoint still resolving to a standby, which is consistent with H06 at 13:28, but this is not tested against new-connection behaviour. The contradiction is acknowledged yet it leaves the mechanism for persistence unverified, so it weakens H1 relative to H2 on timing.",
+              "evidence_ids": [
+                "M16",
+                "M20",
+                "M22",
+                "L0317",
+                "H06"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "A stale connection pool in inventory-service bound to the old primary fits both the 13:00 onset (triggered by the DB disruption) and persistence to 13:30 after DB recovery. Pool target host and reconnect events were never checked, so H2 cannot be excluded and could be the actual cause of persistence.",
+              "evidence_ids": [
+                "M22",
+                "M20",
+                "M16",
+                "L0317"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "H3 rests on v4.1.9 being a latent write-path change, which no ledger record shows. Deploy C03 is three days before onset with no timing match, and M22 contradicts it. Low confidence 0.08 is appropriate; it should be dropped unless the v4.1.9 diff is checked.",
+              "evidence_ids": [
+                "C03",
+                "M22"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "The checkout-service impact (6.9% error rise) is attributed to inventory failures, but no checkout log or metric links them in time, and checkout logs show no inventory-failure errors. The causal link to checkout should be labelled inferred only.",
+              "evidence_ids": [
+                "M12",
+                "L0151",
+                "L0083"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "The analysis cites heap pressure and cache miss storms as not causal. This is correct per timing, but the summary of the 13:28 health check as proof of read-only standby is only a health detail string and should be presented as such.",
+              "evidence_ids": [
+                "H06",
+                "L0034",
+                "L0220"
+              ]
+            }
+          ],
+          "followup_requests": []
+        },
+        "decision": null
+      }
+    ],
+    "termination_reason": "tool_budget_exhausted",
+    "citations": {
+      "valid": 281,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "D05",
+      "D10",
+      "D11",
+      "H03",
+      "H05",
+      "H06",
+      "H07",
+      "D01",
+      "D04",
+      "D06",
+      "D07",
+      "H01",
+      "H02",
+      "H08",
+      "H11",
+      "C08",
+      "P03",
+      "P05",
+      "L0034",
+      "L0092",
+      "L0112",
+      "L0129",
+      "L0145",
+      "L0185",
+      "L0188",
+      "L0189",
+      "L0192",
+      "L0197",
+      "L0202",
+      "L0206",
+      "L0208",
+      "L0211",
+      "L0212",
+      "L0215",
+      "L0219",
+      "L0221",
+      "L0220",
+      "L0227",
+      "L0230",
+      "L0235",
+      "L0238",
+      "L0240",
+      "L0243",
+      "L0244",
+      "L0246",
+      "L0250",
+      "L0254",
+      "L0255",
+      "L0260",
+      "L0264",
+      "L0267",
+      "L0270",
+      "L0271",
+      "L0276",
+      "L0279",
+      "L0280",
+      "L0283",
+      "L0287",
+      "L0292",
+      "L0295",
+      "L0297",
+      "L0298",
+      "L0303",
+      "L0307",
+      "L0309",
+      "L0312",
+      "L0314",
+      "L0317",
+      "L0083",
+      "L0151",
+      "M21",
+      "M22",
+      "M23",
+      "M24",
+      "M25",
+      "C03",
+      "C07",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "M16",
+      "M17",
+      "M18",
+      "M19",
+      "M20",
+      "L0180",
+      "L0183",
+      "L0225",
+      "L0266",
+      "L0296"
+    ],
+    "trace": [
+      {
+        "t": 4.945,
+        "actor": "orchestrator",
+        "event": "planned",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3",
+          "T4"
+        ]
+      },
+      {
+        "t": 4.945,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3",
+          "T4"
+        ]
+      },
+      {
+        "t": 15.168,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T4",
+        "tool_calls": 5
+      },
+      {
+        "t": 18.758,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T3",
+        "tool_calls": 6
+      },
+      {
+        "t": 22.98,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T1",
+        "tool_calls": 5
+      },
+      {
+        "t": 23.718,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T2",
+        "tool_calls": 5
+      },
+      {
+        "t": 44.756,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 3
+      },
+      {
+        "t": 48.123,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T5",
+          "T6",
+          "T7"
+        ]
+      },
+      {
+        "t": 48.123,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T5",
+          "T6",
+          "T7"
+        ]
+      },
+      {
+        "t": 58.542,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T7",
+        "tool_calls": 4
+      },
+      {
+        "t": 62.433,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T5",
+        "tool_calls": 6
+      },
+      {
+        "t": 67.595,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T6",
+        "tool_calls": 6
+      },
+      {
+        "t": 82.533,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "revise",
+        "requests": 0
+      },
+      {
+        "t": 82.533,
+        "actor": "engine",
+        "event": "terminated",
+        "reason": "tool_budget_exhausted",
+        "round": 2
+      },
+      {
+        "t": 82.533,
+        "actor": "engine",
+        "event": "conclusion",
+        "status": "inconclusive",
+        "reasons": [
+          "contradicting evidence is 50% of the weighed evidence (max 35%)"
+        ]
+      }
+    ]
+  },
+  "grade": {
+    "system": "multi_agent",
+    "incident_id": "S06",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 96.068,
+    "tool_calls": 30,
+    "failed_tool_calls": 0,
+    "llm_calls": 27,
+    "prompt_tokens": 229705,
+    "completion_tokens": 30568,
+    "total_tokens": 260273,
+    "cost_usd": 0.038254500000000004,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": false,
+    "status": "inconclusive",
+    "confidence": 0.6,
+    "top_service": "inventory-db",
+    "top_category": "infrastructure_failure",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 0.8333333333333334,
+    "key_evidence_retrieved": 0.8333333333333334,
+    "unsupported_hypotheses": 0,
+    "rounds": 2,
+    "termination_reason": "tool_budget_exhausted",
+    "repeat": 2
+  }
+}

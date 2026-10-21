@@ -1,0 +1,1722 @@
+{
+  "system": "multi_agent",
+  "incident_id": "S08",
+  "error": null,
+  "latency_s": 91.471,
+  "usage": {
+    "llm_calls": 24,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 169185,
+    "completion_tokens": 26210,
+    "reasoning_tokens": 2715,
+    "total_tokens": 195395,
+    "cost_usd": 0.0300235,
+    "llm_time_s": 140.942,
+    "by_role": {
+      "orchestrator": {
+        "calls": 2,
+        "prompt_tokens": 6832,
+        "completion_tokens": 1406,
+        "cost_usd": 0.0013862000000000002
+      },
+      "dependency": {
+        "calls": 8,
+        "prompt_tokens": 29170,
+        "completion_tokens": 6994,
+        "cost_usd": 0.006414
+      },
+      "observability": {
+        "calls": 9,
+        "prompt_tokens": 54473,
+        "completion_tokens": 8870,
+        "cost_usd": 0.0098823
+      },
+      "reasoning": {
+        "calls": 2,
+        "prompt_tokens": 29248,
+        "completion_tokens": 2495,
+        "cost_usd": 0.0041723
+      },
+      "critic": {
+        "calls": 2,
+        "prompt_tokens": 30458,
+        "completion_tokens": 3752,
+        "cost_usd": 0.0049218000000000005
+      },
+      "reporting": {
+        "calls": 1,
+        "prompt_tokens": 19004,
+        "completion_tokens": 2693,
+        "cost_usd": 0.0032469
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 30,
+    "rejected_calls": 1,
+    "attempts": 44,
+    "failed_calls": 7,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 212760,
+    "by_status": {
+      "ok": 23,
+      "timeout": 7
+    },
+    "by_tool": {
+      "get_dependencies": 5,
+      "get_change_history": 8,
+      "search_past_incidents": 1,
+      "query_metrics": 6,
+      "query_logs": 10
+    },
+    "by_agent": {
+      "dependency": 14,
+      "observability": 16
+    }
+  },
+  "citations": {
+    "valid": 243,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S08",
+    "system": "multi_agent",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "inconclusive",
+    "status_reason": "contradicting evidence is 57% of the weighed evidence (max 35%)",
+    "decision": {
+      "status": "inconclusive",
+      "reasons": [
+        "contradicting evidence is 57% of the weighed evidence (max 35%)"
+      ],
+      "top_hypothesis": "payment-service / deployment_regression",
+      "top_confidence": 0.55,
+      "margin_over_runner_up": 0.3,
+      "verified_support": [
+        "M12",
+        "L0182",
+        "P02"
+      ],
+      "contradicting_evidence": [
+        "M34",
+        "M32",
+        "M35",
+        "M36"
+      ],
+      "contradiction_share": 0.571,
+      "blocking_objections": [
+        "unsupported_claim: The claim that the deploy is the trigger rests on the onset coinciding with C09 three minutes earlier, which the critique notes is the trap of blaming a change  [C09, M33, M34, M36, H10]"
+      ],
+      "non_blocking_objections": 4
+    },
+    "confidence": 0.55,
+    "summary": "Incident S08 is inconclusive: payment-service error rate stepped from about 0.2% to 21% at 11:00 UTC and stayed around 20-23% through 11:30, while checkout-service errors rose from about 0.3% to 9.5% in the same bucket. The only change in the two hours before onset is the payment-service v3.2.0 deploy at 10:57 UTC, which is the leading hypothesis (H1, confidence 0.55) but is unverified. No payment-service log lines could be retrieved because every query timed out, so the error signature, status codes and endpoint concentration are unknown. The schema migration status for v3.2.0 is unrecorded, and payment-provider has no telemetry, so an external provider failure remains a live alternative. Health checks are shallow and do not exercise payment writes, so their green results do not discriminate between candidates. The root cause is therefore not established.",
+    "root_cause": null,
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "payment-service",
+        "category": "deployment_regression",
+        "mechanism": "The v3.2.0 deploy at 10:57:00Z changed payments table writes (idempotency_key) and upgraded the ORM 5.x to 6.x; if the separately-run schema migration was missing or incomplete, payment writes would fail with 500s from 11:00, and checkout's 500s from payment-service calls follow as downstream propagation. Shallow health checks do not exercise writes, so they stay green.",
+        "supporting_evidence": [
+          "C09",
+          "M33",
+          "M12",
+          "L0182",
+          "P02"
+        ],
+        "contradicting_evidence": [
+          "M34",
+          "M32",
+          "M35",
+          "M36"
+        ],
+        "assumptions": [
+          "The deploy completed three minutes before onset is the trigger",
+          "Schema migration status is unknown and may be incomplete",
+          "Checkout 500s originate from payment-service rather than another path"
+        ],
+        "confidence": 0.55
+      },
+      {
+        "id": "H2",
+        "service": "payment-service",
+        "category": "config_error",
+        "mechanism": "The separately-run v3.2.0 schema migration was applied partially or incorrectly, so the new idempotency_key write path fails while the code itself is fine. This is a variant of H1 differing only in whether the fault lies in the migration step.",
+        "supporting_evidence": [
+          "C09",
+          "P02"
+        ],
+        "contradicting_evidence": [
+          "H11"
+        ],
+        "assumptions": [
+          "The migration is absent from change history",
+          "Failures are write-path failures that shallow health checks miss"
+        ],
+        "confidence": 0.25
+      },
+      {
+        "id": "H3",
+        "service": "payment-provider",
+        "category": "dependency_failure",
+        "mechanism": "An external provider-side failure or integration rejection starting near 11:00 could surface as payment-service 500s, with checkout propagating them. The sharp onset with flat local latency and CPU fits a discrete external failure.",
+        "supporting_evidence": [
+          "M33",
+          "M34",
+          "M36"
+        ],
+        "contradicting_evidence": [
+          "H10"
+        ],
+        "assumptions": [
+          "Provider telemetry is absent, so provider-side errors are unmeasured",
+          "The status page is a shallow signal and may not reflect the integration"
+        ],
+        "confidence": 0.15
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "payment-service error_rate was about 0.15-0.26% from 10:00 to 10:55 UTC, then 21.26% at 11:00, peaking at 23.55% at 11:10 and 20.61% at 11:30.",
+        "evidence_ids": [
+          "M33"
+        ]
+      },
+      {
+        "statement": "checkout-service error_rate was 0.25-0.35% before 11:00 and 9.61% at 11:00, remaining around 8-9.4% through 11:30.",
+        "evidence_ids": [
+          "M12"
+        ]
+      },
+      {
+        "statement": "payment-service latency_p99, CPU, memory and request rate show no step change at 11:00 UTC.",
+        "evidence_ids": [
+          "M34",
+          "M32",
+          "M35",
+          "M36"
+        ]
+      },
+      {
+        "statement": "payments-db connections, query latency p99, CPU and replication lag stayed flat across 10:55-11:10 UTC; one isolated 618 ms slow query was logged at 10:56:01.",
+        "evidence_ids": [
+          "M37",
+          "M40",
+          "M38",
+          "M41",
+          "L0170"
+        ]
+      },
+      {
+        "statement": "Deploy v3.2.0 of payment-service completed at 10:57:00 UTC; it adds idempotency_key to payments table writes and upgrades the ORM 5.x to 6.x, with the schema migration run separately.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "No other deployments, config changes, feature-flag changes or infra events were recorded for the services or payments-db between 09:00 and 11:00 UTC, and no changes at all were recorded for payment-provider or in the 11:00-11:30 window.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "Checkout-service WARN logs from 11:00:14 to 11:30:00 UTC are almost all 'payment-service returned 500 Internal Server Error for order'; one ERROR line at 11:05:54 is a card decline by issuer.",
+        "evidence_ids": [
+          "L0182",
+          "L0333",
+          "L0212"
+        ]
+      },
+      {
+        "statement": "All direct dependencies reported healthy at 11:28 UTC using shallow checks (HTTP /health, SELECT 1, status page).",
+        "evidence_ids": [
+          "H11",
+          "H03",
+          "H12",
+          "H10"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The v3.2.0 deploy at 10:57 UTC is the trigger for the onset; this is inferred from timing and is not confirmed.",
+      "The schema migration for v3.2.0 status is unknown and may be incomplete or absent from change history.",
+      "Checkout's 500 errors originate from payment-service calls rather than another path.",
+      "Shallow health checks (HTTP /health and SELECT 1) do not exercise payment writes, ORM queries or the provider integration.",
+      "Payment-provider telemetry is absent, so provider-side errors are unmeasured rather than shown to be absent.",
+      "(unverified - no valid evidence cited) All payment-service log queries (WARN, ERROR, DEBUG and INFO, various windows) timed out after 3 attempts, so no payment-service log lines were returned."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The v3.2.0 deploy is the leading candidate for the payment-service failure (H1), but it is unverified: the write-path mechanism has not been observed in logs, and timing alone cannot establish causation.",
+        "evidence_ids": [
+          "C09",
+          "M33",
+          "M12"
+        ],
+        "confidence": 0.4
+      },
+      {
+        "statement": "An external payment-provider rejection starting near 11:00 is a live alternative (H3); its absence of telemetry is not evidence against it.",
+        "evidence_ids": [
+          "M33",
+          "M34",
+          "M36",
+          "H10"
+        ],
+        "confidence": 0.2
+      },
+      {
+        "statement": "Checkout's errors are most likely downstream of payment-service 500s, but checkout's rate is only about 40% of payment-service's, so the mapping is not complete.",
+        "evidence_ids": [
+          "M12",
+          "M33",
+          "L0182"
+        ],
+        "confidence": 0.5
+      },
+      {
+        "statement": "Resource saturation and payments-db pool exhaustion are unlikely as the primary cause because the relevant signals stayed flat.",
+        "evidence_ids": [
+          "M32",
+          "M34",
+          "M37",
+          "M40"
+        ],
+        "confidence": 0.55
+      },
+      {
+        "statement": "The system determination is inconclusive: the leading hypothesis lacks verified error-type evidence and contradicting evidence is high (57% of weighed evidence against a 35% maximum).",
+        "evidence_ids": [],
+        "confidence": 0.9
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Consider rolling back payment-service to v3.1.3 as a reversible mitigation, after confirming that the v3.2.0 schema migration state does not make rollback unsafe.",
+        "priority": "immediate",
+        "rationale": "The deploy is the only change near onset and rollback is reversible, but the write-path link is unverified, so the rollback should be paired with monitoring to test whether error rates recover."
+      },
+      {
+        "action": "Retrieve payment-service error logs for 10:55-11:05 UTC by retrying narrower queries or using an alternate log source, to obtain error type, status code and SQL/ORM messages.",
+        "priority": "immediate",
+        "rationale": "This is the single check most able to discriminate deploy-related write failures from external provider rejections."
+      },
+      {
+        "action": "Check the v3.2.0 schema migration execution record on payments-db (applied state, timestamp and errors).",
+        "priority": "immediate",
+        "rationale": "Migration state determines whether H1 or H2 applies and whether rollback is safe."
+      },
+      {
+        "action": "Run a deep synthetic payment write test and an outbound call check to payment-provider.",
+        "priority": "short_term",
+        "rationale": "Shallow health checks cannot detect write failures or provider rejections, so a deeper test is needed to confirm or exclude each candidate."
+      },
+      {
+        "action": "Split payment-service error rate by endpoint, pod and payment method to test write-path concentration.",
+        "priority": "short_term",
+        "rationale": "Concentration on write endpoints would support H1; spread across read paths would point elsewhere."
+      },
+      {
+        "action": "Add deep health checks that exercise payment writes and the provider integration, and add a migration-version gate to deploys.",
+        "priority": "long_term",
+        "rationale": "P02 shows a deploy shipped before its migration; shallow checks missed both incidents."
+      },
+      {
+        "action": "Make log and metric query backends reliable for incident response, and add provider-side telemetry for payment-provider calls.",
+        "priority": "long_term",
+        "rationale": "Timeouts and missing provider telemetry prevented discrimination between candidates."
+      },
+      {
+        "action": "Record schema migrations in change history alongside the deploys they accompany.",
+        "priority": "long_term",
+        "rationale": "The v3.2.0 migration was absent from change records, leaving its state unknown."
+      }
+    ],
+    "open_questions": [
+      "Do payment-service error logs show write or insert failures (SQL or ORM errors) for the 500 responses, and do they start at or before 10:57 UTC?",
+      "Was the v3.2.0 schema migration applied fully, partially, or not at all, and when?",
+      "Are payment-service failures concentrated on write endpoints, pods or payment methods?",
+      "Does payment-provider show rejected or failed calls from payment-service during 10:55-11:10 UTC?",
+      "Do rates recover after a rollback or a deep write test, and what do past incidents such as P02 suggest about the pattern?",
+      "What were checkout's error types in the window, and do its retries account for the gap between its rate and payment-service's?"
+    ],
+    "data_gaps": [
+      "query_logs(start=2026-09-08T10:00:00Z, end=2026-09-08T11:30:00Z, service=payment-service, min_level=WARN, limit=50) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-08T10:55:00Z, end=2026-09-08T11:05:00Z, service=payment-service, min_level=ERROR, limit=20) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-08T11:00:00Z, end=2026-09-08T11:01:00Z, service=payment-service, min_level=INFO, limit=10) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-08T11:00:00Z, end=2026-09-08T11:02:00Z, service=payment-service, min_level=DEBUG, limit=50) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-08T10:55:00Z, end=2026-09-08T11:05:00Z, service=payment-service, min_level=DEBUG, limit=50) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-08T10:55:00Z, end=2026-09-08T11:10:00Z, service=payment-service, min_level=WARN, limit=30) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-08T11:00:00Z, end=2026-09-08T11:02:00Z, service=payment-service, min_level=ERROR, limit=20) -> timeout: Timed out after 10000 ms: log backend query for payment-service exceeded deadline (gave up after 3 attempts)",
+      "Past incident search was not run. (reported 2x)",
+      "Health checks are shallow (HTTP 200, SELECT 1, status page) and do not test payment writes, ORM queries, or the provider integration. (reported 2x)",
+      "27 further gap report(s) in 27 group(s) omitted here (mostly about: payment-service, error, logs, unknown, retrieved, obtained); the full list is in the run record."
+    ],
+    "data_gaps_total": 38,
+    "termination_reason": "tool_budget_exhausted"
+  },
+  "state": {
+    "brief": {
+      "id": "S08",
+      "title": "payment-service errors",
+      "reported_at": "2026-09-08T11:30:00Z",
+      "alert": "ALERT [P1] payment-service error rate 22% since ~11:00 UTC; payments failing.",
+      "affected_services": [
+        "payment-service",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-08T10:00:00Z",
+      "window_end": "2026-09-08T11:30:00Z"
+    },
+    "plan": {
+      "incident_understanding": "payment-service error rate rose to about 22% starting around 11:00 UTC, with checkout-service also alerting, so payment failures are propagating into checkout. Telemetry covers 10:00 to 11:30 UTC. The cause is unknown; candidates include a recent deployment or config change to payment-service, a failing downstream dependency (e.g. payment provider or database), and a checkout-side change triggering bad requests to payment-service.",
+      "candidate_explanations": [
+        "A deployment or config change to payment-service shortly before 11:00 UTC introduced a regression causing errors.",
+        "A downstream dependency of payment-service (payment provider, database, or internal service) degraded around 11:00 UTC and payment-service errors are propagating.",
+        "A change in checkout-service (deployment, flag, or payload change) is sending invalid or unusual requests that payment-service rejects.",
+        "An infrastructure event (capacity, network, or certificate/credential expiry) affecting payment-service or its dependencies."
+      ],
+      "tasks": [
+        {
+          "key": "t1",
+          "agent": "observability",
+          "objective": "Characterise the error signatures in payment-service and checkout-service logs and metrics from 10:00 to 11:30 UTC: which error types and status codes dominate, the exact onset time of the rise above baseline, whether errors are concentrated on specific endpoints, pods, regions or payment methods, and whether checkout errors are upstream calls to payment-service.",
+          "focus_services": [
+            "payment-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t2",
+          "agent": "dependency",
+          "objective": "List all deployments, config changes, feature flag changes and infra events for payment-service, checkout-service and their direct dependencies in the 2 hours before 11:00 UTC on 2026-09-08, with timestamps, and identify any change that occurred close to the error onset.",
+          "focus_services": [
+            "payment-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t3",
+          "agent": "dependency",
+          "objective": "Map the dependency graph of payment-service and checkout-service and check health of each direct downstream dependency (payment provider integrations, databases, internal services) during 10:00 to 11:30 UTC; also check past incident postmortems for similar payment-service error patterns and their causes.",
+          "focus_services": [
+            "payment-service",
+            "checkout-service"
+          ],
+          "depends_on": []
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": "T1",
+        "agent": "observability",
+        "objective": "Characterise the error signatures in payment-service and checkout-service logs and metrics from 10:00 to 11:30 UTC: which error types and status codes dominate, the exact onset time of the rise above baseline, whether errors are concentrated on specific endpoints, pods, regions or payment methods, and whether checkout errors are upstream calls to payment-service.",
+        "focus_services": [
+          "payment-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "payment-service error rate jumped from a ~0.2% baseline to ~21% at 11:00:00Z and peaked at 23.55% at 11:10. checkout-service error rate jumped from ~0.3% to ~9.6% at the same 11:00:00 bucket. Checkout's WARN logs in the window are almost entirely 'payment-service returned 500 Internal Server Error', so checkout's failures look like upstream calls to payment-service failing. payment-service's own logs could not be retrieved (timeouts), so endpoint, pod, region and payment-method breakdowns are not established.",
+          "observations": [
+            {
+              "statement": "payment-service error_rate was flat at 0.15\u20130.26% from 10:00 to 10:55, then 21.26% at 11:00:00, 22.55% at 11:05, 23.55% at 11:10 (max), 23.28% at 11:15, 21.73% at 11:20, 21.15% at 11:25 and 20.61% at 11:30.",
+              "evidence_ids": [
+                "M33"
+              ]
+            },
+            {
+              "statement": "checkout-service error_rate was 0.25\u20130.35% from 10:00 to 10:55, then 9.61% at 11:00:00, 8.37% at 11:05, 9.33% at 11:10, and 9.35% at 11:30.",
+              "evidence_ids": [
+                "M12"
+              ]
+            },
+            {
+              "statement": "payment-service latency_p99_ms stayed within 434\u2013465 ms across the window, with no step change at 11:00 (464.94 at 11:00, 434.6 at 11:30).",
+              "evidence_ids": [
+                "M34"
+              ]
+            },
+            {
+              "statement": "payment-service cpu_pct (31.7\u201333.8%), memory_pct (53\u201357%) and request_rate (57.8\u201362.3 req/s) show no step change at 11:00.",
+              "evidence_ids": [
+                "M32",
+                "M35",
+                "M36"
+              ]
+            },
+            {
+              "statement": "checkout-service cpu_pct, memory_pct, latency_p99_ms (308\u2013332 ms) and request_rate showed no step change at 11:00.",
+              "evidence_ids": [
+                "M11",
+                "M13",
+                "M14",
+                "M15"
+              ]
+            },
+            {
+              "statement": "Checkout WARN/ERROR logs from 10:00 to 11:30 total 27 lines: 26 WARN and 1 ERROR. 25 are 'payment-service returned 500 Internal Server Error for order #'. The first is at 11:00:14Z, and they continue to 11:30:00Z at roughly 1\u20132 minute spacing. One is 'retrying idempotent call to payment-service (attempt 2)' at 10:29:28Z, before the onset. One is 'order rejected: card declined by issuer' at 11:05:54Z.",
+              "evidence_ids": [
+                "L0182",
+                "L0190",
+                "L0195",
+                "L0203",
+                "L0208",
+                "L0212",
+                "L0217",
+                "L0221",
+                "L0226",
+                "L0233",
+                "L0245",
+                "L0249",
+                "L0255",
+                "L0260",
+                "L0268",
+                "L0272",
+                "L0277",
+                "L0282",
+                "L0290",
+                "L0297",
+                "L0304",
+                "L0310",
+                "L0316",
+                "L0321",
+                "L0331",
+                "L0333",
+                "L0092"
+              ]
+            },
+            {
+              "statement": "The one checkout ERROR line is a card-decline from the issuer, not a 500. Its count is a single line, so it does not characterise the bulk of the failures.",
+              "evidence_ids": [
+                "L0212"
+              ]
+            },
+            {
+              "statement": "Log queries for payment-service failed on every attempt: a full-window WARN query, an ERROR-only 10:55\u201311:05 query, and a 11:00\u201311:01 query all timed out after 3 attempts each. No payment-service log lines were returned.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Checkout's 500 log lines carry no status-code detail beyond '500', no endpoint, and no pod, region or payment-method fields.",
+              "evidence_ids": [
+                "L0182",
+                "L0333"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "Checkout's elevated error rate starts in the same minute as payment-service's error-rate step (11:00), and checkout's logged failures are 500s from payment-service calls. This is consistent with checkout errors being a downstream effect of payment-service 500s.",
+              "evidence_ids": [
+                "M33",
+                "M12",
+                "L0182"
+              ],
+              "confidence": 0.8
+            },
+            {
+              "statement": "The 500 errors are dominated by a server-side error from payment-service, not by issuer declines. Only one decline appears in checkout logs, and payment-service's error rate (~21\u201323%) is far higher than checkout's (~9%), which is consistent with checkout retries or partial-order paths absorbing some failures.",
+              "evidence_ids": [
+                "L0212",
+                "M33",
+                "M12"
+              ],
+              "confidence": 0.45
+            },
+            {
+              "statement": "Resource saturation in payment-service and checkout-service (CPU, memory, latency, request rate) does not appear to be the trigger, since none of those signals changed at 11:00. A cause such as a deploy, dependency or config change is more plausible, but that is not checked here.",
+              "evidence_ids": [
+                "M32",
+                "M35",
+                "M34",
+                "M36"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "Checkout's error-rate rise is roughly 40% of payment-service's (9.5% vs 21%). That suggests checkout failures are only part of the payment failures, or that checkout's retry logic softens the error rate. Whether checkout errors are only upstream payment-service calls is supported by the logs, but the payment-service side is not confirmed.",
+              "evidence_ids": [
+                "M12",
+                "M33",
+                "L0092"
+              ],
+              "confidence": 0.4
+            }
+          ],
+          "data_gaps": [
+            "payment-service logs could not be retrieved: three queries (full window WARN, 10:55\u201311:05 ERROR, and 11:00\u201311:01) each timed out after 3 attempts. Error signatures, status-code distribution, and the endpoint, pod, region and payment-method breakdowns for payment-service are therefore unknown.",
+            "Whether payment-service's 500s are the same errors that checkout reports, or whether there are additional payment-service error types, cannot be confirmed from its own logs.",
+            "The status-code mix (500 vs other codes) is inferred only from checkout's quoted messages; no payment-service status-code data was obtained.",
+            "Endpoint, pod, region and payment-method concentration could not be checked for either service. The checkout log lines do not carry those dimensions.",
+            "No change-history, deploy or dependency-health data was queried, so the trigger for the 11:00 onset is not established.",
+            "The 10:00\u201310:59 baseline for logs is also missing on payment-service, so the baseline error signature is unknown."
+          ],
+          "suggested_followups": [
+            "Retry payment-service log queries later or with a different backend path to get its ERROR/WARN signatures, status codes and endpoint/pod/region/payment-method fields around 11:00.",
+            "Check payment-service and checkout-service deploy and config change history for ~10:45\u201311:00Z.",
+            "Check payment-service's downstream dependencies (for example the card-processing or issuer integration) for failures starting at 11:00Z.",
+            "Break down the payment-service error_rate metric by endpoint, pod, region or payment method if those series are available.",
+            "Confirm whether checkout's retry logic is masking part of the payment-service failures."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T2",
+        "agent": "dependency",
+        "objective": "List all deployments, config changes, feature flag changes and infra events for payment-service, checkout-service and their direct dependencies in the 2 hours before 11:00 UTC on 2026-09-08, with timestamps, and identify any change that occurred close to the error onset.",
+        "focus_services": [
+          "payment-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "Only one change falls in the 2 hours before 11:00 UTC across payment-service, checkout-service and their direct dependencies: the payment-service v3.2.0 deploy (C09) at 10:57:00Z, three minutes before the ~11:00 alert onset. It changed payment-service write paths (idempotency_key on payments table writes) and upgraded the ORM 5.x to 6.x, so it is a strong lead. Health checks at 11:28Z all report healthy, but they are shallow (HTTP /health and SELECT 1) and do not exercise payment writes.",
+          "observations": [
+            {
+              "statement": "Deploy v3.2.0 to payment-service completed at 2026-09-08T10:57:00Z. Description: add idempotency_key to payments table writes; ORM upgrade 5.x -> 6.x; schema migration run separately.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "No deployments, config changes, feature-flag changes, rollbacks or infra events were recorded for any service between 09:00:00Z and 11:00:00Z other than C09.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "payments-db had 0 changes between 09:00:00Z and 11:30:00Z.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Dependency edges: api-gateway -> checkout-service; checkout-service -> payment-service (sync_http); checkout-service -> inventory-service, auth-service, notification-queue; payment-service -> payments-db (database); payment-service -> payment-provider (external_http).",
+              "evidence_ids": [
+                "D01",
+                "D04",
+                "D05",
+                "D06",
+                "D07",
+                "D08",
+                "D09"
+              ]
+            },
+            {
+              "statement": "Health checks at 2026-09-08T11:28:00Z: payment-service healthy (HTTP /health 200); checkout-service healthy (HTTP /health 200); payments-db healthy (SELECT 1 ok); payment-provider healthy per status page; api-gateway, auth-service, inventory-service, notification-queue healthy (HTTP 200).",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H07",
+                "H08",
+                "H10",
+                "H11",
+                "H12"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The v3.2.0 deploy of payment-service, which changed payments table writes and upgraded the ORM, is the most plausible change-based trigger for payment failures starting ~11:00Z. Its 10:57Z timing fits the onset, and the write-path change fits failing payments while shallow health checks stay green.",
+              "evidence_ids": [
+                "C09",
+                "H11"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The separately-run schema migration for v3.2.0 is not visible in change history; if it ran or is pending, it could be the actual cause of write failures. Its absence from the records is a gap, not evidence it did not happen.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "Dependencies (payments-db, payment-provider, auth-service, inventory-service) show no recorded changes and healthy checks, which argues against an upstream dependency change as the origin. Checkout-service errors are probably downstream propagation from payment-service, since checkout's only failing-path dependency here is payment-service.",
+              "evidence_ids": [
+                "D04",
+                "H03",
+                "H12",
+                "H10"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "Change history covers only the 09:00-11:00Z window for all services and was not checked for 11:00-11:30Z; records after onset were not reviewed.",
+            "Schema migration for v3.2.0 is described as run separately but has no change record; execution status is unknown.",
+            "Health checks are shallow (/health and SELECT 1) and do not exercise payment writes, so healthy results do not rule out write-path failures.",
+            "No telemetry or error-rate breakdown was queried; the link between C09 and the 22% error rate is unverified.",
+            "Past incident search was not run."
+          ],
+          "suggested_followups": [
+            "Confirm whether the v3.2.0 schema migration on payments table was executed and when, and compare against the 10:57Z deploy.",
+            "Check payment-service error logs for the error type (e.g. ORM, unique constraint on idempotency_key, SQL errors) starting at 10:57-11:00Z.",
+            "Consider rollback of v3.2.0 as a test, with error rate monitored, if the reasoning agent agrees the deploy is the leading hypothesis.",
+            "Search past incidents for ORM upgrade or idempotency key write failures to test the hypothesis.",
+            "Check change history for 11:00-11:30Z for any later changes."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T3",
+        "agent": "dependency",
+        "objective": "Map the dependency graph of payment-service and checkout-service and check health of each direct downstream dependency (payment provider integrations, databases, internal services) during 10:00 to 11:30 UTC; also check past incident postmortems for similar payment-service error patterns and their causes.",
+        "focus_services": [
+          "payment-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "payment-service and checkout-service dependency graph mapped: checkout-service calls payment-service (sync HTTP); payment-service calls payments-db (database) and payment-provider (external HTTP). All direct dependencies report healthy in shallow health checks at 11:28 UTC. The only change in the 10:00-11:30 window is the payment-service v3.2.0 deploy at 10:57 UTC, which is close to the ~11:00 onset and changes the payments table write path and ORM version. Its health checks do not exercise those writes, so the healthy results do not rule it out. The strongest lead is C09; the payments-db and payment-provider health results are weak evidence against them.",
+          "observations": [
+            {
+              "statement": "checkout-service calls payment-service via sync HTTP (edge D04); checkout-service also calls inventory-service, auth-service, and notification-queue, and is called by api-gateway.",
+              "evidence_ids": [
+                "D04",
+                "D01",
+                "D05",
+                "D06",
+                "D07"
+              ]
+            },
+            {
+              "statement": "payment-service has direct dependencies on payments-db (database) and payment-provider (external HTTP).",
+              "evidence_ids": [
+                "D08",
+                "D09"
+              ]
+            },
+            {
+              "statement": "Health checks at 11:28 UTC report healthy for payment-service (HTTP /health 200), checkout-service, payments-db (SELECT 1 ok), payment-provider (status page operational), auth-service, inventory-service, notification-queue, and api-gateway.",
+              "evidence_ids": [
+                "H11",
+                "H03",
+                "H12",
+                "H10",
+                "H02",
+                "H07",
+                "H08",
+                "H01"
+              ]
+            },
+            {
+              "statement": "A payment-service deploy v3.2.0 completed at 2026-09-08T10:57:00Z. It adds idempotency_key to payments table writes and upgrades the ORM from 5.x to 6.x; the schema migration was run separately.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "No other changes to any service were recorded between 10:00 and 11:30 UTC.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "Past incident P02 had payment-service 500s and SQL column errors after an ORM migration, caused by a deploy shipping before its schema migration was applied.",
+              "evidence_ids": [
+                "P02"
+              ]
+            },
+            {
+              "statement": "Past incident P07 had payment timeouts from payments-db connection exhaustion, caused by a connection leak in a batch job.",
+              "evidence_ids": [
+                "P07"
+              ]
+            },
+            {
+              "statement": "Past incident P06 had checkout 5xx errors from an expired TLS certificate on payment-service.",
+              "evidence_ids": [
+                "P06"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The v3.2.0 deploy (ORM upgrade plus new idempotency_key column writes) is the most plausible trigger. If the separately-run schema migration is missing or incomplete, writes to payments would fail, matching the pattern in P02. The onset is 3 minutes before the ~11:00 alert.",
+              "evidence_ids": [
+                "C09",
+                "P02"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "Shallow health checks (HTTP /health and SELECT 1) would not detect write failures or schema mismatches, so the healthy status at 11:28 does not exclude the deploy as the cause.",
+              "evidence_ids": [
+                "H11",
+                "H12",
+                "C09"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "Payments-db connection exhaustion (P07 pattern) is less likely as the primary cause, since the db health check passed and no batch-job change was recorded in the window. This is weak evidence because connection pool saturation is not visible in SELECT 1.",
+              "evidence_ids": [
+                "H12",
+                "P07"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "statement": "A payment-provider outage is unlikely given the operational status page, but the status page is not an independent check of the integration.",
+              "evidence_ids": [
+                "H10"
+              ],
+              "confidence": 0.25
+            },
+            {
+              "statement": "Checkout-service errors are probably downstream propagation from payment-service through D04, since checkout's own health check passed and its other dependencies are healthy.",
+              "evidence_ids": [
+                "D04",
+                "H03"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "An expired TLS certificate (P06 pattern) has no recorded change in the window, so it is a weaker candidate.",
+              "evidence_ids": [
+                "P06"
+              ],
+              "confidence": 0.2
+            }
+          ],
+          "data_gaps": [
+            "No telemetry or error logs were queried, so the 22% error rate is unconfirmed by this role and the error signature is unknown.",
+            "Health checks are shallow (HTTP 200, SELECT 1, status page) and do not test payment writes, ORM queries, or the provider integration.",
+            "Change history covers only deploys and config changes visible to the tool; the separate schema migration run is not recorded as a change, so its status is unknown.",
+            "Only 5 of 6 matched past incidents were returned; the tool did not explain the matching criteria."
+          ],
+          "suggested_followups": [
+            "Check whether the schema migration for v3.2.0 (idempotency_key column) was applied to payments-db and when.",
+            "Pull payment-service error logs from 10:57 to 11:05 UTC to compare the error type (SQL column or ORM error versus timeout or TLS) with the deploy timing.",
+            "Compare error rates for v3.2.0 pods against the previous version, and roll back or canary to test the hypothesis.",
+            "Run a deep health check that performs a payments write or idempotency-key read against payments-db.",
+            "Check payments-db connection-pool metrics for saturation between 10:57 and 11:30 UTC."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T4",
+        "agent": "observability",
+        "objective": "Retry payment-service error telemetry in narrow slices (11:00-11:02Z, then 10:55-11:05Z) with no level filter to obtain error type, status code distribution, and any SQL or ORM exception text; split error rate by endpoint and pod if tags are supported, and report whether failures are confined to write endpoints.",
+        "focus_services": [
+          "payment-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "payment-service error_rate (metric M33) moved from a baseline of 0.2% at 10:55Z to 21.26% at 11:00Z, peaked at 23.55% at 11:10Z, and was still 20.61% at 11:30Z, so the elevated rate has persisted for the whole reported window. No log evidence was obtained: all payment-service log queries timed out, so error types, status codes, SQL/ORM exception text, endpoint/pod splits, and whether failures are confined to write endpoints remain unknown. checkout-service error telemetry was not obtained because the tool-call budget ran out.",
+          "observations": [
+            {
+              "statement": "payment-service error_rate was 0.2% at 10:55Z and 21.26% at 11:00Z, a jump of about 21 points within one 5-minute bucket.",
+              "evidence_ids": [
+                "M33"
+              ]
+            },
+            {
+              "statement": "payment-service error_rate peaked at 23.55% at 11:10Z and was 20.61% at 11:30Z, with a series mean of 19.29% across 10:55Z\u201311:30Z.",
+              "evidence_ids": [
+                "M33"
+              ]
+            },
+            {
+              "statement": "The payment-service error-rate series shows no recovery trend within 10:55Z\u201311:30Z; values stayed between roughly 21% and 23.5% after onset.",
+              "evidence_ids": [
+                "M33"
+              ]
+            },
+            {
+              "statement": "Three payment-service log queries (11:00\u201311:02Z at DEBUG level, 10:55\u201311:05Z at DEBUG level, and 11:00\u201311:02Z at ERROR level) all timed out after 3 attempts each and returned no records.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "The checkout-service error_rate query was rejected because the tool-call budget was exhausted, so no checkout-service telemetry was obtained.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "Payment-service errors began between 10:55Z and 11:00Z, consistent with the alert's '~11:00 UTC' onset. The metric alone cannot pin the start to the minute.",
+              "evidence_ids": [
+                "M33"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "A sustained ~20\u201323% error plateau rather than a spike suggests a persistent condition, such as a failing dependency, bad deploy, or config change, rather than transient load. This is unverified because no log or error-type data was retrieved.",
+              "evidence_ids": [
+                "M33"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "Whether failures are confined to write endpoints (the T4 hypothesis) is neither supported nor refuted by the evidence gathered.",
+              "evidence_ids": [],
+              "confidence": 0.1
+            }
+          ],
+          "data_gaps": [
+            "payment-service logs: all queries timed out (3 attempts each) for 11:00\u201311:02Z (DEBUG), 10:55\u201311:05Z (DEBUG), and 11:00\u201311:02Z (ERROR). No error type, status code distribution, or SQL/ORM exception text was obtained.",
+            "No error-rate split by endpoint or pod was obtained; it is unknown whether failures are confined to write endpoints.",
+            "checkout-service error_rate was not retrieved (budget exhausted), so the checkout-service alert is uncorrelated with payment-service in the data gathered.",
+            "Only the 5-minute error_rate metric was obtained for payment-service; no latency, CPU, or database metrics were retrieved for payment-service or its downstream stores.",
+            "Log-backend timeouts may themselves indicate load or a backend problem; this was not verified."
+          ],
+          "suggested_followups": [
+            "Retry payment-service ERROR-level logs for 11:00\u201311:02Z, or a narrower 1-minute window, once the log backend recovers, to get error types, status codes, and exception text.",
+            "Query payment-service error_rate and request_rate split by endpoint and pod, to test whether failures are limited to write endpoints.",
+            "Pull checkout-service error_rate and logs for 10:55\u201311:30Z to confirm whether its errors start at the same time and carry payment-service failure messages.",
+            "Pull payment-service latency_p99_ms, cpu_pct and memory_pct, and the database metrics for its downstream stores (connections, query_latency_p99_ms, replication_lag_s) for 10:50\u201311:15Z to check for a database-side cause.",
+            "Check change history for deploys or config changes to payment-service and its dependencies between 10:45Z and 11:00Z."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T5",
+        "agent": "dependency",
+        "objective": "Confirm the v3.2.0 schema migration execution record for payments-db (whether applied, timestamp, and any errors); list all deployments, config changes, feature flag changes, and credential, certificate, or endpoint changes for payment-service and payment-provider integration between 11:00 and 11:30Z.",
+        "focus_services": [
+          "payment-service",
+          "payments-db",
+          "payment-provider"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "The only change near onset is the payment-service v3.2.0 deploy at 10:57:00Z (C09), about 3 minutes before the 11:00Z error onset. Its description says the schema migration was run separately. No migration execution record for payments-db was obtained, so whether the migration was applied, when, and whether it errored remains unconfirmed. No changes of any kind were returned for payments-db or payment-provider, or for any service in the 11:00-11:30Z window. Health checks are all green but are shallow and do not exercise the failing path. Hypothesis to test: the v3.2.0 payments-table write change (idempotency_key plus ORM 5.x to 6.x upgrade) or an unconfirmed migration state is causing payment write failures. This is not established.",
+          "observations": [
+            {
+              "statement": "Change history for all services in the 11:00-11:30Z window returned 0 changes.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Change history for payments-db (all time, last 7 days) returned 0 changes. No schema migration record for v3.2.0 appears in the change history.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Change history for payment-provider returned 0 changes, so no credential, certificate, or endpoint change was recorded for that service.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "payment-service deployment v3.2.0 has status completed, was authored by deploy-bot, and was timestamped 2026-09-08T10:57:00Z. Its description says: add idempotency_key to payments table writes; ORM upgrade 5.x -> 6.x (schema migration run separately).",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "A previous payment-service deployment, v3.1.3 (refund flow improvements), completed at 2026-09-07T05:00:00Z, roughly 30 hours before onset.",
+              "evidence_ids": [
+                "C05"
+              ]
+            },
+            {
+              "statement": "Dependency edges: checkout-service calls payment-service (sync_http). payment-service calls payments-db (database) and payment-provider (external_http).",
+              "evidence_ids": [
+                "D04",
+                "D08",
+                "D09"
+              ]
+            },
+            {
+              "statement": "Health checks at 11:28:00Z: payment-service /health 200; payments-db accepting connections with SELECT 1 ok; payment-provider status page reports all systems operational; checkout-service /health 200.",
+              "evidence_ids": [
+                "H11",
+                "H12",
+                "H10",
+                "H03"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The v3.2.0 deploy at 10:57Z is the most plausible change lead. Its payments-table write change and ORM major-version upgrade could produce write or insert errors on the payments path while read-only and connection health checks still pass.",
+              "evidence_ids": [
+                "C09",
+                "H12",
+                "H11"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "A payments-db schema migration that was run separately and is missing from the change record, or that partially applied, could cause the idempotency_key write errors. This is unverified because no migration execution record was retrieved.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "The absence of changes in the window, together with the all-green payment-provider status page, argues against a payment-provider-side credential, certificate, or endpoint change as the trigger. This is weak evidence because the status page is a shallow signal.",
+              "evidence_ids": [
+                "H10"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "statement": "The payments-db health check (SELECT 1) is shallow and does not test writes. It therefore does not argue against a write-path failure on payments-db.",
+              "evidence_ids": [
+                "H12"
+              ],
+              "confidence": 0.6
+            }
+          ],
+          "data_gaps": [
+            "No migration execution record for v3.2.0 on payments-db was obtained, so applied status, timestamp, and errors are all unconfirmed. Querying the migration tool or the schema_migrations table would be needed.",
+            "The change-history queries did not return a specific credential, certificate, or endpoint change type; a type-filtered query was not run. The 11:00-11:30Z all-services query returned 0 changes, which covers this only indirectly.",
+            "No error-rate telemetry, error logs, or error breakdown was retrieved, so the link between the v3.2.0 deploy and the 22% error rate is not verified.",
+            "Health checks are shallow (/health 200, SELECT 1, a status page) and do not exercise payment writes or the provider call path.",
+            "Past incident search was not run for this incident, so no comparable postmortems were checked.",
+            "Tool-call budget was exhausted before a payments-db migration-specific query or a payment-provider credential check could run."
+          ],
+          "suggested_followups": [
+            "Retrieve the v3.2.0 schema migration execution record for payments-db (applied state, timestamp, errors) from the migration tool or the schema_migrations table.",
+            "Check payment-service and payments-db error logs for write or insert failures, and for ORM 6.x errors, from 10:57Z onward.",
+            "Compare the error rate before and after 10:57Z to test whether the v3.2.0 deploy coincides with the onset.",
+            "Run a type-filtered change query for credential, certificate, and endpoint changes across payment-service, payment-provider, and payments-db, starting 2026-09-08T10:00Z.",
+            "Run a payments-db write probe (a test insert, or a read of recent idempotency_key rows) to test the write path that the health check does not cover.",
+            "Search past incidents for ORM major-version upgrades and payments schema migrations to form testable hypotheses."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T6",
+        "agent": "observability",
+        "objective": "Pull outbound error and latency metrics for payment-service calls to payment-provider and to payments-db from 10:55-11:10Z, and payments-db connection pool usage, to separate provider-side failures from local write failures and test the external-provider and pool-exhaustion alternatives.",
+        "focus_services": [
+          "payment-service",
+          "payment-provider",
+          "payments-db"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "payment-service error rate jumped from 0.2% at 10:55Z to 21.26% at 11:00Z and reached 23.55% by 11:10Z, consistent with the 22% P1 alert. Latency p99 and CPU stayed flat. payments-db connections, CPU, query latency and replication lag stayed flat through the window, which argues against pool exhaustion or DB-side write slowness as the cause. payment-provider has no metrics or logs in telemetry, so provider-side failures could not be tested directly. The payment-service WARN/ERROR log query timed out, so the error signatures themselves are unknown.",
+          "observations": [
+            {
+              "statement": "payment-service error_rate was 0.2% at 10:55Z, then 21.26% at 11:00Z, 22.55% at 11:05Z and 23.55% at 11:10Z (max at 11:10Z).",
+              "evidence_ids": [
+                "M33"
+              ]
+            },
+            {
+              "statement": "payment-service latency_p99_ms stayed in a narrow band of 436.94\u2013464.94 ms across 10:55\u201311:10Z, with no step change at 11:00Z.",
+              "evidence_ids": [
+                "M34"
+              ]
+            },
+            {
+              "statement": "payment-service cpu_pct (31.7\u201332.5%), memory_pct (54.3\u201357.1%) and request_rate (57.8\u201362.2 req/s) show no notable change over the window.",
+              "evidence_ids": [
+                "M32",
+                "M35",
+                "M36"
+              ]
+            },
+            {
+              "statement": "payments-db connections stayed between 117 and 124 (first 124, last 124) with no climb toward a pool limit visible in the data.",
+              "evidence_ids": [
+                "M37"
+              ]
+            },
+            {
+              "statement": "payments-db query_latency_p99_ms stayed about 11.7\u201312.4 ms, cpu_pct about 34\u201336%, and replication_lag_s about 0.4 s across the window.",
+              "evidence_ids": [
+                "M40",
+                "M38",
+                "M41"
+              ]
+            },
+            {
+              "statement": "One payments-db WARN was logged at 10:56:01Z: a slow query of 618 ms on SELECT * FROM refunds WHERE created_at > $1. It is a single event and does not match the flat p99 latency.",
+              "evidence_ids": [
+                "L0170"
+              ]
+            },
+            {
+              "statement": "payment-provider has no metrics and no logs in telemetry (the tool reported no data for that service).",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "Pool exhaustion or DB-side slowness on payments-db is unlikely to be the cause of the 11:00Z error step: connections, query latency, CPU and replication lag were all flat, and the lone slow query is an isolated event.",
+              "evidence_ids": [
+                "M37",
+                "M40",
+                "M38",
+                "M41",
+                "L0170"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "The error onset is sharp at about 11:00Z with no matching rise in latency, CPU or request rate. This pattern fits a discrete failure such as an external dependency rejecting calls or a change/config fault, but this data cannot confirm which.",
+              "evidence_ids": [
+                "M33",
+                "M34",
+                "M36"
+              ],
+              "confidence": 0.45
+            },
+            {
+              "statement": "The external-provider hypothesis is neither confirmed nor ruled out. Payment-provider telemetry is absent, so the only available signal is that local payment-service and payments-db signals are normal while payment-service errors are high.",
+              "evidence_ids": [
+                "M33",
+                "M37"
+              ],
+              "confidence": 0.4
+            }
+          ],
+          "data_gaps": [
+            "payment-service WARN/ERROR log query timed out after 3 attempts, so error message signatures and any error-to-dependency attribution are unavailable.",
+            "payment-provider has no metrics or logs in telemetry, so provider-side error or latency for payment-service outbound calls could not be measured.",
+            "No outbound call-level metrics (payment-service to payment-provider, payment-service to payments-db) were available; only aggregate payment-service error_rate was returned.",
+            "Write-failure signals on payments-db (failed inserts/updates, deadlocks, pool wait time) were not retrieved; only connections count and query latency were checked.",
+            "Time window limited to 10:55\u201311:10Z; the exact onset of errors (between 10:55 and 11:00Z) and any pre-10:55 baseline were not refined."
+          ],
+          "suggested_followups": [
+            "Retry payment-service ERROR logs for 10:58\u201311:02Z with a narrower limit, to get the error signatures and what they quote.",
+            "Obtain payment-provider telemetry (or the provider's status/incident feed) for 10:55\u201311:10Z to test the external-provider hypothesis.",
+            "Pull payments-db pool wait time, active vs. idle connections and write-error counts for 10:55\u201311:10Z to rule local write failures in or out.",
+            "Check change history for deploys or config changes to payment-service between 10:50 and 11:00Z, since the error step is sharp and resources are flat."
+          ]
+        },
+        "error": null
+      }
+    ],
+    "rounds": [
+      {
+        "number": 1,
+        "task_ids": [
+          "T1",
+          "T2",
+          "T3"
+        ],
+        "new_evidence": 58,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "payment-service",
+              "category": "deployment_regression",
+              "mechanism": "The payment-service v3.2.0 deploy at 10:57:00Z changed payments table writes (idempotency_key) and upgraded the ORM 5.x to 6.x; if the separately-run schema migration was missing or incomplete, payment writes return 500s starting at the 11:00 onset, and checkout's 500s from payment-service calls follow as downstream propagation. Shallow health checks do not exercise writes, so they stay green.",
+              "supporting_evidence": [
+                "C09",
+                "M33",
+                "M12",
+                "L0182",
+                "P02",
+                "H11",
+                "H12"
+              ],
+              "contradicting_evidence": [
+                "M34",
+                "M32",
+                "M35",
+                "M36"
+              ],
+              "assumptions": [
+                "Deploy completed three minutes before onset is the trigger",
+                "Schema migration status is unknown and may be incomplete",
+                "Checkout 500s originate from payment-service rather than another path"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "id": "H2",
+              "service": "payment-service",
+              "category": "config_error",
+              "mechanism": "The separately-run schema migration for v3.2.0 may have been applied incorrectly or not at all, causing the new idempotency_key write path to fail. This is a variant of H1 with the fault in the migration step rather than the code.",
+              "supporting_evidence": [
+                "C09",
+                "P02"
+              ],
+              "contradicting_evidence": [
+                "H11"
+              ],
+              "assumptions": [
+                "Migration is not visible in change history",
+                "Failures are write-path failures that shallow health checks miss"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "id": "H3",
+              "service": "payments-db",
+              "category": "resource_exhaustion",
+              "mechanism": "Connection pool exhaustion in payments-db could cause payment-service write failures returning 500s, as in P07. The db health check passed, which weakens this.",
+              "supporting_evidence": [
+                "P07",
+                "M33"
+              ],
+              "contradicting_evidence": [
+                "H12",
+                "D08"
+              ],
+              "assumptions": [
+                "Connection pool saturation is not visible in SELECT 1",
+                "No batch job change exists in the window"
+              ],
+              "confidence": 0.15
+            }
+          ],
+          "reasoning": "Payment-service error rate stepped from about 0.2% to 21% at 11:00:00Z, and checkout's errors step in the same bucket, with checkout's logs showing 500s from payment-service calls, so the fault originates at payment-service rather than checkout. The only change in the 2 hours before onset is the v3.2.0 deploy at 10:57:00Z, three minutes earlier, and its write-path and ORM changes plausibly explain write failures while CPU, memory, latency and request rate stay flat. Shallow health checks do not exclude this. Checkout's rise is about 40% of payment-service's, which is consistent with retries or partial paths absorbing failures. Payment-service logs were not retrievable, so the error signature, endpoint and pod breakdown are unknown, and the schema migration status is unrecorded, which caps confidence.",
+          "evidence_needed": [
+            "Payment-service logs for 10:55-11:05 showing error type and SQL or ORM messages",
+            "Schema migration execution record for v3.2.0 and its timestamp",
+            "Payment-service error rate split by endpoint, pod and payment method",
+            "Deep health check or synthetic payment write test",
+            "payments-db connection pool metrics for 10:55-11:05",
+            "Change history for 11:00-11:30 and past-incident search for similar P02 patterns"
+          ],
+          "response_to_critique": null
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "H1 (v3.2.0 deploy) is the strongest lead: timing, the write-path and ORM changes, and the checkout-to-payment 500 chain all fit. But its central mechanism, that payment writes fail, is not directly evidenced because payment-service logs were never retrieved. Health checks are shallow and cannot support it. The payment-provider alternative is dismissed only on a status page, and the schema migration status is unknown. Confidence 0.60 is acceptable only if the write-failure signature is confirmed, so further evidence is needed before accepting.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "The claim that payment writes return 500s after the deploy is inferred from change description and checkout's generic 500 messages. No payment-service log, endpoint or error-type evidence was obtained, so the write-path mechanism is unverified.",
+              "evidence_ids": [
+                "C09",
+                "M33",
+                "L0182"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "Health checks H11 and H12 are listed as supporting H1, but they are green and shallow. The analysis itself says they do not exclude the deploy, so they are neutral rather than supporting.",
+              "evidence_ids": [
+                "H11",
+                "H12"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "payment-service calls an external payment-provider. External 500s or partial provider failures surfacing as payment-service 500s would fit the same onset and the same checkout propagation. The status page is not an independent integration check, and no provider-side error or latency metrics were queried, so this alternative is not excluded.",
+              "evidence_ids": [
+                "H10",
+                "D09"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence of 0.60 rests on timing plus an unverified mechanism, with the error signature, endpoint and migration state all unknown. It should be lower until payment-service errors are characterised.",
+              "evidence_ids": [
+                "C09",
+                "M33"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "H2 is a variant of H1 that depends on the same unobserved write-path failure. It should be merged with H1's verification, and its 0.30 confidence is not separately supported by any migration record.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "ignored_contradiction",
+              "severity": "minor",
+              "detail": "H3 is weakly contradicted by the passing SELECT 1 check. The ledger shows no payments-db changes or latency data for that window, so the rejection is reasoned from a shallow check and is not decisive.",
+              "evidence_ids": [
+                "H12",
+                "D08"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "missing_evidence",
+              "severity": "material",
+              "detail": "No change-history query covered 11:00-11:30Z, and the schema migration execution record was never retrieved. Both are decisive for H1 and H2 and may be obtainable with the dependency agent.",
+              "evidence_ids": [
+                "C09"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Retry payment-service error telemetry in narrow slices, for example 11:00-11:02 with no level filter, to obtain error type, status code, and any SQL or ORM exception text. Also split error_rate by endpoint and pod if the metric supports tags, to confirm whether failures are write-path only and whether they match the checkout 500s.",
+              "focus_services": [
+                "payment-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Confirm the v3.2.0 schema migration execution record and timestamp, and list all changes for payment-service and payment-provider integration config between 11:00 and 11:30Z. Also check whether any provider credential, certificate, or endpoint change occurred.",
+              "focus_services": [
+                "payment-service",
+                "payments-db",
+                "payment-provider"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t3",
+              "agent": "observability",
+              "objective": "Pull outbound error and latency metrics for payment-service's calls to payment-provider and payments-db from 10:55-11:10Z, to separate provider-side failures from local write failures and test the external-provider alternative.",
+              "focus_services": [
+                "payment-service",
+                "payment-provider",
+                "payments-db"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "H1 (v3.2.0 deploy at 10:57Z) remains the leading hypothesis at moderate confidence, but its write-failure mechanism is unverified because payment-service logs were never retrieved, the schema migration status is unknown, the external payment-provider alternative is not excluded, and change history after 11:00Z was not checked. These gaps are specific and could change the ranking, and budget remains (2 rounds, 16 tool calls), so one more round targeting them is justified.",
+          "new_tasks": [
+            {
+              "key": "t4",
+              "agent": "observability",
+              "objective": "Retry payment-service error telemetry in narrow slices (11:00-11:02Z, then 10:55-11:05Z) with no level filter to obtain error type, status code distribution, and any SQL or ORM exception text; split error rate by endpoint and pod if tags are supported, and report whether failures are confined to write endpoints.",
+              "focus_services": [
+                "payment-service",
+                "checkout-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t5",
+              "agent": "dependency",
+              "objective": "Confirm the v3.2.0 schema migration execution record for payments-db (whether applied, timestamp, and any errors); list all deployments, config changes, feature flag changes, and credential, certificate, or endpoint changes for payment-service and payment-provider integration between 11:00 and 11:30Z.",
+              "focus_services": [
+                "payment-service",
+                "payments-db",
+                "payment-provider"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t6",
+              "agent": "observability",
+              "objective": "Pull outbound error and latency metrics for payment-service calls to payment-provider and to payments-db from 10:55-11:10Z, and payments-db connection pool usage, to separate provider-side failures from local write failures and test the external-provider and pool-exhaustion alternatives.",
+              "focus_services": [
+                "payment-service",
+                "payment-provider",
+                "payments-db"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "task_ids": [
+          "T4",
+          "T5",
+          "T6"
+        ],
+        "new_evidence": 7,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "payment-service",
+              "category": "deployment_regression",
+              "mechanism": "The v3.2.0 deploy at 10:57:00Z changed payments table writes (idempotency_key) and upgraded the ORM 5.x to 6.x; if the separately-run schema migration was missing or incomplete, payment writes would fail with 500s from 11:00, and checkout's 500s from payment-service calls follow as downstream propagation. Shallow health checks do not exercise writes, so they stay green.",
+              "supporting_evidence": [
+                "C09",
+                "M33",
+                "M12",
+                "L0182",
+                "P02"
+              ],
+              "contradicting_evidence": [
+                "M34",
+                "M32",
+                "M35",
+                "M36"
+              ],
+              "assumptions": [
+                "The deploy completed three minutes before onset is the trigger",
+                "Schema migration status is unknown and may be incomplete",
+                "Checkout 500s originate from payment-service rather than another path"
+              ],
+              "confidence": 0.55
+            },
+            {
+              "id": "H2",
+              "service": "payment-service",
+              "category": "config_error",
+              "mechanism": "The separately-run v3.2.0 schema migration was applied partially or incorrectly, so the new idempotency_key write path fails while the code itself is fine. This is a variant of H1 differing only in whether the fault lies in the migration step.",
+              "supporting_evidence": [
+                "C09",
+                "P02"
+              ],
+              "contradicting_evidence": [
+                "H11"
+              ],
+              "assumptions": [
+                "The migration is absent from change history",
+                "Failures are write-path failures that shallow health checks miss"
+              ],
+              "confidence": 0.25
+            },
+            {
+              "id": "H3",
+              "service": "payment-provider",
+              "category": "dependency_failure",
+              "mechanism": "An external provider-side failure or integration rejection starting near 11:00 could surface as payment-service 500s, with checkout propagating them. The sharp onset with flat local latency and CPU fits a discrete external failure.",
+              "supporting_evidence": [
+                "M33",
+                "M34",
+                "M36"
+              ],
+              "contradicting_evidence": [
+                "H10"
+              ],
+              "assumptions": [
+                "Provider telemetry is absent, so provider-side errors are unmeasured",
+                "The status page is a shallow signal and may not reflect the integration"
+              ],
+              "confidence": 0.15
+            }
+          ],
+          "reasoning": "Payment-service error rate stepped from about 0.2% to 21% at 11:00:00Z, and checkout's rate steps in the same bucket with its logs showing 500s from payment-service calls, so the fault originates at payment-service rather than checkout. The only change in the two hours before onset is the v3.2.0 deploy at 10:57:00Z, three minutes earlier, and its write-path and ORM changes plausibly explain write failures while CPU, memory, latency and request rate stay flat. The payment-service error signature is unverified because all its log queries timed out, so the write-failure mechanism is inferred rather than observed. Shallow health checks cannot exclude the deploy. The external payment-provider alternative is not excluded because no provider telemetry exists and the status page is shallow. Payments-db pool exhaustion is weakened by flat connections, latency and replication lag, and is omitted. The schema migration status is unrecorded, which caps confidence.",
+          "evidence_needed": [
+            "Payment-service error logs for 10:55-11:05 showing error type and SQL or ORM messages",
+            "Schema migration execution record for v3.2.0 with timestamp and errors",
+            "Payment-service error rate split by endpoint, pod and payment method, to confirm write-path concentration",
+            "Deep health check or synthetic payment write test",
+            "Provider-side error metrics or integration logs for payment-provider calls",
+            "Change history for 11:00-11:30Z and past-incident search for P02-like patterns"
+          ],
+          "response_to_critique": "Unsupported write-path claim: accepted; confidence lowered from 0.60 to 0.55 and mechanism now flagged as inferred. Health checks H11 and H12 removed from supporting evidence as they are neutral. External provider alternative: now carried as H3 rather than dismissed. H2 kept as a separate variant with lower confidence and noted as dependent on H1's verification. H3 pool-exhaustion rejection now rests on flat connection and latency metrics rather than only SELECT 1, and is dropped. Missing 11:00-11:30 change query and migration record: listed in evidence_needed."
+        },
+        "critique": {
+          "verdict": "revise",
+          "summary": "The leading hypothesis H1 (v3.2.0 deploy at 10:57Z causing payment write failures) is plausible and the timing fits, but its support is largely circumstantial. No payment-service log line was ever retrieved, so the write-path error signature is unobserved, and the schema migration status is unknown. The analysis also cites contradicting evidence (M32, M34, M35, M36, M37-M41) as contradictions but those are flat-signal observations that do not discriminate between deploy and external-provider causes. Confidence 0.55 for H1 is somewhat high given no error-type evidence; no further investigation is possible, so the report should be revised to reflect uncertainty and to state H1 as the leading candidate pending confirmation rather than as established.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.55 rests on timing alone plus a write-path mechanism that was never observed in payment-service logs, which all timed out. The reasoning admits the signature is inferred, yet confidence is not reduced accordingly. Confidence should be lower and labelled as unverified.",
+              "evidence_ids": [
+                "M33",
+                "C09"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "The claim that the deploy is the trigger rests on the onset coinciding with C09 three minutes earlier, which the critique notes is the trap of blaming a change only because it happened near onset. Nothing in the ledger ties the deploy to the failing path (no error logs, no endpoint split, no migration record). A competing cause that also starts near 11:00 with flat local signals (an external provider rejection, which the analysis itself says is not excluded) fits the evidence equally well and is not ruled out.",
+              "evidence_ids": [
+                "C09",
+                "M33",
+                "M34",
+                "M36",
+                "H10"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "payment-provider is an external dependency with no metrics, no logs, and only a shallow status-page check. The sharp step at 11:00 with flat local latency, CPU and request rate is equally consistent with a discrete provider-side rejection. Labelling it as weakly supported at 0.15 because of a status page that the analysis calls shallow is inconsistent with that caveat. Telemetry absence is not evidence against it.",
+              "evidence_ids": [
+                "M33",
+                "M34",
+                "M36",
+                "H10"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "Checkout's 9.5% error rate is about 40% of payment-service's 21%, yet the analysis treats checkout errors as downstream propagation of payment-service 500s. Checkout's 500 messages cite only '500' with no status detail, and the 500s are not confirmed to originate from the write path. Checkout's WARN lines also do not show the endpoint, so write-path concentration is not supported.",
+              "evidence_ids": [
+                "M12",
+                "M33",
+                "L0182"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "missing_evidence",
+              "severity": "minor",
+              "detail": "The stated conclusion lacks payment-service error signatures entirely. This evidence cannot be obtained with the remaining budget, so the report should say the root cause is not established rather than presenting H1 as the leading conclusion.",
+              "evidence_ids": []
+            }
+          ],
+          "followup_requests": []
+        },
+        "decision": null
+      }
+    ],
+    "termination_reason": "tool_budget_exhausted",
+    "citations": {
+      "valid": 243,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "D04",
+      "D08",
+      "D09",
+      "H03",
+      "H10",
+      "H11",
+      "H12",
+      "D01",
+      "D05",
+      "D06",
+      "D07",
+      "H01",
+      "H02",
+      "H07",
+      "H08",
+      "C09",
+      "P07",
+      "P02",
+      "P06",
+      "P03",
+      "P04",
+      "M32",
+      "M33",
+      "M34",
+      "M35",
+      "M36",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "L0092",
+      "L0182",
+      "L0190",
+      "L0195",
+      "L0203",
+      "L0208",
+      "L0212",
+      "L0217",
+      "L0221",
+      "L0226",
+      "L0233",
+      "L0245",
+      "L0249",
+      "L0255",
+      "L0260",
+      "L0268",
+      "L0272",
+      "L0277",
+      "L0282",
+      "L0290",
+      "L0297",
+      "L0304",
+      "L0310",
+      "L0316",
+      "L0321",
+      "L0331",
+      "L0333",
+      "M37",
+      "M38",
+      "M39",
+      "M40",
+      "M41",
+      "L0170",
+      "C05"
+    ],
+    "trace": [
+      {
+        "t": 4.898,
+        "actor": "orchestrator",
+        "event": "planned",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 4.898,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 15.226,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T3",
+        "tool_calls": 4
+      },
+      {
+        "t": 18.077,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T2",
+        "tool_calls": 4
+      },
+      {
+        "t": 24.249,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T1",
+        "tool_calls": 6
+      },
+      {
+        "t": 44.327,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 3
+      },
+      {
+        "t": 48.501,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      {
+        "t": 48.501,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      {
+        "t": 59.914,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T6",
+        "tool_calls": 6
+      },
+      {
+        "t": 63.195,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T4",
+        "tool_calls": 5
+      },
+      {
+        "t": 64.471,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T5",
+        "tool_calls": 6
+      },
+      {
+        "t": 78.504,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "revise",
+        "requests": 0
+      },
+      {
+        "t": 78.504,
+        "actor": "engine",
+        "event": "terminated",
+        "reason": "tool_budget_exhausted",
+        "round": 2
+      },
+      {
+        "t": 78.504,
+        "actor": "engine",
+        "event": "conclusion",
+        "status": "inconclusive",
+        "reasons": [
+          "contradicting evidence is 57% of the weighed evidence (max 35%)"
+        ]
+      }
+    ]
+  },
+  "grade": {
+    "system": "multi_agent",
+    "incident_id": "S08",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 91.471,
+    "tool_calls": 30,
+    "failed_tool_calls": 7,
+    "llm_calls": 24,
+    "prompt_tokens": 169185,
+    "completion_tokens": 26210,
+    "total_tokens": 195395,
+    "cost_usd": 0.0300235,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": false,
+    "status": "inconclusive",
+    "confidence": 0.55,
+    "top_service": "payment-service",
+    "top_category": "deployment_regression",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": 2,
+    "termination_reason": "tool_budget_exhausted",
+    "repeat": 3
+  }
+}

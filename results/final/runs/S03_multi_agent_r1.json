@@ -1,0 +1,2264 @@
+{
+  "system": "multi_agent",
+  "incident_id": "S03",
+  "error": null,
+  "latency_s": 162.959,
+  "usage": {
+    "llm_calls": 37,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 294869,
+    "completion_tokens": 40989,
+    "reasoning_tokens": 8970,
+    "total_tokens": 335858,
+    "cost_usd": 0.0499814,
+    "llm_time_s": 221.659,
+    "by_role": {
+      "orchestrator": {
+        "calls": 3,
+        "prompt_tokens": 12469,
+        "completion_tokens": 1817,
+        "cost_usd": 0.0021554
+      },
+      "dependency": {
+        "calls": 12,
+        "prompt_tokens": 40322,
+        "completion_tokens": 7847,
+        "cost_usd": 0.0079557
+      },
+      "observability": {
+        "calls": 13,
+        "prompt_tokens": 81794,
+        "completion_tokens": 11252,
+        "cost_usd": 0.0138054
+      },
+      "reasoning": {
+        "calls": 3,
+        "prompt_tokens": 47049,
+        "completion_tokens": 4174,
+        "cost_usd": 0.0067919
+      },
+      "critic": {
+        "calls": 5,
+        "prompt_tokens": 93011,
+        "completion_tokens": 12745,
+        "cost_usd": 0.0156736
+      },
+      "reporting": {
+        "calls": 1,
+        "prompt_tokens": 20224,
+        "completion_tokens": 3154,
+        "cost_usd": 0.0035994
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 30,
+    "rejected_calls": 2,
+    "attempts": 30,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 3600,
+    "by_status": {
+      "ok": 30
+    },
+    "by_tool": {
+      "get_dependencies": 6,
+      "get_change_history": 6,
+      "search_past_incidents": 5,
+      "query_metrics": 5,
+      "query_logs": 8
+    },
+    "by_agent": {
+      "dependency": 17,
+      "observability": 13
+    }
+  },
+  "citations": {
+    "valid": 367,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S03",
+    "system": "multi_agent",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "inconclusive",
+    "status_reason": "contradicting evidence is 44% of the weighed evidence (max 35%)",
+    "decision": {
+      "status": "inconclusive",
+      "reasons": [
+        "contradicting evidence is 44% of the weighed evidence (max 35%)"
+      ],
+      "top_hypothesis": "notification-worker / resource_exhaustion",
+      "top_confidence": 0.5,
+      "margin_over_runner_up": 0.25,
+      "verified_support": [
+        "M29",
+        "M32",
+        "L0152",
+        "L0182",
+        "L0185",
+        "L0235",
+        "L0281",
+        "L0197",
+        "L0212"
+      ],
+      "contradicting_evidence": [
+        "M28",
+        "M27",
+        "L0162",
+        "L0170",
+        "L0095",
+        "M31",
+        "M30"
+      ],
+      "contradiction_share": 0.438,
+      "blocking_objections": [
+        "ignored_contradiction: During 09:30 to 09:50 the worker logged 92% GC overhead yet sustained about 30 req/s, processed batches normally and sent confirmations, with lag near 4 s. The  [L0095, L0162, L0170, M31, M30]"
+      ],
+      "non_blocking_objections": 3
+    },
+    "confidence": 0.5,
+    "summary": "The incident S03 system determination is INCONCLUSIVE because the contradicting evidence share (44%) exceeds the 35% limit and the leading hypothesis confidence is only 0.50, so no root cause is asserted. The leading candidate is notification-worker memory exhaustion (H1), with OOM errors at TemplateCache.put, repeated OOMKills from 09:55, and throughput falling from about 30 to about 6 req/s at 09:55 while queue lag rose from about 4 s at 09:55 to about 947 s at 10:30. Contradicting evidence includes GC thrash from 09:30 to 09:50 with sustained throughput and normal lag, which the leading hypothesis does not explain. Email-provider latency (H2, confidence 0.25) and an unmeasured inbound rise or queue-side fault (H3, confidence 0.10) remain as alternatives but are weakly supported. Queue-side metrics, TemplateCache size data, and the orchestrator restart reason were unavailable, so the criteria for a conclusive determination were not met.",
+    "root_cause": null,
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "notification-worker",
+        "category": "resource_exhaustion",
+        "mechanism": "Heap in notification-worker climbed from 81% at 09:00 to 99% at 09:50 with GC overhead warnings from 09:30, and OutOfMemoryError at TemplateCache.put led to OOMKills at 09:55, 10:10 and 10:25. Throughput fell from about 30 to about 6 req/s at 09:55 and stayed flat at that level through the restarts, so consumption stays capped while the queue backlog grows from 10:00.",
+        "supporting_evidence": [
+          "M29",
+          "M31",
+          "M30",
+          "M32",
+          "L0095",
+          "L0152",
+          "L0182",
+          "L0185",
+          "L0235",
+          "L0281",
+          "L0197",
+          "L0212"
+        ],
+        "contradicting_evidence": [
+          "M28",
+          "M27",
+          "L0162",
+          "L0170"
+        ],
+        "assumptions": [
+          "request_rate reflects consumption rather than a drop in incoming messages",
+          "TemplateCache growth is unbounded, which is inferred and not confirmed by a cache size metric",
+          "The sustained 6 req/s cap after 09:55 is caused by the OOM restart loop rather than something else"
+        ],
+        "confidence": 0.5
+      },
+      {
+        "id": "H2",
+        "service": "email-provider",
+        "category": "dependency_failure",
+        "mechanism": "Elevated latency at the email provider in eu-west slows each send, lengthening per-message hold time and reducing worker throughput, so queue lag grows without a local fault. The timing of this onset is not established.",
+        "supporting_evidence": [
+          "H04",
+          "P06",
+          "D13",
+          "L0065",
+          "L0218",
+          "L0265"
+        ],
+        "contradicting_evidence": [
+          "L0030",
+          "L0046",
+          "L0112",
+          "L0181",
+          "M31",
+          "M30"
+        ],
+        "assumptions": [
+          "Provider latency is the reason the send path is slow, not only a timing coincidence",
+          "The eu-west latency start time is unknown and may predate 10:00",
+          "Provider latency alone does not explain the abrupt drop at 09:55"
+        ],
+        "confidence": 0.25
+      },
+      {
+        "id": "H3",
+        "service": "notification-queue",
+        "category": "other",
+        "mechanism": "An unmeasured rise in incoming message rate or a queue-side fault would increase backlog faster than the worker can drain it, producing lag growth from 10:00 without a worker fault.",
+        "supporting_evidence": [
+          "M30"
+        ],
+        "contradicting_evidence": [
+          "H08",
+          "M31",
+          "M15"
+        ],
+        "assumptions": [
+          "Queue lag growth reflects backlog that a queue-side issue could create",
+          "Checkout request_rate is a reasonable but indirect proxy for publish volume"
+        ],
+        "confidence": 0.1
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "Queue lag was about 4 s through 09:55 and rose to 140.92 s at 10:00 and 946.91 s at 10:30.",
+        "evidence_ids": [
+          "M30"
+        ]
+      },
+      {
+        "statement": "notification-worker request_rate fell from about 30.95 req/s at 09:50 to 6.16 req/s at 09:55 and stayed between 5.84 and 6.18 req/s through 10:30.",
+        "evidence_ids": [
+          "M31"
+        ]
+      },
+      {
+        "statement": "memory_pct rose from 81.04% at 09:00 to 99.13% at 09:50, then dropped to 54.02% at 09:55 and rose again to 90.26% by 10:30.",
+        "evidence_ids": [
+          "M29"
+        ]
+      },
+      {
+        "statement": "GC overhead warnings (92% of time in GC over 60s) recurred from 09:30:01 to 09:54:17.",
+        "evidence_ids": [
+          "L0095",
+          "L0152",
+          "L0164",
+          "L0180"
+        ]
+      },
+      {
+        "statement": "The container notification-worker-7c9d was OOMKilled (2Gi limit) at 09:55:02, 10:10:16 and 10:25:14, and restarts went from 0 to 3.",
+        "evidence_ids": [
+          "L0185",
+          "L0235",
+          "L0281",
+          "M32"
+        ]
+      },
+      {
+        "statement": "java.lang.OutOfMemoryError at TemplateCache.put(TemplateCache.java:57) was logged eight times from 09:54:22 to 10:25:28.",
+        "evidence_ids": [
+          "L0182",
+          "L0197",
+          "L0212",
+          "L0226",
+          "L0243",
+          "L0255",
+          "L0269",
+          "L0282"
+        ]
+      },
+      {
+        "statement": "INFO logs show batches of 100 messages processed in 276 ms and 325 ms and order confirmations sent at 09:50:55 and 09:57:10 during the GC warning period.",
+        "evidence_ids": [
+          "L0150",
+          "L0162",
+          "L0170",
+          "L0193"
+        ]
+      },
+      {
+        "statement": "Email-provider slow responses (1.3 to 2.4 s) appear at intervals across 09:08 to 10:20, not clustered at onset; email-provider health is degraded at 10:28 with elevated eu-west latency on the status page.",
+        "evidence_ids": [
+          "L0030",
+          "L0065",
+          "L0218",
+          "L0265",
+          "H04"
+        ]
+      },
+      {
+        "statement": "notification-worker p99 latency, error rate and CPU stayed flat across the window with no step at 10:00 or 09:55.",
+        "evidence_ids": [
+          "M28",
+          "M27",
+          "M26"
+        ]
+      },
+      {
+        "statement": "No change records exist for notification-worker, notification-queue or email-provider in the window; the only changes are a checkout-service deploy on 2026-09-02 and a node pool upgrade at 01:00 on 2026-09-03.",
+        "evidence_ids": [
+          "C08",
+          "C09"
+        ]
+      },
+      {
+        "statement": "checkout-service request_rate stayed between 81.95 and 87.41 req/s from 09:30 to 10:30 with no step near 10:00.",
+        "evidence_ids": [
+          "M15"
+        ]
+      }
+    ],
+    "assumptions": [
+      "request_rate reflects the worker's processed rate rather than the incoming message rate to the queue.",
+      "TemplateCache growth is unbounded; this is inferred from heap growth and OOMs at TemplateCache.put and is not confirmed by a cache size metric.",
+      "The sustained throughput cap after 09:55 is caused by the OOM restart loop rather than by another factor.",
+      "Health checks for notification-queue and notification-worker are shallow and do not exercise message processing or the send path.",
+      "The eu-west email-provider latency start time is unknown and may predate 10:00.",
+      "(unverified - no valid evidence cited) No notification-queue metrics or logs were available, and no TemplateCache size or entry-count metric was returned."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "Notification-worker memory exhaustion is the leading candidate for the lag, since the worker's first OOMKill at 09:55 precedes the lag growth and consumption fell at the same time, but this is not a conclusive root cause.",
+        "evidence_ids": [
+          "M29",
+          "M31",
+          "M30",
+          "L0185",
+          "M32"
+        ],
+        "confidence": 0.5
+      },
+      {
+        "statement": "A trigger or send-path change at 09:55 is still possible, because the GC thrash from 09:30 to 09:50 occurred with steady throughput and normal lag.",
+        "evidence_ids": [
+          "L0095",
+          "L0162",
+          "L0170",
+          "M31",
+          "M30"
+        ],
+        "confidence": 0.4
+      },
+      {
+        "statement": "Email-provider latency is probably not the primary cause, since its slow responses are spread evenly and the lag only rose once the worker began OOMing, though it may add per-message time.",
+        "evidence_ids": [
+          "L0065",
+          "L0181",
+          "H04"
+        ],
+        "confidence": 0.25
+      },
+      {
+        "statement": "No recent internal change explains the incident, which argues against a bad deploy or config change, although change tracking may be incomplete.",
+        "evidence_ids": [
+          "C08",
+          "C09"
+        ],
+        "confidence": 0.5
+      },
+      {
+        "statement": "Checkout request volume shows no surge near 10:00 UTC, which weakly argues against a producer-driven rise in incoming messages, though the proxy is indirect.",
+        "evidence_ids": [
+          "M15"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "statement": "The incident is inconclusive: the leading hypothesis confidence is 0.50, the margin over the runner-up is limited, and contradicting evidence is 44%, above the 35% threshold.",
+        "evidence_ids": [],
+        "confidence": 0.9
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Mitigate the OOM loop by increasing the notification-worker memory limit or scaling out consumers, and monitor queue lag until it drains.",
+        "priority": "immediate",
+        "rationale": "Restarts cut consumption to about 6 req/s while the backlog grows, so restoring throughput limits further delay regardless of the root cause."
+      },
+      {
+        "action": "Pause or throttle non-critical notifications if the backlog risks dropping order confirmations, and communicate delay status to affected customers.",
+        "priority": "immediate",
+        "rationale": "Order confirmation emails are delayed by more than 15 minutes and the backlog is still growing."
+      },
+      {
+        "action": "Capture a heap dump from notification-worker and retrieve TemplateCache entry count and size metrics to confirm or refute unbounded growth.",
+        "priority": "short_term",
+        "rationale": "Cache growth is the leading explanation for the OOMs but is not confirmed by data."
+      },
+      {
+        "action": "Pull the orchestrator restart reason and any memory limit or config change at 09:55 to explain the post-09:55 throughput cap and the trigger.",
+        "priority": "short_term",
+        "rationale": "The 09:55 timing is unexplained because GC thrash from 09:30 did not cut throughput until then."
+      },
+      {
+        "action": "Add queue depth, consumer count and incoming publish rate metrics for notification-queue to separate incoming volume from consumption.",
+        "priority": "short_term",
+        "rationale": "Queue-side metrics are missing, so the inflow versus consumption question cannot be settled."
+      },
+      {
+        "action": "Fix the unbounded TemplateCache growth, for example by adding a size bound or eviction policy, once confirmed.",
+        "priority": "long_term",
+        "rationale": "Preventing heap growth addresses the most likely recurring failure if the cache is confirmed as the source."
+      },
+      {
+        "action": "Add deep health checks and send-latency and heap alerts for notification-worker and the email-provider integration.",
+        "priority": "long_term",
+        "rationale": "Current /health checks are shallow and did not show the worker's memory or send-path degradation."
+      },
+      {
+        "action": "Add provider failover and send-timeout handling for email-provider, as identified in past incident P06.",
+        "priority": "long_term",
+        "rationale": "Provider latency is a recurring contributor and could extend per-message hold time."
+      }
+    ],
+    "open_questions": [
+      "What is the notification-queue incoming message rate and depth for 09:00 to 10:30 UTC, and did the publish volume rise near 10:00?",
+      "What is the TemplateCache entry count or size over time, and does a heap dump show the cache as the dominant consumer?",
+      "Why was the worker restarted at 09:55 (orchestrator reason, memory limit or config change), and what changed to cut throughput at that point?",
+      "When did the eu-west email-provider latency actually begin, and does send-latency or error-rate time series from 09:00 to 10:30 UTC show a correlation with the lag?",
+      "What do DEBUG or INFO logs from 09:50 to 10:00 UTC show about batch sizes, message types and send-call durations?",
+      "Do other producers (beyond checkout-service) publish into notification-queue, and did any of them increase volume near 10:00 UTC?"
+    ],
+    "data_gaps": [
+      "No metrics exist for a 'notification-queue' service, so consumer count, queue depth and incoming message rate are unavailable. The queue_lag_s series is the only queue-side signal.",
+      "request_rate is the worker's processed rate, not the incoming rate, so the 'consumption dropped vs. incoming rate' comparison cannot be made directly.",
+      "Logs were capped at the 30 WARN/ERROR lines returned; INFO/DEBUG context around 09:50\u201310:00 was not retrieved.",
+      "No database edge was returned for notification-worker, and no database health or change records were found. The database dependency named in the task could not be verified.",
+      "The change history covers only changes recorded in the feed. Changes that were not logged, such as manual config or external provider changes, would not appear.",
+      "Health checks are shallow (HTTP /health), and the email-provider status page detail is a single snapshot at 10:28, so the latency start time is not established.",
+      "No past-incident search was run for this task, so no comparable precedent was checked.",
+      "No event-rate or traffic telemetry for order producers (checkout-service, D07) near 10:00 UTC. The query for 'order-service' returned unknown, and the only producer found in the graph is checkout-service.",
+      "No datastore dependencies appear in the graph for notification-worker, so datastore health (09:30\u201310:30) could not be checked.",
+      "23 further gap report(s) in 23 group(s) omitted here (mostly about: metrics, health, email-provider, query, logs, send-latency); the full list is in the run record."
+    ],
+    "data_gaps_total": 32,
+    "termination_reason": "max_rounds_reached"
+  },
+  "state": {
+    "brief": {
+      "id": "S03",
+      "title": "order emails delayed",
+      "reported_at": "2026-09-03T10:30:00Z",
+      "alert": "ALERT [P2] notification-queue consumer lag above 15 minutes (threshold 5m) since ~10:00 UTC; order confirmation emails delayed.",
+      "affected_services": [
+        "notification-worker"
+      ],
+      "window_start": "2026-09-03T09:00:00Z",
+      "window_end": "2026-09-03T10:30:00Z"
+    },
+    "plan": {
+      "incident_understanding": "Notification-queue consumer lag exceeds 15 minutes (threshold 5m) since about 10:00 UTC, delaying order confirmation emails. Alerting service is notification-worker. Telemetry window 09:00-10:30 UTC; change history and postmortems available over a longer period.",
+      "candidate_explanations": [
+        "notification-worker consumer slowdown or crash loop (code regression, resource exhaustion, or failing downstream email provider calls) reducing consumption rate",
+        "Upstream producer surge in order events filling the queue faster than workers drain it (e.g. traffic spike or batch job)",
+        "Recent deployment or config change to notification-worker or its dependencies (queue broker, email provider client, feature flag) triggering the slowdown",
+        "Dependency degradation (email provider, database, or broker partition issue) causing retries and throughput collapse in notification-worker"
+      ],
+      "tasks": [
+        {
+          "key": "t1",
+          "agent": "observability",
+          "objective": "Characterise the lag onset: query notification-worker and queue metrics (consumer throughput, processing latency, consumer count, queue depth) and logs from 09:00 to 10:30 UTC to find the exact time consumption dropped versus incoming message rate, and identify dominant error signatures in notification-worker logs around onset.",
+          "focus_services": [
+            "notification-worker"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t2",
+          "agent": "dependency",
+          "objective": "Find change history (deployments, config changes, feature flags, infra events) for notification-worker and its direct dependencies (queue broker, email provider integration, database) in the 24 hours before 10:00 UTC on 2026-09-03, and list any change landing shortly before the lag onset.",
+          "focus_services": [
+            "notification-worker"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t3",
+          "agent": "dependency",
+          "objective": "Map the service dependency graph for notification-worker and check health of its downstream dependencies (email provider, queue broker, datastores) during 09:30 to 10:30 UTC; also check whether upstream order-producing services show a traffic or event-rate spike near 10:00 UTC. Also search past postmortems for similar notification-queue lag incidents and their causes.",
+          "focus_services": [
+            "notification-worker"
+          ],
+          "depends_on": []
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": "T1",
+        "agent": "observability",
+        "objective": "Characterise the lag onset: query notification-worker and queue metrics (consumer throughput, processing latency, consumer count, queue depth) and logs from 09:00 to 10:30 UTC to find the exact time consumption dropped versus incoming message rate, and identify dominant error signatures in notification-worker logs around onset.",
+        "focus_services": [
+          "notification-worker"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 3,
+        "findings": {
+          "summary": "notification-worker degraded in a clear sequence. Heap pressure and GC thrash began around 09:30 UTC, the first container OOMKill came at 09:55, and throughput fell from about 30 to about 6 req/s at the same 09:55 sample. Queue lag was normal (~4 s) through 09:55 and began climbing at 10:00, reaching 947 s by 10:30. The lag onset therefore follows the worker's memory and restart failures, not an independent queue or provider failure. Queue-side metrics (consumer count, queue depth, incoming rate) were not available.",
+          "observations": [
+            {
+              "statement": "queue_lag_s was stable at about 3.9\u20134.2 s from 09:00 to 09:55 (last normal point 4.11 at 09:55). It was 140.92 s at 10:00, then rose steadily: 273 s (10:05), 404 s (10:10), 534 s (10:15), 660 s (10:20), 824 s (10:25), 947 s (10:30).",
+              "evidence_ids": [
+                "M30"
+              ]
+            },
+            {
+              "statement": "request_rate fell from 30.95 req/s (09:50) to 6.16 req/s (09:55) and stayed at 5.84\u20136.18 req/s through 10:30. The metric is notification-worker's request rate, so it shows processing throughput, not the incoming message rate to the queue.",
+              "evidence_ids": [
+                "M31"
+              ]
+            },
+            {
+              "statement": "memory_pct climbed from 81.04% (09:00) to 92.71% (09:40) and 98.48% (09:45) and 99.13% (09:50). It dropped to 54.02% at 09:55 and then rose again to 90.26% by 10:30.",
+              "evidence_ids": [
+                "M29"
+              ]
+            },
+            {
+              "statement": "Restarts counter went from 0 at 09:50 to 1 at 09:55, 2 at 10:10, and 3 at 10:25.",
+              "evidence_ids": [
+                "M32"
+              ]
+            },
+            {
+              "statement": "GC overhead warnings ('92% of time spent in GC over last 60s') appear repeatedly from 09:30:01 onward (about every 2\u20135 min, 10 total in window). This is the most frequent WARN signature.",
+              "evidence_ids": [
+                "L0095",
+                "L0105",
+                "L0115",
+                "L0123",
+                "L0132",
+                "L0141",
+                "L0152",
+                "L0164",
+                "L0175",
+                "L0180"
+              ]
+            },
+            {
+              "statement": "java.lang.OutOfMemoryError: Java heap space at TemplateCache.put(TemplateCache.java:57) is the dominant ERROR signature (8 occurrences), first at 09:54:22 and recurring at 09:58:29, 10:03:09, 10:07:17, 10:12:09, 10:16:13, 10:20:46, and 10:25:28.",
+              "evidence_ids": [
+                "L0182",
+                "L0197",
+                "L0212",
+                "L0226",
+                "L0243",
+                "L0255",
+                "L0269",
+                "L0282"
+              ]
+            },
+            {
+              "statement": "Container notification-worker-7c9d was OOMKilled (limit 2Gi) at 09:55:02, 10:10:16 and 10:25:14, matching the restart counter steps.",
+              "evidence_ids": [
+                "L0185",
+                "L0235",
+                "L0281"
+              ]
+            },
+            {
+              "statement": "'email-provider responded slowly: 2400ms' (5 occurrences) and 'email-provider responded in N ms' (3 occurrences, 697\u20131283 ms) appear from 09:08 onward, spread evenly across the window. They are not clustered at the onset. Single 'bounce for recipient' ERROR at 09:16:18 is isolated.",
+              "evidence_ids": [
+                "L0030",
+                "L0046",
+                "L0065",
+                "L0112",
+                "L0167",
+                "L0181",
+                "L0218",
+                "L0265",
+                "L0052"
+              ]
+            },
+            {
+              "statement": "p99 latency (latency_p99_ms, 866\u2013934 ms) and error_rate (0.15\u20130.25%) stayed flat across 09:00\u201310:30, with no change at 10:00.",
+              "evidence_ids": [
+                "M28",
+                "M27"
+              ]
+            },
+            {
+              "statement": "CPU stayed at 21\u201323% throughout, with no change at onset.",
+              "evidence_ids": [
+                "M26"
+              ]
+            },
+            {
+              "statement": "Metrics for 'notification-queue' do not exist. Queue depth, consumer count and incoming message rate could not be measured.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The lag onset is driven by notification-worker memory exhaustion: heap usage climbed from about 09:05 with GC thrash from 09:30, and the worker was OOMKilled and restarted repeatedly from 09:55. Each restart cuts consumption to near zero, so the backlog grows. The lag rise starting at 10:00 is consistent with that.",
+              "evidence_ids": [
+                "M29",
+                "M32",
+                "L0095",
+                "L0182",
+                "L0185",
+                "M31",
+                "M30"
+              ],
+              "confidence": 0.8
+            },
+            {
+              "statement": "TemplateCache.put is the likely source of the heap growth (unbounded cache or leak), since it is the sole OOM site and recurs after each restart. This is not confirmed by the logs alone.",
+              "evidence_ids": [
+                "L0182",
+                "L0235",
+                "L0281"
+              ],
+              "confidence": 0.55
+            },
+            {
+              "statement": "Email-provider latency is probably not the cause. It is spread evenly across the window, its values stay in the low-second range, and the lag only rose once the worker began OOMing. It may still add per-message time.",
+              "evidence_ids": [
+                "L0065",
+                "L0181",
+                "L0167"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "Whether the 09:55 request-rate drop reflects a fall in incoming messages or only in consumption cannot be determined from these data. The restart timing points to consumption.",
+              "evidence_ids": [
+                "M31",
+                "L0185"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "No metrics exist for a 'notification-queue' service, so consumer count, queue depth and incoming message rate are unavailable. The queue_lag_s series is the only queue-side signal.",
+            "request_rate is the worker's processed rate, not the incoming rate, so the 'consumption dropped vs. incoming rate' comparison cannot be made directly.",
+            "Logs were capped at the 30 WARN/ERROR lines returned; INFO/DEBUG context around 09:50\u201310:00 was not retrieved."
+          ],
+          "suggested_followups": [
+            "Pull queue depth, consumer count and publish rate from the broker (under its real service name) for 09:00\u201310:30 to confirm the incoming rate.",
+            "Check change history for a deploy or config change to TemplateCache or template size before 09:30 (memory growth began about 09:05).",
+            "Check heap and cache-size metrics for notification-worker, and any TemplateCache eviction config.",
+            "Check whether the 2Gi memory limit changed, and whether the 09:55 restart was caused by a rollout or a manual action.",
+            "Look at notification-worker INFO logs 09:50\u201310:00 to identify the first consumer stall before the lag began."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T2",
+        "agent": "dependency",
+        "objective": "Find change history (deployments, config changes, feature flags, infra events) for notification-worker and its direct dependencies (queue broker, email provider integration, database) in the 24 hours before 10:00 UTC on 2026-09-03, and list any change landing shortly before the lag onset.",
+        "focus_services": [
+          "notification-worker"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "No change to notification-worker, notification-queue, or email-provider landed in the 24h before 10:00 UTC on 2026-09-03. The only changes in the window are unrelated (checkout-service deploy 2026-09-02 14:00 and a platform node-pool upgrade 2026-09-03 01:00). The dependency graph shows email-provider as degraded (eu-west elevated latency) at 10:28, while the queue and worker health checks pass. The graph lists no database edge for notification-worker. The change data therefore does not explain the lag onset at ~10:00, and the email-provider latency is the more plausible lead.",
+          "observations": [
+            {
+              "statement": "notification-worker has no change records (deploy, config, flag, infra) in the 24h before 10:00 UTC on 2026-09-03.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Across all services, the 24h window before 10:00 UTC on 2026-09-03 has only two changes: checkout-service deploy v2.13.4 at 2026-09-02T14:00:00Z (cart page tweaks) and a platform Kubernetes node pool upgrade 1.30->1.31 completed at 2026-09-03T01:00:00Z.",
+              "evidence_ids": [
+                "C08",
+                "C09"
+              ]
+            },
+            {
+              "statement": "notification-worker's direct dependencies in the graph are notification-queue (queue edge) and email-provider (external_http edge). No database dependency is listed.",
+              "evidence_ids": [
+                "D12",
+                "D13"
+              ]
+            },
+            {
+              "statement": "email-provider health check is degraded at 2026-09-03T10:28:00Z, with status page reporting elevated latency in the eu-west region.",
+              "evidence_ids": [
+                "H04"
+              ]
+            },
+            {
+              "statement": "notification-queue health check is healthy (HTTP /health 200) at 2026-09-03T10:28:00Z.",
+              "evidence_ids": [
+                "H08"
+              ]
+            },
+            {
+              "statement": "notification-worker health check is healthy (HTTP /health 200) at 2026-09-03T10:28:00Z.",
+              "evidence_ids": [
+                "H09"
+              ]
+            },
+            {
+              "statement": "email-provider has no dependencies of its own in the graph (0 edges).",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "No recent change to notification-worker or its direct dependencies explains the ~10:00 UTC lag onset; the checkout deploy and the node pool upgrade are unrelated or too early to be a direct cause. The platform node upgrade finished about 9 hours before onset and could only matter if it has a delayed effect on the worker.",
+              "evidence_ids": [
+                "C08",
+                "C09"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "Elevated latency at the external email provider (eu-west) is the leading dependency-side hypothesis. Slow sends would back up the worker's consumption and grow queue lag without any local change. The worker health check is shallow and would not show this.",
+              "evidence_ids": [
+                "H04",
+                "H09"
+              ],
+              "confidence": 0.55
+            },
+            {
+              "statement": "The healthy /health checks on the queue and worker do not rule out a consumer-side problem, because shallow checks do not exercise message processing or the send path.",
+              "evidence_ids": [
+                "H08",
+                "H09"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "No database edge was returned for notification-worker, and no database health or change records were found. The database dependency named in the task could not be verified.",
+            "The change history covers only changes recorded in the feed. Changes that were not logged, such as manual config or external provider changes, would not appear.",
+            "Health checks are shallow (HTTP /health), and the email-provider status page detail is a single snapshot at 10:28, so the latency start time is not established.",
+            "No past-incident search was run for this task, so no comparable precedent was checked."
+          ],
+          "suggested_followups": [
+            "Check email-provider latency and error metrics for eu-west from 09:30 to 10:30 UTC to confirm whether slowness began before the 10:00 lag onset.",
+            "Check notification-worker consumer throughput, send-call latency and error rate against email-provider, to see whether sends are slow or failing.",
+            "Confirm whether notification-worker has a database dependency that is missing from the graph, and check its health and changes.",
+            "Check whether the platform node pool upgrade (2026-09-03T01:00Z) affected notification-worker pods, such as restarts or reschedules, in the hours before onset.",
+            "Search past incidents for email-provider latency or consumer lag precedents to test the hypothesis."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T3",
+        "agent": "dependency",
+        "objective": "Map the service dependency graph for notification-worker and check health of its downstream dependencies (email provider, queue broker, datastores) during 09:30 to 10:30 UTC; also check whether upstream order-producing services show a traffic or event-rate spike near 10:00 UTC. Also search past postmortems for similar notification-queue lag incidents and their causes.",
+        "focus_services": [
+          "notification-worker"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "notification-worker's only direct dependencies in the graph are notification-queue (queue, D12) and email-provider (external HTTP, D13). The email-provider health check is degraded, citing elevated eu-west latency on its status page (H04). The queue and worker report healthy only via shallow HTTP /health checks. No changes were recorded in the 09:30\u201310:30 window or for email-provider from 08:00\u201310:30. Order-producing traffic and event rates could not be checked. The most plausible lead is slow email-provider sends backing up the consumer, which matches past incident P06, but this is not confirmed.",
+          "observations": [
+            {
+              "statement": "notification-worker has two direct dependencies: notification-queue (queue edge) and email-provider (external_http edge).",
+              "evidence_ids": [
+                "D12",
+                "D13"
+              ]
+            },
+            {
+              "statement": "email-provider health is 'degraded' at 10:28:00Z, with the detail 'status page: elevated latency in eu-west region'.",
+              "evidence_ids": [
+                "H04"
+              ]
+            },
+            {
+              "statement": "notification-queue health is 'healthy' at 10:28:00Z (HTTP /health 200). This check may be shallow.",
+              "evidence_ids": [
+                "H08"
+              ]
+            },
+            {
+              "statement": "notification-worker health is 'healthy' at 10:28:00Z (HTTP /health 200). This check may be shallow and does not exercise sends.",
+              "evidence_ids": [
+                "H09"
+              ]
+            },
+            {
+              "statement": "The change history query for 09:30\u201310:30 UTC across all services returned 0 changes.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "The change history query for email-provider from 08:00\u201310:30 UTC returned 0 changes.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "checkout-service is also a producer into notification-queue (queue edge), and its health is 'healthy' at 10:28:00Z.",
+              "evidence_ids": [
+                "D07",
+                "H03"
+              ]
+            },
+            {
+              "statement": "A past incident (2026-06-20) had the same symptoms (notification queue lag, email send timeouts) with the root cause 'Third-party email provider outage'. Its resolution was waiting for provider recovery and adding a secondary provider.",
+              "evidence_ids": [
+                "P06"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The most likely explanation so far is that degraded email-provider latency slowed notification-worker sends, causing queue consumer lag. This would show up as lag without a queue fault. It is consistent with the degraded health check and with P06, but it is not confirmed by lag or latency telemetry.",
+              "evidence_ids": [
+                "H04",
+                "P06",
+                "D13"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "A traffic or event-rate spike from order producers near 10:00 UTC is not supported or ruled out by the data, so it remains a possible cause of the lag.",
+              "evidence_ids": [
+                "D07"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "statement": "No internal change explains the incident, since there are no recorded changes in the window. That argues against a bad deploy or config change, though change tracking may be incomplete.",
+              "evidence_ids": [],
+              "confidence": 0.5
+            },
+            {
+              "statement": "The queue and worker health checks being 'healthy' does not rule out a fault inside notification-queue or notification-worker, because the checks are shallow.",
+              "evidence_ids": [
+                "H08",
+                "H09"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "No event-rate or traffic telemetry for order producers (checkout-service, D07) near 10:00 UTC. The query for 'order-service' returned unknown, and the only producer found in the graph is checkout-service.",
+            "No datastore dependencies appear in the graph for notification-worker, so datastore health (09:30\u201310:30) could not be checked.",
+            "Health checks are shallow (HTTP /health only). No queue depth, consumer throughput, or send-latency metrics were obtained, so the lag magnitude and its source are unknown.",
+            "The email-provider health result is a status-page statement, not a measured send-latency or error-rate result.",
+            "Change history covers 09:30\u201310:30 for all services and 08:00\u201310:30 for email-provider only. Changes to notification-worker or notification-queue before 09:30 were not checked in detail."
+          ],
+          "suggested_followups": [
+            "Pull consumer lag, queue depth and enqueue rate for notification-queue from 09:30\u201310:30 to see whether lag began with a rate spike or with slower consumption.",
+            "Pull send latency and error rates from notification-worker to email-provider in eu-west, and compare them with the 10:00 onset.",
+            "Pull checkout-service order event rate around 10:00 UTC to test the producer spike hypothesis.",
+            "Check notification-worker and notification-queue changes from earlier than 09:30 UTC, and confirm datastore dependencies, which the graph did not show.",
+            "Review the P06 mitigation (secondary email provider) to see whether it applies now."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T4",
+        "agent": "observability",
+        "objective": "Retrieve notification-worker heap usage and TemplateCache entry count or size metrics for 09:00-10:30 UTC to confirm whether the cache grows without bound, and retrieve INFO/DEBUG logs for 09:45-10:00 UTC to show what the worker was doing while GC was thrashing before the 09:55 OOMKill.",
+        "focus_services": [
+          "notification-worker"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "notification-worker memory climbed steadily from 09:00 to a ~99% peak at 09:50, then repeated OOM kills and restarts followed. The request rate fell from about 30 req/s to about 6 req/s at 09:55, and queue lag rose from about 4 s to about 947 s by 10:30. The TemplateCache entry-count or size metric that was requested does not exist in the returned data, so unbounded cache growth is not directly confirmed. The only cache evidence is OutOfMemoryError stack traces at TemplateCache.put, which are consistent with the cache filling the heap.",
+          "observations": [
+            {
+              "statement": "memory_pct rose from 81.04% at 09:00 to 92.71% at 09:40, reached 98.48% at 09:45 and peaked at 99.13% at 09:50. It then dropped to 54.02% at 09:55, the first point after the restart.",
+              "evidence_ids": [
+                "M29"
+              ]
+            },
+            {
+              "statement": "GC overhead warnings appeared repeatedly before the kill: 92% of time in GC over the last 60s at 09:46:15, 09:49:09, 09:51:54 and 09:54:17.",
+              "evidence_ids": [
+                "L0152",
+                "L0164",
+                "L0175",
+                "L0180"
+              ]
+            },
+            {
+              "statement": "At 09:54:22 the worker logged java.lang.OutOfMemoryError: Java heap space at TemplateCache.put(TemplateCache.java:57). The same error recurred at 09:58:29, 10:03:09, 10:07:17, 10:12:09, 10:16:13, 10:20:46 and 10:25:28, eight times in total, all at the same line.",
+              "evidence_ids": [
+                "L0182",
+                "L0197",
+                "L0212",
+                "L0226",
+                "L0243",
+                "L0255",
+                "L0269",
+                "L0282"
+              ]
+            },
+            {
+              "statement": "The container was OOMKilled (limit 2Gi) at 09:55:02, and the same OOMKilled event was logged again at 10:10:16. Restarts went from 0 before 09:55 to 1 at 09:55, 2 at 10:10 and 3 at 10:25.",
+              "evidence_ids": [
+                "L0185",
+                "L0235",
+                "M32"
+              ]
+            },
+            {
+              "statement": "INFO logs between 09:45 and 10:00 show the worker still processing batches of 100 messages, taking 276ms and 325ms. It also sent order confirmations at 09:50:55 and 09:57:10. Throughput stayed high until the kill.",
+              "evidence_ids": [
+                "L0150",
+                "L0162",
+                "L0170",
+                "L0193"
+              ]
+            },
+            {
+              "statement": "request_rate was about 29\u201331 req/s from 09:00 to 09:50 and dropped to about 6 req/s from 09:55 onward. This is the same time as the OOMKill.",
+              "evidence_ids": [
+                "M31"
+              ]
+            },
+            {
+              "statement": "queue_lag_s was about 4 s through 09:55, then rose to 140.92 s at 10:00 and 946.91 s at 10:30, increasing steadily. The alert threshold is 5 minutes (300 s).",
+              "evidence_ids": [
+                "M30"
+              ]
+            },
+            {
+              "statement": "email-provider was slow during the window: 2400ms at 09:50:22 and 1283ms at 09:54:18. These are the only provider-latency signals in the window.",
+              "evidence_ids": [
+                "L0167",
+                "L0181"
+              ]
+            },
+            {
+              "statement": "Normal or non-contributing signals: cpu_pct stayed between 21 and 23% throughout. error_rate stayed between 0.15% and 0.25%. latency_p99_ms stayed between 866 and 934 ms. The only ERROR outside the OOM or kill events is one bounce for a recipient at 09:16:18.",
+              "evidence_ids": [
+                "M26",
+                "M27",
+                "M28",
+                "L0052"
+              ]
+            },
+            {
+              "statement": "Memory climbed from 81% at 09:00 to 99% at 09:50 while cpu_pct stayed flat, which is consistent with heap growth rather than CPU saturation.",
+              "evidence_ids": [
+                "M29",
+                "M26"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The TemplateCache is growing without bound. This is inferred from the heap climbing steadily for 50 minutes and from OOMs at TemplateCache.put, but no cache entry count or size metric was returned to confirm it.",
+              "evidence_ids": [
+                "M29",
+                "L0182",
+                "L0197"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "After the restart the worker re-enters the same OOM loop, roughly every 5 minutes, which is consistent with the cache refilling quickly and exhausting the heap again. The queue backlog keeps growing because consumption is not keeping up.",
+              "evidence_ids": [
+                "M29",
+                "L0212",
+                "L0226",
+                "L0243",
+                "M30"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "The falling request_rate after 09:55 is consistent with the worker being unable to consume while it restarts, which would explain the backlog growth. It is not clear whether the drop is a cause or a result.",
+              "evidence_ids": [
+                "M31",
+                "M30"
+              ],
+              "confidence": 0.4
+            }
+          ],
+          "data_gaps": [
+            "No TemplateCache entry-count or size metric is present in notification-worker's 7 series (cpu_pct, error_rate, latency_p99_ms, memory_pct, queue_lag_s, request_rate, restarts), so cache growth cannot be directly confirmed from metrics.",
+            "DEBUG-level logs for the 09:45\u201310:00 window were not retrieved. The INFO/WARN/ERROR query returned 13 lines, and the TemplateCache DEBUG query returned only ERROR lines. No DEBUG lines were seen for the worker.",
+            "The log query for 09:45\u201310:00 returned only 13 matching lines at INFO and above, so the record of what the worker was doing during GC thrashing is sparse."
+          ],
+          "suggested_followups": [
+            "Query a TemplateCache metric (for example entries, bytes or evictions) on notification-worker, or on a sibling service if the cache is exposed elsewhere, for 09:00\u201310:30.",
+            "Pull DEBUG logs for notification-worker from 09:45 to 10:00 to see what TemplateCache.put was called with, such as template keys or sizes.",
+            "Check change history for a template or deployment change around 09:00 that could increase the number of distinct template keys cached.",
+            "Check whether the email-provider slowdown at 09:50 and 09:54 has any link to the batch slowdown or to the heap growth."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T5",
+        "agent": "observability",
+        "objective": "Retrieve the publish rate of checkout-service into notification-queue for 09:30-10:30 UTC to determine whether incoming message volume rose near 10:00 UTC, since notification-queue metrics are unavailable.",
+        "focus_services": [
+          "checkout-service",
+          "notification-queue"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "No direct publish-rate telemetry exists for checkout-service into notification-queue. Checkout-service's proxy signal, request_rate, stayed flat at about 82-87 req/s across 09:30-10:30 UTC with no step near 10:00. Checkout's own logs contain no publish or notification lines, and notification-queue has no logs or metrics in the tool results. Volume evidence therefore does not show a rise near 10:00 UTC, but it is an indirect proxy, not the publish rate itself.",
+          "observations": [
+            {
+              "statement": "checkout-service request_rate ranged 81.95-87.41 req/s (mean 84.91) from 09:30 to 10:30 UTC, with max at 09:40:00Z; the 10:00:00Z value was 84.8 and the 10:05:00Z value was 86.95, so there is no visible step at 10:00.",
+              "evidence_ids": [
+                "M15"
+              ]
+            },
+            {
+              "statement": "checkout-service error_rate stayed low (0.27-0.36%, mean 0.30%), with its max at 10:20:00Z. Latency p99 stayed within 308-332 ms, and cpu_pct stayed within 39-42%, with no change near 10:00.",
+              "evidence_ids": [
+                "M12",
+                "M13",
+                "M11"
+              ]
+            },
+            {
+              "statement": "Log searches in checkout-service for 'notification' and 'publish' at DEBUG and above in 09:30-10:30 returned 0 lines.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "notification-queue returned no logs in 09:30-10:30. The tool reports that services with logs are api-gateway, auth-service, checkout-service, inventory-db, inventory-service, notification-worker, payment-service, payments-db and search-service; notification-queue is not among them.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "Checkout's request rate gives no sign of a publish-volume surge near 10:00 UTC, which argues against a checkout-driven increase in queued messages as the cause of the lag. This is indirect because request rate is not the publish rate, and the queue may receive messages from other producers.",
+              "evidence_ids": [],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The publish rate itself cannot be confirmed from the available data, so the question of whether incoming volume rose cannot be fully answered.",
+              "evidence_ids": [],
+              "confidence": 0.8
+            }
+          ],
+          "data_gaps": [
+            "No publish-rate or enqueue metric for checkout-service to notification-queue was available; the proxy is checkout request_rate.",
+            "notification-queue has no metrics or logs in the telemetry window, despite the task stating its metrics are unavailable.",
+            "Checkout-service logs contain no publish or notification-related lines, so the publish path cannot be verified from logs."
+          ],
+          "suggested_followups": [
+            "Get the queue broker's enqueue or publish counters from the broker itself, or from the checkout-service client/producer metrics, if those exist outside this telemetry.",
+            "Check whether other producers (for example payment-service or inventory-service) into notification-queue changed around 10:00 UTC.",
+            "Check notification-worker consumer throughput and error logs around 09:45-10:05 UTC to see whether the consumer slowed rather than the producer increasing."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T6",
+        "agent": "dependency",
+        "objective": "Retrieve email-provider send-latency and error-rate time series for 09:00-10:30 UTC and confirm the start time of the eu-west latency, to test whether provider slowness extends per-message hold time and contributes to worker memory pressure.",
+        "focus_services": [
+          "email-provider",
+          "notification-worker"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "Could not run the requested time-series retrieval: no tool here returns email-provider send-latency, error-rate, or notification-worker memory metrics. What I could establish: no deploys, config changes, flags or infra events for either service between 08:00 and 10:30 UTC. email-provider's health check is degraded, citing eu-west latency, at 10:28 UTC, and notification-worker's shallow /health check is 200. The eu-west latency start time is not confirmed; the only timestamp available is the 10:28 health check. Provider slowness remains a plausible lead, but the memory-pressure link is untested.",
+          "observations": [
+            {
+              "statement": "get_change_history returned 0 changes for email-provider between 2026-09-03T08:00:00Z and 10:30:00Z.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "get_change_history returned 0 changes for notification-worker between 2026-09-03T08:00:00Z and 10:30:00Z.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "The dependency graph has one edge: notification-worker calls email-provider over external_http.",
+              "evidence_ids": [
+                "D13"
+              ]
+            },
+            {
+              "statement": "email-provider health is degraded at 2026-09-03T10:28:00Z; the status page reports elevated latency in the eu-west region.",
+              "evidence_ids": [
+                "H04"
+              ]
+            },
+            {
+              "statement": "notification-worker health is healthy at 2026-09-03T10:28:00Z (HTTP /health 200). This check is shallow and does not exercise sends or memory.",
+              "evidence_ids": [
+                "H09"
+              ]
+            },
+            {
+              "statement": "Past incident P06 (2026-06-20) had notification queue lag and email send timeouts caused by a third-party email provider outage.",
+              "evidence_ids": [
+                "P06"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "A third-party eu-west latency increase on email-provider is a plausible upstream cause of the notification queue lag, because the worker's per-message hold time would rise and the backlog would grow. Nothing in the change history explains it.",
+              "evidence_ids": [
+                "H04",
+                "D13",
+                "P06"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "The change history does not support an internal deploy or config change as the trigger. This points toward an external cause, or toward a non-change cause inside notification-worker.",
+              "evidence_ids": [],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The worker memory-pressure hypothesis is untested. The healthy shallow /health check does not rule it out.",
+              "evidence_ids": [
+                "H09"
+              ],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "No tool provides email-provider send-latency or error-rate time series for 09:00-10:30 UTC, so the requested time series was not retrieved.",
+            "The eu-west latency start time is not confirmed. The only timestamp is the 10:28 UTC health check, not the onset.",
+            "No notification-worker memory or heap metrics were retrieved, so memory pressure cannot be tested.",
+            "The degraded status comes from a status-page-derived health check, not a measured send-latency series."
+          ],
+          "suggested_followups": [
+            "Pull email-provider p50/p99 send latency and error rate by region (eu-west vs others) from 09:00 to 10:30 UTC from the metrics system to fix the onset time.",
+            "Pull notification-worker memory, GC, and per-message hold-time metrics for the same window to test the memory-pressure link.",
+            "Check the provider's external status history for the eu-west incident start time.",
+            "Check whether notification-worker consumer lag growth lines up with the eu-west latency onset."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T7",
+        "agent": "observability",
+        "objective": "Retrieve notification-worker INFO and DEBUG logs from 09:55 to 10:30 UTC, including per-batch processing and send-call durations, to determine whether the flat ~6 req/s after 09:55 reflects send waits, consumer stalls, or restart throttling. Also check whether any batch-size or message-type change appears at 09:55 that could explain a load change under steady heap pressure.",
+        "focus_services": [
+          "notification-worker"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 3,
+        "findings": {
+          "summary": "notification-worker entered a restart/OOM loop starting at 09:55 UTC. Request rate fell from about 30 req/s to about 6 req/s at the same time as the first OOMKilled container event, and queue lag began rising at 10:00. Heap-space OOMs at TemplateCache.put recur through 10:25. Email-provider slowness appears only twice, so send waits look like a minor factor. No DEBUG lines and no per-batch or send-call duration lines were returned, and the batch-size and message-type check could not be completed.",
+          "observations": [
+            {
+              "statement": "request_rate dropped from about 30.95 req/s at 09:50 to 6.16 req/s at 09:55 and stayed at 5.84 to 6.18 req/s through 10:30.",
+              "evidence_ids": [
+                "M31"
+              ]
+            },
+            {
+              "statement": "Container notification-worker-7c9d was OOMKilled (2Gi limit) at 09:55:02.",
+              "evidence_ids": [
+                "L0185"
+              ]
+            },
+            {
+              "statement": "The restarts counter went from 0 at 09:50 to 1 at 09:55, 2 at 10:10, and 3 at 10:25.",
+              "evidence_ids": [
+                "M32"
+              ]
+            },
+            {
+              "statement": "Further OOMKilled terminations were logged at 10:10:16 and 10:25:14.",
+              "evidence_ids": [
+                "L0235",
+                "L0281"
+              ]
+            },
+            {
+              "statement": "java.lang.OutOfMemoryError: Java heap space at TemplateCache.put(TemplateCache.java:57) appears at 09:58:29, 10:03:09, 10:07:17, 10:12:09, 10:16:13, 10:20:46 and 10:25:28 (7 occurrences in the window).",
+              "evidence_ids": [
+                "L0197",
+                "L0212",
+                "L0226",
+                "L0243",
+                "L0255",
+                "L0269",
+                "L0282"
+              ]
+            },
+            {
+              "statement": "memory_pct climbed from 81% at 09:00 to 98.5% at 09:45 and 99.1% at 09:50, then fell to 54% at 09:55 (after the restart) and rose again to 90.3% by 10:30.",
+              "evidence_ids": [
+                "M29"
+              ]
+            },
+            {
+              "statement": "queue_lag_s was about 3.9 to 4.2 s through 09:55, then 140.9 s at 10:00, 273 s at 10:05, 404 s at 10:10, and 947 s at 10:30, growing steadily.",
+              "evidence_ids": [
+                "M30"
+              ]
+            },
+            {
+              "statement": "email-provider slowness (2400 ms) was logged only twice, at 10:05:30 and 10:20:19.",
+              "evidence_ids": [
+                "L0218",
+                "L0265"
+              ]
+            },
+            {
+              "statement": "Only two INFO sends were logged in the window: order confirmation sent at 09:57:10 and at 10:11:40.",
+              "evidence_ids": [
+                "L0193",
+                "L0240"
+              ]
+            },
+            {
+              "statement": "cpu_pct stayed flat at about 21 to 23% across the whole window, with no change at 09:55.",
+              "evidence_ids": [
+                "M26"
+              ]
+            },
+            {
+              "statement": "latency_p99_ms stayed at about 866 to 934 ms, with no step change at 09:55.",
+              "evidence_ids": [
+                "M28"
+              ]
+            },
+            {
+              "statement": "error_rate stayed at 0.15 to 0.25% across the window, with no step change at 09:55.",
+              "evidence_ids": [
+                "M27"
+              ]
+            },
+            {
+              "statement": "The 09:55 to 10:30 log query returned 14 lines (ERROR 10, WARN 2, INFO 2) and no DEBUG lines.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The drop in throughput at 09:55 coincides with the first OOMKill and restart. This points to a consumer stall or restart throttling caused by the OOM loop, not to send waits, since email-provider slowness is sparse and send latency signals are flat.",
+              "evidence_ids": [
+                "M31",
+                "L0185",
+                "M32",
+                "L0218",
+                "L0265"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "Heap pressure from TemplateCache growth is the likely driver of the OOM loop: memory was near 99% before the first kill, and every OOM is at TemplateCache.put.",
+              "evidence_ids": [
+                "M29",
+                "L0197",
+                "L0212",
+                "L0226",
+                "L0243",
+                "L0255",
+                "L0269",
+                "L0282"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The queue lag growth is consistent with consumers processing far less than the roughly 30 req/s inflow after 09:55, so lag accumulates at about 6 req/s effective throughput. The lag began after the OOM event and rose after 10:00, matching the alert timing.",
+              "evidence_ids": [
+                "M30",
+                "M31"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "No batch-size or message-type change at 09:55 was verified. The request rate drop is equally consistent with the crash loop as with an upstream volume change, so this remains open.",
+              "evidence_ids": [
+                "M31"
+              ],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "No DEBUG logs were returned, so per-batch processing and send-call durations are unavailable.",
+            "The batch-size and message-type change check was not completed: the final log query (INFO lines containing 'batch', 09:30 to 10:30) was rejected because the tool-call budget was exhausted.",
+            "Upstream producer or message volume metrics were not queried, so the inflow change behind the rate drop is unverified.",
+            "Email-provider metrics and logs were not queried, so the send-wait hypothesis cannot be fully ruled out.",
+            "The TemplateCache contents, its growth rate, and the heap or GC metrics for the JVM were not examined.",
+            "Restart reason from the orchestrator (for example, a liveness probe or a memory limit change) was not checked; the change history was not queried."
+          ],
+          "suggested_followups": [
+            "Pull DEBUG/INFO logs for notification-worker with batch and send-call durations from 09:50 to 10:05 to separate send waits from consumer stalls.",
+            "Query the upstream producer (order service or queue publisher) request and message-type volumes around 09:55 to test for a batch-size or message-type change.",
+            "Check the change history and deploy log for TemplateCache or template changes and for any container memory-limit change near 09:45 to 09:55.",
+            "Check email-provider latency and error metrics for the 09:55 to 10:30 window.",
+            "Check the queue broker consumer count and the notification-worker JVM heap and GC metrics to confirm the restart-loop mechanism."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T8",
+        "agent": "dependency",
+        "objective": "Search past incidents and postmortems for notification-worker OutOfMemoryError at TemplateCache.put and for eu-west latency episodes at email-provider, and report any precedent with its timing, trigger and cause, to compare with this incident.",
+        "focus_services": [
+          "notification-worker",
+          "email-provider"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "No past incident matches the notification-worker OutOfMemoryError at TemplateCache.put. The only precedent for email-provider delays (P06) is a third-party provider outage, not an eu-west latency episode. No change-history or dependency data was pulled in this run, so nothing here is tied to the S03 timeline.",
+          "observations": [
+            {
+              "statement": "A search for notification-worker OutOfMemoryError at TemplateCache.put returned no matching incident.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "P06 (2026-06-20, 'Email delays caused by email-provider outage') involves notification-worker and email-provider, with symptoms of notification queue lag and email send timeouts. Its root cause was a third-party email provider outage, and it was resolved by waiting for provider recovery and adding a secondary provider.",
+              "evidence_ids": [
+                "P06"
+              ]
+            },
+            {
+              "statement": "A broader search for OutOfMemoryError / TemplateCache.put / heap leak returned P03 (inventory cache eviction storm, cache memory limit too low) and P07 (payments-db connection leak). Neither involves notification-worker or email-provider.",
+              "evidence_ids": [
+                "P03",
+                "P07"
+              ]
+            },
+            {
+              "statement": "A search for eu-west latency at email-provider returned only P06 in the service-filtered query.",
+              "evidence_ids": [
+                "P06"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "P06 is a weak precedent for S03. It shows that email-provider trouble can produce notification queue lag, but its cause was a provider outage, which is not an OOM in notification-worker. It does not establish that the same mechanism is at work now.",
+              "evidence_ids": [
+                "P06"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "P03 is only a loose analogy: a memory limit that is too low, leading to eviction and load. It does not show a TemplateCache OOM. Treat it as a hypothesis to test, not as evidence.",
+              "evidence_ids": [
+                "P03"
+              ],
+              "confidence": 0.2
+            }
+          ],
+          "data_gaps": [
+            "The eu-west latency search without a service filter was rejected because the tool-call budget was exhausted, so that check is incomplete.",
+            "No get_change_history query was run, so deploys, config changes or feature flags near 10:00 UTC on 2026-09-03 are unchecked.",
+            "No get_dependencies query was run, so the health of email-provider and its dependents is unknown.",
+            "No telemetry was pulled for the 09:00-10:30 UTC window, so there is no heap or OOM confirmation and no eu-west latency confirmation for this incident."
+          ],
+          "suggested_followups": [
+            "Pull change history for notification-worker and email-provider from 2026-09-02T00:00Z to 2026-09-03T10:30Z, focusing on template or cache changes and memory settings.",
+            "Check notification-worker logs and metrics for OutOfMemoryError at TemplateCache.put and heap usage trends before 10:00 UTC.",
+            "Check email-provider eu-west latency and error rates for the same window, and whether a provider-side incident was reported.",
+            "Run a broader past-incident search for TemplateCache or template cache memory growth without a service filter."
+          ]
+        },
+        "error": null
+      }
+    ],
+    "rounds": [
+      {
+        "number": 1,
+        "task_ids": [
+          "T1",
+          "T2",
+          "T3"
+        ],
+        "new_evidence": 47,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "notification-worker",
+              "category": "resource_exhaustion",
+              "mechanism": "Heap usage in notification-worker climbed from about 09:05 with GC thrash from 09:30, and TemplateCache.put is the sole OOM site. Repeated OOMKills and restarts from 09:55 cut consumption from about 30 to about 6 req/s, so the queue backlog grows from 10:00 onward.",
+              "supporting_evidence": [
+                "M29",
+                "M32",
+                "M31",
+                "M30",
+                "L0095",
+                "L0182",
+                "L0185",
+                "L0235",
+                "L0281",
+                "L0197",
+                "L0212"
+              ],
+              "contradicting_evidence": [
+                "M28",
+                "M27"
+              ],
+              "assumptions": [
+                "request_rate reflects consumption rather than a drop in incoming messages",
+                "The memory growth is not caused by an external slowdown that holds messages in memory longer"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "id": "H2",
+              "service": "email-provider",
+              "category": "dependency_failure",
+              "mechanism": "Elevated eu-west latency at the email provider slows each send, reducing worker consumption and growing queue lag without a local fault. Slow sends could also hold messages and memory longer, which could contribute to the heap growth.",
+              "supporting_evidence": [
+                "H04",
+                "P06",
+                "D13",
+                "L0065",
+                "L0218",
+                "L0265"
+              ],
+              "contradicting_evidence": [
+                "L0030",
+                "L0046",
+                "L0181",
+                "M31"
+              ],
+              "assumptions": [
+                "Provider latency is the reason the send path is slow, not only a timing coincidence",
+                "Provider latency values in the logs are representative of the lag period"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "id": "H3",
+              "service": "notification-queue",
+              "category": "other",
+              "mechanism": "An unmeasured change in incoming message rate or queue-side fault would increase backlog. This cannot be checked because no notification-queue metrics exist.",
+              "supporting_evidence": [
+                "M30"
+              ],
+              "contradicting_evidence": [
+                "H08",
+                "M31"
+              ],
+              "assumptions": [
+                "The queue_lag_s growth reflects backlog that a queue-side issue could create"
+              ],
+              "confidence": 0.1
+            }
+          ],
+          "reasoning": "Lag was normal through 09:55 and began climbing at 10:00, after the worker's memory growth, GC thrash from 09:30, and the first OOMKill at 09:55, so the worker's memory failure precedes the lag. Throughput fell at the same 09:55 sample when the worker restarted, which points to lost consumption rather than a drop in incoming messages. Email-provider latency is spread evenly from 09:08 with values in the low seconds, and it does not cluster at onset, so it is a weaker explanation for the lag, although it may add per-message time. No changes landed in the window, so no deploy or config cause is supported. Flat p99 latency and error rate remain unexplained by the memory story and reduce confidence. Notification-queue metrics are missing, so incoming rate and consumer count cannot be checked, which caps confidence in all hypotheses.",
+          "evidence_needed": [
+            "notification-queue depth, consumer count and incoming message rate for 09:00-10:30",
+            "INFO/DEBUG logs of notification-worker from 09:50-10:00",
+            "heap dump or TemplateCache size metrics to confirm the leak or unbounded cache",
+            "email-provider send-latency time series from 09:00-10:30 and provider status history",
+            "order-producer (checkout-service) event rate near 10:00"
+          ],
+          "response_to_critique": null
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "H1 (notification-worker memory exhaustion) is the best-supported explanation. The ledger shows lag normal through 09:55, OOMKills and restarts from 09:55, and throughput falling from about 30 to 6 req/s at the same point. Its confidence of 0.70 is high given that the leak mechanism is unconfirmed, incoming queue rate is unmeasured, and GC thrash from 09:30 coincided with normal throughput for about 25 minutes. Those gaps are worth targeted checks before accepting.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "The TemplateCache.put unbounded-cache or leak mechanism is only inferred from the OOM stack trace. No heap or cache size metric confirms it, so the mechanism is less certain than the 0.70 confidence implies.",
+              "evidence_ids": [
+                "L0182",
+                "L0197",
+                "L0212"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "ignored_contradiction",
+              "severity": "minor",
+              "detail": "GC overhead was reported at 92% from 09:30 while request_rate stayed near 29-31 req/s until 09:50 and lag stayed about 4 s. Heavy GC thrash did not reduce consumption for about 25 minutes, so the causal link is more step-like than the thrash narrative implies. The analysis does not explain this gap.",
+              "evidence_ids": [
+                "L0095",
+                "L0164",
+                "L0180",
+                "M31",
+                "M30"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "Flat p99 latency and error rate are listed as contradicting H1. They do not contradict a consumption stall; they only show that completed sends were not slowed. This is weak evidence against H1 and is better treated as an unexplained signal.",
+              "evidence_ids": [
+                "M28",
+                "M27"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "An increase in incoming message rate cannot be excluded because notification-queue metrics are absent. The observed consumption drop makes this less likely, but it is not ruled out. The 09:55 request_rate sample is also drawn from the specialist summary rather than a direct metric line.",
+              "evidence_ids": [
+                "M31",
+                "M30"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "Slow email-provider sends could extend per-message hold time and so add to memory pressure, making H2 a possible contributor to H1's heap growth rather than a separate cause. The analysis does not test whether slow sends accumulate in memory before OOM.",
+              "evidence_ids": [
+                "L0065",
+                "L0181",
+                "L0218",
+                "L0265"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Retrieve notification-worker heap usage and TemplateCache entry count or size metrics for 09:00-10:30 UTC, and INFO/DEBUG logs for 09:45-10:00 UTC, to confirm whether the cache grows without bound and what the worker was doing while GC thrashed before 09:55.",
+              "focus_services": [
+                "notification-worker"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "observability",
+              "objective": "Retrieve the request rate and event rate of checkout-service publishing into notification-queue for 09:30-10:30 UTC to check whether incoming message volume rose near 10:00 UTC, since notification-queue metrics are unavailable.",
+              "focus_services": [
+                "checkout-service",
+                "notification-queue"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "H1 leads at 0.70 but the leak mechanism is unconfirmed, incoming queue rate is unmeasured, and the GC-thrash-to-consumption-drop link is unexplained for about 25 minutes. Specific missing evidence (worker heap and TemplateCache size, checkout-service event rate near 10:00, INFO/DEBUG logs 09:45-10:00) could change the conclusion between H1 and an incoming-volume or provider-latency explanation, and budget remains.",
+          "new_tasks": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Retrieve notification-worker heap usage and TemplateCache entry count or size metrics for 09:00-10:30 UTC to confirm whether the cache grows without bound, and retrieve INFO/DEBUG logs for 09:45-10:00 UTC to show what the worker was doing while GC was thrashing before the 09:55 OOMKill.",
+              "focus_services": [
+                "notification-worker"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "observability",
+              "objective": "Retrieve the publish rate of checkout-service into notification-queue for 09:30-10:30 UTC to determine whether incoming message volume rose near 10:00 UTC, since notification-queue metrics are unavailable.",
+              "focus_services": [
+                "checkout-service",
+                "notification-queue"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t3",
+              "agent": "dependency",
+              "objective": "Retrieve email-provider send-latency and error-rate time series for 09:00-10:30 UTC and confirm the start time of the eu-west latency, to test whether provider slowness extends per-message hold time and contributes to worker memory pressure.",
+              "focus_services": [
+                "email-provider",
+                "notification-worker"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "task_ids": [
+          "T4",
+          "T5",
+          "T6"
+        ],
+        "new_evidence": 9,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "notification-worker",
+              "category": "resource_exhaustion",
+              "mechanism": "Heap in notification-worker climbed from 81% at 09:00 to 99% at 09:50 with GC thrash from 09:30, and repeated OutOfMemoryError at TemplateCache.put led to OOMKills at 09:55, 10:10 and 10:25. Each restart drops consumption to about 6 req/s versus about 30 req/s before, so the queue backlog grows from 10:00 onward while lag stays flat before the kills.",
+              "supporting_evidence": [
+                "M29",
+                "M32",
+                "M31",
+                "M30",
+                "L0095",
+                "L0182",
+                "L0185",
+                "L0235",
+                "L0281",
+                "L0197",
+                "L0212"
+              ],
+              "contradicting_evidence": [
+                "M28",
+                "M27"
+              ],
+              "assumptions": [
+                "request_rate reflects consumption rather than a drop in incoming messages",
+                "Heap growth is internal to the worker and not caused by slow external sends holding messages",
+                "The TemplateCache growth is unbounded, which is inferred and not confirmed by a cache size metric"
+              ],
+              "confidence": 0.65
+            },
+            {
+              "id": "H2",
+              "service": "email-provider",
+              "category": "dependency_failure",
+              "mechanism": "Elevated eu-west latency at the email provider slows each send, lengthening per-message hold time and reducing worker throughput, so queue lag grows without a local fault. Slow sends may also hold messages in memory and contribute to heap growth.",
+              "supporting_evidence": [
+                "H04",
+                "P06",
+                "D13",
+                "L0065",
+                "L0218",
+                "L0265"
+              ],
+              "contradicting_evidence": [
+                "L0030",
+                "L0046",
+                "L0181",
+                "M31"
+              ],
+              "assumptions": [
+                "Provider latency is the reason the send path is slow, not only a timing coincidence",
+                "Logged provider latency values are representative of the lag period",
+                "The eu-west latency start time is unknown, so it may predate 10:00"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "id": "H3",
+              "service": "notification-queue",
+              "category": "other",
+              "mechanism": "An unmeasured rise in incoming message rate or a queue-side fault would increase backlog faster than the worker can drain it, producing lag growth from 10:00 without a worker fault.",
+              "supporting_evidence": [
+                "M30"
+              ],
+              "contradicting_evidence": [
+                "H08",
+                "M31",
+                "M15"
+              ],
+              "assumptions": [
+                "queue_lag_s growth reflects backlog that a queue-side issue could create",
+                "Checkout request_rate is a reasonable but indirect proxy for publish volume"
+              ],
+              "confidence": 0.1
+            }
+          ],
+          "reasoning": "Lag was normal (about 4 s) through 09:55 and began climbing at 10:00, after the worker's GC thrash from 09:30 and its first OOMKill at 09:55, so the worker failure precedes the lag in time. Worker throughput fell from about 30 to about 6 req/s at the same 09:55 sample, which points to lost consumption rather than a drop in incoming messages. GC thrash from 09:30 did not reduce throughput for about 25 minutes, so the causal link is step-like and the narrative is incomplete. Email-provider latency is spread evenly from 09:08 with values in the low seconds, so it is a weaker explanation for the onset, though it could add per-message time or memory pressure. No changes landed in the window, so no deploy or config cause is supported. Flat p99 latency and error rate do not contradict a consumption stall and remain unexplained. Notification-queue metrics are missing, and TemplateCache size metrics were not retrieved, so confidence in all hypotheses is limited.",
+          "evidence_needed": [
+            "notification-queue depth, consumer count and incoming message rate for 09:00-10:30 UTC",
+            "TemplateCache entry count or size and heap dump for notification-worker",
+            "INFO/DEBUG logs of notification-worker from 09:50-10:00 UTC",
+            "email-provider send-latency and error-rate time series from 09:00-10:30 UTC and provider status history",
+            "checkout-service publish rate into notification-queue near 10:00 UTC"
+          ],
+          "response_to_critique": "Lowered H1 confidence from 0.70 to 0.65 because the TemplateCache leak is inferred from the OOM stack trace only. Acknowledged the 09:30-09:50 GC thrash with flat throughput as an unexplained gap, and noted that the causal link is step-like. Removed flat p99 and error rate from H1's contradicting evidence and treat them as unexplained signals. Kept incoming-rate increase as not ruled out for H3, with checkout request_rate as an indirect proxy. Treated slow provider sends as a possible contributor to heap growth under H2 and as an untested assumption."
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "H1 (worker memory exhaustion) best explains the 09:55 throughput drop and OOM cycle, but its mechanism is not fully supported. Throughput stays flat at about 6 req/s from 10:00 to 10:30, including between kills, so per-restart consumption loss is not shown. The 09:30-09:50 GC thrash with steady 30 req/s and normal lag is unexplained. H2 is weakened: its support is a post-onset status snapshot, and provider latency was similar from 09:08 while lag was normal. Confidence in H1 should be lowered pending the follow-ups.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "misread_evidence",
+              "severity": "material",
+              "detail": "Mechanism says each restart drops consumption to about 6 req/s. M31 stays flat at 5.86-6.11 req/s through the 10:10 and 10:25 restarts, so the data show a sustained throughput cap after 09:55, not a per-restart drop.",
+              "evidence_ids": [
+                "M31",
+                "M29",
+                "L0185",
+                "L0235",
+                "L0281"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "From 09:00 to 09:50 the worker ran at 81-99% heap with GC overhead at 92% yet sustained 30 req/s and lag near 4 s. A send-path or load change at 09:55 could be the driver, with heap pressure as a parallel symptom.",
+              "evidence_ids": [
+                "M29",
+                "M31",
+                "M30",
+                "L0095",
+                "L0152",
+                "L0164",
+                "L0175",
+                "L0162"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.65 is high given the contradicted restart mechanism and unconfirmed TemplateCache growth (no cache size metric).",
+              "evidence_ids": [
+                "M31",
+                "M29",
+                "L0182"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "misread_evidence",
+              "severity": "material",
+              "detail": "H04 is cited as support but is a single status-page snapshot at 10:28, after onset at 10:00. It does not establish when eu-west latency began.",
+              "evidence_ids": [
+                "H04"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "ignored_contradiction",
+              "severity": "material",
+              "detail": "Provider latency of 697-2400 ms appears from 09:08, and throughput stayed near 30 req/s with lag near 4 s until 09:50 under those latencies. Provider slowness does not explain a drop that appears only at 09:55.",
+              "evidence_ids": [
+                "L0030",
+                "L0046",
+                "L0065",
+                "L0112",
+                "L0167",
+                "L0181",
+                "M31",
+                "M30"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "Queue-side faults cannot be checked because notification-queue has no metrics or logs. Healthy shallow check and flat checkout rate argue against it, but it remains a blind spot.",
+              "evidence_ids": [
+                "H08",
+                "M15",
+                "M30"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Retrieve notification-worker INFO and DEBUG logs for 09:55 to 10:30 UTC, including per-batch processing and send-call durations, to determine whether the flat 6 req/s reflects send waits, consumer stalls, or restart throttling.",
+              "focus_services": [
+                "notification-worker"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Search past incidents and postmortems for notification-worker OutOfMemoryError at TemplateCache.put and for eu-west latency episodes at email-provider, to compare with this incident's timing and cause.",
+              "focus_services": [
+                "notification-worker",
+                "email-provider"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "H1 (worker memory exhaustion) remains the leading hypothesis but its restart mechanism and the 09:30-09:50 steady-throughput period are unexplained, and H2 is weakened. Specific missing evidence (INFO/DEBUG worker logs 09:55-10:30 showing send waits versus restart throttling, and past-incident precedent for TemplateCache OOM and eu-west latency) could change the ranking, and one round of budget remains.",
+          "new_tasks": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Retrieve notification-worker INFO and DEBUG logs from 09:55 to 10:30 UTC, including per-batch processing and send-call durations, to determine whether the flat ~6 req/s after 09:55 reflects send waits, consumer stalls, or restart throttling. Also check whether any batch-size or message-type change appears at 09:55 that could explain a load change under steady heap pressure.",
+              "focus_services": [
+                "notification-worker"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Search past incidents and postmortems for notification-worker OutOfMemoryError at TemplateCache.put and for eu-west latency episodes at email-provider, and report any precedent with its timing, trigger and cause, to compare with this incident.",
+              "focus_services": [
+                "notification-worker",
+                "email-provider"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 3,
+        "task_ids": [
+          "T7",
+          "T8"
+        ],
+        "new_evidence": 3,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "notification-worker",
+              "category": "resource_exhaustion",
+              "mechanism": "Heap in notification-worker climbed from 81% at 09:00 to 99% at 09:50 with GC overhead warnings from 09:30, and OutOfMemoryError at TemplateCache.put led to OOMKills at 09:55, 10:10 and 10:25. Throughput fell from about 30 to about 6 req/s at 09:55 and stayed flat at that level through the restarts, so consumption stays capped while the queue backlog grows from 10:00.",
+              "supporting_evidence": [
+                "M29",
+                "M31",
+                "M30",
+                "M32",
+                "L0095",
+                "L0152",
+                "L0182",
+                "L0185",
+                "L0235",
+                "L0281",
+                "L0197",
+                "L0212"
+              ],
+              "contradicting_evidence": [
+                "M28",
+                "M27",
+                "L0162",
+                "L0170"
+              ],
+              "assumptions": [
+                "request_rate reflects consumption rather than a drop in incoming messages",
+                "TemplateCache growth is unbounded, which is inferred and not confirmed by a cache size metric",
+                "The sustained 6 req/s cap after 09:55 is caused by the OOM restart loop rather than something else"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "id": "H2",
+              "service": "email-provider",
+              "category": "dependency_failure",
+              "mechanism": "Elevated latency at the email provider in eu-west slows each send, lengthening per-message hold time and reducing worker throughput, so queue lag grows without a local fault. The timing of this onset is not established.",
+              "supporting_evidence": [
+                "H04",
+                "P06",
+                "D13",
+                "L0065",
+                "L0218",
+                "L0265"
+              ],
+              "contradicting_evidence": [
+                "L0030",
+                "L0046",
+                "L0112",
+                "L0181",
+                "M31",
+                "M30"
+              ],
+              "assumptions": [
+                "Provider latency is the reason the send path is slow, not only a timing coincidence",
+                "The eu-west latency start time is unknown and may predate 10:00",
+                "Provider latency alone does not explain the abrupt drop at 09:55"
+              ],
+              "confidence": 0.25
+            },
+            {
+              "id": "H3",
+              "service": "notification-queue",
+              "category": "other",
+              "mechanism": "An unmeasured rise in incoming message rate or a queue-side fault would increase backlog faster than the worker can drain it, producing lag growth from 10:00 without a worker fault.",
+              "supporting_evidence": [
+                "M30"
+              ],
+              "contradicting_evidence": [
+                "H08",
+                "M31",
+                "M15"
+              ],
+              "assumptions": [
+                "Queue lag growth reflects backlog that a queue-side issue could create",
+                "Checkout request_rate is a reasonable but indirect proxy for publish volume"
+              ],
+              "confidence": 0.1
+            }
+          ],
+          "reasoning": "Lag stayed near 4 s through 09:55 and began climbing at 10:00, after the worker's first OOMKill at 09:55, so the worker failure precedes the lag in time. Throughput dropped from about 30 to about 6 req/s at the same 09:55 sample and stayed flat through the later restarts, which points to a sustained consumption cap rather than a per-restart loss as the earlier analysis claimed. The 09:30 to 09:50 GC thrash with steady 30 req/s and normal lag is unexplained by H1 alone, so a trigger or send-path change at 09:55 remains possible. Provider latency appears evenly from 09:08 while lag was normal, which weakens H2 as the onset cause, though it may add per-message time. No changes landed in the window, so no deploy or config cause is supported. Missing notification-queue metrics and absent TemplateCache size data keep confidence low across all hypotheses.",
+          "evidence_needed": [
+            "notification-queue depth, consumer count and incoming message rate for 09:00-10:30 UTC",
+            "TemplateCache entry count or size and a heap dump for notification-worker",
+            "INFO/DEBUG logs of notification-worker from 09:50-10:00 UTC and per-batch batch-size or message-type data",
+            "Orchestrator restart reason and any memory limit or config change at 09:55",
+            "email-provider send-latency and error-rate time series from 09:00-10:30 UTC and provider status history",
+            "checkout-service and other producer publish rates into notification-queue near 10:00 UTC"
+          ],
+          "response_to_critique": "Accepted that M31 shows a sustained cap rather than a per-restart drop, so the H1 mechanism is rewritten and confidence lowered from 0.65 to 0.50. Accepted that H04 is a post-onset snapshot and removed it as support for H2's timing, lowering H2 to 0.25 and citing the earlier provider latency as contradiction. Accepted that the 09:30-09:50 GC thrash with steady throughput is an unresolved alternative, noted in the reasoning. Accepted that H3 is a blind spot due to missing queue telemetry and kept it at low confidence."
+        },
+        "critique": {
+          "verdict": "revise",
+          "summary": "H1 (worker memory exhaustion) remains the best-supported hypothesis, but the analysis does not address that the 09:30 to 09:50 GC thrash coincided with steady throughput and normal lag, and its confidence is higher than the unconfirmed cache growth and missing restart reason justify.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "ignored_contradiction",
+              "severity": "material",
+              "detail": "During 09:30 to 09:50 the worker logged 92% GC overhead yet sustained about 30 req/s, processed batches normally and sent confirmations, with lag near 4 s. The throughput cap starts only at 09:55, so a separate trigger at that moment is unexplained and remains a competing cause.",
+              "evidence_ids": [
+                "L0095",
+                "L0162",
+                "L0170",
+                "M31",
+                "M30"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "The 0.80 sub-inference that memory exhaustion drives the lag is stronger than the evidence: the orchestrator restart reason was never checked and the post-restart cap is assumed.",
+              "evidence_ids": [
+                "M32",
+                "L0185",
+                "M29"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "Unbounded TemplateCache growth is inferred; no cache size or entry-count metric was retrieved. The OOM at TemplateCache.put shows the cache is on the heap at failure, not that it grows without bound.",
+              "evidence_ids": [
+                "L0182",
+                "L0197",
+                "M29"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "Its contradicting evidence is indirect: checkout request_rate is only a proxy for publish volume, and other producers are unmeasured. The processed-rate drop at 09:55 is consistent with consumer failure, so H3 is not ruled out but is weakly supported.",
+              "evidence_ids": [
+                "M15",
+                "M31",
+                "H08"
+              ]
+            }
+          ],
+          "followup_requests": []
+        },
+        "decision": null
+      }
+    ],
+    "termination_reason": "max_rounds_reached",
+    "citations": {
+      "valid": 367,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "D12",
+      "D13",
+      "H04",
+      "H08",
+      "H09",
+      "P06",
+      "M26",
+      "M27",
+      "M28",
+      "M29",
+      "M30",
+      "M31",
+      "M32",
+      "L0030",
+      "L0046",
+      "L0052",
+      "L0065",
+      "L0095",
+      "L0105",
+      "L0112",
+      "L0115",
+      "L0123",
+      "L0132",
+      "L0141",
+      "L0152",
+      "L0164",
+      "L0167",
+      "L0175",
+      "L0180",
+      "L0181",
+      "L0182",
+      "L0185",
+      "L0197",
+      "L0212",
+      "L0218",
+      "L0226",
+      "L0235",
+      "L0243",
+      "L0255",
+      "L0265",
+      "L0269",
+      "L0281",
+      "L0282",
+      "D07",
+      "H03",
+      "C08",
+      "C09",
+      "L0150",
+      "L0162",
+      "L0170",
+      "L0193",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "L0240",
+      "P03",
+      "P07"
+    ],
+    "trace": [
+      {
+        "t": 5.754,
+        "actor": "orchestrator",
+        "event": "planned",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 5.754,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 19.166,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T2",
+        "tool_calls": 4
+      },
+      {
+        "t": 19.355,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T3",
+        "tool_calls": 6
+      },
+      {
+        "t": 24.659,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T1",
+        "tool_calls": 3
+      },
+      {
+        "t": 43.967,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 47.574,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      {
+        "t": 47.575,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      {
+        "t": 58.054,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T5",
+        "tool_calls": 4
+      },
+      {
+        "t": 59.179,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T6",
+        "tool_calls": 4
+      },
+      {
+        "t": 64.278,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T4",
+        "tool_calls": 4
+      },
+      {
+        "t": 92.4,
+        "actor": "critic",
+        "event": "output_invalid",
+        "schema": "Critique",
+        "attempt": 1,
+        "kind": "json_parse",
+        "finish_reason": "length",
+        "reply_chars": 5376,
+        "completion_tokens": 4096,
+        "errors": [
+          {
+            "msg": "Expecting ',' delimiter: line 1 column 5230 (char 5229)"
+          }
+        ]
+      },
+      {
+        "t": 98.237,
+        "actor": "critic",
+        "event": "output_repaired",
+        "schema": "Critique",
+        "attempts": 2
+      },
+      {
+        "t": 98.237,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 101.673,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T7",
+          "T8"
+        ]
+      },
+      {
+        "t": 101.673,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T7",
+          "T8"
+        ]
+      },
+      {
+        "t": 111.486,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T8",
+        "tool_calls": 4
+      },
+      {
+        "t": 118.279,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T7",
+        "tool_calls": 3
+      },
+      {
+        "t": 146.027,
+        "actor": "critic",
+        "event": "output_invalid",
+        "schema": "Critique",
+        "attempt": 1,
+        "kind": "json_parse",
+        "finish_reason": "length",
+        "reply_chars": 2791,
+        "completion_tokens": 4096,
+        "errors": [
+          {
+            "msg": "Expecting ',' delimiter: line 1 column 2657 (char 2656)"
+          }
+        ]
+      },
+      {
+        "t": 149.709,
+        "actor": "critic",
+        "event": "output_repaired",
+        "schema": "Critique",
+        "attempts": 2
+      },
+      {
+        "t": 149.709,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "revise",
+        "requests": 0
+      },
+      {
+        "t": 149.709,
+        "actor": "engine",
+        "event": "terminated",
+        "reason": "max_rounds_reached",
+        "round": 3
+      },
+      {
+        "t": 149.709,
+        "actor": "engine",
+        "event": "conclusion",
+        "status": "inconclusive",
+        "reasons": [
+          "contradicting evidence is 44% of the weighed evidence (max 35%)"
+        ]
+      }
+    ]
+  },
+  "grade": {
+    "system": "multi_agent",
+    "incident_id": "S03",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 162.959,
+    "tool_calls": 30,
+    "failed_tool_calls": 0,
+    "llm_calls": 37,
+    "prompt_tokens": 294869,
+    "completion_tokens": 40989,
+    "total_tokens": 335858,
+    "cost_usd": 0.0499814,
+    "calls_without_usage": 0,
+    "invalid_outputs": 2,
+    "correct": false,
+    "status": "inconclusive",
+    "confidence": 0.5,
+    "top_service": "notification-worker",
+    "top_category": "resource_exhaustion",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 0.8571428571428571,
+    "key_evidence_retrieved": 0.8571428571428571,
+    "unsupported_hypotheses": 0,
+    "rounds": 3,
+    "termination_reason": "max_rounds_reached",
+    "repeat": 1
+  }
+}

@@ -1,0 +1,452 @@
+{
+  "system": "baseline",
+  "incident_id": "S06",
+  "error": null,
+  "latency_s": 27.025,
+  "usage": {
+    "llm_calls": 4,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 45982,
+    "completion_tokens": 5071,
+    "reasoning_tokens": 855,
+    "total_tokens": 51053,
+    "cost_usd": 0.0071337,
+    "llm_time_s": 27.004,
+    "by_role": {
+      "baseline": {
+        "calls": 4,
+        "prompt_tokens": 45982,
+        "completion_tokens": 5071,
+        "cost_usd": 0.0071337
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 11,
+    "rejected_calls": 0,
+    "attempts": 11,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 1320,
+    "by_status": {
+      "ok": 11
+    },
+    "by_tool": {
+      "query_metrics": 2,
+      "query_logs": 4,
+      "get_change_history": 3,
+      "get_dependencies": 1,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 11
+    }
+  },
+  "citations": {
+    "valid": 49,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S06",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.72, margin 0.52, 6 verified supporting and 2 contradicting evidence items (25%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.72, margin 0.52, 6 verified supporting and 2 contradicting evidence items (25%)"
+      ],
+      "top_hypothesis": "inventory-db / dependency_failure",
+      "top_confidence": 0.72,
+      "margin_over_runner_up": 0.52,
+      "verified_support": [
+        "L0180",
+        "L0183",
+        "H06",
+        "L0199",
+        "L0185",
+        "M22"
+      ],
+      "contradicting_evidence": [
+        "M20",
+        "M16"
+      ],
+      "contradiction_share": 0.25,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.72,
+    "summary": "Stock reservation writes in inventory-service fail because its database primary endpoint resolves to db-inv-2, a standby in read-only mode. At 12:59-13:00 UTC inventory-db lost its replication connection to primary db-inv-1, and the standby was never promoted because it is 'pending manual approval'. Writes have failed with SQLSTATE 25006 since 13:00:29, and error rate has stayed near 15%. inventory-service health checks are green only because they check process liveness and not database writes. No deployment or config change explains this, and the root fault appears to be the primary-loss event plus the blocked promotion. Whether db-inv-1 is actually down or only partitioned is not established by the data.",
+    "root_cause": {
+      "id": "H1",
+      "service": "inventory-db",
+      "category": "dependency_failure",
+      "mechanism": "The primary db-inv-1 became unreachable at about 12:59 UTC. Failover was not automatic, and the primary endpoint still resolves to read-only standby db-inv-2. Every reservation UPDATE fails with SQLSTATE 25006, producing about 15% errors at inventory-service and checkout-service.",
+      "supporting_evidence": [
+        "L0180",
+        "L0183",
+        "M20",
+        "M16",
+        "H06",
+        "L0199",
+        "L0185",
+        "M22"
+      ],
+      "contradicting_evidence": [
+        "M20",
+        "M16"
+      ],
+      "assumptions": [
+        "db-inv-1 is not accepting writes.",
+        "Promotion is the only path to restoring writes."
+      ],
+      "confidence": 0.72
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "inventory-db",
+        "category": "dependency_failure",
+        "mechanism": "The primary db-inv-1 became unreachable at about 12:59 UTC. Failover was not automatic, and the primary endpoint still resolves to read-only standby db-inv-2. Every reservation UPDATE fails with SQLSTATE 25006, producing about 15% errors at inventory-service and checkout-service.",
+        "supporting_evidence": [
+          "L0180",
+          "L0183",
+          "M20",
+          "M16",
+          "H06",
+          "L0199",
+          "L0185",
+          "M22"
+        ],
+        "contradicting_evidence": [
+          "M20",
+          "M16"
+        ],
+        "assumptions": [
+          "db-inv-1 is not accepting writes.",
+          "Promotion is the only path to restoring writes."
+        ],
+        "confidence": 0.72
+      },
+      {
+        "id": "H2",
+        "service": "inventory-db",
+        "category": "config_error",
+        "mechanism": "The primary endpoint or DNS record was misconfigured to point to the standby during or after the replication event, so writes route to a read-only node even though a writable primary exists.",
+        "supporting_evidence": [
+          "H06",
+          "L0185"
+        ],
+        "contradicting_evidence": [
+          "L0180",
+          "L0183",
+          "M20"
+        ],
+        "assumptions": [
+          "db-inv-1 is healthy and writable now, given that replication recovered at 13:10."
+        ],
+        "confidence": 0.2
+      },
+      {
+        "id": "H3",
+        "service": "inventory-service",
+        "category": "other",
+        "mechanism": "A connection-pool or application issue in inventory-service, such as stale connections to the old primary, keeps writes failing after the database failover. Memory pressure and cache miss storms may be contributing.",
+        "supporting_evidence": [
+          "L0185",
+          "M24"
+        ],
+        "contradicting_evidence": [
+          "H06",
+          "L0199"
+        ],
+        "assumptions": [
+          "Memory pressure in inventory-service is related to the failures."
+        ],
+        "confidence": 0.1
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "inventory-service error_rate jumped from about 0.2% (12:55) to 15.43% at 13:00 and stayed between 14.4% and 15.85% through 13:30.",
+        "evidence_ids": [
+          "M22"
+        ]
+      },
+      {
+        "statement": "The inventory-service ERROR logs are almost all 'UPDATE stock_reservations failed: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)', the first at 13:00:29Z and the last returned at 13:21:47Z; 40 such errors in the window.",
+        "evidence_ids": [
+          "L0185",
+          "L0280"
+        ]
+      },
+      {
+        "statement": "inventory-db logged 'replication: lost connection to primary db-inv-1 (timeout after 10s)' at 12:59:32Z and 13:00:16Z.",
+        "evidence_ids": [
+          "L0180",
+          "L0183"
+        ]
+      },
+      {
+        "statement": "The inventory-db dependency health check at 13:28:00Z is 'degraded': the primary endpoint resolves to db-inv-2 (standby, read-only).",
+        "evidence_ids": [
+          "H06"
+        ]
+      },
+      {
+        "statement": "inventory-db replication lag rose to 48.38s at 13:00 and returned to about 0.29s by 13:10; inventory-db connections fell to 20 at 13:00-13:05 and were back to 86 by 13:10.",
+        "evidence_ids": [
+          "M20",
+          "M16"
+        ]
+      },
+      {
+        "statement": "inventory-db logged 'standby db-inv-2 still in recovery: promotion pending manual approval' repeatedly, last at 13:25:36Z.",
+        "evidence_ids": [
+          "L0199",
+          "L0233",
+          "L0299"
+        ]
+      },
+      {
+        "statement": "inventory-service health check is green (HTTP 200) and documented as checking process liveness only, not database writes.",
+        "evidence_ids": [
+          "H07"
+        ]
+      },
+      {
+        "statement": "inventory-db CPU (about 30%) and query_latency_p99 (about 9 ms) stayed flat across the incident; slow SELECTs of 600-870 ms appeared only from 13:08 onward.",
+        "evidence_ids": [
+          "M17",
+          "M19",
+          "L0225",
+          "L0296"
+        ]
+      },
+      {
+        "statement": "The only change in the window is a platform Kubernetes node-pool upgrade at 04:00Z; no deploys, config changes or feature flags were recorded for inventory-service, inventory-db or checkout-service.",
+        "evidence_ids": [
+          "C08"
+        ]
+      },
+      {
+        "statement": "checkout-service's only WARN/ERROR in the window is a card decline from the issuer at 12:48:57Z, and checkout has no reservation-related errors in the log.",
+        "evidence_ids": [
+          "L0151"
+        ]
+      }
+    ],
+    "assumptions": [
+      "db-inv-1 is unreachable or demoted, so no writable primary exists, based on the replication timeouts and the endpoint pointing to the standby.",
+      "Automatic failover is disabled for inventory-db and promotion needs a human decision.",
+      "The inventory-service error rate is the stock-reservation write failure rate, since the logs show nearly all errors are this write failure.",
+      "The 13:10 return of replication lag to normal does not by itself prove db-inv-1 is healthy; the data does not show why it recovered."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The primary root cause is a dependency failure at inventory-db: loss of the primary db-inv-1 with no writable primary, leaving the endpoint on read-only standby db-inv-2.",
+        "evidence_ids": [
+          "L0180",
+          "L0183",
+          "H06",
+          "L0199",
+          "L0185"
+        ],
+        "confidence": 0.72
+      },
+      {
+        "statement": "The incident persists because the promotion of db-inv-2 is pending manual approval and the health checks do not test writes, so the service stays green while reservations fail.",
+        "evidence_ids": [
+          "L0199",
+          "H07",
+          "M22"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "The node-pool upgrade at 04:00Z and the checkout card-decline error are not the cause; there is no timing correlation with the 13:00 onset.",
+        "evidence_ids": [
+          "C08",
+          "L0151"
+        ],
+        "confidence": 0.7
+      },
+      {
+        "statement": "The slow stock_levels queries and cache miss storms are secondary load effects that began after the write failures, not the trigger.",
+        "evidence_ids": [
+          "L0225",
+          "L0296"
+        ],
+        "confidence": 0.4
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Get a human decision on promoting db-inv-2 to primary (or restoring db-inv-1 if it is healthy), then repoint the inventory-db primary endpoint to the writable node.",
+        "priority": "immediate",
+        "rationale": "Writes will keep failing until a writable primary is serving the endpoint."
+      },
+      {
+        "action": "Confirm db-inv-1 state and check for a network partition or host failure around 12:59 UTC before promoting, to avoid split-brain.",
+        "priority": "immediate",
+        "rationale": "Promoting while the old primary is still accepting writes could cause divergence."
+      },
+      {
+        "action": "Temporarily drain or shed checkout stock-reservation traffic, or return a clear retry-later error, until writes recover.",
+        "priority": "immediate",
+        "rationale": "Reduces customer-facing failures while the database is recovering."
+      },
+      {
+        "action": "Add a write-path health check to inventory-service (e.g. a canary write or a check that the primary is writable) and alert on it.",
+        "priority": "short_term",
+        "rationale": "The current green check hid a 15% error rate."
+      },
+      {
+        "action": "Review why replication lag and connection drops recovered at 13:10 without a failover, and verify replication and endpoint state after recovery.",
+        "priority": "short_term",
+        "rationale": "Stale endpoint state or a flapping primary could recur."
+      },
+      {
+        "action": "Define and test automatic or pre-approved failover for inventory-db with fencing of the old primary.",
+        "priority": "long_term",
+        "rationale": "Manual promotion lengthened the outage to more than 30 minutes."
+      }
+    ],
+    "open_questions": [
+      "Is db-inv-1 down, partitioned or demoted, and what caused the 12:59 replication timeout?",
+      "Why did inventory-db connections and replication lag recover at 13:10 while the endpoint still points to the standby?",
+      "Who holds the authority to approve the db-inv-2 promotion, and what is the expected time to approval?",
+      "Does the stock_levels slowness after 13:08 indicate a separate problem or only the aftermath of load shifting?",
+      "Were any stock reservations lost or double-counted during the window?"
+    ],
+    "data_gaps": [],
+    "data_gaps_total": 0,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S06",
+      "title": "stock reservation failures",
+      "reported_at": "2026-09-06T13:30:00Z",
+      "alert": "ALERT [P2] inventory-service error rate 15% since ~13:00 UTC; stock reservations failing at checkout. inventory-service health checks are green.",
+      "affected_services": [
+        "inventory-service",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-06T12:00:00Z",
+      "window_end": "2026-09-06T13:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 49,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "M21",
+      "M22",
+      "M23",
+      "M24",
+      "M25",
+      "L0185",
+      "L0188",
+      "L0189",
+      "L0192",
+      "L0197",
+      "L0202",
+      "L0206",
+      "L0208",
+      "L0211",
+      "L0215",
+      "L0219",
+      "L0221",
+      "L0227",
+      "L0230",
+      "L0235",
+      "L0238",
+      "L0240",
+      "L0244",
+      "L0246",
+      "L0250",
+      "C08",
+      "D05",
+      "D10",
+      "D11",
+      "H03",
+      "H05",
+      "H06",
+      "H07",
+      "M16",
+      "M17",
+      "M18",
+      "M19",
+      "M20",
+      "L0151",
+      "L0144",
+      "L0157",
+      "L0164",
+      "L0175",
+      "L0180",
+      "L0183",
+      "L0184",
+      "L0199",
+      "L0200",
+      "L0207",
+      "L0225",
+      "L0232",
+      "L0233",
+      "L0247",
+      "L0265",
+      "L0266",
+      "L0284",
+      "L0296",
+      "L0299",
+      "L0310",
+      "L0254",
+      "L0255",
+      "L0260",
+      "L0264",
+      "L0267",
+      "L0271",
+      "L0276",
+      "L0279",
+      "L0280"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S06",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 27.025,
+    "tool_calls": 11,
+    "failed_tool_calls": 0,
+    "llm_calls": 4,
+    "prompt_tokens": 45982,
+    "completion_tokens": 5071,
+    "total_tokens": 51053,
+    "cost_usd": 0.0071337,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": false,
+    "status": "conclusive",
+    "confidence": 0.72,
+    "top_service": "inventory-db",
+    "top_category": "dependency_failure",
+    "top1_lead": false,
+    "top3": false,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 1
+  }
+}

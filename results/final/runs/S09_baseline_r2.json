@@ -1,0 +1,435 @@
+{
+  "system": "baseline",
+  "incident_id": "S09",
+  "error": null,
+  "latency_s": 24.777,
+  "usage": {
+    "llm_calls": 4,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 39753,
+    "completion_tokens": 4704,
+    "reasoning_tokens": 436,
+    "total_tokens": 44457,
+    "cost_usd": 0.0063273,
+    "llm_time_s": 24.755,
+    "by_role": {
+      "baseline": {
+        "calls": 4,
+        "prompt_tokens": 39753,
+        "completion_tokens": 4704,
+        "cost_usd": 0.006327299999999999
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 10,
+    "rejected_calls": 0,
+    "attempts": 11,
+    "failed_calls": 0,
+    "partial_calls": 1,
+    "simulated_tool_latency_ms": 1400,
+    "by_status": {
+      "partial": 1,
+      "ok": 9
+    },
+    "by_tool": {
+      "query_metrics": 5,
+      "get_change_history": 1,
+      "get_dependencies": 1,
+      "query_logs": 2,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 10
+    }
+  },
+  "citations": {
+    "valid": 56,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S09",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.80, margin 0.65, 6 verified supporting and 3 contradicting evidence items (33%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.80, margin 0.65, 6 verified supporting and 3 contradicting evidence items (33%)"
+      ],
+      "top_hypothesis": "inventory-service / config_error",
+      "top_confidence": 0.8,
+      "margin_over_runner_up": 0.65,
+      "verified_support": [
+        "C09",
+        "M21",
+        "L0186",
+        "M23",
+        "M22",
+        "M13"
+      ],
+      "contradicting_evidence": [
+        "L0034",
+        "L0040",
+        "L0061"
+      ],
+      "contradiction_share": 0.333,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.8,
+    "summary": "Inventory-service p99 latency jumped from about 90ms to about 2.3-2.5s and its error rate from about 0.2% to about 9% starting in the 15:00 UTC window. This coincides with the 14:55 UTC feature-flag change that enabled realtime_stock_recalc for 100% of traffic, up from 5%. The logs show StockRecalculator.recomputeAll exceeding its 2000ms deadline on a 48,211-SKU recompute, and inventory CPU rose from about 30% to about 95-100%. Checkout p99 rose in step, so the slowdown propagates through the sync call from checkout to inventory. The leading explanation is the flag ramp; the cache and database data are incomplete, and the health checks are shallow.",
+    "root_cause": {
+      "id": "H1",
+      "service": "inventory-service",
+      "category": "config_error",
+      "mechanism": "Enabling realtime_stock_recalc for all traffic runs StockRecalculator.recomputeAll on the full 48,211-SKU catalogue on the request path. This saturates inventory CPU, pushes requests past the 2s deadline, and raises p99 latency and errors, which checkout then inherits through its sync call.",
+      "supporting_evidence": [
+        "C09",
+        "M21",
+        "L0186",
+        "M23",
+        "M22",
+        "M13"
+      ],
+      "contradicting_evidence": [
+        "L0034",
+        "L0040",
+        "L0061"
+      ],
+      "assumptions": [
+        "The recompute is triggered by the flag on the request path.",
+        "The onset timing is accurate to the 5-minute resolution."
+      ],
+      "confidence": 0.8
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "inventory-service",
+        "category": "config_error",
+        "mechanism": "Enabling realtime_stock_recalc for all traffic runs StockRecalculator.recomputeAll on the full 48,211-SKU catalogue on the request path. This saturates inventory CPU, pushes requests past the 2s deadline, and raises p99 latency and errors, which checkout then inherits through its sync call.",
+        "supporting_evidence": [
+          "C09",
+          "M21",
+          "L0186",
+          "M23",
+          "M22",
+          "M13"
+        ],
+        "contradicting_evidence": [
+          "L0034",
+          "L0040",
+          "L0061"
+        ],
+        "assumptions": [
+          "The recompute is triggered by the flag on the request path.",
+          "The onset timing is accurate to the 5-minute resolution."
+        ],
+        "confidence": 0.8
+      },
+      {
+        "id": "H2",
+        "service": "inventory-cache",
+        "category": "resource_exhaustion",
+        "mechanism": "A cache problem (eviction or miss storm) forces inventory-service to hit the database or recompute more often, creating CPU and latency pressure. The cache miss storms began at 14:09, earlier than the onset.",
+        "supporting_evidence": [
+          "L0034",
+          "L0040",
+          "L0061",
+          "P03"
+        ],
+        "contradicting_evidence": [
+          "M21",
+          "M23",
+          "C09"
+        ],
+        "assumptions": [
+          "Cache metrics are unavailable, so the cache state during the incident is unknown."
+        ],
+        "confidence": 0.15
+      },
+      {
+        "id": "H3",
+        "service": "inventory-db",
+        "category": "resource_exhaustion",
+        "mechanism": "Database load rose and drove inventory-service slowness.",
+        "supporting_evidence": [
+          "M17"
+        ],
+        "contradicting_evidence": [
+          "M19",
+          "M20",
+          "M16"
+        ],
+        "assumptions": [
+          "The database CPU rise is the cause rather than a symptom."
+        ],
+        "confidence": 0.05
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "The feature flag change C09 (realtime_stock_recalc enabled for 100% of traffic, previously 5%, by p.nguyen, completed) was recorded at 2026-09-09T14:55:00Z on inventory-service.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "inventory-service cpu_pct was about 29-31% from 14:00 to 14:55 and jumped to 98.43% at 15:00:00, peaking at 99.94% at 15:05:00 and at 95.08% at 15:30:00.",
+        "evidence_ids": [
+          "M21"
+        ]
+      },
+      {
+        "statement": "inventory-service p99 latency was about 87-93ms until 14:55 and was 2311.39ms at 15:00:00, reaching 2478.31ms at 15:15:00 and 2436.03ms at 15:30:00.",
+        "evidence_ids": [
+          "M23"
+        ]
+      },
+      {
+        "statement": "inventory-service error_rate was 0.16-0.25% until 14:55 and was 9.33% at 15:00:00, ending at 9.56% at 15:30:00.",
+        "evidence_ids": [
+          "M22"
+        ]
+      },
+      {
+        "statement": "From 15:00:06 onward, inventory-service logged 'request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)' repeatedly, about every 1-2 minutes; 30 such warnings appear in the 14:00-15:30 window.",
+        "evidence_ids": [
+          "L0186",
+          "L0190",
+          "L0192",
+          "L0198",
+          "L0254"
+        ]
+      },
+      {
+        "statement": "Three 'cache miss storm' warnings (57, 62 and 80 misses/s) were logged between 14:09:47 and 14:19:19, before the flag change.",
+        "evidence_ids": [
+          "L0034",
+          "L0040",
+          "L0061"
+        ]
+      },
+      {
+        "statement": "inventory-db query_latency_p99_ms stayed about 8.7-9.3ms and replication_lag_s about 0.3s throughout; inventory-db cpu_pct rose from about 30% to about 60-64% starting 15:00, and connections stayed 86-93.",
+        "evidence_ids": [
+          "M19",
+          "M20",
+          "M17",
+          "M16"
+        ]
+      },
+      {
+        "statement": "checkout-service latency_p99_ms was about 309-332ms until 14:55 and was 2512.95ms at 15:00:00, reaching 2699.31ms at 15:05:00.",
+        "evidence_ids": [
+          "M13"
+        ]
+      },
+      {
+        "statement": "The only checkout-service WARN in 14:50-15:30 is one retry of an idempotent call to payment-service at 15:11:00.",
+        "evidence_ids": [
+          "L0230"
+        ]
+      },
+      {
+        "statement": "Health checks at 15:28 reported inventory-service, inventory-db, inventory-cache and checkout-service as healthy; the inventory-db check is 'SELECT 1 ok'.",
+        "evidence_ids": [
+          "H07",
+          "H06",
+          "H05",
+          "H03"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The health checks are shallow (HTTP /health 200 or SELECT 1) and do not exercise the recompute path, so 'healthy' does not contradict the outage.",
+      "Metrics are 5-minute resolution, so the onset falls between 14:55 and 15:00 and cannot be ordered more finely than that.",
+      "The 48,211-SKU recompute is triggered by the enabled flag for all traffic, not by a separate job.",
+      "No inventory-cache metrics are available, so cache health during the incident is unknown."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The realtime_stock_recalc flag ramp from 5% to 100% most likely caused the CPU saturation and the StockRecalculator deadline failures, which in turn produced the inventory latency and error spike.",
+        "evidence_ids": [
+          "C09",
+          "M21",
+          "L0186",
+          "M23",
+          "M22"
+        ],
+        "confidence": 0.8
+      },
+      {
+        "statement": "Checkout latency is a downstream effect: checkout's sync HTTP dependency on inventory-service is slow, and checkout's own logs show no fault of its own.",
+        "evidence_ids": [
+          "M13",
+          "M23",
+          "L0230"
+        ],
+        "confidence": 0.7
+      },
+      {
+        "statement": "The inventory-db is not the bottleneck: its query latency and replication lag are flat, and its CPU rise is consistent with the extra recompute load.",
+        "evidence_ids": [
+          "M19",
+          "M20",
+          "M17"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "The earlier cache miss storms at 14:09-14:19 are a separate, pre-existing issue. They resolved without a visible latency impact and do not explain the 15:00 onset, though a cache problem is a weaker alternative.",
+        "evidence_ids": [
+          "L0034",
+          "L0040",
+          "L0061"
+        ],
+        "confidence": 0.35
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Roll back realtime_stock_recalc to 5% (or 0%) for inventory-service now.",
+        "priority": "immediate",
+        "rationale": "The flag change at 14:55 precedes the onset at 15:00 and matches the CPU saturation and recompute deadlines; reverting it is the fastest mitigation."
+      },
+      {
+        "action": "Confirm recovery of inventory p99, error rate and checkout p99 after the rollback.",
+        "priority": "immediate",
+        "rationale": "Verifies the hypothesis and tells whether checkout is recovering."
+      },
+      {
+        "action": "Make recomputeAll incremental or bounded (batch, cap sku_count per request) before re-enabling the flag.",
+        "priority": "short_term",
+        "rationale": "A full 48k-SKU recompute per request exceeds the 2s deadline and saturates CPU."
+      },
+      {
+        "action": "Ramp the flag gradually with a canary and CPU/latency guardrails, and add an automatic rollback on error rate.",
+        "priority": "short_term",
+        "rationale": "The jump from 5% to 100% in one change removed any safe margin."
+      },
+      {
+        "action": "Add deep health checks that exercise the recompute path and the cache.",
+        "priority": "long_term",
+        "rationale": "The current checks reported healthy during a 9% error rate."
+      },
+      {
+        "action": "Add inventory-cache metrics and a cache-miss-storm alert, and review the 14:09-14:19 miss storms.",
+        "priority": "long_term",
+        "rationale": "Cache telemetry is missing, and the earlier storms were not investigated (see P03 for a past cache eviction incident)."
+      }
+    ],
+    "open_questions": [
+      "Why did the cache miss storms occur at 14:09-14:19, and is there a pending cache issue that could recur?",
+      "Does the incident clear once the flag is rolled back, and how quickly?",
+      "Was the flag change intended to ramp traffic in a single step, and was a load test done for the 48k-SKU recompute?",
+      "Why are inventory-cache metrics absent from the metrics store?",
+      "Did the inventory-service metrics shard outage (partial result: 2 of 5 series returned, retry not performed) hide any other series such as memory or other latency signals?"
+    ],
+    "data_gaps": [
+      "query_metrics(start=2026-09-09T14:00:00Z, end=2026-09-09T15:30:00Z, service=inventory-service) -> partial: PARTIAL RESULT: metrics shard unavailable; 2 of 5 records returned. 5 series"
+    ],
+    "data_gaps_total": 1,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S09",
+      "title": "inventory latency",
+      "reported_at": "2026-09-09T15:30:00Z",
+      "alert": "ALERT [P2] inventory-service p99 latency 2.4s (SLO 300ms) since ~15:00 UTC; checkout pages slow.",
+      "affected_services": [
+        "inventory-service",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-09T14:00:00Z",
+      "window_end": "2026-09-09T15:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 56,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "M21",
+      "M22",
+      "C09",
+      "D05",
+      "D10",
+      "D11",
+      "H03",
+      "H05",
+      "H06",
+      "H07",
+      "L0034",
+      "L0040",
+      "L0061",
+      "L0186",
+      "L0190",
+      "L0192",
+      "L0198",
+      "L0203",
+      "L0207",
+      "L0211",
+      "L0215",
+      "L0219",
+      "L0225",
+      "L0228",
+      "L0233",
+      "L0236",
+      "L0241",
+      "L0247",
+      "L0249",
+      "L0254",
+      "M23",
+      "M16",
+      "M17",
+      "M18",
+      "M19",
+      "M20",
+      "P02",
+      "P03",
+      "P04",
+      "M13",
+      "L0230"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S09",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 24.777,
+    "tool_calls": 10,
+    "failed_tool_calls": 0,
+    "llm_calls": 4,
+    "prompt_tokens": 39753,
+    "completion_tokens": 4704,
+    "total_tokens": 44457,
+    "cost_usd": 0.0063273,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.8,
+    "top_service": "inventory-service",
+    "top_category": "config_error",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 2
+  }
+}

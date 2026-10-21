@@ -1,0 +1,453 @@
+{
+  "system": "baseline",
+  "incident_id": "S03",
+  "error": null,
+  "latency_s": 27.764,
+  "usage": {
+    "llm_calls": 4,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 39985,
+    "completion_tokens": 5201,
+    "reasoning_tokens": 977,
+    "total_tokens": 45186,
+    "cost_usd": 0.006599,
+    "llm_time_s": 27.75,
+    "by_role": {
+      "baseline": {
+        "calls": 4,
+        "prompt_tokens": 39985,
+        "completion_tokens": 5201,
+        "cost_usd": 0.006599000000000001
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 10,
+    "rejected_calls": 0,
+    "attempts": 10,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 1200,
+    "by_status": {
+      "ok": 10
+    },
+    "by_tool": {
+      "query_metrics": 3,
+      "query_logs": 2,
+      "get_change_history": 2,
+      "get_dependencies": 1,
+      "search_past_incidents": 2
+    },
+    "by_agent": {
+      "baseline": 10
+    }
+  },
+  "citations": {
+    "valid": 65,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S03",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.70, margin 0.50, 10 verified supporting and 2 contradicting evidence items (17%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.70, margin 0.50, 10 verified supporting and 2 contradicting evidence items (17%)"
+      ],
+      "top_hypothesis": "notification-worker / deployment_regression",
+      "top_confidence": 0.7,
+      "margin_over_runner_up": 0.5,
+      "verified_support": [
+        "C04",
+        "M29",
+        "L0095",
+        "L0182",
+        "L0185",
+        "L0235",
+        "L0281",
+        "M31",
+        "M30",
+        "M32"
+      ],
+      "contradicting_evidence": [
+        "M26",
+        "H09"
+      ],
+      "contradiction_share": 0.167,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.7,
+    "summary": "notification-worker is repeatedly running out of heap and being OOMKilled, which cut its consumption rate from about 30 req/s to about 6 req/s starting around 09:55 UTC and let queue lag climb from 4 s to about 947 s by 10:30. The most likely origin is the v1.8.0 in-process template cache (deployed 2026-08-31), with the 2026-09-02 batch-size increase as a possible amplifier. The email-provider slowdown is a real but secondary factor, since it does not explain the crash-and-restart pattern. Memory telemetry before 09:00 is missing, so the leak's onset cannot be confirmed directly.",
+    "root_cause": {
+      "id": "H1",
+      "service": "notification-worker",
+      "category": "deployment_regression",
+      "mechanism": "v1.8.0 caches rendered templates in-process without a bound. Heap grows until GC thrashes (from 09:30), then TemplateCache.put throws OOM and the 2Gi container is killed. Each restart drops consumption to about 6 req/s, so queue lag grows.",
+      "supporting_evidence": [
+        "C04",
+        "M29",
+        "L0095",
+        "L0182",
+        "L0185",
+        "L0235",
+        "L0281",
+        "M31",
+        "M30",
+        "M32"
+      ],
+      "contradicting_evidence": [
+        "M26",
+        "H09"
+      ],
+      "assumptions": [
+        "Cache is unbounded.",
+        "Pre-09:00 memory data is missing, so the timing gap between the 08-31 deploy and the 09:00 ramp is unexplained."
+      ],
+      "confidence": 0.7
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "notification-worker",
+        "category": "deployment_regression",
+        "mechanism": "v1.8.0 caches rendered templates in-process without a bound. Heap grows until GC thrashes (from 09:30), then TemplateCache.put throws OOM and the 2Gi container is killed. Each restart drops consumption to about 6 req/s, so queue lag grows.",
+        "supporting_evidence": [
+          "C04",
+          "M29",
+          "L0095",
+          "L0182",
+          "L0185",
+          "L0235",
+          "L0281",
+          "M31",
+          "M30",
+          "M32"
+        ],
+        "contradicting_evidence": [
+          "M26",
+          "H09"
+        ],
+        "assumptions": [
+          "Cache is unbounded.",
+          "Pre-09:00 memory data is missing, so the timing gap between the 08-31 deploy and the 09:00 ramp is unexplained."
+        ],
+        "confidence": 0.7
+      },
+      {
+        "id": "H2",
+        "service": "email-provider",
+        "category": "dependency_failure",
+        "mechanism": "Slow provider responses hold worker threads and in-flight batches, increasing heap use and slowing drain, which leads to backlog growth.",
+        "supporting_evidence": [
+          "L0065",
+          "L0112",
+          "H04"
+        ],
+        "contradicting_evidence": [
+          "M31",
+          "L0095",
+          "L0182"
+        ],
+        "assumptions": [
+          "Slow sends increase per-message memory retention."
+        ],
+        "confidence": 0.2
+      },
+      {
+        "id": "H3",
+        "service": "notification-worker",
+        "category": "config_error",
+        "mechanism": "Batch size increase from 50 to 100 on 2026-09-02 raised per-batch heap use and tipped the worker into OOM.",
+        "supporting_evidence": [
+          "C07",
+          "L0095"
+        ],
+        "contradicting_evidence": [
+          "C04",
+          "M29"
+        ],
+        "assumptions": [
+          "Memory per batch scales linearly with batch size."
+        ],
+        "confidence": 0.15
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "queue_lag_s was stable at about 3.9\u20134.2 s from 09:00 to 09:55, then rose to 140.92 s at 10:00 and reached 946.91 s at 10:30.",
+        "evidence_ids": [
+          "M30"
+        ]
+      },
+      {
+        "statement": "request_rate fell from about 29\u201331 req/s (09:50 at 30.95) to 6.16 req/s at 09:55 and stayed near 6 req/s through 10:30.",
+        "evidence_ids": [
+          "M31"
+        ]
+      },
+      {
+        "statement": "memory_pct climbed from 81.04% at 09:00 to 98.48% at 09:45 and 99.13% at 09:50, then dropped to 54.02% at 09:55; it was back at 90.26% by 10:30.",
+        "evidence_ids": [
+          "M29"
+        ]
+      },
+      {
+        "statement": "Restarts counter rose from 0 at 09:50 to 1 at 09:55 and to 3 by 10:25.",
+        "evidence_ids": [
+          "M32"
+        ]
+      },
+      {
+        "statement": "GC overhead warnings ('92% of time spent in GC over last 60s') appear repeatedly from 09:30:01 onward.",
+        "evidence_ids": [
+          "L0095",
+          "L0105",
+          "L0115",
+          "L0123"
+        ]
+      },
+      {
+        "statement": "java.lang.OutOfMemoryError: Java heap space at TemplateCache.put(TemplateCache.java:57) is logged at 09:54:22 and repeatedly afterward, with 8 occurrences in the window.",
+        "evidence_ids": [
+          "L0182",
+          "L0197",
+          "L0212",
+          "L0226",
+          "L0243",
+          "L0255",
+          "L0269",
+          "L0282"
+        ]
+      },
+      {
+        "statement": "Container notification-worker-7c9d was OOMKilled (limit 2Gi) at 09:55:02, 10:10:16 and 10:25:14.",
+        "evidence_ids": [
+          "L0185",
+          "L0235",
+          "L0281"
+        ]
+      },
+      {
+        "statement": "cpu_pct stayed between 21.18% and 22.82% for the whole window, so the worker was not CPU-bound.",
+        "evidence_ids": [
+          "M26"
+        ]
+      },
+      {
+        "statement": "Deploy v1.8.0 on 2026-08-31 10:00 UTC added in-process caching of rendered email templates; config change on 2026-09-02 08:00 raised the send batch size from 50 to 100.",
+        "evidence_ids": [
+          "C04",
+          "C07"
+        ]
+      },
+      {
+        "statement": "email-provider logged slow responses (2400 ms) at 09:20 and 09:35, and the dependency health check reports 'degraded: elevated latency in eu-west' at 10:28.",
+        "evidence_ids": [
+          "L0065",
+          "L0112",
+          "H04"
+        ]
+      },
+      {
+        "statement": "No change events were recorded in the 2026-09-03 window (06:00\u201310:30); the only changes in the past week are the 08-31 deploy and the 09-02 config change.",
+        "evidence_ids": [
+          "C04",
+          "C07"
+        ]
+      },
+      {
+        "statement": "notification-queue and notification-worker report HTTP /health 200 at 10:28, while the worker was restarting repeatedly.",
+        "evidence_ids": [
+          "H08",
+          "H09"
+        ]
+      },
+      {
+        "statement": "The only past incident with similar symptoms is P06 (2026-06-20), an email-provider outage that caused queue lag and send timeouts.",
+        "evidence_ids": [
+          "P06"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The TemplateCache growth is unbounded (no eviction or size limit), so memory rises with the number of distinct templates or rendered payloads processed.",
+      "Memory telemetry before 09:00 is unavailable in the tool (the query for 08-31 returned only 09:00+ points), so the onset of growth is not directly confirmed.",
+      "The worker's 2Gi limit and heap sizing have not changed since v1.8.0.",
+      "The notification-worker /health check does not exercise template rendering or heap pressure, so it stays green during OOM loops.",
+      "email-provider has no metrics in the telemetry, so its own error rate and latency are known only from worker logs and one status-page-style health check."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The primary fault is memory exhaustion in notification-worker from the unbounded in-process TemplateCache introduced in v1.8.0; the OOM restart loop throttles consumption and produces the queue lag.",
+        "evidence_ids": [
+          "M29",
+          "M32",
+          "L0182",
+          "L0185",
+          "M31",
+          "M30",
+          "C04"
+        ],
+        "confidence": 0.72
+      },
+      {
+        "statement": "The 2026-09-02 batch size increase (50\u2192100) may have increased per-batch heap pressure and accelerated the OOM cycle, but this is not directly shown by the data.",
+        "evidence_ids": [
+          "C07",
+          "L0095"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "statement": "The email-provider slowdown is a contributing factor that lengthens sends but cannot alone explain repeated worker OOM kills or the 09:55 drop in throughput.",
+        "evidence_ids": [
+          "L0065",
+          "L0112",
+          "H04",
+          "M31"
+        ],
+        "confidence": 0.2
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Roll back notification-worker to the pre-v1.8.0 build (or disable the in-process template cache via flag) to stop the OOM loop.",
+        "priority": "immediate",
+        "rationale": "Targets the only change that introduces in-process heap growth; restores consumption rate."
+      },
+      {
+        "action": "Revert the batch size from 100 to 50 while the rollback is in progress.",
+        "priority": "immediate",
+        "rationale": "Reduces per-batch memory pressure in case it contributes."
+      },
+      {
+        "action": "Monitor queue_lag_s and drain the backlog once the worker is stable; consider scaling replicas for the backlog.",
+        "priority": "immediate",
+        "rationale": "Backlog of about 16 minutes must be drained to clear delayed order emails."
+      },
+      {
+        "action": "Add a size bound and eviction to TemplateCache and add a heap-usage alert on notification-worker.",
+        "priority": "short_term",
+        "rationale": "Prevents unbounded growth recurring."
+      },
+      {
+        "action": "Make the health check exercise template rendering or report OOM/restart state.",
+        "priority": "short_term",
+        "rationale": "Health check stayed green during the crash loop."
+      },
+      {
+        "action": "Add a canary and memory-regression test for template caching before deploys; add email-provider metrics and a fallback provider.",
+        "priority": "long_term",
+        "rationale": "Catches leaks pre-release and reduces dependence on one provider (P06 follow-up)."
+      }
+    ],
+    "open_questions": [
+      "Why did memory growth begin around 09:00 when v1.8.0 deployed 2026-08-31 10:00? Need pre-09:00 memory data to confirm the onset.",
+      "Is the TemplateCache growing per template, per recipient, or per rendered payload?",
+      "Did the 2026-09-02 batch-size change shift the memory growth rate?",
+      "Is the email-provider slowdown causing sends to hold memory longer (in-flight batches)?",
+      "Why did request_rate drop by 80% at 09:55 while CPU stayed flat?"
+    ],
+    "data_gaps": [],
+    "data_gaps_total": 0,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S03",
+      "title": "order emails delayed",
+      "reported_at": "2026-09-03T10:30:00Z",
+      "alert": "ALERT [P2] notification-queue consumer lag above 15 minutes (threshold 5m) since ~10:00 UTC; order confirmation emails delayed.",
+      "affected_services": [
+        "notification-worker"
+      ],
+      "window_start": "2026-09-03T09:00:00Z",
+      "window_end": "2026-09-03T10:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 65,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "M26",
+      "M27",
+      "M28",
+      "M29",
+      "M30",
+      "M31",
+      "M32",
+      "L0030",
+      "L0046",
+      "L0052",
+      "L0065",
+      "L0095",
+      "L0105",
+      "L0112",
+      "L0115",
+      "L0123",
+      "L0182",
+      "L0185",
+      "L0197",
+      "L0212",
+      "L0226",
+      "L0235",
+      "L0243",
+      "L0255",
+      "L0269",
+      "L0281",
+      "L0282",
+      "D12",
+      "D13",
+      "H04",
+      "H08",
+      "H09",
+      "P06",
+      "C04",
+      "C07",
+      "P07",
+      "P03",
+      "P04"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S03",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 27.764,
+    "tool_calls": 10,
+    "failed_tool_calls": 0,
+    "llm_calls": 4,
+    "prompt_tokens": 39985,
+    "completion_tokens": 5201,
+    "total_tokens": 45186,
+    "cost_usd": 0.006599,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.7,
+    "top_service": "notification-worker",
+    "top_category": "deployment_regression",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 3
+  }
+}

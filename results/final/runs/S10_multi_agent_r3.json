@@ -1,0 +1,1792 @@
+{
+  "system": "multi_agent",
+  "incident_id": "S10",
+  "error": null,
+  "latency_s": 107.658,
+  "usage": {
+    "llm_calls": 31,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 171926,
+    "completion_tokens": 26294,
+    "reasoning_tokens": 1427,
+    "total_tokens": 198220,
+    "cost_usd": 0.0303396,
+    "llm_time_s": 152.121,
+    "by_role": {
+      "orchestrator": {
+        "calls": 3,
+        "prompt_tokens": 12536,
+        "completion_tokens": 1622,
+        "cost_usd": 0.0020645999999999998
+      },
+      "dependency": {
+        "calls": 9,
+        "prompt_tokens": 30610,
+        "completion_tokens": 5091,
+        "cost_usd": 0.0056065
+      },
+      "observability": {
+        "calls": 12,
+        "prompt_tokens": 48967,
+        "completion_tokens": 8554,
+        "cost_usd": 0.009173700000000002
+      },
+      "reasoning": {
+        "calls": 3,
+        "prompt_tokens": 32202,
+        "completion_tokens": 4361,
+        "cost_usd": 0.0054007
+      },
+      "critic": {
+        "calls": 3,
+        "prompt_tokens": 33190,
+        "completion_tokens": 3976,
+        "cost_usd": 0.005307
+      },
+      "reporting": {
+        "calls": 1,
+        "prompt_tokens": 14421,
+        "completion_tokens": 2690,
+        "cost_usd": 0.0027871
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 29,
+    "rejected_calls": 0,
+    "attempts": 33,
+    "failed_calls": 5,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 63480,
+    "by_status": {
+      "ok": 24,
+      "error": 3,
+      "timeout": 2
+    },
+    "by_tool": {
+      "get_change_history": 6,
+      "get_dependencies": 6,
+      "query_metrics": 7,
+      "query_logs": 10
+    },
+    "by_agent": {
+      "dependency": 12,
+      "observability": 17
+    }
+  },
+  "citations": {
+    "valid": 221,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S10",
+    "system": "multi_agent",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "inconclusive",
+    "status_reason": "top hypothesis confidence 0.30 is below 0.50; 1 verified, undisputed supporting evidence item(s); 2 required; contradicting evidence is 88% of the weighed evidence (max 35%)",
+    "decision": {
+      "status": "inconclusive",
+      "reasons": [
+        "top hypothesis confidence 0.30 is below 0.50",
+        "1 verified, undisputed supporting evidence item(s); 2 required",
+        "contradicting evidence is 88% of the weighed evidence (max 35%)"
+      ],
+      "top_hypothesis": "search-service / dependency_failure",
+      "top_confidence": 0.3,
+      "margin_over_runner_up": 0.15,
+      "verified_support": [
+        "M03"
+      ],
+      "contradicting_evidence": [
+        "M02",
+        "M05",
+        "L0151",
+        "L0178",
+        "L0185",
+        "L0192",
+        "M01"
+      ],
+      "contradiction_share": 0.875,
+      "blocking_objections": [
+        "unsupported_claim: The claim that search-service serves /api/v1/search rests only on the existence of one dependency edge D02; no route configuration was obtained and the T6 resul [D02]",
+        "alternative_not_ruled_out: The slow-upstream WARN lines are emitted by the gateway after it waits on upstream calls, so they cannot distinguish a slow upstream from gateway-side queuing o [L0151, L0178, L0185, L0192, M01, M05]"
+      ],
+      "non_blocking_objections": 5
+    },
+    "confidence": 0.3,
+    "summary": "Incident S10 was a brief api-gateway p99 latency excursion (about 1633 ms at the 20:00 UTC sample against a roughly 180 ms baseline) that cleared by 20:05 UTC with no customer reports. The system determination is INCONCLUSIVE: the top hypothesis (search-service backend slowdown) has confidence 0.30, below the 0.50 threshold, and only one verified supporting item was available against two required. Contradicting evidence makes up 88% of the weighed evidence, above the 35% limit. Gateway error rate, CPU, memory and request rate stayed flat at 5-minute resolution, and three WARN 'upstream response slow' lines on /api/v1/search fall inside the spike window. The route-to-search-service mapping is unconfirmed, no route configuration or search-service telemetry was obtained, and no root cause can be asserted.",
+    "root_cause": null,
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "search-service",
+        "category": "dependency_failure",
+        "mechanism": "A transient slowdown in the search-service backend serving /api/v1/search made upstream calls from api-gateway slow for about 5 minutes, lifting the aggregate gateway p99 to 1.6s. The three upstream-slow WARN lines on that route fall within the spike window and are the only slowness signal in the gateway logs.",
+        "supporting_evidence": [
+          "L0178",
+          "L0185",
+          "L0192",
+          "M03",
+          "D02"
+        ],
+        "contradicting_evidence": [
+          "M02",
+          "M05"
+        ],
+        "assumptions": [
+          "The /api/v1/search route is served by search-service, inferred from route name and single sync_http edge D02, not confirmed by route config.",
+          "The slow upstream responses cause the p99 spike rather than being a symptom of gateway-side queuing."
+        ],
+        "confidence": 0.3
+      },
+      {
+        "id": "H2",
+        "service": "api-gateway",
+        "category": "other",
+        "mechanism": "A brief gateway-internal contention or near-limit client burst increased tail latency on a subset of requests, which 5-minute averages of CPU, memory and request rate would not reveal. The upstream-slow WARN lines could then be a downstream effect of gateway-side queuing.",
+        "supporting_evidence": [
+          "L0151",
+          "M01",
+          "M04",
+          "M05"
+        ],
+        "contradicting_evidence": [
+          "L0178",
+          "L0185",
+          "L0192"
+        ],
+        "assumptions": [
+          "A burst shorter than the 5-minute metric resolution occurred.",
+          "The rate-limiter WARN at 19:50:21 relates to the 20:00 spike, which is not established."
+        ],
+        "confidence": 0.15
+      },
+      {
+        "id": "H3",
+        "service": "search-service",
+        "category": "infrastructure_failure",
+        "mechanism": "A transient infrastructure or retention-related fault in the search backend produced the slow responses, following the same path as H1 with an unverifiable cause.",
+        "supporting_evidence": [
+          "L0178",
+          "L0185",
+          "L0192"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "The search backend's metrics retention gap and log timeout coincide with the latency event.",
+          "No change explains the fault, based on a change feed that returned zero records and was not cross-checked."
+        ],
+        "confidence": 0.1
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "api-gateway latency_p99_ms was about 181-185 ms from 19:45 to 19:55, reached 1633.34 ms at 20:00:00, and was 177.45 ms at 20:05 and 174.72 ms at 20:10.",
+        "evidence_ids": [
+          "M03"
+        ]
+      },
+      {
+        "statement": "Three WARN lines read 'upstream response slow' on route /api/v1/search: 892 ms at 19:59:08, 1072 ms at 20:01:12 and 1079 ms at 20:03:10.",
+        "evidence_ids": [
+          "L0178",
+          "L0185",
+          "L0192"
+        ]
+      },
+      {
+        "statement": "The slow-upstream WARN lines carry no upstream host or service name.",
+        "evidence_ids": [
+          "L0178",
+          "L0185",
+          "L0192"
+        ]
+      },
+      {
+        "statement": "api-gateway error_rate stayed between 0.37% and 0.44% with no step change at 20:00.",
+        "evidence_ids": [
+          "M02"
+        ]
+      },
+      {
+        "statement": "api-gateway cpu_pct (36.5-39.1%), memory_pct (50.5-53.8%) and request_rate (413-435 req/s) stayed in narrow ranges with no sustained change at 20:00.",
+        "evidence_ids": [
+          "M01",
+          "M04",
+          "M05"
+        ]
+      },
+      {
+        "statement": "A rate-limiter WARN for client a5617224 near burst limit occurred at 19:50:21, about 10 minutes before the spike.",
+        "evidence_ids": [
+          "L0151"
+        ]
+      },
+      {
+        "statement": "No ERROR-level api-gateway lines appeared in the 19:45-20:10 window.",
+        "evidence_ids": [
+          "L0151",
+          "L0178",
+          "L0185",
+          "L0192"
+        ]
+      },
+      {
+        "statement": "The dependency graph lists api-gateway to search-service as a sync_http edge; no route configuration was returned, so the /api/v1/search mapping is not confirmed.",
+        "evidence_ids": [
+          "D02"
+        ]
+      },
+      {
+        "statement": "Health checks at 20:28 UTC returned HTTP 200 for api-gateway, auth-service, checkout-service, search-service and search-index; these are shallow /health probes taken after the event.",
+        "evidence_ids": [
+          "H01",
+          "H02",
+          "H03",
+          "H13",
+          "H14"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The /api/v1/search route is served by search-service, inferred from the route name and the single dependency edge D02 rather than route configuration.",
+      "The slow upstream responses caused the p99 spike rather than being a symptom of gateway-side queuing or thread contention.",
+      "The 5-minute metric resolution is adequate to characterise the event, though sub-5-minute bursts cannot be excluded.",
+      "The change feed returning zero records is complete; it was not cross-checked and excludes changes before 18:00 UTC.",
+      "Shallow /health checks at 20:28 UTC do not reflect search-path behaviour during 20:00-20:05 UTC.",
+      "(unverified - no valid evidence cited) No deployments, config changes, feature-flag changes, rollbacks or infra events were recorded for 18:00-20:30 UTC across all services; the change feed was not cross-checked from a second source.",
+      "(unverified - no valid evidence cited) search-service metrics query failed with a retention-gap error, persisting on retry; its WARN-level log query timed out on 3 attempts; search-index has no telemetry."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The leading candidate is a transient slowdown in the search backend serving /api/v1/search, but this is not established; confidence is 0.30, below the 0.50 threshold, and the attribution to search-service is unverified.",
+        "evidence_ids": [
+          "L0178",
+          "L0185",
+          "L0192",
+          "M03",
+          "D02"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "statement": "A brief gateway-internal contention or near-limit client burst (sub-5-minute) is a competing candidate, since the slow-upstream WARN lines cannot distinguish a slow upstream from gateway-side queuing.",
+        "evidence_ids": [
+          "L0151",
+          "M01",
+          "M04",
+          "M05",
+          "L0178"
+        ],
+        "confidence": 0.15
+      },
+      {
+        "statement": "A sustained gateway-wide resource fault is unlikely given flat 5-minute CPU, memory, request rate and error rate.",
+        "evidence_ids": [
+          "M01",
+          "M02",
+          "M04",
+          "M05"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "A change-induced cause is unlikely for this window based on the zero-record change feed, though this is not cross-checked.",
+        "evidence_ids": [],
+        "confidence": 0.4
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Keep the incident at P3 and monitor api-gateway p99 and per-route latency for recurrence; no customer-facing mitigation is indicated since the spike self-resolved.",
+        "priority": "immediate",
+        "rationale": "The event auto-resolved at 20:05 UTC with no customer reports, and the data does not establish a cause that would justify intervention."
+      },
+      {
+        "action": "Retrieve search-service latency, error, CPU and connection-pool metrics for 19:45-20:10 UTC, and retry its WARN logs, once the retention gap and log timeout are resolved.",
+        "priority": "immediate",
+        "rationale": "These are the data needed to test the leading hypothesis, and their absence prevents confirming or excluding it."
+      },
+      {
+        "action": "Confirm from api-gateway route configuration which upstream serves /api/v1/search and whether any other route maps to search-service.",
+        "priority": "short_term",
+        "rationale": "The search-service attribution rests on a single dependency edge and is currently unverified."
+      },
+      {
+        "action": "Add upstream host or service name and upstream duration fields to the gateway 'upstream response slow' log line.",
+        "priority": "short_term",
+        "rationale": "The current WARN lines cannot distinguish a slow upstream from gateway-side queuing or identify the upstream."
+      },
+      {
+        "action": "Add per-route p99 and p50 latency metrics at finer than 5-minute resolution for api-gateway.",
+        "priority": "short_term",
+        "rationale": "Current aggregate 5-minute p99 cannot localise the excursion or test sub-5-minute bursts."
+      },
+      {
+        "action": "Fix search-service metrics retention and log query reliability, and add telemetry for search-index.",
+        "priority": "long_term",
+        "rationale": "Telemetry gaps blocked testing of the downstream hypothesis and would hinder future investigations."
+      },
+      {
+        "action": "Deepen health checks beyond shallow /health probes to exercise real request paths for gateway dependencies.",
+        "priority": "long_term",
+        "rationale": "Shallow checks taken after the event could not show degradation during the window."
+      },
+      {
+        "action": "Cross-check the change feed against a second source and extend history beyond 18:00 UTC.",
+        "priority": "long_term",
+        "rationale": "The zero-change result has not been validated and earlier changes remain unexamined."
+      }
+    ],
+    "open_questions": [
+      "Which upstream service actually serves /api/v1/search, and does any other gateway route map to search-service?",
+      "Did search-service or search-index experience latency or errors between 19:55 and 20:05 UTC? Its telemetry was unavailable.",
+      "Was the 20:00 spike confined to /api/v1/search, and did p50 move?",
+      "Did a sub-5-minute burst or gateway-side queuing occur, and is the 19:50:21 rate-limiter WARN related to the spike?",
+      "Are the zero change-feed results complete, and were there changes before 18:00 UTC?"
+    ],
+    "data_gaps": [
+      "query_metrics(start=2026-09-10T19:45:00Z, end=2026-09-10T20:10:00Z, service=search-service) -> error: Error: metrics for search-service unavailable (retention gap) [2 calls]",
+      "query_logs(start=2026-09-10T19:45:00Z, end=2026-09-10T20:10:00Z, service=search-service, min_level=WARN, limit=50) -> timeout: Timed out after 10000 ms: log backend query for search-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-10T19:45:00Z, end=2026-09-10T20:10:00Z, service=search-service, min_level=WARN, limit=20) -> timeout: Timed out after 10000 ms: log backend query for search-service exceeded deadline (gave up after 3 attempts)",
+      "query_metrics(start=2026-09-10T19:45:00Z, end=2026-09-10T20:10:00Z, service=search-service, metric=latency_p99_ms) -> error: Error: metrics for search-service unavailable (retention gap)",
+      "The downstream dependency for /api/v1/search is inferred, not confirmed. (reported 2x)",
+      "p50 latency was not queried, so it is unknown whether median latency moved.",
+      "No per-instance, per-route or per-region breakdown was available; whether the spike was concentrated on specific instances, routes or regions is unknown.",
+      "Metrics are at 5-minute resolution, so exact onset and recovery are bounded to the 19:55\u201320:00 and 20:00\u201320:05 samples; the logs suggest the slow responses began before 19:59:08.",
+      "Upstream services (the source of the slow search responses) were not queried, so the origin of the slow responses is not confirmed.",
+      "22 further gap report(s) in 22 group(s) omitted here (mostly about: latency, api-gateway, metrics, search-service, search, utc); the full list is in the run record."
+    ],
+    "data_gaps_total": 32,
+    "termination_reason": "max_rounds_reached"
+  },
+  "state": {
+    "brief": {
+      "id": "S10",
+      "title": "brief gateway latency blip",
+      "reported_at": "2026-09-10T20:30:00Z",
+      "alert": "ALERT [P3] api-gateway p99 latency 1.6s (threshold 1.5s) for ~4 minutes around 20:00 UTC; auto-resolved at 20:05 UTC. No customer reports.",
+      "affected_services": [
+        "api-gateway"
+      ],
+      "window_start": "2026-09-10T19:00:00Z",
+      "window_end": "2026-09-10T20:30:00Z"
+    },
+    "plan": {
+      "incident_understanding": "A P3 alert reports api-gateway p99 latency reaching 1.6s (threshold 1.5s) for about four minutes around 20:00 UTC, auto-resolved at 20:05 UTC, with no customer reports. The blip is brief and marginal, so the first question is whether it reflects a real degradation or a transient spike, and if real, whether it came from a triggering change or a downstream dependency.",
+      "candidate_explanations": [
+        "Transient load spike or traffic burst at the api-gateway causing brief queueing and elevated p99 latency",
+        "A recent deployment, config change, or feature flag change on api-gateway introduced a short latency regression",
+        "A slow or degraded downstream dependency of api-gateway (timeouts or retries) propagated latency upstream",
+        "Infrastructure event (node restart, GC pause, connection pool churn, autoscaling) affecting api-gateway instances around 20:00 UTC",
+        "Measurement artifact or noisy metric window with no real user-facing latency increase"
+      ],
+      "tasks": [
+        {
+          "key": "t1",
+          "agent": "observability",
+          "objective": "Characterise the api-gateway p99 latency curve between 19:00 and 20:30 UTC: confirm exact onset and recovery times, whether p50 and error rates moved too, and whether the spike was concentrated on specific instances, routes, or regions. Check request volume over the same window to test the load-spike hypothesis, and scan api-gateway logs for timeouts, retries, or error signatures near 20:00 UTC.",
+          "focus_services": [
+            "api-gateway"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t2",
+          "agent": "dependency",
+          "objective": "List all deployments, config changes, feature flag changes, and infra events affecting api-gateway or its direct upstream/downstream services in the window 18:00 to 20:30 UTC, with exact timestamps. Also check the dependency graph and health checks of api-gateway's downstream services for any degradation between 19:45 and 20:10 UTC.",
+          "focus_services": [
+            "api-gateway"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t3",
+          "agent": "observability",
+          "objective": "Check latency, error rate, and saturation metrics (CPU, memory, connection pool, queue depth) for api-gateway's downstream dependencies between 19:45 and 20:10 UTC to identify which dependency, if any, showed a correlated latency or error increase at the same time as the api-gateway p99 spike.",
+          "focus_services": [
+            "api-gateway"
+          ],
+          "depends_on": []
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": "T1",
+        "agent": "observability",
+        "objective": "Characterise the api-gateway p99 latency curve between 19:00 and 20:30 UTC: confirm exact onset and recovery times, whether p50 and error rates moved too, and whether the spike was concentrated on specific instances, routes, or regions. Check request volume over the same window to test the load-spike hypothesis, and scan api-gateway logs for timeouts, retries, or error signatures near 20:00 UTC.",
+        "focus_services": [
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 3,
+        "findings": {
+          "summary": "api-gateway p99 latency spiked from a baseline of about 180 ms to 1633 ms in the 20:00 UTC sample, then returned to 177 ms by 20:05. The 5-minute metrics show no rise in p50 (not queried), error rate, CPU, memory or request rate over the window. Request volume was flat (about 407 to 435 req/s), so the data does not support a load spike. Logs point to slow upstream responses on /api/v1/search. Per-instance, per-route and per-region breakdowns were not available from these tools.",
+          "observations": [
+            {
+              "statement": "p99 latency (latency_p99_ms) was about 173\u2013187 ms from 19:00 through 19:55 and at 20:00 UTC was 1633.34 ms, the window maximum; it was back to 177.45 ms at 20:05 and stayed at 175\u2013186 ms through 20:30.",
+              "evidence_ids": [
+                "M03"
+              ]
+            },
+            {
+              "statement": "Error rate stayed in a narrow band of 0.34\u20130.45% across the whole window, with no visible change at 20:00\u201320:05 (0.41% at 20:00, 0.44% at 20:05).",
+              "evidence_ids": [
+                "M02"
+              ]
+            },
+            {
+              "statement": "Request rate stayed between 407 and 435 req/s across 19:00\u201320:30 with no spike at 20:00 (421.51 req/s at 20:00, 430.89 at 20:05); the maximum was at 19:45.",
+              "evidence_ids": [
+                "M05"
+              ]
+            },
+            {
+              "statement": "CPU (36.5\u201339.5%) and memory (50.5\u201354.0%) remained flat with no change at 20:00.",
+              "evidence_ids": [
+                "M01",
+                "M04"
+              ]
+            },
+            {
+              "statement": "Logs contain three WARN 'upstream response slow' lines for route /api/v1/search: 892 ms at 19:59:08, 1072 ms at 20:01:12 and 1079 ms at 20:03:10, all within the spike window.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            },
+            {
+              "statement": "A rate-limiter WARN for one client (a5617224, near burst limit) occurred at 19:50:21, before the spike; it does not match the 20:00 window.",
+              "evidence_ids": [
+                "L0151"
+              ]
+            },
+            {
+              "statement": "No log lines containing 'timeout' were found in api-gateway from 19:00 to 20:30; no ERROR-level lines were returned in the WARN-or-above query for 19:50\u201320:15.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The latency spike is attributable to slow upstream responses on the /api/v1/search route rather than to gateway load, since request rate, CPU and error rate did not move.",
+              "evidence_ids": [],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The load-spike hypothesis is weakly supported: request volume was flat within the 5-minute resolution, though a short burst shorter than 5 minutes could be hidden by the averaging.",
+              "evidence_ids": [],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "p50 latency was not queried, so it is unknown whether median latency moved.",
+            "No per-instance, per-route or per-region breakdown was available; whether the spike was concentrated on specific instances, routes or regions is unknown.",
+            "Metrics are at 5-minute resolution, so exact onset and recovery are bounded to the 19:55\u201320:00 and 20:00\u201320:05 samples; the logs suggest the slow responses began before 19:59:08.",
+            "Upstream services (the source of the slow search responses) were not queried, so the origin of the slow responses is not confirmed.",
+            "Tool call budget was used for this run, so no further drill-down into search backends or the retry/timeout signatures on other log levels was done."
+          ],
+          "suggested_followups": [
+            "Query p50 latency and per-route/per-instance latency for api-gateway at 1-minute resolution between 19:50 and 20:10.",
+            "Query the search upstream service's latency, error and CPU metrics and logs for 19:50\u201320:10 to find where the slow responses originated.",
+            "Check for deployments or config changes to /api/v1/search or its upstream in the change history before 20:00 UTC."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T2",
+        "agent": "dependency",
+        "objective": "List all deployments, config changes, feature flag changes, and infra events affecting api-gateway or its direct upstream/downstream services in the window 18:00 to 20:30 UTC, with exact timestamps. Also check the dependency graph and health checks of api-gateway's downstream services for any degradation between 19:45 and 20:10 UTC.",
+        "focus_services": [
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "No deployments, config changes, feature-flag changes, rollbacks or infra events were recorded for api-gateway, its direct downstream services (checkout-service, search-service, auth-service), or any other service in the 18:00-20:30 UTC window. The dependency graph has no upstream callers of api-gateway. All health checks returned healthy, but they are a single snapshot at 20:28 UTC, outside the 19:45-20:10 window, and the checks are shallow (HTTP /health only). The change history therefore gives no change-based explanation for the 20:00 latency blip.",
+          "observations": [
+            {
+              "statement": "Change history for api-gateway between 18:00:00Z and 20:30:00Z returned 0 records.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Change history across all services between 18:00:00Z and 20:30:00Z returned 0 records (no deploy, config_change, feature_flag, rollback or infra events).",
+              "evidence_ids": []
+            },
+            {
+              "statement": "api-gateway has three direct downstream edges: checkout-service (sync_http), search-service (sync_http) and auth-service (sync_http).",
+              "evidence_ids": [
+                "D01",
+                "D02",
+                "D03"
+              ]
+            },
+            {
+              "statement": "api-gateway has no dependents (no services listed as calling it).",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Latest health checks, all at 2026-09-10T20:28:00Z, report healthy HTTP /health 200 for api-gateway, auth-service, checkout-service and search-service.",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H14"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "No change-induced cause is visible for the latency blip, so a change-related explanation is unlikely based on this data. Changes outside the recorded history, or load-driven and transient effects, remain possible.",
+              "evidence_ids": [],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The downstream health checks cannot rule out degradation during 19:45-20:10 because they were taken at 20:28 and only test /health, so they would not show a brief latency increase on real request paths.",
+              "evidence_ids": [
+                "H02",
+                "H03",
+                "H14"
+              ],
+              "confidence": 0.7
+            }
+          ],
+          "data_gaps": [
+            "No downstream health or latency telemetry for the 19:45-20:10 UTC window; the only health checks are a single snapshot at 20:28 UTC.",
+            "Health checks are shallow (/health endpoints) and do not exercise TLS, database writes or real request paths.",
+            "Change history returned 0 records for every query. This may be genuine, or the change feed may be incomplete; it was not cross-checked against another source.",
+            "No api-gateway latency metrics or downstream per-service latency were queried, and no past-incident search was run (call budget)."
+          ],
+          "suggested_followups": [
+            "Pull downstream p99 latency for checkout-service, search-service and auth-service for 19:45-20:10 UTC from telemetry.",
+            "Verify that the change feed is complete for 18:00-20:30 UTC, e.g. by checking CI/CD and feature-flag audit logs directly.",
+            "Check api-gateway connection pool, retry and timeout metrics for 20:00-20:05 UTC to test for a transient load or saturation effect.",
+            "Search past incidents for brief gateway p99 latency blips with no recorded changes."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T3",
+        "agent": "observability",
+        "objective": "Check latency, error rate, and saturation metrics (CPU, memory, connection pool, queue depth) for api-gateway's downstream dependencies between 19:45 and 20:10 UTC to identify which dependency, if any, showed a correlated latency or error increase at the same time as the api-gateway p99 spike.",
+        "focus_services": [
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "api-gateway p99 latency spiked to 1633 ms at 20:00:00Z (baseline about 175-185 ms), and the spike cleared by 20:05:00Z. The only gateway warnings in the window are 'upstream response slow' on route /api/v1/search at 19:59:08, 20:01:12 and 20:03:10 (892-1079 ms). Error rate, CPU, memory and request rate stayed flat. I could not check any downstream dependency's metrics or logs: the search backend's metrics have a retention gap and its log query timed out. The dependency's identity is inferred from the route name, not from a named upstream in the logs.",
+          "observations": [
+            {
+              "statement": "api-gateway latency_p99_ms was about 180 ms at 19:45, 184.66 at 19:50, and 182.18 at 19:55, then jumped to 1633.34 ms at 20:00:00, and returned to 177.45 ms at 20:05:00 and 174.72 ms at 20:10:00.",
+              "evidence_ids": [
+                "M03"
+              ]
+            },
+            {
+              "statement": "api-gateway error_rate stayed between 0.37% and 0.44%, peaking at 0.44% at 20:05:00, with no visible jump at the latency spike.",
+              "evidence_ids": [
+                "M02"
+              ]
+            },
+            {
+              "statement": "api-gateway cpu_pct (36.55-39.1%), memory_pct (50.47-53.8%) and request_rate (413-435 req/s) stayed in narrow ranges across the window, with no spike at 20:00.",
+              "evidence_ids": [
+                "M01",
+                "M04",
+                "M05"
+              ]
+            },
+            {
+              "statement": "api-gateway logs show three WARN 'upstream response slow' lines on route /api/v1/search at 19:59:08 (892ms), 20:01:12 (1072ms) and 20:03:10 (1079ms), which fall within the p99 spike window.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            },
+            {
+              "statement": "A WARN 'rate limiter: client a5617224 near burst limit' appeared at 19:50:21; it is not clearly tied to the 20:00 spike.",
+              "evidence_ids": [
+                "L0151"
+              ]
+            },
+            {
+              "statement": "api-gateway logs contain no ERROR-level lines in 19:45-20:10.",
+              "evidence_ids": [
+                "L0151",
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The latency spike is most plausibly caused by a slow downstream serving /api/v1/search, since the only slowness signal is on that route and the gateway's own CPU, memory and request rate stayed flat.",
+              "evidence_ids": [],
+              "confidence": 0.5
+            },
+            {
+              "statement": "The gateway's own resources are unlikely to be the cause, since CPU, memory and request rate did not move at 20:00.",
+              "evidence_ids": [],
+              "confidence": 0.6
+            }
+          ],
+          "data_gaps": [
+            "search-service metrics query failed: retention gap, so no CPU, connection pool, queue or latency data for the search backend.",
+            "search-service log query timed out after 3 attempts, so no downstream log evidence was obtained.",
+            "No other downstream dependency's metrics or logs were checked (call budget reached); the full set of api-gateway dependencies is unknown because the gateway logs do not name them.",
+            "The downstream dependency for /api/v1/search is inferred, not confirmed."
+          ],
+          "suggested_followups": [
+            "Retry query_metrics or query_logs for the search backend over 19:55-20:06 with a narrower window, or find its correct service name.",
+            "Obtain api-gateway's dependency list from config or the service catalog, then check latency, error rate and saturation for each dependency over 19:45-20:10.",
+            "Check whether the /api/v1/search slowness was limited to that route and whether other routes stayed normal at 20:00.",
+            "Check change history for deploys or config changes to the search path near 19:50-20:00."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T4",
+        "agent": "observability",
+        "objective": "Query api-gateway p50 latency and per-route p99 (especially /api/v1/search vs other routes) for 19:45-20:10 UTC, and check gateway logs for the upstream host or service name attached to the slow-upstream WARN lines at 19:59:08, 20:01:12 and 20:03:10.",
+        "focus_services": [
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "api-gateway p99 latency spiked to 1633 ms at 20:00:00Z (baseline about 175-185 ms) and returned to 174.7 ms by 20:10. The only WARN lines in the window are three 'upstream response slow' messages, all on route /api/v1/search. The gateway logs do not name an upstream host or service on those lines. p50 and per-route p99 are not exposed by the available tools, so they could not be obtained.",
+          "observations": [
+            {
+              "statement": "api-gateway latency_p99_ms was about 181-185 ms at 19:45, 19:50 and 19:55, jumped to 1633.34 ms at 20:00:00, and was 177.45 ms at 20:05 and 174.72 ms at 20:10. The maximum was at 20:00:00.",
+              "evidence_ids": [
+                "M03"
+              ]
+            },
+            {
+              "statement": "Three WARN lines in the window all read 'upstream response slow' on route=/api/v1/search: 892ms at 19:59:08, 1072ms at 20:01:12 and 1079ms at 20:03:10.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            },
+            {
+              "statement": "The three slow-upstream WARN lines carry no upstream host or service name. Their message text contains only the latency and the route.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            },
+            {
+              "statement": "A WARN-level search for the window 19:55-20:06 returned only these 3 lines, so no other gateway WARN or ERROR signatures appear there.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            },
+            {
+              "statement": "Gateway error_rate stayed flat at 0.37-0.44% across 19:45-20:10, peaking at 0.44% at 20:05. It shows no step change at 20:00.",
+              "evidence_ids": [
+                "M02"
+              ]
+            },
+            {
+              "statement": "Gateway request_rate (413-435 req/s) and cpu_pct (36.6-39.1%) stayed flat. memory_pct peaked at 53.8% at 20:00, a small bump.",
+              "evidence_ids": [
+                "M05",
+                "M01",
+                "M04"
+              ]
+            },
+            {
+              "statement": "The 20:00 p99 spike is consistent with the search-route WARN lines. The three WARN lines fall at 19:59, 20:01 and 20:03, which is also the window when p99 was elevated.",
+              "evidence_ids": [
+                "M03",
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The latency excursion is most likely confined to /api/v1/search, because it is the only route with slow-upstream warnings and the aggregate p99 spike coincides with them. This is an inference only, since per-route p99 was not retrieved.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192",
+                "M03"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The slow upstream is probably a backend that search depends on. The gateway logs do not identify it, so the attribution needs the downstream service's own telemetry.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "p50 latency and per-route p99 are not exposed by query_metrics for api-gateway (only latency_p99_ms aggregate), so the requested per-route and p50 comparison could not be made.",
+            "The upstream host/service name is absent from the three WARN lines. The gateway log search for 'slow upstream' and the 19:59:08 detail query returned no additional fields, so the upstream identity remains unknown.",
+            "The aggregate p99 series is at 5-minute resolution. It cannot resolve the exact start of the spike or confirm whether the three WARN timestamps align with it at finer granularity."
+          ],
+          "suggested_followups": [
+            "Query the search backend's latency and error metrics (and the dependencies that search calls) for 19:50-20:10 to identify the slow upstream.",
+            "Pull gateway access logs or traces for /api/v1/search requests with upstream fields (for example upstream_addr or span peer.service) in the 19:55-20:06 window.",
+            "Obtain per-route p99 and p50 from the gateway's route-level metrics, if they exist outside this tool, to confirm the search-only hypothesis.",
+            "Check for a deploy or config change to the search service or its dependencies around 19:45-20:00."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T5",
+        "agent": "dependency",
+        "objective": "Confirm from gateway route configuration which upstream service serves /api/v1/search, and cross-check the change feed from a second source for 18:00-20:30 UTC to verify the zero-change result.",
+        "focus_services": [
+          "api-gateway",
+          "search-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "Dependency graph shows api-gateway calls search-service over sync HTTP (edge D02), which is consistent with search-service serving /api/v1/search. No changes to api-gateway, search-service, or any service were recorded between 18:00 and 20:30 UTC, and a global unfiltered query agrees. However, no tool exposes gateway route configuration, so the /api/v1/search route mapping is not directly confirmed. Health checks at 20:28 UTC are healthy for all relevant services, but they are shallow HTTP /health probes.",
+          "observations": [
+            {
+              "statement": "The dependency graph lists api-gateway -> search-service as a sync_http edge (D02).",
+              "evidence_ids": [
+                "D02"
+              ]
+            },
+            {
+              "statement": "The dependency graph lists api-gateway -> checkout-service (D01) and api-gateway -> auth-service (D03) as other sync_http edges. The route for /api/v1/search was not returned by any tool, so it is not shown which of these serves that path.",
+              "evidence_ids": [
+                "D01",
+                "D02",
+                "D03"
+              ]
+            },
+            {
+              "statement": "search-service calls search-index over sync_http (D14).",
+              "evidence_ids": [
+                "D14"
+              ]
+            },
+            {
+              "statement": "Change history for api-gateway between 18:00 and 20:30 UTC returned 0 changes.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Change history for search-service between 18:00 and 20:30 UTC returned 0 changes.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Unfiltered change history for all services between 18:00 and 20:30 UTC returned 0 changes, which matches the service-filtered results.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Health checks at 20:28 UTC returned HTTP 200 and healthy for api-gateway (H01), auth-service (H02), checkout-service (H03), search-service (H14), and search-index (H13).",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H14",
+                "H13"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "No deployment, config, feature-flag, rollback or infra change in the window explains the ~20:00 UTC p99 latency blip, so the change-based hypothesis is weakened for this window.",
+              "evidence_ids": [],
+              "confidence": 0.7
+            },
+            {
+              "statement": "search-service is the most likely upstream for /api/v1/search based on the single api-gateway->search-service edge, but this is unconfirmed without route config.",
+              "evidence_ids": [
+                "D02"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "Healthy health checks at 20:28 UTC do not rule out a transient latency issue around 20:00 UTC, because they are shallow and taken after the alert auto-resolved at 20:05 UTC.",
+              "evidence_ids": [
+                "H01",
+                "H14"
+              ],
+              "confidence": 0.6
+            }
+          ],
+          "data_gaps": [
+            "No tool returns gateway route configuration, so the upstream for /api/v1/search is inferred from the dependency edge only, not confirmed from routes.",
+            "Health checks are shallow HTTP /health probes taken at 20:28 UTC, after the 20:00-20:05 UTC blip, so they cannot show the state during the incident.",
+            "No latency or error telemetry for the blip was queried, so the blip's cause and the upstream responsible are not established.",
+            "Change history was checked only from 18:00 to 20:30 UTC. Changes earlier than 18:00 UTC were not checked in this task."
+          ],
+          "suggested_followups": [
+            "Obtain the api-gateway route table or config for /api/v1/search to confirm the upstream service.",
+            "Pull per-upstream p99 latency for api-gateway, search-service, and checkout-service between 19:55 and 20:10 UTC to see which upstream moved.",
+            "Check change history from 2026-09-10T12:00Z to 18:00Z in case a change with delayed effect preceded the blip.",
+            "Check search-service and search-index deep health or dependency metrics for 20:00 UTC."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T6",
+        "agent": "dependency",
+        "objective": "Confirm which upstream service serves /api/v1/search and whether any other gateway route maps to search-service, using route configuration or service ownership records for api-gateway and search-service.",
+        "focus_services": [
+          "api-gateway",
+          "search-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 3,
+        "findings": {
+          "summary": "The dependency graph shows api-gateway calls search-service (edge D02), and search-service calls search-index (D14). It does not show route-level mappings, so the dependency data alone does not confirm that /api/v1/search is served by search-service, and it does not rule out a second gateway route mapping to search-service. No api-gateway config changes were recorded in the 7 days before the incident. Both services report healthy at 20:28Z.",
+          "observations": [
+            {
+              "statement": "api-gateway has a sync_http dependency on search-service (edge D02), alongside checkout-service (D01) and auth-service (D03).",
+              "evidence_ids": [
+                "D02",
+                "D01",
+                "D03"
+              ]
+            },
+            {
+              "statement": "search-service has a sync_http dependency on search-index (D14); search-service's own health check returned HTTP 200 at 2026-09-10T20:28:00Z.",
+              "evidence_ids": [
+                "D14",
+                "H14"
+              ]
+            },
+            {
+              "statement": "Health checks at 2026-09-10T20:28:00Z report api-gateway, auth-service, checkout-service, search-service and search-index as healthy (HTTP /health 200). These checks are shallow and do not exercise the search route.",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H14",
+                "H13"
+              ]
+            },
+            {
+              "statement": "The change-history query for api-gateway config_change between 2026-09-03T00:00:00Z and 2026-09-10T20:30:00Z returned zero records.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The gateway-to-search-service edge is consistent with /api/v1/search being routed to search-service, but this is inferred from the edge's existence, not from route configuration.",
+              "evidence_ids": [
+                "D02"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "No evidence in the dependency graph of a second gateway route mapping to search-service. Only one edge exists, and it does not list individual routes, so a second route cannot be excluded.",
+              "evidence_ids": [
+                "D02"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "No api-gateway config change in the window makes a gateway routing change an unlikely cause of the 20:00Z latency blip.",
+              "evidence_ids": [],
+              "confidence": 0.4
+            }
+          ],
+          "data_gaps": [
+            "No route configuration for api-gateway was available, so the exact /api/v1/search mapping and any additional routes to search-service could not be confirmed.",
+            "No service ownership records were queried.",
+            "Change history was checked only for api-gateway config_change; deploy, feature_flag, rollback and infra changes for search-service and api-gateway were not checked.",
+            "Health checks are shallow and cannot show route-level latency; telemetry for the 20:00-20:05Z window was not retrieved."
+          ],
+          "suggested_followups": [
+            "Pull the api-gateway route table (or its config source) and check for /api/v1/search and any other route whose upstream is search-service.",
+            "Check service ownership records for api-gateway and search-service.",
+            "Query deploy, feature_flag and infra changes for search-service and search-index between 19:30Z and 20:10Z.",
+            "Pull per-route latency for api-gateway and upstream latency for search-service during 19:55Z-20:10Z."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T7",
+        "agent": "observability",
+        "objective": "Retry search-service latency, error rate, CPU, and connection-pool metrics for 19:45-20:10 UTC; if the retention gap persists, query search-index latency and error metrics for the same window to test whether slow responses originate downstream of search-service.",
+        "focus_services": [
+          "search-service",
+          "search-index"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "No usable telemetry for the search path in the 19:45-20:10 UTC window. search-service metrics fail with a retention gap (persisting after a retry, including a narrower latency_p99_ms query), its warn/error log query timed out after 3 attempts, and search-index has neither metrics nor logs in the telemetry system. The search-service and search-index hypothesis therefore cannot be tested from the available data, and this is a data gap, not evidence of normal behaviour.",
+          "observations": [
+            {
+              "statement": "query_metrics for search-service over 19:45-20:10 UTC returned an error: 'metrics for search-service unavailable (retention gap)', 1 attempt, no records.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "A narrower retry for search-service latency_p99_ms over the same window returned the same retention-gap error, so the gap persisted on retry.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "query_logs for search-service at WARN and above over 19:45-20:10 UTC timed out after 10000 ms on 3 attempts, returning no records.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "search-index is not in the telemetry system: query_metrics returned 'No metrics for search-index' and query_logs returned 'No logs for service search-index'. The services with telemetry are api-gateway, auth-service, checkout-service, inventory-db, inventory-service, notification-worker, payment-service, payments-db and search-service.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "Search-service telemetry is missing for the incident window, so search-service cannot be confirmed or excluded as the source of the api-gateway p99 spike around 20:00 UTC.",
+              "evidence_ids": [],
+              "confidence": 0.8
+            },
+            {
+              "statement": "Because search-index emits no telemetry, the downstream-origin test (slow responses from search-index) cannot be performed with the current tools. Its absence is not evidence that it is healthy.",
+              "evidence_ids": [],
+              "confidence": 0.7
+            }
+          ],
+          "data_gaps": [
+            "search-service metrics (all, including latency_p99_ms, error_rate, cpu_pct, connection-pool metrics) unavailable for 19:45-20:10 UTC due to retention gap; retried once with a narrower query, still failed.",
+            "search-service warn/error logs timed out after 3 attempts for 19:45-20:10 UTC; not retried further.",
+            "search-index has no metrics or logs in the telemetry system, so its latency and error metrics could not be queried.",
+            "api-gateway metrics and logs were not queried in this task, so the timing of the gateway blip is not verified here."
+          ],
+          "suggested_followups": [
+            "Check whether search-service metrics exist at all within the 19:00-20:30 window, or whether the retention gap starts at a specific time, and confirm the metrics store's retention policy.",
+            "Retry search-service warn/error logs with a narrower window (for example 19:55-20:05) or a contains filter such as 'timeout' or 'upstream'.",
+            "Confirm with the owning team whether search-index is instrumented under a different service name or whether its telemetry is not exported.",
+            "Pull api-gateway logs and metrics for 19:55-20:05 to find which upstream calls the slow requests hit, and check gateway-side timing for search routes.",
+            "Check change history for search-service, search-index and the metrics pipeline around 19:00-20:00 UTC."
+          ]
+        },
+        "error": null
+      }
+    ],
+    "rounds": [
+      {
+        "number": 1,
+        "task_ids": [
+          "T1",
+          "T2",
+          "T3"
+        ],
+        "new_evidence": 16,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "search-service",
+              "category": "dependency_failure",
+              "mechanism": "A transient slowdown in the search-service backend serving /api/v1/search made upstream calls from api-gateway exceed normal latency for about 5 minutes, lifting the gateway p99 to 1.6s while p50 and error rate stayed flat. The slow-upstream WARN lines on that route fall inside the spike window and are the only slowness signal in the gateway logs.",
+              "supporting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192",
+                "M03",
+                "D02"
+              ],
+              "contradicting_evidence": [
+                "M02",
+                "M05"
+              ],
+              "assumptions": [
+                "The /api/v1/search route is served by search-service, which is inferred from the route name and dependency edge, not from a named upstream in the logs.",
+                "The slow responses are the cause of the p99 spike rather than a symptom of gateway-side queuing."
+              ],
+              "confidence": 0.45
+            },
+            {
+              "id": "H2",
+              "service": "api-gateway",
+              "category": "other",
+              "mechanism": "A brief gateway-internal contention or client-driven burst (for example the near-burst-limit client a5617224) briefly increased tail latency on a subset of requests, without moving aggregate CPU, memory or request rate enough to show up in 5-minute samples.",
+              "supporting_evidence": [
+                "L0151",
+                "M01",
+                "M04",
+                "M05"
+              ],
+              "contradicting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ],
+              "assumptions": [
+                "A short burst shorter than the 5-minute metric resolution occurred and was averaged out.",
+                "The rate-limiter WARN at 19:50:21 is related to the later tail-latency spike."
+              ],
+              "confidence": 0.2
+            },
+            {
+              "id": "H3",
+              "service": "search-service",
+              "category": "infrastructure_failure",
+              "mechanism": "A transient infrastructure or retention-related fault in the search backend produced the slow responses, with the same mechanism as H1 but with a cause we cannot verify because search-service metrics and logs were unavailable.",
+              "supporting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ],
+              "contradicting_evidence": [
+                "H14"
+              ],
+              "assumptions": [
+                "The search backend's retention gap and log timeout are related to, or coincident with, the latency event.",
+                "No change explains the fault, since change history returned zero records."
+              ],
+              "confidence": 0.15
+            }
+          ],
+          "reasoning": "The gateway's own CPU, memory, request rate and error rate stayed flat, so the gateway is unlikely to be the origin, and the only slowness signal is upstream responses on /api/v1/search at 19:59:08, 20:01:12 and 20:03:10, all within the 20:00-20:05 p99 window. Temporal precedence is weakly established: the first slow line at 19:59:08 precedes the 20:00 sample, consistent with onset just before 20:00. No change or deployment is recorded, so change-driven causes are not supported, though the change feed was not cross-checked. Downstream health checks at 20:28 are shallow and outside the window, so they do not rule out a transient search-service slowdown. Confidence is low overall because search-service metrics and logs were unavailable, the dependency for the route is inferred, and p50 and per-instance data are missing.",
+          "evidence_needed": [
+            "search-service latency, error, CPU and connection-pool metrics for 19:45-20:10 UTC",
+            "search-service logs for 19:55-20:05 UTC, retried after the timeout",
+            "Confirmation of which upstream serves /api/v1/search, from gateway route configuration",
+            "api-gateway p50 latency and per-route or per-instance p99 for the window",
+            "Change feed cross-check (second source) for 18:00-20:30 UTC",
+            "Past incidents involving search-service latency"
+          ],
+          "response_to_critique": null
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "H1 (search-service slowdown) is the leading hypothesis but rests on an inferred route-to-service mapping and three WARN lines; gateway-side slowness is not fully excluded because p50 was never queried and the 5-minute metrics cannot show sub-minute bursts. The analysis also overstates the temporal link (the first slow line at 19:59:08 is before the 20:00 sample, which is consistent but not decisive) and the H3 contradiction citing H14 is misapplied since H14 is a 20:28 health snapshot that does not contradict an earlier transient fault. Confidence of 0.45 is reasonable given gaps, but the 'no change' conclusion rests on a single unverified change feed.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "The claim that /api/v1/search is served by search-service is inferred from route name and dependency edge; no gateway route config or named upstream in logs confirms it. If the route is served by another upstream, H1 is the wrong cause.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192",
+                "D02"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "The slow-upstream WARN lines are the only slowness signal, but the p99 spike at 20:00 is a single 5-minute sample; gateway-side queuing or a short client burst (H2) would produce the same gateway p99 with flat averages. Not ruled out by available data since p50 and per-route p99 were not queried.",
+              "evidence_ids": [
+                "M03",
+                "M05",
+                "L0151"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.45 is high given that no search-service metric or log evidence was obtained and the dependency mapping is inferred. Temporal precedence was described as established but the evidence only bounds onset loosely.",
+              "evidence_ids": [
+                "L0178",
+                "M03"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "ignored_contradiction",
+              "severity": "minor",
+              "detail": "H2 is listed as contradicted by the three slow-upstream WARN lines, yet the gateway's own request-level WARN attributing latency to upstreams is the strongest direct signal; H2 assumes the rate-limiter WARN at 19:50:21 links to the 20:00 spike without support, which the analysis itself notes is outside the window.",
+              "evidence_ids": [
+                "L0151",
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "H14 (healthy at 20:28) is cited as contradicting H3, but a healthy snapshot 28 minutes after a 20:00 blip does not contradict a transient infrastructure fault; the contradiction is weak. H3 also remains unverifiable with available tools.",
+              "evidence_ids": [
+                "H14"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "missing_evidence",
+              "severity": "material",
+              "detail": "Gateway route configuration or upstream trace/log naming for /api/v1/search has not been obtained; this is the decisive check that could confirm or refute the search-service attribution. Also p50 latency was never queried, which would separate a single slow route from a general gateway tail effect.",
+              "evidence_ids": [
+                "L0178",
+                "D02"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Query api-gateway p50 latency and per-route p99 (especially /api/v1/search vs other routes) for 19:45-20:10 UTC, and check gateway logs for the upstream host or service name attached to the /api/v1/search slow-upstream WARN lines at 19:59:08, 20:01:12 and 20:03:10.",
+              "focus_services": [
+                "api-gateway"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Confirm from gateway route configuration which upstream service serves /api/v1/search, and cross-check the change feed from a second source for 18:00-20:30 UTC to verify the zero-change result.",
+              "focus_services": [
+                "api-gateway",
+                "search-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "H1 (search-service slowdown) leads at 0.45 but rests on an inferred route-to-service mapping and no search-service metrics or logs were obtained. The decisive gaps are confirming which upstream serves /api/v1/search and checking whether gateway-side queuing (p50 and per-route p99) explains the spike instead. Budget remains, so these checks could change the leading conclusion.",
+          "new_tasks": [
+            {
+              "key": "t4",
+              "agent": "observability",
+              "objective": "Query api-gateway p50 latency and per-route p99 (especially /api/v1/search vs other routes) for 19:45-20:10 UTC, and check gateway logs for the upstream host or service name attached to the slow-upstream WARN lines at 19:59:08, 20:01:12 and 20:03:10.",
+              "focus_services": [
+                "api-gateway"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t5",
+              "agent": "dependency",
+              "objective": "Confirm from gateway route configuration which upstream service serves /api/v1/search, and cross-check the change feed from a second source for 18:00-20:30 UTC to verify the zero-change result.",
+              "focus_services": [
+                "api-gateway",
+                "search-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "task_ids": [
+          "T4",
+          "T5"
+        ],
+        "new_evidence": 2,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "search-service",
+              "category": "dependency_failure",
+              "mechanism": "A transient slowdown in the search-service backend serving /api/v1/search made upstream calls from api-gateway slow for roughly 5 minutes, lifting the aggregate gateway p99 to 1.6s. The three 'upstream response slow' WARN lines on that route fall inside the spike window and are the only slowness signal in the gateway logs.",
+              "supporting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192",
+                "M03",
+                "D02"
+              ],
+              "contradicting_evidence": [
+                "M02",
+                "M05"
+              ],
+              "assumptions": [
+                "The /api/v1/search route is served by search-service, inferred from route name and the single sync_http edge D02, not confirmed by route config.",
+                "The slow upstream responses cause the p99 spike rather than being a symptom of gateway-side queuing."
+              ],
+              "confidence": 0.4
+            },
+            {
+              "id": "H2",
+              "service": "api-gateway",
+              "category": "other",
+              "mechanism": "A brief gateway-internal contention or client burst (for example near-limit client a5617224) increased tail latency on a subset of requests, which 5-minute averages of CPU, memory and request rate would not show. The upstream WARN lines could then be a downstream effect of gateway-side queuing.",
+              "supporting_evidence": [
+                "L0151",
+                "M01",
+                "M04",
+                "M05"
+              ],
+              "contradicting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ],
+              "assumptions": [
+                "A burst shorter than the 5-minute metric resolution occurred.",
+                "The rate-limiter WARN at 19:50:21 relates to the 20:00 spike, which is not established because it falls outside the window."
+              ],
+              "confidence": 0.2
+            },
+            {
+              "id": "H3",
+              "service": "search-service",
+              "category": "infrastructure_failure",
+              "mechanism": "A transient infrastructure or retention-related fault in the search backend produced the slow responses, following the same path as H1 but with an unverifiable cause.",
+              "supporting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ],
+              "contradicting_evidence": [],
+              "assumptions": [
+                "The search backend's metrics retention gap and log timeout are coincident with the latency event.",
+                "No change explains the fault, based on a change feed that returned zero records and was not cross-checked."
+              ],
+              "confidence": 0.12
+            }
+          ],
+          "reasoning": "Gateway CPU, memory, request rate and error rate stayed flat, so a gateway-wide resource fault is unlikely to be the origin, though sub-5-minute bursts cannot be excluded. The only slowness signal is three upstream-slow WARN lines on /api/v1/search at 19:59:08, 20:01:12 and 20:03:10, which bracket the 20:00 p99 sample, so the upstream is the leading explanation. Temporal precedence is only loosely bounded because metrics are at 5-minute resolution, and the first slow line precedes the 20:00 sample, which is consistent but not decisive. No change is recorded in 18:00-20:30, which weakens change-based causes, but the change feed was not cross-checked. The search-service attribution rests on an inferred route mapping, and no search-service metrics or logs were obtained, so confidence is low. Healthy 20:28 health checks are shallow and post-incident, so they neither confirm nor exclude a transient search slowdown.",
+          "evidence_needed": [
+            "Gateway route configuration confirming which upstream serves /api/v1/search",
+            "search-service latency, error, CPU and connection-pool metrics for 19:45-20:10 UTC",
+            "search-service and search-index logs for 19:55-20:05 UTC, retried after the timeout",
+            "api-gateway p50 and per-route p99 for 19:45-20:10 UTC, to test whether the excursion is confined to /api/v1/search",
+            "Sub-5-minute gateway latency or request-rate data to test for short bursts (H2)",
+            "Second-source change feed check for 18:00-20:30 UTC and earlier history",
+            "Past incidents involving search-service latency"
+          ],
+          "response_to_critique": "Route mapping: accepted; H1 confidence lowered to 0.40 and the mapping is now explicitly listed as an assumption needing route config. Alternative H2 not ruled out: kept as a ranked alternative with confidence 0.20 and its burst assumption stated. Overconfidence: confidence reduced from 0.45 to 0.40. Temporal precedence: described as loosely bounded rather than established. H3 contradiction: H14 removed from H3's contradicting evidence since a 20:28 snapshot does not contradict a transient fault; H3 confidence lowered to 0.12. Missing evidence: route config and p50/per-route p99 are listed first in evidence_needed. Change feed: the zero-change result is noted as unverified and still needs a second-source cross-check."
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "The leading hypothesis (H1, search-service slow upstream) rests on three WARN lines on /api/v1/search that bracket the 20:00 p99 sample, but the route-to-service mapping is inferred, no search-service telemetry was obtained, and the 19:59:08 line precedes the 20:00 sample at 5-minute resolution. Gateway-side contention (H2) is not ruled out since gateway metrics are 5-minute averages, and the rate-limiter WARN for a near-limit client is only outside the window by a few minutes. Confidence should be lower and the route mapping needs confirmation before accepting.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "The attribution of /api/v1/search to search-service rests only on the single sync_http edge D02 and an inferred route name; no route config was retrieved. If the route is served by another upstream (checkout or auth), H1 is the wrong cause.",
+              "evidence_ids": [
+                "D02",
+                "D01",
+                "D03"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "The slow-upstream WARN lines carry no upstream name and could reflect gateway-side queuing, which the analysis itself acknowledges. Without per-route p99 or p50, it is not shown that the aggregate p99 spike is confined to /api/v1/search, so the causal link from those three lines to the aggregate spike is unestablished.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192",
+                "M03"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.40 is high given that all downstream telemetry is missing (search-service metrics retention gap, logs timed out) and the first slow line precedes the 20:00 sample.",
+              "evidence_ids": [
+                "L0178",
+                "M03"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "Sub-5-minute gateway bursts remain a plausible competing cause; flat 5-minute averages do not exclude them, and the rate-limiter WARN for client a5617224 indicates near-limit client behaviour earlier in the same period.",
+              "evidence_ids": [
+                "L0151",
+                "M05"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "H3 cites no contradicting evidence and rests on the retention gap and timed-out log query, which are data-availability problems rather than evidence of a fault; its 0.12 confidence is appropriately low but it adds no testable claim.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "missing_evidence",
+              "severity": "minor",
+              "detail": "The zero change-feed result is uncorroborated beyond a second query on the same feed, and changes before 18:00 were not checked; the 'no change' argument is weaker than presented.",
+              "evidence_ids": []
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "dependency",
+              "objective": "Confirm from gateway route configuration or service ownership which upstream serves /api/v1/search, and whether any other route in the gateway routes to search-service.",
+              "focus_services": [
+                "api-gateway",
+                "search-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "observability",
+              "objective": "Retry search-service latency and error metrics and logs for 19:45-20:10 UTC; if the retention gap persists, query search-index latency for the same window to test whether the slow responses originate downstream.",
+              "focus_services": [
+                "search-service",
+                "search-index"
+              ],
+              "depends_on": [
+                "t1"
+              ]
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "Leading hypothesis H1 (search-service slow upstream) rests on an unconfirmed route-to-service mapping and missing downstream telemetry; specific evidence could change the ranking. One round remains: confirm route config ownership for /api/v1/search, retry search-service metrics and logs for 19:45-20:10 UTC, and check search-index latency as a fallback to test whether slow responses originate downstream.",
+          "new_tasks": [
+            {
+              "key": "t6",
+              "agent": "dependency",
+              "objective": "Confirm which upstream service serves /api/v1/search and whether any other gateway route maps to search-service, using route configuration or service ownership records for api-gateway and search-service.",
+              "focus_services": [
+                "api-gateway",
+                "search-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t7",
+              "agent": "observability",
+              "objective": "Retry search-service latency, error rate, CPU, and connection-pool metrics for 19:45-20:10 UTC; if the retention gap persists, query search-index latency and error metrics for the same window to test whether slow responses originate downstream of search-service.",
+              "focus_services": [
+                "search-service",
+                "search-index"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 3,
+        "task_ids": [
+          "T6",
+          "T7"
+        ],
+        "new_evidence": 0,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H1",
+              "service": "search-service",
+              "category": "dependency_failure",
+              "mechanism": "A transient slowdown in the search-service backend serving /api/v1/search made upstream calls from api-gateway slow for about 5 minutes, lifting the aggregate gateway p99 to 1.6s. The three upstream-slow WARN lines on that route fall within the spike window and are the only slowness signal in the gateway logs.",
+              "supporting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192",
+                "M03",
+                "D02"
+              ],
+              "contradicting_evidence": [
+                "M02",
+                "M05"
+              ],
+              "assumptions": [
+                "The /api/v1/search route is served by search-service, inferred from route name and single sync_http edge D02, not confirmed by route config.",
+                "The slow upstream responses cause the p99 spike rather than being a symptom of gateway-side queuing."
+              ],
+              "confidence": 0.3
+            },
+            {
+              "id": "H2",
+              "service": "api-gateway",
+              "category": "other",
+              "mechanism": "A brief gateway-internal contention or near-limit client burst increased tail latency on a subset of requests, which 5-minute averages of CPU, memory and request rate would not reveal. The upstream-slow WARN lines could then be a downstream effect of gateway-side queuing.",
+              "supporting_evidence": [
+                "L0151",
+                "M01",
+                "M04",
+                "M05"
+              ],
+              "contradicting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ],
+              "assumptions": [
+                "A burst shorter than the 5-minute metric resolution occurred.",
+                "The rate-limiter WARN at 19:50:21 relates to the 20:00 spike, which is not established."
+              ],
+              "confidence": 0.15
+            },
+            {
+              "id": "H3",
+              "service": "search-service",
+              "category": "infrastructure_failure",
+              "mechanism": "A transient infrastructure or retention-related fault in the search backend produced the slow responses, following the same path as H1 with an unverifiable cause.",
+              "supporting_evidence": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ],
+              "contradicting_evidence": [],
+              "assumptions": [
+                "The search backend's metrics retention gap and log timeout coincide with the latency event.",
+                "No change explains the fault, based on a change feed that returned zero records and was not cross-checked."
+              ],
+              "confidence": 0.1
+            }
+          ],
+          "reasoning": "Gateway CPU, memory, request rate and error rate stayed flat at 5-minute resolution, so a sustained gateway-wide resource fault is unlikely, though sub-5-minute bursts cannot be excluded. The only slowness signal is three upstream-slow WARN lines on /api/v1/search at 19:59:08, 20:01:12 and 20:03:10, which bracket the 20:00 p99 sample, making the upstream the leading explanation. Temporal precedence is loosely bounded: the first slow line precedes the 20:00 sample, which is consistent but not decisive at 5-minute resolution. The route-to-search-service mapping is inferred from a single dependency edge, and no per-route p99 or search-service telemetry was obtained, so the attribution is weak. The zero change-feed result weakens change-based causes but was not cross-checked and excludes changes before 18:00. Healthy 20:28 health checks are shallow and post-incident, so they neither confirm nor exclude a transient search slowdown. All confidences are low because key data is missing.",
+          "evidence_needed": [
+            "Gateway route configuration confirming which upstream serves /api/v1/search and whether other routes map to search-service",
+            "search-service latency, error, CPU and connection-pool metrics for 19:45-20:10 UTC",
+            "search-service and search-index logs for 19:55-20:05 UTC, retried after timeout",
+            "api-gateway p50 and per-route p99 for 19:45-20:10 UTC to test whether the excursion is confined to /api/v1/search",
+            "Sub-5-minute gateway latency or request-rate data to test short bursts (H2)",
+            "Second-source change feed check for 18:00-20:30 UTC and earlier history",
+            "Past incidents involving search-service latency"
+          ],
+          "response_to_critique": "Accepted that H1 rests on an inferred route mapping and lowered its confidence from 0.40 to 0.30 for that reason and for the missing search-service telemetry. Accepted that the slow-upstream lines carry no upstream name and could reflect gateway-side queuing, so the causal link to the aggregate spike is unestablished; H1 remains leading only because it is the sole slowness signal. Raised H2 slightly from 0.20 to 0.15 is reduced rather than raised, reflecting that the rate-limiter WARN is outside the window and flat averages are weak evidence; sub-5-minute bursts remain a plausible alternative. H3 is kept at low confidence as it adds only a weakly testable claim. The change-feed concern is acknowledged: the no-change argument is weaker than first presented and is noted as a data gap."
+        },
+        "critique": {
+          "verdict": "revise",
+          "summary": "The leading hypothesis H1 (search-service backend slowdown) rests on three slow-upstream WARN lines on /api/v1/search and a single sync_http edge, with no route config and no search-service telemetry. The route-to-service mapping is unconfirmed and the WARN lines name no upstream. The evidence is consistent with H1 but does not establish it; confidence 0.30 is reasonable but the analysis should state that the attribution is unverified and that the spike cannot be localized beyond the gateway's own route-level warnings. No further investigation budget remains, so the conclusion must be revised to reflect the gaps rather than investigated further.",
+          "issues": [
+            {
+              "hypothesis_id": "H1",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "The claim that search-service serves /api/v1/search rests only on the existence of one dependency edge D02; no route configuration was obtained and the T6 result states the mapping is not confirmed and a second route to search-service cannot be excluded. The attribution to search-service should be treated as unverified.",
+              "evidence_ids": [
+                "D02"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "The three slow WARN lines bracket the 20:00 sample but the first precedes it at 19:59:08 and p99 is a 5-minute aggregate; temporal alignment is loose. Stating that they are the spike's cause overstates what the data shows.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192",
+                "M03"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "The slow-upstream WARN lines are emitted by the gateway after it waits on upstream calls, so they cannot distinguish a slow upstream from gateway-side queuing or thread contention (the H2 mechanism). Flat 5-minute CPU and request rate do not exclude a sub-5-minute burst, and the 19:50:21 rate-limiter near-limit WARN for one client is not ruled out as a contributor.",
+              "evidence_ids": [
+                "L0151",
+                "L0178",
+                "L0185",
+                "L0192",
+                "M01",
+                "M05"
+              ]
+            },
+            {
+              "hypothesis_id": "H1",
+              "issue": "missing_evidence",
+              "severity": "minor",
+              "detail": "Per-route p99 and p50 were not retrievable with the available tools, so the claim that the excursion is confined to /api/v1/search is inferential. Search-service telemetry is unavailable (retention gap, log timeout) and search-index has no telemetry; these are data gaps that cannot be closed with remaining tools.",
+              "evidence_ids": [
+                "M03"
+              ]
+            },
+            {
+              "hypothesis_id": "H3",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "H3 cites no contradicting evidence and its mechanism (retention gap, timeout) is a telemetry artifact rather than evidence of a fault. Its assumptions treat missing data as signal; the retention gap and log timeout should not be read as support for an infrastructure fault.",
+              "evidence_ids": [
+                "L0178",
+                "L0185",
+                "L0192"
+              ]
+            },
+            {
+              "hypothesis_id": "H2",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "The reasoning lists the rate-limiter WARN as supporting H2, but the rate-limiter line is 30 minutes before the spike and its link to the 20:00 event is not established; the change-feed zero result weakens change-based causes but the change feed was not cross-checked beyond a second query.",
+              "evidence_ids": [
+                "L0151"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "other",
+              "severity": "minor",
+              "detail": "Health checks at 20:28 UTC are shallow and post-incident and cannot support or exclude any cause; they should not be cited as healthy-dependency evidence for the window. Change history checked only from 18:00 (and 7 days for config), so earlier changes remain unexamined.",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H13",
+                "H14"
+              ]
+            }
+          ],
+          "followup_requests": []
+        },
+        "decision": null
+      }
+    ],
+    "termination_reason": "max_rounds_reached",
+    "citations": {
+      "valid": 221,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "D01",
+      "D02",
+      "D03",
+      "H01",
+      "H02",
+      "H03",
+      "H14",
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "L0151",
+      "L0178",
+      "L0185",
+      "L0192",
+      "D14",
+      "H13"
+    ],
+    "trace": [
+      {
+        "t": 5.072,
+        "actor": "orchestrator",
+        "event": "planned",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 5.072,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 15.898,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T1",
+        "tool_calls": 3
+      },
+      {
+        "t": 16.825,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T2",
+        "tool_calls": 4
+      },
+      {
+        "t": 22.711,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T3",
+        "tool_calls": 5
+      },
+      {
+        "t": 36.894,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 39.479,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T4",
+          "T5"
+        ]
+      },
+      {
+        "t": 39.479,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T4",
+          "T5"
+        ]
+      },
+      {
+        "t": 49.737,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T5",
+        "tool_calls": 5
+      },
+      {
+        "t": 51.887,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T4",
+        "tool_calls": 4
+      },
+      {
+        "t": 66.782,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 69.776,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T6",
+          "T7"
+        ]
+      },
+      {
+        "t": 69.776,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T6",
+          "T7"
+        ]
+      },
+      {
+        "t": 81.547,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T6",
+        "tool_calls": 3
+      },
+      {
+        "t": 82.542,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T7",
+        "tool_calls": 5
+      },
+      {
+        "t": 96.093,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "revise",
+        "requests": 0
+      },
+      {
+        "t": 96.093,
+        "actor": "engine",
+        "event": "terminated",
+        "reason": "max_rounds_reached",
+        "round": 3
+      },
+      {
+        "t": 96.093,
+        "actor": "engine",
+        "event": "conclusion",
+        "status": "inconclusive",
+        "reasons": [
+          "top hypothesis confidence 0.30 is below 0.50",
+          "1 verified, undisputed supporting evidence item(s); 2 required",
+          "contradicting evidence is 88% of the weighed evidence (max 35%)"
+        ]
+      }
+    ]
+  },
+  "grade": {
+    "system": "multi_agent",
+    "incident_id": "S10",
+    "expected_inconclusive": true,
+    "error": null,
+    "latency_s": 107.658,
+    "tool_calls": 29,
+    "failed_tool_calls": 5,
+    "llm_calls": 31,
+    "prompt_tokens": 171926,
+    "completion_tokens": 26294,
+    "total_tokens": 198220,
+    "cost_usd": 0.0303396,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "inconclusive",
+    "confidence": 0.3,
+    "top_service": "search-service",
+    "top_category": "dependency_failure",
+    "top1_lead": false,
+    "top3": null,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": null,
+    "key_evidence_retrieved": null,
+    "unsupported_hypotheses": 0,
+    "rounds": 3,
+    "termination_reason": "max_rounds_reached",
+    "repeat": 3
+  }
+}

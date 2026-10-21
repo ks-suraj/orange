@@ -1,0 +1,2015 @@
+{
+  "system": "multi_agent",
+  "incident_id": "S05",
+  "error": null,
+  "latency_s": 127.43,
+  "usage": {
+    "llm_calls": 28,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 256437,
+    "completion_tokens": 34441,
+    "reasoning_tokens": 6597,
+    "total_tokens": 290878,
+    "cost_usd": 0.0428642,
+    "llm_time_s": 182.635,
+    "by_role": {
+      "orchestrator": {
+        "calls": 3,
+        "prompt_tokens": 12323,
+        "completion_tokens": 2060,
+        "cost_usd": 0.0022623
+      },
+      "dependency": {
+        "calls": 11,
+        "prompt_tokens": 43227,
+        "completion_tokens": 10126,
+        "cost_usd": 0.0093857
+      },
+      "observability": {
+        "calls": 7,
+        "prompt_tokens": 47976,
+        "completion_tokens": 10847,
+        "cost_usd": 0.010221100000000002
+      },
+      "reasoning": {
+        "calls": 3,
+        "prompt_tokens": 62914,
+        "completion_tokens": 3408,
+        "cost_usd": 0.0079954
+      },
+      "critic": {
+        "calls": 3,
+        "prompt_tokens": 64014,
+        "completion_tokens": 5430,
+        "cost_usd": 0.0091164
+      },
+      "reporting": {
+        "calls": 1,
+        "prompt_tokens": 25983,
+        "completion_tokens": 2570,
+        "cost_usd": 0.0038833
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 30,
+    "rejected_calls": 5,
+    "attempts": 30,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 3600,
+    "by_status": {
+      "ok": 30
+    },
+    "by_tool": {
+      "get_change_history": 9,
+      "get_dependencies": 5,
+      "query_metrics": 3,
+      "query_logs": 9,
+      "search_past_incidents": 4
+    },
+    "by_agent": {
+      "dependency": 18,
+      "observability": 12
+    }
+  },
+  "citations": {
+    "valid": 261,
+    "invalid": 3
+  },
+  "report": {
+    "incident_id": "S05",
+    "system": "multi_agent",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.75, margin 0.65, 7 verified supporting and 0 contradicting evidence items (0%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.75, margin 0.65, 7 verified supporting and 0 contradicting evidence items (0%)"
+      ],
+      "top_hypothesis": "auth-service / certificate_expiry",
+      "top_confidence": 0.75,
+      "margin_over_runner_up": 0.65,
+      "verified_support": [
+        "L0184",
+        "L0185",
+        "L0324",
+        "M12",
+        "M02",
+        "M10",
+        "M07"
+      ],
+      "contradicting_evidence": [],
+      "contradiction_share": 0.0,
+      "blocking_objections": [],
+      "non_blocking_objections": 3
+    },
+    "confidence": 0.75,
+    "summary": "Checkout-service and api-gateway error rates jumped at 09:00 UTC, well after the 08:54 checkout deploy, and both services began logging certificate failures for auth.internal within seconds of its stated notAfter of 08:59:59Z. The system determination is conclusive at confidence 0.75, with the leading hypothesis being expiry of the auth.internal serving certificate. Errors persisted through 09:30 with no contradicting evidence recorded. Served-certificate identity (subject, notAfter, fingerprint) was never retrieved, so the certificate-to-expiry link is supported by log text but not directly verified. The checkout deploy v2.15.1 is a weak lead, described as copy-only and not diffed. Sign-in and checkout failures share the auth.internal dependency rather than being independent faults.",
+    "root_cause": {
+      "id": "H-A",
+      "service": "auth-service",
+      "category": "certificate_expiry",
+      "mechanism": "The auth.internal serving certificate reached notAfter at 08:59:59Z, so TLS clients validating it fail from 09:00. checkout-service fails PKIX validity checks on auth.internal:8443 from 09:00:04Z and api-gateway fails x509 auth checks on cn=auth.internal from 09:00:15Z, producing the 09:00 error step in both services and the drop in auth request_rate to about 3 req/s.",
+      "supporting_evidence": [
+        "L0184",
+        "L0185",
+        "L0324",
+        "M12",
+        "M02",
+        "M10",
+        "M07"
+      ],
+      "contradicting_evidence": [],
+      "assumptions": [
+        "The certificate served on auth.internal:8443 is the one whose notAfter is 08:59:59Z, which is not directly verified",
+        "Client error text accurately names the cause",
+        "auth-service request_rate drop reflects clients failing TLS before reaching auth"
+      ],
+      "confidence": 0.75
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H-A",
+        "service": "auth-service",
+        "category": "certificate_expiry",
+        "mechanism": "The auth.internal serving certificate reached notAfter at 08:59:59Z, so TLS clients validating it fail from 09:00. checkout-service fails PKIX validity checks on auth.internal:8443 from 09:00:04Z and api-gateway fails x509 auth checks on cn=auth.internal from 09:00:15Z, producing the 09:00 error step in both services and the drop in auth request_rate to about 3 req/s.",
+        "supporting_evidence": [
+          "L0184",
+          "L0185",
+          "L0324",
+          "M12",
+          "M02",
+          "M10",
+          "M07"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "The certificate served on auth.internal:8443 is the one whose notAfter is 08:59:59Z, which is not directly verified",
+          "Client error text accurately names the cause",
+          "auth-service request_rate drop reflects clients failing TLS before reaching auth"
+        ],
+        "confidence": 0.75
+      },
+      {
+        "id": "H-C",
+        "service": "auth.internal",
+        "category": "infrastructure_failure",
+        "mechanism": "Clock skew or a different served certificate on auth.internal:8443 causes PKIX validity failures starting at 09:00 without a true expiry, with the gateway error text misleading. Both clients would still fail in the same bucket.",
+        "supporting_evidence": [
+          "L0184",
+          "L0185"
+        ],
+        "contradicting_evidence": [
+          "L0185"
+        ],
+        "assumptions": [
+          "Client clocks or served certificate differ from what error text states",
+          "No clock-skew query was run"
+        ],
+        "confidence": 0.1
+      },
+      {
+        "id": "H-B",
+        "service": "checkout-service",
+        "category": "deployment_regression",
+        "mechanism": "The v2.15.1 deploy at 08:54:00Z changed certificate or trust-store validation in checkout so it rejects a valid auth.internal certificate. This would explain checkout errors, but not the api-gateway x509 expiry errors, and the six-minute gap before onset makes it less likely.",
+        "supporting_evidence": [
+          "C09",
+          "L0184"
+        ],
+        "contradicting_evidence": [
+          "M12",
+          "M02",
+          "L0185"
+        ],
+        "assumptions": [
+          "The deploy diff contains more than its described static-string changes",
+          "api-gateway failures are a separate coincidence"
+        ],
+        "confidence": 0.08
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "checkout-service error_rate was about 0.28-0.33% from 08:00 through 08:45, then 33.91% at 09:00 and 30.77-32.85% through 09:30.",
+        "evidence_ids": [
+          "M12"
+        ]
+      },
+      {
+        "statement": "api-gateway error_rate was about 0.37-0.47% through 08:45, then 11.66% at 09:00 and 10.5-11.76% through 09:30.",
+        "evidence_ids": [
+          "M02"
+        ]
+      },
+      {
+        "statement": "The first checkout-service error at 09:00:04Z reads PKIX path validation failed, validity check failed (peer auth.internal:8443).",
+        "evidence_ids": [
+          "L0184"
+        ]
+      },
+      {
+        "statement": "The first api-gateway error at 09:00:15Z reads x509 certificate has expired, current time is after 2026-09-05T08:59:59Z (cn=auth.internal).",
+        "evidence_ids": [
+          "L0185"
+        ]
+      },
+      {
+        "statement": "api-gateway logged 20 expiry errors from 09:00:15Z to 09:30:00Z, and checkout-service ERROR lines continue through 09:30:00Z.",
+        "evidence_ids": [
+          "L0324",
+          "L0325"
+        ]
+      },
+      {
+        "statement": "auth-service request_rate fell from about 83 req/s to about 2.9 req/s at 09:00Z and stayed near 3 req/s through 09:30Z.",
+        "evidence_ids": [
+          "M10"
+        ]
+      },
+      {
+        "statement": "auth-service error_rate, latency, CPU and memory stayed flat across the window, and its logs contain no cert, handshake or x509 lines for 08:00-09:30Z.",
+        "evidence_ids": [
+          "M07",
+          "M06",
+          "M08",
+          "M09"
+        ]
+      },
+      {
+        "statement": "The only change in the 08:00-09:30Z window is checkout-service deploy v2.15.1 at 08:54:00Z, described as 'static strings only'; no cert-manager, trust-store or auth.internal renewal record was returned.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "Health checks at 09:28Z returned HTTP 200 for all services, but these are shallow /health probes, and the auth-service probe targets plaintext port 8080.",
+        "evidence_ids": [
+          "H01",
+          "H02",
+          "H03"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The certificate served on auth.internal:8443 is the one whose notAfter is 08:59:59Z; this was not directly verified by subject, notAfter or fingerprint.",
+      "The client error text accurately names the cause (expiry rather than clock skew or a different certificate).",
+      "The auth-service request_rate drop reflects clients failing TLS before reaching auth-service.",
+      "The v2.15.1 deploy contains only the described copy and translation changes; the code diff was not checked.",
+      "The health checks do not exercise TLS or token validation, so their green results do not exclude the failure.",
+      "Certificate-related events not captured in the 7-day change history (for example failed renewals earlier than that) are not excluded."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The leading cause is expiry of the auth.internal serving certificate at 08:59:59Z, which causes TLS validation failures in checkout-service and api-gateway from 09:00 onward; this is the system's conclusive determination.",
+        "evidence_ids": [
+          "L0184",
+          "L0185",
+          "L0324",
+          "M12",
+          "M02",
+          "M10"
+        ],
+        "confidence": 0.75
+      },
+      {
+        "statement": "The 08:54 checkout deploy is unlikely to be the direct trigger, because error rates stayed normal for six minutes after it and the errors cite certificate expiry rather than a checkout code path.",
+        "evidence_ids": [
+          "C09",
+          "M12",
+          "L0184"
+        ],
+        "confidence": 0.7
+      },
+      {
+        "statement": "Sign-in and checkout failures share one upstream cause at auth.internal rather than being two separate faults, given that both services fail on the same certificate within 11-15 seconds.",
+        "evidence_ids": [
+          "L0184",
+          "L0185"
+        ],
+        "confidence": 0.75
+      },
+      {
+        "statement": "Clock skew or a different served certificate on auth.internal is a lower-probability alternative that the available evidence does not rule out.",
+        "evidence_ids": [
+          "L0184",
+          "L0185"
+        ],
+        "confidence": 0.1
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Renew or replace the auth.internal serving certificate immediately and reload auth-service so it serves a valid certificate.",
+        "priority": "immediate",
+        "rationale": "The expired certificate is the leading cause of the 33% checkout and 11% gateway error rates, and no other mitigation addresses it."
+      },
+      {
+        "action": "Verify the served certificate on auth.internal:8443 (subject, notAfter, fingerprint) after renewal and confirm that checkout and api-gateway errors stop.",
+        "priority": "immediate",
+        "rationale": "The certificate identity is unverified, and post-fix confirmation is the only check that settles it."
+      },
+      {
+        "action": "Hold further checkout-service rollouts until v2.15.1 is diffed for trust-store or TLS-validation changes.",
+        "priority": "immediate",
+        "rationale": "The deploy is a weak lead and its code diff was never checked, so a rollback decision should rest on evidence."
+      },
+      {
+        "action": "Find out why cert-manager did not renew auth.internal before 08:59:59Z and fix that renewal path.",
+        "priority": "short_term",
+        "rationale": "Renewal history was not retrieved, so the failure mode behind the missed renewal is unknown."
+      },
+      {
+        "action": "Add certificate expiry alerting for auth.internal and other internal serving certificates with lead time before notAfter.",
+        "priority": "short_term",
+        "rationale": "The incident was detected only after the certificate had already expired and 33% of checkout requests had failed."
+      },
+      {
+        "action": "Make the auth-service health check exercise the TLS serving path on 8443 and validate certificate validity.",
+        "priority": "short_term",
+        "rationale": "The current plaintext /health check on 8080 reported healthy during a full outage."
+      },
+      {
+        "action": "Add auth-service logging for TLS handshake and certificate events so that rejected clients are visible on the server side.",
+        "priority": "long_term",
+        "rationale": "auth-service logged nothing for the failure, which made the server-side view hard to confirm."
+      },
+      {
+        "action": "Run a fleet-wide certificate expiry audit and check payment-service for the same PKIX error, following the P06 pattern.",
+        "priority": "long_term",
+        "rationale": "The payment-service check was not run, and P06 shows a similar expiry failure has happened before."
+      }
+    ],
+    "open_questions": [
+      "What are the subject, notAfter and fingerprint of the certificate served on auth.internal:8443, and does it match the certificate that expired at 08:59:59Z?",
+      "Why did cert-manager fail to renew auth.internal before expiry, and does a renewed certificate exist?",
+      "Does the v2.15.1 code diff contain any trust-store or TLS-validation change?",
+      "Do payment-service or other clients log the same PKIX or x509 error, and do any hosts show clock skew around 09:00Z?",
+      "What are the HTTP status codes and sign-in endpoint error rates, since the log records carry no status or route fields?"
+    ],
+    "data_gaps": [
+      "Log records contain no HTTP status code or endpoint/route field for the auth and checkout errors, so the status-code breakdown and sign-in vs checkout endpoint split could not be confirmed directly.",
+      "checkout-service ERROR logs were truncated to 30 of 48 matching lines (the 09:00\u201309:20 range is shown, and later lines are not included), so the tail of the error stream after 09:19:45Z was not sampled.",
+      "The window is 08:00\u201309:30 and the expiry timestamp is outside it, so the certificate's issuance and renewal history and the 08:54 deploy's contents were not checked with the 6 tool calls available.",
+      "No metrics were queried for auth-service or the auth.internal certificate itself, so the auth-service side of the failure is not directly observed.",
+      "Health-check history around 09:00 UTC is not available; only a single 09:28Z snapshot was returned.",
+      "Deploy record lacks rollout progress and per-instance status; the change tool does not show rollback state beyond absence of a rollback record.",
+      "Change history was not queried over a longer lookback for auth-service or api-gateway config (only the 08:00\u201309:30 window was checked).",
+      "Health checks may be shallow (HTTP /health only), so they do not confirm sign-in or payment success paths.",
+      "Telemetry for error-rate breakdown by upstream was not available to this role.",
+      "31 further gap report(s) in 31 group(s) omitted here (mostly about: certificate, query, auth-service, tls, error, auth.internal); the full list is in the run record."
+    ],
+    "data_gaps_total": 40,
+    "termination_reason": "critic_accepted"
+  },
+  "state": {
+    "brief": {
+      "id": "S05",
+      "title": "sign-in and checkout failures",
+      "reported_at": "2026-09-05T09:30:00Z",
+      "alert": "ALERT [P1] checkout-service error rate 33% since ~09:00 UTC; users cannot sign in or complete checkout. A checkout-service deploy went out at 08:54 UTC.",
+      "affected_services": [
+        "checkout-service",
+        "api-gateway"
+      ],
+      "window_start": "2026-09-05T08:00:00Z",
+      "window_end": "2026-09-05T09:30:00Z"
+    },
+    "plan": {
+      "incident_understanding": "P1 incident: checkout-service error rate reached about 33% since roughly 09:00 UTC, with users unable to sign in or complete checkout. api-gateway is also alerting. A checkout-service deploy at 08:54 UTC immediately precedes onset, making it the leading suspect, but the sign-in failures suggest a shared dependency (auth, session store, or gateway) may be involved rather than the deploy alone.",
+      "candidate_explanations": [
+        "Regression in the checkout-service deploy at 08:54 UTC causing errors in checkout paths, with sign-in failures from a shared path or gateway effect",
+        "A downstream dependency of checkout-service (payment, inventory, or auth/session store) degraded around 09:00 UTC, independent of the deploy",
+        "A config change or feature flag change in api-gateway or auth routing causing sign-in and checkout failures",
+        "Infrastructure event (capacity, network, or certificate issue) affecting api-gateway and its upstreams around 09:00 UTC"
+      ],
+      "tasks": [
+        {
+          "key": "t1",
+          "agent": "observability",
+          "objective": "Using query_logs and query_metrics from 08:00 to 09:30 UTC, determine the exact onset time of the checkout-service and api-gateway error rate increase, the dominant error signatures and HTTP status codes, and whether sign-in endpoints and checkout endpoints fail together or separately. Check whether errors begin at 08:54 deploy time or a few minutes later.",
+          "focus_services": [
+            "checkout-service",
+            "api-gateway"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t2",
+          "agent": "dependency",
+          "objective": "Check change history from 08:00 to 09:30 UTC for the checkout-service deploy at 08:54 (contents, rollout progress, rollback status), plus any config changes, feature flags, or infra events in api-gateway and auth/session paths. Also review the dependency graph and health checks for checkout-service and api-gateway to identify upstream services (payment, inventory, auth) that were unhealthy around 09:00.",
+          "focus_services": [
+            "checkout-service",
+            "api-gateway"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t3",
+          "agent": "dependency",
+          "objective": "Search past incident postmortems for prior incidents with similar symptoms (sign-in failures plus checkout errors, or errors following a checkout-service deploy) and extract their root causes and mitigations, to compare against current evidence.",
+          "focus_services": [
+            "checkout-service",
+            "api-gateway"
+          ],
+          "depends_on": []
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": "T1",
+        "agent": "observability",
+        "objective": "Using query_logs and query_metrics from 08:00 to 09:30 UTC, determine the exact onset time of the checkout-service and api-gateway error rate increase, the dominant error signatures and HTTP status codes, and whether sign-in endpoints and checkout endpoints fail together or separately. Check whether errors begin at 08:54 deploy time or a few minutes later.",
+        "focus_services": [
+          "checkout-service",
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "Error onset for both checkout-service and api-gateway is in the 09:00 UTC bucket, not at the 08:54 deploy. Error rates were at baseline through 08:55. The first auth-related errors are at 09:00:04 (checkout) and 09:00:15 (api-gateway), just after an auth.internal certificate expired at 08:59:59Z. Both services fail on the same certificate problem in auth.internal, so sign-in and checkout are failing together through a shared dependency, not separately. The 08:54 deploy is six minutes before onset and the logs show no deploy-related error. Log lines carry no endpoint or HTTP status fields, so per-endpoint and status-code breakdowns could not be confirmed.",
+          "observations": [
+            {
+              "statement": "checkout-service error_rate was flat at about 0.26\u20130.33% from 08:00 through the 08:55 bucket, then jumped to 33.91% at the 09:00 bucket (max at 09:00:00) and stayed between 30.77% and 32.85% through 09:30.",
+              "evidence_ids": [
+                "M12"
+              ]
+            },
+            {
+              "statement": "api-gateway error_rate was flat at about 0.34\u20130.47% through the 08:55 bucket, then rose to 11.66% at 09:00 and stayed between 10.5% and 11.76% through 09:30 (max 11.76% at 09:20).",
+              "evidence_ids": [
+                "M02"
+              ]
+            },
+            {
+              "statement": "checkout-service cpu_pct, memory_pct, latency_p99_ms and request_rate stayed in their normal ranges across 08:00\u201309:30 (cpu 39\u201343%, memory 56\u201360%, p99 307\u2013332 ms, request rate 82\u201387 req/s), with no step change at 08:54 or 09:00.",
+              "evidence_ids": [
+                "M11",
+                "M14",
+                "M13",
+                "M15"
+              ]
+            },
+            {
+              "statement": "api-gateway cpu_pct, memory_pct, latency_p99_ms and request_rate stayed normal across the window (cpu 37\u201339%, p99 173\u2013186 ms, request rate 405\u2013436 req/s), with no step change at 08:54 or 09:00.",
+              "evidence_ids": [
+                "M01",
+                "M03",
+                "M04",
+                "M05"
+              ]
+            },
+            {
+              "statement": "The first checkout-service error signature in the 09:00 window is 'auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed ... validity check failed (peer auth.internal:8443)' at 09:00:04Z. Roughly 45 of these appear across the window, and the 30 returned lines run from 09:00:04Z to 09:19:45Z.",
+              "evidence_ids": [
+                "L0184",
+                "L0190",
+                "L0277"
+              ]
+            },
+            {
+              "statement": "The first api-gateway error at 09:00:15Z is 'auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)'. About 20 of these appear, repeating through 09:30:00Z.",
+              "evidence_ids": [
+                "L0185",
+                "L0194",
+                "L0324"
+              ]
+            },
+            {
+              "statement": "The api-gateway log window shows no errors before 09:00:15Z apart from one client-closed 499 on /api/v1/products at 08:22:19Z and slow-upstream WARNs on /api/v1/search (up to 1336 ms at 08:11). These are background noise and do not match the 09:00 error step.",
+              "evidence_ids": [
+                "L0072",
+                "L0036",
+                "L0171"
+              ]
+            },
+            {
+              "statement": "checkout-service logged a single 'order rejected: card declined by issuer' at 08:13:47Z, which is background noise and does not explain the step change.",
+              "evidence_ids": [
+                "L0044"
+              ]
+            },
+            {
+              "statement": "The checkout error signatures and the api-gateway error signatures both reference auth.internal (auth-service on 8443 for checkout, cn=auth.internal for the gateway). The two services' failures begin 11\u201315 seconds apart and share the same expiry timestamp of 08:59:59Z.",
+              "evidence_ids": [
+                "L0184",
+                "L0185"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The onset is caused by the expiry of the auth.internal TLS certificate at 08:59:59Z, which precedes the first errors by about 5\u201315 seconds. Both checkout and gateway auth validation fail on that certificate.",
+              "evidence_ids": [
+                "L0185",
+                "L0184",
+                "M12",
+                "M02"
+              ],
+              "confidence": 0.85
+            },
+            {
+              "statement": "The 08:54 checkout deploy is unlikely to be the direct trigger. Error rates stayed normal for 6 minutes after the deploy, and the errors cite a certificate expiry rather than a code or config failure in checkout. The deploy has not been fully ruled out, since it could have changed how checkout validates certificates, and that needs checking.",
+              "evidence_ids": [
+                "M12",
+                "L0184"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "Sign-in and checkout are not independent failures. Both route through auth-service, and the api-gateway auth check and checkout's token validation fail on the same certificate. The likely shared cause is the auth.internal certificate and not two separate faults.",
+              "evidence_ids": [
+                "L0185",
+                "L0184"
+              ],
+              "confidence": 0.75
+            },
+            {
+              "statement": "The HTTP status codes 401/403/500/503 are not confirmed by the returned data. The gateway error_rate jump is consistent with the auth failures but does not show which codes were returned.",
+              "evidence_ids": [
+                "M02",
+                "M12"
+              ],
+              "confidence": 0.4
+            }
+          ],
+          "data_gaps": [
+            "Log records contain no HTTP status code or endpoint/route field for the auth and checkout errors, so the status-code breakdown and sign-in vs checkout endpoint split could not be confirmed directly.",
+            "checkout-service ERROR logs were truncated to 30 of 48 matching lines (the 09:00\u201309:20 range is shown, and later lines are not included), so the tail of the error stream after 09:19:45Z was not sampled.",
+            "The window is 08:00\u201309:30 and the expiry timestamp is outside it, so the certificate's issuance and renewal history and the 08:54 deploy's contents were not checked with the 6 tool calls available.",
+            "No metrics were queried for auth-service or the auth.internal certificate itself, so the auth-service side of the failure is not directly observed."
+          ],
+          "suggested_followups": [
+            "Check auth-service logs and metrics around 08:59:59Z for the certificate rotation or renewal event and why it expired.",
+            "Inspect the checkout-service 08:54 deploy diff for changes to TLS or trust store configuration, to rule it in or out.",
+            "Pull api-gateway and checkout route/status-code breakdowns (401/403/500/503) and separate sign-in endpoints from checkout endpoints.",
+            "Check whether any other service that calls auth.internal shows the same expiry error, to confirm the scope of the cert failure."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T2",
+        "agent": "dependency",
+        "objective": "Check change history from 08:00 to 09:30 UTC for the checkout-service deploy at 08:54 (contents, rollout progress, rollback status), plus any config changes, feature flags, or infra events in api-gateway and auth/session paths. Also review the dependency graph and health checks for checkout-service and api-gateway to identify upstream services (payment, inventory, auth) that were unhealthy around 09:00.",
+        "focus_services": [
+          "checkout-service",
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "Only one change in the 08:00\u201309:30 UTC window: checkout-service deploy v2.15.1 at 08:54:00Z (C09), described as static copy/translation changes. No config changes, feature flags, infra events, or rollbacks were recorded for api-gateway or auth paths in the window. All health checks returned healthy at 09:28Z, but these are shallow HTTP /health probes taken after the 09:00 onset, so they do not establish that upstreams were healthy around 09:00. The deploy is a weak lead on the symptoms (sign-in failures, not just checkout); no upstream health evidence for payment, inventory, or auth was found at onset.",
+          "observations": [
+            {
+              "statement": "The change history for 08:00\u201309:30 UTC contains one record: checkout-service deploy v2.15.1 at 2026-09-05T08:54:00Z, status completed, author deploy-bot, description 'update checkout button copy and translations (static strings only)'.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "No rollback, config change, feature flag or infra event appears in the window for any service, including api-gateway and auth-service.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "The deploy record shows status 'completed' with no rollout-progress or rollback fields, so rollout progress (per-pod) is not visible.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "checkout-service depends on payment-service, inventory-service, auth-service and notification-queue (sync_http, except the queue) and is called by api-gateway.",
+              "evidence_ids": [
+                "D01",
+                "D04",
+                "D05",
+                "D06",
+                "D07"
+              ]
+            },
+            {
+              "statement": "api-gateway depends on checkout-service, search-service and auth-service.",
+              "evidence_ids": [
+                "D01",
+                "D02",
+                "D03"
+              ]
+            },
+            {
+              "statement": "Health checks at 09:28Z show api-gateway, checkout-service, auth-service, inventory-service, payment-service and notification-queue all returning HTTP 200 on /health.",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H07",
+                "H08",
+                "H11"
+              ]
+            },
+            {
+              "statement": "The auth-service health check targets the plaintext admin port 8080, not the serving path.",
+              "evidence_ids": [
+                "H02"
+              ]
+            },
+            {
+              "statement": "search-service health is healthy at 09:28Z.",
+              "evidence_ids": [
+                "H14"
+              ]
+            },
+            {
+              "statement": "Past incident P04 describes checkout 5xx errors immediately after a checkout-service deploy caused by a serialization bug; P06 describes TLS handshake failures from an expired certificate on payment-service causing checkout 5xx errors.",
+              "evidence_ids": [
+                "P04",
+                "P06"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The v2.15.1 deploy is an unlikely direct cause of 33% errors and sign-in failures given its described static-string-only content, though a packaging or serialization regression cannot be excluded without the diff.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "statement": "Sign-in failures affecting api-gateway and auth paths, with no recorded change there, point toward a shared dependency problem (e.g. auth-service or a TLS/certificate issue) rather than checkout-service itself; shallow health checks would miss this.",
+              "evidence_ids": [
+                "H02",
+                "D03",
+                "D06"
+              ],
+              "confidence": 0.35
+            },
+            {
+              "statement": "Upstream payment/inventory/auth health cannot be ruled out at 09:00 because the only health data is from 09:28 and is shallow.",
+              "evidence_ids": [
+                "H02",
+                "H11",
+                "H07"
+              ],
+              "confidence": 0.6
+            }
+          ],
+          "data_gaps": [
+            "Health-check history around 09:00 UTC is not available; only a single 09:28Z snapshot was returned.",
+            "Deploy record lacks rollout progress and per-instance status; the change tool does not show rollback state beyond absence of a rollback record.",
+            "Change history was not queried over a longer lookback for auth-service or api-gateway config (only the 08:00\u201309:30 window was checked).",
+            "Health checks may be shallow (HTTP /health only), so they do not confirm sign-in or payment success paths.",
+            "Telemetry for error-rate breakdown by upstream was not available to this role."
+          ],
+          "suggested_followups": [
+            "Pull the v2.15.1 diff and per-pod rollout status to confirm whether the deploy touched anything beyond copy strings.",
+            "Check auth-service and payment-service error rates and TLS certificate expiry between 08:50 and 09:05 UTC.",
+            "Query change history for auth-service, payment-service and api-gateway over the prior 7 days for config or certificate changes.",
+            "Run deep health checks (login and payment test transactions) rather than /health probes."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T3",
+        "agent": "dependency",
+        "objective": "Search past incident postmortems for prior incidents with similar symptoms (sign-in failures plus checkout errors, or errors following a checkout-service deploy) and extract their root causes and mitigations, to compare against current evidence.",
+        "focus_services": [
+          "checkout-service",
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "Past-incident search returned no postmortem matching this exact pattern (sign-in failures plus checkout errors). The only change in the window near onset is the checkout-service v2.15.1 deploy at 08:54:00Z, which its own description says is static copy/translation changes only, a weak lead. The one other recent change, a node pool upgrade completed at 00:00Z, is about nine hours before onset. Health checks are all green but are shallow, so they do not rule out the failure. Auth-service and payment-service are the most likely shared dependencies for both symptoms but have no recent changes in the record.",
+          "observations": [
+            {
+              "statement": "Change history for all services between 2026-09-05T00:00Z and 09:30Z contains only two changes: a platform node pool upgrade (1.30 to 1.31, completed) at 00:00:00Z and a checkout-service deploy v2.15.1 at 08:54:00Z.",
+              "evidence_ids": [
+                "C08",
+                "C09"
+              ]
+            },
+            {
+              "statement": "The v2.15.1 deploy description is 'update checkout button copy and translations (static strings only)'.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "Dependency graph: api-gateway calls checkout-service over sync HTTP. checkout-service calls payment-service, inventory-service and auth-service over sync HTTP, and publishes to notification-queue.",
+              "evidence_ids": [
+                "D01",
+                "D04",
+                "D05",
+                "D06",
+                "D07"
+              ]
+            },
+            {
+              "statement": "Latest health checks (09:28Z) are all HTTP /health 200 / healthy for api-gateway, checkout-service, auth-service, inventory-service, notification-queue and payment-service. The auth-service check is on a plaintext admin port 8080.",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H07",
+                "H08",
+                "H11"
+              ]
+            },
+            {
+              "statement": "Past incident P04 (checkout 5xx immediately after checkout-service v2.9.0 deploy) was caused by a serialization bug in the new release and was resolved by rollback.",
+              "evidence_ids": [
+                "P04"
+              ]
+            },
+            {
+              "statement": "Past incident P06 (TLS handshake failures and checkout 5xx from an expired certificate on payment-service) was caused by an unrenewed certificate.",
+              "evidence_ids": [
+                "P06"
+              ]
+            },
+            {
+              "statement": "Past incident P05 (login latency and token validation errors after auth-service signing key rotation) was caused by public-key cache misses.",
+              "evidence_ids": [
+                "P05"
+              ]
+            },
+            {
+              "statement": "Past incident P01 (api-gateway 502s during node pool upgrade) was caused by node drain without PodDisruptionBudget.",
+              "evidence_ids": [
+                "P01"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The v2.15.1 deploy is an unlikely cause of 33% errors across sign-in and checkout, because a copy-only change would not normally touch auth calls or payment calls. Confirm the diff, since 'static strings only' is a deploy-bot description and not verified.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.25
+            },
+            {
+              "statement": "Sign-in and checkout failing together, with no change in the window, points to a shared dependency or an out-of-band event. auth-service is the most plausible shared node, since checkout calls it and sign-in depends on it. Its health check is shallow and would not catch token validation errors.",
+              "evidence_ids": [
+                "D06",
+                "H02"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "The node pool upgrade (00:00Z) is probably not the cause given the nine-hour gap, but it is worth checking for pods that are still unstable on the new nodes, following the P01 pattern.",
+              "evidence_ids": [
+                "C08",
+                "P01"
+              ],
+              "confidence": 0.2
+            },
+            {
+              "statement": "Past incidents P04, P05 and P06 each offer a testable hypothesis: a bad release (P04), a key or cache rotation affecting auth (P05), or an expired certificate on a downstream service (P06). None of them is confirmed by current data.",
+              "evidence_ids": [
+                "P04",
+                "P05",
+                "P06"
+              ],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "No change records for auth-service, payment-service, or certificate/key rotations were returned for 2026-09-05 00:00Z\u201309:30Z. The change query covered all services, so an out-of-band change or a non-logged change is not excluded.",
+            "Health checks are shallow (HTTP /health only). They do not exercise token validation, payment authorization, TLS expiry, or database writes, so the green results do not rule out the reported failures.",
+            "No telemetry or error logs were queried in this task. Error-rate timing and which signal changed first are not yet confirmed against the 09:00Z onset.",
+            "The past-incident search for 'api-gateway' returned only P01, which is not similar to the current symptoms."
+          ],
+          "suggested_followups": [
+            "Diff checkout-service v2.15.1 against v2.15.0 to verify 'static strings only' and check for changes to auth or payment client code or config.",
+            "Check auth-service and payment-service TLS certificate expiry dates and any key or JWKS rotation scheduled around 08:00\u201309:00Z (see P05, P06).",
+            "Compare the first-error timestamp in api-gateway and checkout-service logs against 08:54Z to see whether the errors start with the deploy or drift later.",
+            "Run a deep health check on auth-service token validation and a test payment authorization, since the existing health checks are shallow.",
+            "Check whether the errors correlate with pods scheduled on the upgraded node pool (1.31)."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T4",
+        "agent": "observability",
+        "objective": "Query auth-service logs and metrics 08:30-09:30 UTC for TLS/certificate events: serving certificate subject and notAfter, cert reload events, handshake failures on port 8443, and HTTP status/error rates on sign-in endpoints. Confirm whether auth-service presents the expired auth.internal certificate and whether sign-in requests fail. Also pull remaining checkout-service ERROR lines after 09:19:45Z.",
+        "focus_services": [
+          "auth-service",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "Checkout-service ERRORs are all PKIX 'validity check failed' handshake failures against auth.internal:8443, first seen at 09:00:04Z and continuing through 09:30:00Z. auth-service's own logs show no certificate, handshake, or error lines in 08:30-09:30, and its request_rate fell from about 83 req/s to about 2.9 req/s at 09:00. The telemetry supports an expired-certificate path but does not confirm the certificate's subject or notAfter, and sign-in HTTP status was not checked.",
+          "observations": [
+            {
+              "statement": "Checkout-service ERROR lines all read 'auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: ... CertPathValidatorException: validity check failed (peer auth.internal:8443)'.",
+              "evidence_ids": [
+                "L0184",
+                "L0277",
+                "L0325"
+              ]
+            },
+            {
+              "statement": "The first checkout-service ERROR in the window is at 09:00:04Z with the same validity-check signature; 28 such ERROR lines occurred between 08:30 and 09:19:44Z (only 10 returned).",
+              "evidence_ids": [
+                "L0184"
+              ]
+            },
+            {
+              "statement": "Checkout-service ERROR lines continue after 09:19:45Z, including 09:19:45, 09:19:47, 09:20:34, 09:25:00, 09:29:48 and 09:30:00Z, all with the same message.",
+              "evidence_ids": [
+                "L0277",
+                "L0278",
+                "L0281",
+                "L0302",
+                "L0323",
+                "L0325"
+              ]
+            },
+            {
+              "statement": "auth-service ERROR-level logs in 08:30-09:30Z returned 0 lines.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "auth-service log search for 'cert' (DEBUG and above) in 08:30-09:30Z returned 0 lines, so no certificate subject, notAfter, or reload event was logged by auth-service.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "auth-service log search for 'handshake' (DEBUG and above) in 08:30-09:30Z returned 0 lines, so no handshake failures on port 8443 were logged on the auth-service side.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "auth-service request_rate was about 81-83 req/s from 08:30 to 08:55Z, then dropped to 2.92 req/s at 09:00Z and stayed between 2.89 and 3.10 req/s through 09:30Z.",
+              "evidence_ids": [
+                "M10"
+              ]
+            },
+            {
+              "statement": "auth-service error_rate stayed between 0.07% and 0.14% across the window, with no rise at 09:00Z.",
+              "evidence_ids": [
+                "M07"
+              ]
+            },
+            {
+              "statement": "auth-service latency_p99_ms (39.35-41.54 ms) and cpu_pct (24.07-25.82%) stayed flat across the window, and memory_pct (42.39-45.13%) showed no step change.",
+              "evidence_ids": [
+                "M06",
+                "M08",
+                "M09"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The checkout errors are consistent with auth-service presenting a certificate that fails PKIX validity checking (expired or not yet valid) starting around 09:00Z. This is not confirmed because no certificate metadata was retrieved.",
+              "evidence_ids": [
+                "L0184",
+                "L0277"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The auth-service request_rate drop at 09:00Z is likely because checkout and other clients fail TLS to auth.internal before reaching auth-service. The flat auth error_rate fits this: rejected handshakes may never reach auth's request handling and so may not be counted as auth errors.",
+              "evidence_ids": [
+                "M10",
+                "M07",
+                "L0184"
+              ],
+              "confidence": 0.45
+            },
+            {
+              "statement": "The 08:54Z checkout deploy precedes the first validity-check error (09:00:04Z) by about 6 minutes. The error text is a TLS validation failure on auth's certificate, so the deploy does not obviously explain it, but the timing alone does not rule the deploy out.",
+              "evidence_ids": [
+                "L0184"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "statement": "Auth-service itself appears healthy by its own metrics and logs (flat CPU, latency, memory, error rate). This argues against an auth-side crash or overload, though it does not rule out a certificate problem that auth never logs.",
+              "evidence_ids": [
+                "M06",
+                "M07",
+                "M08",
+                "M09"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "No certificate metadata retrieved: subject, notAfter, issuer, and serving certificate fingerprint for auth.internal:8443 are unconfirmed. The 'expired' claim rests only on the checkout error text 'validity check failed'.",
+            "No cert reload or rotation events were found in auth-service logs, but the query was limited to the word 'cert' and a reload may be logged under other wording.",
+            "Sign-in HTTP status and error rates for auth-service endpoints were not retrieved, so whether sign-in requests fail is not confirmed. auth-service error_rate is flat, but that does not cover clients rejected at the TLS layer.",
+            "api-gateway logs and metrics were not queried, though it is one of the alerting services.",
+            "checkout-service error_rate metric and request-volume metric were not queried, so the reported 33% figure is not verified.",
+            "Of the 28 checkout ERROR lines before 09:19:45Z, only 10 were returned, so the full timeline between 09:00 and 09:19:45 is only partially visible.",
+            "The window ends at 09:30Z; the state after that is unknown.",
+            "Tool-call budget was exhausted before checking the 08:54 deploy's details, auth-service TLS config, or any other host that serves port 8443."
+          ],
+          "suggested_followups": [
+            "Retrieve the serving certificate on auth.internal:8443 (subject, notAfter, issuer) and compare it with the time of 09:00Z.",
+            "Check the auth-service certificate rotation or deploy history for 08:00-09:00Z, and identify who issues and renews auth.internal.",
+            "Query auth-service sign-in endpoint HTTP status and error rates, and api-gateway upstream errors for auth, from 08:30 to 09:30Z.",
+            "Confirm whether the checkout deploy at 08:54Z changed the trust store or the TLS client configuration.",
+            "Check whether other clients of auth.internal:8443 show the same PKIX failure at 09:00Z."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T5",
+        "agent": "dependency",
+        "objective": "Check certificate and cert-manager change/renewal history for auth.internal over the prior 30 days: scheduled renewal, any failed or skipped renewal and its cause, and whether a renewed certificate exists. Also diff checkout-service v2.15.1 for trust-store or TLS-validation changes.",
+        "focus_services": [
+          "auth-service",
+          "checkout-service",
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "No certificate renewal, cert-manager, or trust-store change was found for auth.internal in the available window. The only checkout-service change near onset (v2.15.1, 08:54 UTC) is described as static copy/translation edits, so it does not show a TLS or trust-store change. The 30-day certificate history could not be verified because change history only returns 7 days, and 'auth.internal' is not a known component in the dependency graph. Evidence therefore does not support a certificate-expiry or trust-store cause from the change record, but it does not rule one out either.",
+          "observations": [
+            {
+              "statement": "The change history returned no certificate, cert-manager, or renewal record for auth-service between 2026-08-29 and now; the only auth-service change is a log-level change to /healthz on 2026-08-31 10:30 UTC.",
+              "evidence_ids": [
+                "C02"
+              ]
+            },
+            {
+              "statement": "checkout-service deployed v2.15.1 at 2026-09-05 08:54 UTC, described as 'update checkout button copy and translations (static strings only)'. The description does not mention trust-store, TLS, or certificate changes. I did not diff the code, so this is based on the description only.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "checkout-service also deployed v2.13.4 on 2026-09-04 13:00 UTC (cart page performance tweaks), which is about a day before the incident.",
+              "evidence_ids": [
+                "C07"
+              ]
+            },
+            {
+              "statement": "A Kubernetes node pool upgrade from 1.30 to 1.31 was completed on 2026-09-05 00:00 UTC, with all nodes reported Ready. This is a platform-level change about 9 hours before the alert.",
+              "evidence_ids": [
+                "C08"
+              ]
+            },
+            {
+              "statement": "Dependency lookup for 'auth.internal' returned no record. The known components are api-gateway, auth-service, checkout-service, payment-service, and others, but no auth.internal.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "A past incident (P06, 2026-06-11) had checkout 5xx errors and TLS handshake failures caused by an unrenewed certificate from a cert-manager misconfiguration on payment-service. This is a pattern to test, not evidence about this incident.",
+              "evidence_ids": [
+                "P06"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The checkout-service v2.15.1 deploy is an unlikely cause of TLS or sign-in failures, since its description covers only static strings. This is based on the description and not a code diff.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "A certificate expiry or failed renewal for auth.internal is not supported by any change record in the 7-day window. A renewal that failed earlier than 7 days ago, or a certificate that expired on a schedule, would not appear here, so this hypothesis remains open.",
+              "evidence_ids": [
+                "C02",
+                "C08"
+              ],
+              "confidence": 0.35
+            },
+            {
+              "statement": "The 1.31 node pool upgrade could plausibly affect TLS or cert-manager workloads on the cluster. This is a hypothesis worth testing because it precedes onset by about 9 hours and no direct evidence links it to the symptoms.",
+              "evidence_ids": [
+                "C08"
+              ],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "Change history covers only the last 7 days, so the requested 30-day window for auth.internal certificate renewals and cert-manager history could not be checked.",
+            "No cert-manager, certificate inventory, or renewal-event data was available through any tool. Scheduled renewal, skipped renewal, and whether a renewed certificate exists are all unverified.",
+            "get_dependencies returned no record for 'auth.internal'. Its name may be an alias or the component may be named differently, so dependency and health-check data for it are missing.",
+            "I did not diff the checkout-service v2.15.1 code, so the trust-store and TLS-validation check rests only on the deploy description.",
+            "Health-check results were not retrieved for auth-service, checkout-service, or api-gateway. The tool budget ran out before this could be done.",
+            "No telemetry or error-log detail was checked, so the correlation between the 08:54 deploy and the 09:00 error-rate rise is not confirmed."
+          ],
+          "suggested_followups": [
+            "Query cert-manager or certificate-inventory records for auth-service and auth.internal over 30 days, looking for renewal attempts, failures, and expiry dates. This is the main gap for T5.",
+            "Diff checkout-service v2.15.1 against v2.13.4 or v2.14.x, focusing on trust-store bundles, TLS client config, and CA paths.",
+            "Confirm the correct name for auth.internal in the dependency graph and pull its health checks.",
+            "Check whether the 2026-09-05 node pool upgrade to 1.31 changed TLS behaviour or cert-manager pods, given the timing.",
+            "Pull checkout-service and api-gateway error logs from 08:50 to 09:10 UTC to see whether failures are TLS handshake errors or application errors."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T6",
+        "agent": "observability",
+        "objective": "Retrieve TLS evidence for auth.internal:8443: the served certificate's subject, notAfter and fingerprint, and whether it matches the certificate that expired at 08:59:59Z. Also check whether any other client (payment-service, api-gateway, other hosts) logs the same x509 or PKIX validity error, and whether any host logs clock skew or NTP drift around 09:00Z.",
+        "focus_services": [
+          "auth-service",
+          "api-gateway",
+          "checkout-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "Only one of the six planned queries returned data. api-gateway logs 20 ERROR lines from 09:00:15Z to 09:30:00Z, all reporting that the auth.internal certificate expired at 2026-09-05T08:59:59Z. The served certificate's subject, notAfter and fingerprint were not retrieved, so I could not confirm it is the expired certificate. The checkout-service, payment-service and clock-skew checks were rejected because the tool-call budget ran out, so they are unverified.",
+          "observations": [
+            {
+              "statement": "api-gateway logged 20 ERROR lines containing 'auth check failed: x509: certificate has expired or is not yet valid', all with cn=auth.internal and 'current time is after 2026-09-05T08:59:59Z'. These are the only matching lines returned for api-gateway.",
+              "evidence_ids": [
+                "L0185",
+                "L0194",
+                "L0202",
+                "L0210",
+                "L0216",
+                "L0223",
+                "L0228",
+                "L0238",
+                "L0244",
+                "L0254",
+                "L0259",
+                "L0267",
+                "L0276",
+                "L0283",
+                "L0290",
+                "L0296",
+                "L0304",
+                "L0309",
+                "L0318",
+                "L0324"
+              ]
+            },
+            {
+              "statement": "The first api-gateway x509 expiry error is at 2026-09-05T09:00:15Z, about 16 seconds after the stated expiry time of 08:59:59Z. Errors recur roughly every 1 to 2 minutes through 09:30:00Z, the last at 09:30:00Z.",
+              "evidence_ids": [
+                "L0185",
+                "L0324"
+              ]
+            },
+            {
+              "statement": "A query for 'x509' in auth-service logs between 08:00Z and 09:30Z returned 0 matching lines at DEBUG and above.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "No served-certificate subject, notAfter, or fingerprint data was returned by any tool call. No metric data was queried.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The api-gateway failures are consistent with a client rejecting the auth.internal certificate because it expired at 08:59:59Z, and the timing matches that expiry.",
+              "evidence_ids": [
+                "L0185",
+                "L0324"
+              ],
+              "confidence": 0.8
+            },
+            {
+              "statement": "The absence of x509 errors in auth-service logs does not rule out the expired certificate. auth-service may not be the client that validates it, or the error may be logged elsewhere, but the empty result is also not confirmation that auth-service served a valid certificate.",
+              "evidence_ids": [],
+              "confidence": 0.4
+            },
+            {
+              "statement": "Whether the served certificate on auth.internal:8443 is the same certificate that expired at 08:59:59Z is unconfirmed. The log text names the expiry time and CN, but no fingerprint was obtained.",
+              "evidence_ids": [
+                "L0185"
+              ],
+              "confidence": 0.4
+            }
+          ],
+          "data_gaps": [
+            "Served TLS certificate for auth.internal:8443 (subject, notAfter, fingerprint) was not retrieved. No TLS-inspection tool is available, and the budget ran out first.",
+            "No checkout-service x509/PKIX query was run (budget exhausted), so checkout-service's error signatures are unverified.",
+            "No payment-service x509/PKIX query was run (budget exhausted), so whether other clients see the same error is unknown.",
+            "No clock-skew or NTP query was run on api-gateway, auth-service, checkout-service, or other hosts around 09:00Z.",
+            "The auth-service 'certificate' keyword query was rejected, so auth-service certificate-related messages are unknown.",
+            "No auth-service or checkout-service metrics (error rate, latency, cpu) were queried to confirm the 33% checkout error rate or the start time of the checkout-side failures.",
+            "The api-gateway result was capped at 20 lines, but it reported 20 total matches, so coverage appears complete for that query."
+          ],
+          "suggested_followups": [
+            "Retrieve the served certificate fingerprint and notAfter from auth.internal:8443 and compare it with the certificate that expired at 08:59:59Z.",
+            "Query checkout-service and payment-service logs for 'x509' and 'PKIX' from 08:00Z to 09:30Z to see whether they show the same expiry error.",
+            "Query api-gateway, auth-service, checkout-service and other hosts for 'clock', 'skew', 'NTP' and 'drift' around 08:55Z to 09:05Z.",
+            "Check the certificate issuance and renewal history for auth.internal, including whether a renewal was attempted before 08:59:59Z.",
+            "Pull checkout-service error-rate and latency metrics to confirm the onset of its failures relative to the 09:00:15Z auth errors and the 08:54Z deploy."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T7",
+        "agent": "dependency",
+        "objective": "Diff checkout-service v2.15.1 against v2.13.4 for trust-store, TLS-validation or certificate-related changes, and confirm whether any cert-manager renewal for auth.internal was scheduled, skipped or failed in the 7 days before 08:59:59Z, and whether a renewed certificate exists.",
+        "focus_services": [
+          "checkout-service",
+          "auth-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "Only partial evidence on T7. The change history shows no trust-store, TLS or certificate change in checkout-service v2.15.1 as described, and no cert-manager renewal record for auth.internal. I could not diff the code, so the v2.13.4 vs v2.15.1 comparison is unverified. I could not confirm whether a renewed certificate exists. The tool budget ran out before the past-incident search completed.",
+          "observations": [
+            {
+              "statement": "checkout-service v2.15.1 deploy at 2026-09-05T08:54:00Z is described as 'update checkout button copy and translations (static strings only)', status completed.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "checkout-service v2.13.4 deploy at 2026-09-04T13:00:00Z is described as 'cart page performance tweaks', status completed.",
+              "evidence_ids": [
+                "C07"
+              ]
+            },
+            {
+              "statement": "Neither checkout-service deploy description mentions trust store, TLS validation, certificates or CA bundles.",
+              "evidence_ids": [
+                "C07",
+                "C09"
+              ]
+            },
+            {
+              "statement": "auth-service had one change in the 7 days before 08:59:59Z: a config change at 2026-08-31T10:30:00Z lowering /healthz log level from INFO to WARN.",
+              "evidence_ids": [
+                "C02"
+              ]
+            },
+            {
+              "statement": "The change-history query for service cert-manager over 2026-08-29T00:00:00Z to 2026-09-05T08:59:59Z returned status ok with 0 changes. No scheduled, skipped, failed or completed renewal for auth.internal appears in the returned data.",
+              "evidence_ids": []
+            },
+            {
+              "statement": "Dependency graph: checkout-service calls payment-service, inventory-service, auth-service (sync_http) and notification-queue (queue).",
+              "evidence_ids": [
+                "D04",
+                "D05",
+                "D06",
+                "D07"
+              ]
+            },
+            {
+              "statement": "Health checks at 2026-09-05T09:28:00Z report healthy for checkout-service (HTTP /health 200), auth-service (HTTP /health 200 on plaintext admin port 8080), payment-service, inventory-service and notification-queue.",
+              "evidence_ids": [
+                "H03",
+                "H02",
+                "H11",
+                "H07",
+                "H08"
+              ]
+            },
+            {
+              "statement": "The auth-service health check is on plaintext port 8080, so it does not exercise the TLS endpoint that checkout calls. The checkout health check is also shallow.",
+              "evidence_ids": [
+                "H02",
+                "H03"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "v2.15.1 as described (static copy and translations) is unlikely to cause TLS or trust-store failures. This is a weak lead against a certificate cause, pending a code diff that I could not run.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.25
+            },
+            {
+              "statement": "No recorded certificate event for auth.internal in the window argues against a recent cert-manager failure. The absence could also be a gap in the cert-manager data, so it does not rule one out.",
+              "evidence_ids": [],
+              "confidence": 0.3
+            },
+            {
+              "statement": "The auth-service log-level change on 2026-08-31 is unrelated to TLS and is unlikely to explain sign-in failures.",
+              "evidence_ids": [
+                "C02"
+              ],
+              "confidence": 0.15
+            },
+            {
+              "statement": "Green health checks do not rule out a TLS-validation failure on the auth.internal path, because the checks are shallow and the auth check uses plaintext.",
+              "evidence_ids": [
+                "H02",
+                "H03"
+              ],
+              "confidence": 0.5
+            }
+          ],
+          "data_gaps": [
+            "Could not diff checkout-service v2.13.4 against v2.15.1 code or config for trust-store, TLS or certificate changes. Only the deploy descriptions were available.",
+            "Could not confirm whether a cert-manager renewal for auth.internal was scheduled, skipped or failed. The cert-manager change query returned 0 records, which may reflect a service-name mismatch or missing data rather than no activity.",
+            "Could not confirm whether a renewed certificate exists for auth.internal. No certificate inventory or issuance query was run.",
+            "The past-incident search for cert-manager, auth.internal and TLS trust-store failures was rejected because the tool-call budget was exhausted, so no precedent was checked.",
+            "Health checks are shallow (plaintext /health on auth, generic /health on checkout), so they do not test TLS handshakes or trust-store validation.",
+            "No telemetry on TLS handshake errors or certificate expiry was gathered."
+          ],
+          "suggested_followups": [
+            "Run a code/config diff of checkout-service v2.13.4 vs v2.15.1 focused on trust store, CA bundle, TLS and certificate settings.",
+            "Query cert-manager (or the actual issuer service name) for Certificate and renewal events for auth.internal from 2026-08-29 to 2026-09-05, and check the current certificate's notBefore and notAfter.",
+            "Check checkout-service and api-gateway logs around 08:54 to 09:00 UTC for x509, certificate verify, or handshake errors, and see which upstream host they name.",
+            "Check whether the 33% error rate started at the 08:54 deploy or later, and whether it also appears on the auth.internal TLS endpoint directly.",
+            "Search past incidents for certificate renewal failures and trust-store changes once the tool budget is restored."
+          ]
+        },
+        "error": null
+      }
+    ],
+    "rounds": [
+      {
+        "number": 1,
+        "task_ids": [
+          "T1",
+          "T2",
+          "T3"
+        ],
+        "new_evidence": 88,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H-A",
+              "service": "auth-service",
+              "category": "certificate_expiry",
+              "mechanism": "The auth.internal TLS certificate expired at 08:59:59Z, and both checkout-service (token validation to auth.internal:8443) and api-gateway (auth check, cn=auth.internal) fail certificate validation starting 09:00:04Z and 09:00:15Z. Sign-in and checkout failures are therefore one shared fault, and the error step matches the expiry timestamp within seconds.",
+              "supporting_evidence": [
+                "L0185",
+                "L0184",
+                "L0190",
+                "L0194",
+                "M12",
+                "M02",
+                "L0324",
+                "P06"
+              ],
+              "contradicting_evidence": [],
+              "assumptions": [
+                "The expired certificate is the one presented by auth.internal:8443 at the time of the errors",
+                "The error messages accurately name the failing peer and certificate",
+                "Auth-service itself is serving the expired certificate rather than a client-side trust issue"
+              ],
+              "confidence": 0.85
+            },
+            {
+              "id": "H-B",
+              "service": "checkout-service",
+              "category": "deployment_regression",
+              "mechanism": "The v2.15.1 deploy at 08:54:00Z changed certificate validation or trust-store handling in checkout, so checkout rejects a valid auth.internal certificate. This would explain checkout errors but not the api-gateway errors, which show a separate x509 check against the same expiry.",
+              "supporting_evidence": [
+                "C09",
+                "L0184"
+              ],
+              "contradicting_evidence": [
+                "M12",
+                "L0185",
+                "L0044"
+              ],
+              "assumptions": [
+                "The deploy diff contains more than the described static strings",
+                "The api-gateway failures are a separate issue or a coincidence"
+              ],
+              "confidence": 0.1
+            }
+          ],
+          "reasoning": "Error onset (09:00:00 bucket, first errors 09:00:04 and 09:00:15) follows the auth.internal certificate expiry at 08:59:59Z by seconds, while the 08:54 deploy precedes onset by six minutes with no error step in between. Both services fail on the same auth.internal certificate, which accounts for the simultaneous sign-in and checkout failures through a shared dependency. Propagation runs from auth.internal to checkout and api-gateway, so checkout is a victim, not the origin. The deploy is a weak alternative because its described content is copy-only and it cannot explain the gateway's x509 errors. Confidence is limited by the absence of auth-service and certificate telemetry, unverified deploy contents, and truncated logs; the status-code and endpoint breakdown was not confirmed.",
+          "evidence_needed": [
+            "Certificate issuance and renewal history for auth.internal, and why renewal did not occur before 08:59:59Z",
+            "auth-service serving-certificate metadata and cert-manager status",
+            "Diff of checkout-service v2.15.1 to rule out trust-store or TLS-validation changes",
+            "Health or error metrics for auth-service during the window, plus the remaining checkout error lines after 09:19:45Z"
+          ],
+          "response_to_critique": null
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "The leading hypothesis (auth.internal certificate expiry at 08:59:59Z) is well supported by the checkout and gateway error timestamps, and the 08:54 deploy is weak. However, the cert's identity and serving state are inferred from client-side error messages, auth-service telemetry was never queried, and the sign-in failure claim lacks direct endpoint evidence. Confidence of 0.85 is somewhat high for that basis. Targeted checks on the auth-service serving certificate and renewal history would confirm or refute it.",
+          "issues": [
+            {
+              "hypothesis_id": "H-A",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.85 rests on client-side error strings naming auth.internal and an expiry timestamp. No auth-service or certificate metadata was observed, so the claim that auth-service is serving the expired cert is assumed rather than verified.",
+              "evidence_ids": [
+                "L0184",
+                "L0185"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "missing_evidence",
+              "severity": "minor",
+              "detail": "No auth-service serving-certificate metadata or cert-manager status was checked, and the renewal failure cause is unknown. These could be obtainable with the remaining tools and would directly confirm the mechanism.",
+              "evidence_ids": [
+                "L0185",
+                "L0184"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "P06 (expired cert on payment-service) is listed as supporting evidence. It is an analogous past incident on a different service and does not prove the current cause; it should only motivate the check.",
+              "evidence_ids": [
+                "P06"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "The analysis says sign-in is failing, but the ledger has no sign-in endpoint or status-code data. Both error streams refer to auth validation, not to user sign-in requests, so the sign-in part of the symptom is inferred.",
+              "evidence_ids": [
+                "L0184",
+                "L0185"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "L0044 (single card-declined order at 08:13) is cited as contradicting the deploy hypothesis, but it is unrelated background noise and says nothing about certificate validation.",
+              "evidence_ids": [
+                "L0044"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "The v2.15.1 diff was never checked, so a trust-store or validation change in checkout cannot be excluded for the checkout-only errors. The gateway x509 failures do argue against it as the main cause.",
+              "evidence_ids": [
+                "C09",
+                "L0184"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Query auth-service logs and metrics from 08:30 to 09:30 UTC for TLS or certificate events: serving certificate subject and notAfter, any cert reload, handshake failures on 8443, and HTTP status and error rates on sign-in endpoints. Confirm whether auth-service presents the expired auth.internal certificate and whether sign-in requests fail.",
+              "focus_services": [
+                "auth-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Check certificate and cert-manager change or renewal history for auth.internal over the prior 30 days, including the scheduled renewal and any failed renewal, and the v2.15.1 checkout-service diff for trust-store or TLS-validation changes.",
+              "focus_services": [
+                "auth-service",
+                "checkout-service",
+                "api-gateway"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "Leading hypothesis (auth.internal certificate expiry at 08:59:59Z) is plausible but rests on client-side error strings; auth-service serving-certificate state and renewal history are unverified, and the checkout v2.15.1 diff is unchecked. Specific checks could confirm or refute H-A and rule out H-B with budget remaining.",
+          "new_tasks": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Query auth-service logs and metrics 08:30-09:30 UTC for TLS/certificate events: serving certificate subject and notAfter, cert reload events, handshake failures on port 8443, and HTTP status/error rates on sign-in endpoints. Confirm whether auth-service presents the expired auth.internal certificate and whether sign-in requests fail. Also pull remaining checkout-service ERROR lines after 09:19:45Z.",
+              "focus_services": [
+                "auth-service",
+                "checkout-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Check certificate and cert-manager change/renewal history for auth.internal over the prior 30 days: scheduled renewal, any failed or skipped renewal and its cause, and whether a renewed certificate exists. Also diff checkout-service v2.15.1 for trust-store or TLS-validation changes.",
+              "focus_services": [
+                "auth-service",
+                "checkout-service",
+                "api-gateway"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "task_ids": [
+          "T4",
+          "T5"
+        ],
+        "new_evidence": 24,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H-A",
+              "service": "auth-service",
+              "category": "certificate_expiry",
+              "mechanism": "The auth.internal serving certificate expired at 08:59:59Z. checkout-service (token validation to auth.internal:8443) and api-gateway (auth check, cn=auth.internal) both start failing certificate validation within seconds (09:00:04Z and 09:00:15Z), producing the simultaneous checkout and sign-in-path error step at the 09:00 bucket. Checkout is a victim of the shared dependency, not the origin.",
+              "supporting_evidence": [
+                "L0184",
+                "L0185",
+                "L0190",
+                "L0194",
+                "L0324",
+                "M12",
+                "M02",
+                "M10"
+              ],
+              "contradicting_evidence": [],
+              "assumptions": [
+                "The expired certificate is the one served by auth.internal:8443 at error time",
+                "Client error messages accurately name the peer and the expiry cause",
+                "auth-service request_rate drop at 09:00 reflects clients failing TLS before reaching auth"
+              ],
+              "confidence": 0.8
+            },
+            {
+              "id": "H-B",
+              "service": "checkout-service",
+              "category": "deployment_regression",
+              "mechanism": "The v2.15.1 deploy at 08:54:00Z changed certificate validation or trust-store handling in checkout so it rejects a valid auth.internal certificate. This would explain checkout errors only, not the api-gateway x509 errors against the same expiry.",
+              "supporting_evidence": [
+                "C09",
+                "L0184"
+              ],
+              "contradicting_evidence": [
+                "M12",
+                "L0185",
+                "M02"
+              ],
+              "assumptions": [
+                "The deploy diff contains more than its described static-string changes",
+                "api-gateway failures are a separate coincidence"
+              ],
+              "confidence": 0.08
+            }
+          ],
+          "reasoning": "Onset is at the 09:00 bucket, with checkout errors starting 09:00:04Z and gateway errors 09:00:15Z, both seconds after the auth.internal certificate notAfter of 08:59:59Z. The 08:54 deploy precedes onset by six minutes with no error step in between, and its described content is copy-only. Both services reference the same auth.internal certificate, which points to a shared upstream cause rather than two faults. Propagation runs from auth.internal to checkout and api-gateway. Confidence is limited because no auth-service certificate metadata, sign-in status codes, or cert renewal history were retrieved, and the deploy diff was not checked. The auth-service's own logs are silent, which is consistent with rejected TLS handshakes never reaching its request handling.",
+          "evidence_needed": [
+            "auth-service serving certificate subject and notAfter on port 8443",
+            "cert-manager or renewal history for auth.internal and why renewal failed before 08:59:59Z",
+            "diff of checkout-service v2.15.1 for trust-store or TLS-validation changes",
+            "sign-in endpoint HTTP status and error rates for auth-service",
+            "remaining checkout error lines after 09:30Z and any other hosts serving port 8443"
+          ],
+          "response_to_critique": "Confidence reduced from 0.85 to 0.80 because certificate identity and serving state rest on client-side error text; the mechanism is still the leading explanation. P06 is removed as supporting evidence; it is only a motivating analogy and is not cited. L0044 is removed as contradicting evidence for H-B since it is unrelated background noise. The sign-in part of the symptom is now stated as inferred from auth validation errors, since no sign-in endpoint data exists. The unverified v2.15.1 diff is listed as an assumption and an evidence gap for H-B."
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "H-A (expired auth.internal certificate) is well supported: the gateway x509 error names notAfter 08:59:59Z and cn=auth.internal, checkout's PKIX validity-check failures start 09:00:04Z, and both persist to 09:30. The 08:54 deploy is weakly supported as the cause. Remaining gaps are that no certificate metadata was retrieved and a client clock or certificate-serving issue was not excluded, so confidence should be somewhat lower than 0.80 until those are checked.",
+          "issues": [
+            {
+              "hypothesis_id": "H-A",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "The 'expired' and notAfter=08:59:59Z claims rest on client error text. The gateway message is direct, but no certificate subject, notAfter, or serving fingerprint was retrieved from auth.internal:8443, so the served certificate is inferred, not observed.",
+              "evidence_ids": [
+                "L0185",
+                "L0324",
+                "L0184"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "A PKIX validity failure can also come from client clock skew or from auth.internal serving a different certificate than the one expiring. Neither was checked. Both would still fit a 09:00 step, so the expiry explanation is not yet distinguished from them.",
+              "evidence_ids": [
+                "L0185",
+                "L0184",
+                "M10"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.80 is high given that auth-service logged nothing about certificates or handshakes and that the cert was never inspected. The two independent clients failing on the same name does support a shared cause, but not yet the exact mechanism.",
+              "evidence_ids": [
+                "M10",
+                "M07"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "M12 and M02 show error steps at the 09:00 bucket. They argue against a deploy-only effect that would start at 08:54, but they do not directly contradict a deploy that changed trust handling. The rejection of H-B rests mainly on the deploy description, which was not diffed.",
+              "evidence_ids": [
+                "M12",
+                "M02",
+                "C09"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Retrieve TLS evidence for auth.internal:8443: the served certificate's subject, notAfter and fingerprint, and whether it matches the expired certificate. Also check whether any other client (payment-service, api-gateway, or non-checkout hosts) logs the same x509 or PKIX error and whether any host logs clock skew around 09:00Z.",
+              "focus_services": [
+                "auth-service",
+                "api-gateway",
+                "checkout-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "dependency",
+              "objective": "Diff checkout-service v2.15.1 against v2.13.4 for trust-store, TLS-validation or certificate-related changes, and confirm whether any cert-manager renewal for auth.internal was scheduled or failed in the 30 days before 08:59:59Z.",
+              "focus_services": [
+                "checkout-service",
+                "auth-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "H-A (expired auth.internal certificate) is leading, but its key claims rest on client error text. Certificate metadata on auth.internal:8443 has not been observed, clock skew and a different served certificate have not been excluded, and H-B was rejected only from the deploy description, not a diff. Two parallel tasks can test these directly within the remaining budget.",
+          "new_tasks": [
+            {
+              "key": "t6",
+              "agent": "observability",
+              "objective": "Retrieve TLS evidence for auth.internal:8443: the served certificate's subject, notAfter and fingerprint, and whether it matches the certificate that expired at 08:59:59Z. Also check whether any other client (payment-service, api-gateway, other hosts) logs the same x509 or PKIX validity error, and whether any host logs clock skew or NTP drift around 09:00Z.",
+              "focus_services": [
+                "auth-service",
+                "api-gateway",
+                "checkout-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t7",
+              "agent": "dependency",
+              "objective": "Diff checkout-service v2.15.1 against v2.13.4 for trust-store, TLS-validation or certificate-related changes, and confirm whether any cert-manager renewal for auth.internal was scheduled, skipped or failed in the 7 days before 08:59:59Z, and whether a renewed certificate exists.",
+              "focus_services": [
+                "checkout-service",
+                "auth-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 3,
+        "task_ids": [
+          "T6",
+          "T7"
+        ],
+        "new_evidence": 0,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H-A",
+              "service": "auth-service",
+              "category": "certificate_expiry",
+              "mechanism": "The auth.internal serving certificate reached notAfter at 08:59:59Z, so TLS clients validating it fail from 09:00. checkout-service fails PKIX validity checks on auth.internal:8443 from 09:00:04Z and api-gateway fails x509 auth checks on cn=auth.internal from 09:00:15Z, producing the 09:00 error step in both services and the drop in auth request_rate to about 3 req/s.",
+              "supporting_evidence": [
+                "L0184",
+                "L0185",
+                "L0324",
+                "M12",
+                "M02",
+                "M10",
+                "M07"
+              ],
+              "contradicting_evidence": [],
+              "assumptions": [
+                "The certificate served on auth.internal:8443 is the one whose notAfter is 08:59:59Z, which is not directly verified",
+                "Client error text accurately names the cause",
+                "auth-service request_rate drop reflects clients failing TLS before reaching auth"
+              ],
+              "confidence": 0.75
+            },
+            {
+              "id": "H-C",
+              "service": "auth.internal",
+              "category": "infrastructure_failure",
+              "mechanism": "Clock skew or a different served certificate on auth.internal:8443 causes PKIX validity failures starting at 09:00 without a true expiry, with the gateway error text misleading. Both clients would still fail in the same bucket.",
+              "supporting_evidence": [
+                "L0184",
+                "L0185"
+              ],
+              "contradicting_evidence": [
+                "L0185"
+              ],
+              "assumptions": [
+                "Client clocks or served certificate differ from what error text states",
+                "No clock-skew query was run"
+              ],
+              "confidence": 0.1
+            },
+            {
+              "id": "H-B",
+              "service": "checkout-service",
+              "category": "deployment_regression",
+              "mechanism": "The v2.15.1 deploy at 08:54:00Z changed certificate or trust-store validation in checkout so it rejects a valid auth.internal certificate. This would explain checkout errors, but not the api-gateway x509 expiry errors, and the six-minute gap before onset makes it less likely.",
+              "supporting_evidence": [
+                "C09",
+                "L0184"
+              ],
+              "contradicting_evidence": [
+                "M12",
+                "M02",
+                "L0185"
+              ],
+              "assumptions": [
+                "The deploy diff contains more than its described static-string changes",
+                "api-gateway failures are a separate coincidence"
+              ],
+              "confidence": 0.08
+            }
+          ],
+          "reasoning": "Both checkout (09:00:04Z) and api-gateway (09:00:15Z) begin failing seconds after the stated auth.internal notAfter of 08:59:59Z, and both persist through 09:30, so onset is a shared upstream TLS failure rather than two faults. The 08:54 deploy precedes onset by six minutes with no error step in between, and its described copy-only content makes it a weak cause. Propagation runs from auth.internal to its callers, and auth-service's own metrics and logs are flat, consistent with rejected handshakes never reaching its request handling. Confidence is capped because no served-certificate metadata, sign-in status codes, or cert renewal history was retrieved, and the deploy diff was not checked.",
+          "evidence_needed": [
+            "auth.internal:8443 served certificate subject, notAfter and fingerprint",
+            "cert-manager renewal history for auth.internal and why renewal failed before 08:59:59Z",
+            "diff of checkout-service v2.15.1 for trust-store or TLS-validation changes",
+            "clock-skew or NTP check on api-gateway, checkout-service and auth-service around 09:00Z",
+            "payment-service x509/PKIX error check"
+          ],
+          "response_to_critique": "H-A confidence reduced from 0.80 to 0.75 because the expiry claim rests on client error text and no certificate was inspected; the clock-skew and different-certificate alternatives are retained as H-C. H-B's rejection is softened to rely mainly on the deploy description and timing, since M12 and M02 do not directly contradict a trust-store change in checkout; the diff remains needed."
+        },
+        "critique": {
+          "verdict": "accept",
+          "summary": "H-A (auth.internal certificate expiry at 08:59:59Z) is well supported: checkout PKIX validity failures begin 09:00:04Z and api-gateway x509 expiry failures begin 09:00:15Z, both persist through 09:30, and the gateway log text names the expiry timestamp and cn=auth.internal. The 08:54 deploy precedes onset by six minutes with no error step in between and its described content is copy-only. Residual uncertainty: the served certificate's subject/notAfter/fingerprint was never retrieved, and the checkout-side error text and the gateway text are not independently tied to the same certificate, so confidence should be somewhat lower than 0.75 is not necessary but the conclusion is not overturned. No remaining budget exists to reduce this, so the report should be marked as supported but with the certificate identity unverified.",
+          "issues": [
+            {
+              "hypothesis_id": "H-A",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "The analysis lists served-certificate notAfter and subject as an assumption, and the cert-to-expiry link is unverified. Gateway text names cn=auth.internal and the 08:59:59Z expiry, which supports the claim, but the fingerprint match was never obtained. This affects precision of the confidence, not the cause.",
+              "evidence_ids": [
+                "L0185",
+                "L0324"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.75 is reasonable but the claim that auth-service request_rate drop reflects TLS rejection before reaching auth is an inference, and auth-service logs show no handshake or cert lines, which is consistent with but does not prove the mechanism. The stated 0.75 should be read as the ceiling given unverified certificate identity.",
+              "evidence_ids": [
+                "M10",
+                "L0184"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "The deploy diff was not checked, so the H-B rejection rests only on the deploy description. Its low confidence is justified by timing and the api-gateway failures, which checkout's deploy cannot explain, so this is a precision gap rather than a material one.",
+              "evidence_ids": [
+                "C09",
+                "L0185"
+              ]
+            }
+          ],
+          "followup_requests": []
+        },
+        "decision": null
+      }
+    ],
+    "termination_reason": "critic_accepted",
+    "citations": {
+      "valid": 261,
+      "invalid": 3
+    },
+    "evidence_ids": [
+      "C09",
+      "D01",
+      "D04",
+      "D05",
+      "D06",
+      "D07",
+      "H01",
+      "H02",
+      "H03",
+      "H07",
+      "H08",
+      "H11",
+      "D02",
+      "D03",
+      "H14",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "L0044",
+      "L0184",
+      "L0190",
+      "L0192",
+      "L0196",
+      "L0198",
+      "L0200",
+      "L0206",
+      "L0208",
+      "L0213",
+      "L0214",
+      "L0219",
+      "L0221",
+      "L0224",
+      "L0226",
+      "L0227",
+      "L0235",
+      "L0237",
+      "L0241",
+      "L0243",
+      "L0249",
+      "L0250",
+      "L0255",
+      "L0257",
+      "L0261",
+      "L0263",
+      "L0268",
+      "L0271",
+      "L0273",
+      "L0277",
+      "L0006",
+      "L0026",
+      "L0036",
+      "L0072",
+      "L0116",
+      "L0171",
+      "L0176",
+      "L0185",
+      "L0194",
+      "L0202",
+      "L0210",
+      "L0216",
+      "L0223",
+      "L0228",
+      "L0238",
+      "L0244",
+      "L0254",
+      "L0259",
+      "L0267",
+      "L0276",
+      "L0283",
+      "L0290",
+      "L0296",
+      "L0304",
+      "L0309",
+      "L0318",
+      "L0324",
+      "P04",
+      "P06",
+      "P03",
+      "P05",
+      "P01",
+      "C08",
+      "C02",
+      "C07",
+      "C06",
+      "M06",
+      "M07",
+      "M08",
+      "M09",
+      "M10",
+      "L0278",
+      "L0281",
+      "L0286",
+      "L0289",
+      "L0291",
+      "L0292",
+      "L0299",
+      "L0302",
+      "L0303",
+      "L0306",
+      "L0308",
+      "L0313",
+      "L0315",
+      "L0319",
+      "L0323",
+      "L0325"
+    ],
+    "trace": [
+      {
+        "t": 5.034,
+        "actor": "orchestrator",
+        "event": "planned",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 5.034,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 17.366,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T3",
+        "tool_calls": 4
+      },
+      {
+        "t": 19.438,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T2",
+        "tool_calls": 4
+      },
+      {
+        "t": 21.351,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T1",
+        "tool_calls": 4
+      },
+      {
+        "t": 40.765,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 44.194,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T4",
+          "T5"
+        ]
+      },
+      {
+        "t": 44.194,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T4",
+          "T5"
+        ]
+      },
+      {
+        "t": 58.879,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T5",
+        "tool_calls": 6
+      },
+      {
+        "t": 65.412,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T4",
+        "tool_calls": 6
+      },
+      {
+        "t": 82.546,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 87.576,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T6",
+          "T7"
+        ]
+      },
+      {
+        "t": 87.576,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T6",
+          "T7"
+        ]
+      },
+      {
+        "t": 101.542,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T6",
+        "tool_calls": 6
+      },
+      {
+        "t": 104.082,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T7",
+        "tool_calls": 5
+      },
+      {
+        "t": 116.097,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "accept",
+        "requests": 0
+      },
+      {
+        "t": 116.098,
+        "actor": "engine",
+        "event": "terminated",
+        "reason": "critic_accepted",
+        "round": 3
+      },
+      {
+        "t": 116.098,
+        "actor": "engine",
+        "event": "conclusion",
+        "status": "conclusive",
+        "reasons": [
+          "confidence 0.75, margin 0.65, 7 verified supporting and 0 contradicting evidence items (0%)"
+        ]
+      }
+    ]
+  },
+  "grade": {
+    "system": "multi_agent",
+    "incident_id": "S05",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 127.43,
+    "tool_calls": 30,
+    "failed_tool_calls": 0,
+    "llm_calls": 28,
+    "prompt_tokens": 256437,
+    "completion_tokens": 34441,
+    "total_tokens": 290878,
+    "cost_usd": 0.0428642,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.75,
+    "top_service": "auth-service",
+    "top_category": "certificate_expiry",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 0.9886363636363636,
+    "key_evidence_cited": 0.75,
+    "key_evidence_retrieved": 0.75,
+    "unsupported_hypotheses": 0,
+    "rounds": 3,
+    "termination_reason": "critic_accepted",
+    "repeat": 3
+  }
+}

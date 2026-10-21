@@ -1,0 +1,2139 @@
+{
+  "system": "multi_agent",
+  "incident_id": "S12",
+  "error": null,
+  "latency_s": 137.827,
+  "usage": {
+    "llm_calls": 33,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 218200,
+    "completion_tokens": 34926,
+    "reasoning_tokens": 4803,
+    "total_tokens": 253126,
+    "cost_usd": 0.039283,
+    "llm_time_s": 197.306,
+    "by_role": {
+      "orchestrator": {
+        "calls": 3,
+        "prompt_tokens": 13149,
+        "completion_tokens": 2239,
+        "cost_usd": 0.0024343999999999998
+      },
+      "dependency": {
+        "calls": 12,
+        "prompt_tokens": 44089,
+        "completion_tokens": 8326,
+        "cost_usd": 0.0085719
+      },
+      "observability": {
+        "calls": 11,
+        "prompt_tokens": 54609,
+        "completion_tokens": 10098,
+        "cost_usd": 0.010509899999999999
+      },
+      "reasoning": {
+        "calls": 3,
+        "prompt_tokens": 42675,
+        "completion_tokens": 4673,
+        "cost_usd": 0.0066040000000000005
+      },
+      "critic": {
+        "calls": 3,
+        "prompt_tokens": 43269,
+        "completion_tokens": 6821,
+        "cost_usd": 0.0077374
+      },
+      "reporting": {
+        "calls": 1,
+        "prompt_tokens": 20409,
+        "completion_tokens": 2769,
+        "cost_usd": 0.0034254
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 30,
+    "rejected_calls": 3,
+    "attempts": 30,
+    "failed_calls": 5,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 4000,
+    "by_status": {
+      "ok": 25,
+      "error": 5
+    },
+    "by_tool": {
+      "get_dependencies": 3,
+      "get_change_history": 10,
+      "search_past_incidents": 4,
+      "query_metrics": 6,
+      "query_logs": 7
+    },
+    "by_agent": {
+      "dependency": 17,
+      "observability": 13
+    }
+  },
+  "citations": {
+    "valid": 272,
+    "invalid": 3
+  },
+  "report": {
+    "incident_id": "S12",
+    "system": "multi_agent",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "inconclusive",
+    "status_reason": "top hypothesis confidence 0.40 is below 0.50; contradicting evidence is 50% of the weighed evidence (max 35%)",
+    "decision": {
+      "status": "inconclusive",
+      "reasons": [
+        "top hypothesis confidence 0.40 is below 0.50",
+        "contradicting evidence is 50% of the weighed evidence (max 35%)"
+      ],
+      "top_hypothesis": "api-gateway / config_error",
+      "top_confidence": 0.4,
+      "margin_over_runner_up": 0.1,
+      "verified_support": [
+        "M02",
+        "M05",
+        "M01",
+        "M03"
+      ],
+      "contradicting_evidence": [
+        "L0189",
+        "M10",
+        "L0188",
+        "C10"
+      ],
+      "contradiction_share": 0.5,
+      "blocking_objections": [
+        "ignored_contradiction: Auth-side evidence shows session-expiry and refresh warnings beginning at 17:00:32Z and a v2 issuance pattern that coincides with the step. The auth request_rat [L0189, M10, L0188]",
+        "alternative_not_ruled_out: Whether /api/auth, login and token-refresh routes fall under the /api/* burst limit was not confirmed. If they do, the 20-per-client limit could throttle refres [C10]"
+      ],
+      "non_blocking_objections": 5
+    },
+    "confidence": 0.4,
+    "summary": "Between 16:55 and 17:00 UTC, api-gateway 4xx error_rate stepped from about 0.4% to about 14% and stayed there through 17:30, while gateway request_rate, latency and resource use stayed flat. Two completed changes, C10 (api-gateway /api/* burst limit cut from 200 to 20 per client) and C09 (auth-service v4.0.0 issuing v2 session tokens), both landed at 16:57 UTC, three minutes before onset. Auth-service request_rate rose about 31% at 17:00 and session-refresh WARN lines began at 17:00:32, but auth error_rate stayed flat and no v2 rejection was logged. Gateway logs and status-code breakdowns were inaccessible, so the 429 versus 401 mix is unknown. The system determination is INCONCLUSIVE: the leading hypothesis (C10 causing 429s) has confidence 0.40, below the 0.50 threshold, and contradicting evidence is 50% of weighed evidence. The incident cannot be attributed to a single cause on current evidence.",
+    "root_cause": null,
+    "ranked_hypotheses": [
+      {
+        "id": "H-A",
+        "service": "api-gateway",
+        "category": "config_error",
+        "mechanism": "The netops change C10 at 16:57:00Z cut the /api/* burst limit from 200 to 20 per client, so legitimate bursty clients are rejected with 429s, producing the sustained step in api-gateway error_rate from about 0.4% to about 14% at 17:00. Flat request_rate, latency and CPU/memory rule out load-driven failure, so the rejections are rule-driven.",
+        "supporting_evidence": [
+          "C10",
+          "M02",
+          "M05",
+          "M01",
+          "M03"
+        ],
+        "contradicting_evidence": [
+          "L0189"
+        ],
+        "assumptions": [
+          "The 4xx step is dominated by 429s, which is unverified because gateway logs and status-code breakdowns were denied",
+          "The burst limit is enforced per client as the change text states",
+          "Flat request_rate rules out a volume surge but not a rule change"
+        ],
+        "confidence": 0.4
+      },
+      {
+        "id": "H-B",
+        "service": "auth-service",
+        "category": "deployment_regression",
+        "mechanism": "The v4.0.0 deploy C09 at 16:57:00Z began issuing v2 session tokens, and some validators or clients reject them, invalidating sessions and forcing sign-outs. Session refresh warnings beginning at 17:00:32Z and the auth request_rate step at 17:00 are consistent with this, though no v2 rejection was logged.",
+        "supporting_evidence": [
+          "C09",
+          "M10",
+          "L0189",
+          "L0188"
+        ],
+        "contradicting_evidence": [
+          "M07",
+          "M08",
+          "L0148"
+        ],
+        "assumptions": [
+          "Some validators reject v2 tokens although v1 is still accepted, which is unverified",
+          "The sign-out symptom is a session-invalidation effect inferred from refresh warnings alone",
+          "Auth error_rate staying low means failures occur at the gateway or in clients"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "id": "H-C",
+        "service": "api-gateway",
+        "category": "config_error",
+        "mechanism": "C09 and C10 interact: session invalidation from v2 tokens drives re-logins and retries, and these hit the tightened 20-per-client burst limit, so the 4xx step is a feedback loop across both changes. A single-cause explanation fits the step less well, since the auth error_rate did not rise and the gateway was flat.",
+        "supporting_evidence": [
+          "C09",
+          "C10",
+          "M10",
+          "M02"
+        ],
+        "contradicting_evidence": [
+          "M07"
+        ],
+        "assumptions": [
+          "Both changes are active during the window",
+          "The auth request_rate step reflects re-logins rather than ordinary traffic",
+          "Timestamps cannot separate the contributions"
+        ],
+        "confidence": 0.2
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "api-gateway error_rate was 0.36-0.41% from 16:00 to 16:55Z, then 14.83% at 17:00Z, and stayed between 13.6% and 14.6% through 17:30Z.",
+        "evidence_ids": [
+          "M02"
+        ]
+      },
+      {
+        "statement": "api-gateway request_rate stayed in a 411-432 req/s band across the window with no step at 17:00Z; latency_p99 and CPU/memory also showed no step change.",
+        "evidence_ids": [
+          "M05",
+          "M03",
+          "M01",
+          "M04"
+        ]
+      },
+      {
+        "statement": "C10 at 16:57:00Z was a completed netops config change lowering the /api/* burst limit from 200 to 20 per client; no config diff or route scope was retrieved.",
+        "evidence_ids": [
+          "C10"
+        ]
+      },
+      {
+        "statement": "C09 at 16:57:00Z was a completed deploy-bot deploy of auth-service v4.0.0 issuing session tokens in format v2 while v1 is still accepted.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "auth-service request_rate rose from 82.39 req/s at 16:55Z to 108.05 req/s at 17:00Z and stayed about 104-108 req/s through 17:30Z.",
+        "evidence_ids": [
+          "M10"
+        ]
+      },
+      {
+        "statement": "auth-service error_rate stayed between 0.06% and 0.15%, with latency and CPU flat across 17:00Z.",
+        "evidence_ids": [
+          "M07",
+          "M08",
+          "M06"
+        ]
+      },
+      {
+        "statement": "The first 'token refresh requested for expired or invalid session' WARN appeared at 17:00:32Z; about ten such WARN lines appear roughly every three minutes through 17:30Z.",
+        "evidence_ids": [
+          "L0189",
+          "L0201",
+          "L0217",
+          "L0303"
+        ]
+      },
+      {
+        "statement": "Only one ERROR line appears in auth-service in the window (a malformed Authorization header rejection at 17:01:01Z).",
+        "evidence_ids": [
+          "L0193"
+        ]
+      },
+      {
+        "statement": "Health checks at 17:28Z returned HTTP 200 for api-gateway, auth-service, checkout-service and search-service; these shallow checks do not exercise rate limiting or token validation.",
+        "evidence_ids": [
+          "H01",
+          "H02",
+          "H03",
+          "H14"
+        ]
+      },
+      {
+        "statement": "No revert, rollback, canary or feature-flag record appears for either change in the 16:50-17:30Z window.",
+        "evidence_ids": [
+          "C09",
+          "C10"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The 4xx step is dominated by 429 responses from the burst limit; this is unverified because gateway status codes were not obtained.",
+      "The burst limit is enforced per client as the change description states.",
+      "Auth-service v1 tokens remain accepted by all validators, and some validator rejects v2; the latter is unverified.",
+      "Session-refresh WARN lines reflect expected expiry messages rather than a new rejection pattern.",
+      "The /api/* pattern may or may not cover /api/auth, login and token-refresh routes; this is not confirmed.",
+      "Health checks are shallow and their healthy results do not rule out either failure mode.",
+      "Telemetry after 17:30Z is unavailable, so recovery or continuation is unknown.",
+      "(unverified - no valid evidence cited) All api-gateway log queries were denied for lack of permissions, and the metrics store has no per-status-code series, so the 429, 401 and 403 split is unknown."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "C10 is a plausible direct cause of the 4xx step through rate-limit rejections, but the 429 share is unverified and the leading hypothesis is below the 0.50 confidence threshold.",
+        "evidence_ids": [
+          "C10",
+          "M02",
+          "M05"
+        ],
+        "confidence": 0.4
+      },
+      {
+        "statement": "C09 is a plausible cause of the sign-outs and the auth request_rate step through a re-login surge, but no v2 rejection or auth error rise was observed.",
+        "evidence_ids": [
+          "C09",
+          "M10",
+          "L0189",
+          "M07"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "statement": "A feedback loop between C09 and C10 cannot be excluded and fits both symptoms; it is not supported by direct evidence either way.",
+        "evidence_ids": [
+          "C09",
+          "C10",
+          "M10",
+          "M02"
+        ],
+        "confidence": 0.2
+      },
+      {
+        "statement": "The gateway is not failing from resource exhaustion or load, so the cause is most likely a rule or token-handling change rather than traffic volume.",
+        "evidence_ids": [
+          "M05",
+          "M03",
+          "M01",
+          "M04"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "Because C09 and C10 share a timestamp and no decisive split is available, the data cannot assign the incident to one change.",
+        "evidence_ids": [
+          "C09",
+          "C10"
+        ],
+        "confidence": 0.7
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Revert or temporarily relax the C10 /api/* burst limit back to 200 per client as a reversible mitigation, and monitor gateway error_rate.",
+        "priority": "immediate",
+        "rationale": "C10 is the leading candidate for the 4xx step and reverting it is low-risk and fast to confirm or rule out."
+      },
+      {
+        "action": "Obtain api-gateway status-code breakdown (401, 403, 429) and access logs by client and route, after granting the required log permissions.",
+        "priority": "immediate",
+        "rationale": "The 429 versus 401 split is the decisive missing evidence between H-A and H-B."
+      },
+      {
+        "action": "Check whether auth-service validators reject v2 tokens; if so, consider rolling back C09 or pinning token issuance to v1 while keeping v1 accepted.",
+        "priority": "short_term",
+        "rationale": "The sign-out mechanism depends on v2 validation scope, which is unverified."
+      },
+      {
+        "action": "Run a controlled rollback test reverting C10 alone, then C09 alone, and check whether the 17:00 step recovers.",
+        "priority": "short_term",
+        "rationale": "A rollback test is the only way to separate two changes that share a timestamp."
+      },
+      {
+        "action": "Retrieve the C10 config diff and confirm whether /api/auth, login and token-refresh routes fall under the burst limit.",
+        "priority": "short_term",
+        "rationale": "If refresh traffic is throttled, that would link the two symptoms and change which change is primary."
+      },
+      {
+        "action": "Make health checks exercise token validation and rate-limit paths.",
+        "priority": "long_term",
+        "rationale": "Current shallow checks reported healthy during a 14% error rate and cannot detect these failure modes."
+      },
+      {
+        "action": "Require canary rollout and recorded rollback steps for gateway rate-limit and auth token-format changes, and make changes to one service at a time.",
+        "priority": "long_term",
+        "rationale": "Simultaneous changes to two services at the same timestamp prevented attribution."
+      }
+    ],
+    "open_questions": [
+      "What is the status-code split (401 vs 429) of the 4xx step from 16:55Z onward?",
+      "Does the /api/* burst limit cover login and token-refresh routes?",
+      "Which validators accept v1 and v2 tokens, and do any reject v2?",
+      "Does reverting C10 alone or C09 alone restore the error rate to baseline?",
+      "Is the auth request_rate step caused by re-logins or refresh retries rather than ordinary traffic?",
+      "Did the 4xx step persist after 17:30Z, and did any manual revert occur that is not in change history?"
+    ],
+    "data_gaps": [
+      "query_logs(start=2026-09-12T16:00:00Z, end=2026-09-12T17:30:00Z, service=api-gateway, min_level=WARN, limit=50) -> error: Error: access denied: log index 'api-gateway-*' requires elevated permissions",
+      "query_logs(start=2026-09-12T16:00:00Z, end=2026-09-12T17:30:00Z, service=api-gateway, min_level=INFO, contains=sign, limit=30) -> error: Error: access denied: log index 'api-gateway-*' requires elevated permissions",
+      "query_logs(start=2026-09-12T16:00:00Z, end=2026-09-12T17:30:00Z, service=api-gateway, min_level=INFO, contains=too many requests, limit=30) -> error: Error: access denied: log index 'api-gateway-*' requires elevated permissions",
+      "query_logs(start=2026-09-12T16:45:00Z, end=2026-09-12T17:30:00Z, service=api-gateway, min_level=WARN, limit=50) -> error: Error: access denied: log index 'api-gateway-*' requires elevated permissions",
+      "query_logs(start=2026-09-12T16:45:00Z, end=2026-09-12T17:30:00Z, service=api-gateway, min_level=INFO, contains=429, limit=50) -> error: Error: access denied: log index 'api-gateway-*' requires elevated permissions",
+      "api-gateway log index access denied (3 queries), so no status code (401/403/429/other) breakdown, no route or client segment breakdown, and no sign-out or 'too many requests' signatures were obtained.",
+      "The 4xx-specific metric (count by status code) was not available in the metrics returned; only aggregate error_rate was. Breakdown by route or client is unknown.",
+      "Telemetry ends at 17:30Z, so recovery or continuation after that is unknown.",
+      "Health checks are shallow and do not confirm rate-limit or token-validation behaviour, so their 'healthy' results do not rule out either change.",
+      "30 further gap report(s) in 30 group(s) omitted here (mostly about: returned, counts, 4xx, 429, budget, api-gateway); the full list is in the run record."
+    ],
+    "data_gaps_total": 39,
+    "termination_reason": "max_rounds_reached"
+  },
+  "state": {
+    "brief": {
+      "id": "S12",
+      "title": "users signed out and throttled",
+      "reported_at": "2026-09-12T17:30:00Z",
+      "alert": "ALERT [P2] api-gateway 4xx rate 14% (baseline 1%) since ~17:00 UTC; users report being signed out and seeing 'too many requests' errors.",
+      "affected_services": [
+        "api-gateway"
+      ],
+      "window_start": "2026-09-12T16:00:00Z",
+      "window_end": "2026-09-12T17:30:00Z"
+    },
+    "plan": {
+      "incident_understanding": "api-gateway 4xx rate rose from ~1% to 14% since about 17:00 UTC, with users reporting unexpected sign-outs and 'too many requests' (429-style) errors. Likely a rate limiting or auth-session change, a deployment or config change at the gateway or auth service, or a downstream dependency returning errors that gateway clients retry into throttling. Need to determine which 4xx codes dominate, onset time, and whether a change preceded onset.",
+      "candidate_explanations": [
+        "A recent gateway or auth deployment/config change tightened rate limits or changed session/token validation, causing 401/429 responses.",
+        "A rate limit threshold or quota was lowered or misconfigured, so legitimate traffic is throttled to 429.",
+        "An upstream auth or session service degraded (e.g. token refresh failures), causing 401 sign-outs that clients retry into 429 throttling.",
+        "A traffic surge (bot, retry storm, or client release) exceeded normal limits without any config change."
+      ],
+      "tasks": [
+        {
+          "key": "t1",
+          "agent": "observability",
+          "objective": "Characterise the 4xx spike: break down api-gateway 4xx responses by status code (401, 403, 429, others), by route and client segment, and identify the precise onset time relative to 17:00 UTC. Check request volume over the same window to distinguish a traffic surge from a config-driven rejection. Also pull error log signatures for sign-out and throttling messages.",
+          "focus_services": [
+            "api-gateway"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t2",
+          "agent": "dependency",
+          "objective": "Find change history from about 15:00 to 17:30 UTC for api-gateway and its auth/session dependencies: deployments, rate-limit or quota config changes, feature flags, secret or token-key rotations, and infra events. Identify any change landing within 30 minutes before the ~17:00 onset and note its owner and scope.",
+          "focus_services": [
+            "api-gateway"
+          ],
+          "depends_on": []
+        },
+        {
+          "key": "t3",
+          "agent": "dependency",
+          "objective": "Using the service dependency graph and health checks, identify which upstream services api-gateway calls for authentication and session validation, and report their health and error rates from 16:00 to 17:30 UTC. Also check past postmortems for similar sign-out or 429 incidents and their root causes.",
+          "focus_services": [
+            "api-gateway"
+          ],
+          "depends_on": []
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": "T1",
+        "agent": "observability",
+        "objective": "Characterise the 4xx spike: break down api-gateway 4xx responses by status code (401, 403, 429, others), by route and client segment, and identify the precise onset time relative to 17:00 UTC. Check request volume over the same window to distinguish a traffic surge from a config-driven rejection. Also pull error log signatures for sign-out and throttling messages.",
+        "focus_services": [
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "api-gateway error_rate jumped from a ~0.4% baseline to ~14% at exactly 17:00:00Z and stayed there through 17:30. Request_rate did not change over the same window, which points away from a traffic surge and toward a rejection or config-driven cause. The 4xx breakdown by status code, route and client segment could not be obtained: all three api-gateway log queries were denied for lack of permissions. The error signature analysis for sign-out and throttling messages is therefore missing.",
+          "observations": [
+            {
+              "statement": "api-gateway error_rate was 0.36\u20130.45% from 16:00 to 16:55Z, then 14.83% at 17:00:00Z, with values of 13.6\u201314.6% for every 5-minute point through 17:30Z. The step is abrupt and sustained.",
+              "evidence_ids": [
+                "M02"
+              ]
+            },
+            {
+              "statement": "api-gateway request_rate stayed flat across the window: about 403\u2013432 req/s before 17:00 and 411\u2013432 req/s after, with the 17:00 point at 431.86 req/s. No surge is visible at onset.",
+              "evidence_ids": [
+                "M05"
+              ]
+            },
+            {
+              "statement": "api-gateway latency_p99_ms stayed within 173\u2013187 ms before and after 17:00 (17:00 point 181.36 ms), with no step change.",
+              "evidence_ids": [
+                "M03"
+              ]
+            },
+            {
+              "statement": "api-gateway cpu_pct (36.6\u201339.5%) and memory_pct (51\u201354%) stayed in their normal ranges across 16:00\u201317:30, with no step change at 17:00.",
+              "evidence_ids": [
+                "M01",
+                "M04"
+              ]
+            },
+            {
+              "statement": "Log queries against the api-gateway index (WARN+ scan, 'sign' and 'too many requests' searches) all returned access denied, so no log records were retrieved.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The 4xx spike is not explained by a traffic surge, since request volume is unchanged at 17:00. The pattern fits a config-driven change in gateway rules (auth/session or rate-limit policy) taking effect at about 17:00Z. This is an inference from the metrics alone.",
+              "evidence_ids": [
+                "M05",
+                "M02"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "Resource exhaustion in the gateway itself is unlikely, because CPU, memory and latency are flat across the onset.",
+              "evidence_ids": [
+                "M01",
+                "M03",
+                "M04"
+              ],
+              "confidence": 0.6
+            }
+          ],
+          "data_gaps": [
+            "api-gateway log index access denied (3 queries), so no status code (401/403/429/other) breakdown, no route or client segment breakdown, and no sign-out or 'too many requests' signatures were obtained.",
+            "The 4xx-specific metric (count by status code) was not available in the metrics returned; only aggregate error_rate was. Breakdown by route or client is unknown.",
+            "Telemetry ends at 17:30Z, so recovery or continuation after that is unknown."
+          ],
+          "suggested_followups": [
+            "Request elevated log-read permissions for the api-gateway-* index, or an alternative route to the gateway access logs, to get status code, route and client-segment breakdowns.",
+            "Check change history for gateway config, auth/session, or rate-limit policy changes deployed at or shortly before 17:00Z on 2026-09-12.",
+            "Check the identity/auth service's error rate and session-expiry metrics around 17:00Z to test whether sign-outs originate upstream of the gateway.",
+            "Query the gateway rate-limit counters or per-client request metrics, if they exist, to see whether throttling is concentrated in specific clients."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T2",
+        "agent": "dependency",
+        "objective": "Find change history from about 15:00 to 17:30 UTC for api-gateway and its auth/session dependencies: deployments, rate-limit or quota config changes, feature flags, secret or token-key rotations, and infra events. Identify any change landing within 30 minutes before the ~17:00 onset and note its owner and scope.",
+        "focus_services": [
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "Two changes landed at 2026-09-12T16:57:00Z, three minutes before the ~17:00 onset: an api-gateway rate-limit policy cut (C10, netops) and an auth-service v4.0.0 deploy that changes session token format (C09, deploy-bot). Both are plausible causes of the reported symptoms (throttling and sign-outs). No secret or token-key rotation, feature flag, or infra event appeared in the window. Health checks all report healthy, but they are shallow HTTP /health checks and do not exercise rate limiting or session validation.",
+          "observations": [
+            {
+              "statement": "C10 at 16:57:00Z: api-gateway config_change by netops, 'Update rate-limit policy: /api/* burst 200 -> 20 per client', status completed.",
+              "evidence_ids": [
+                "C10"
+              ]
+            },
+            {
+              "statement": "C09 at 16:57:00Z: auth-service deploy by deploy-bot, v4.0.0, 'issue session tokens in format v2 (v1 still accepted during migration)', status completed.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "The only api-gateway change in 15:00\u201317:30 UTC is C10. The only auth-service change from 12:00\u201317:30 UTC is C09. No feature-flag, secret/token-key rotation, or infra records appeared in the queries.",
+              "evidence_ids": [
+                "C10",
+                "C09"
+              ]
+            },
+            {
+              "statement": "api-gateway depends synchronously on checkout-service, search-service and auth-service.",
+              "evidence_ids": [
+                "D01",
+                "D02",
+                "D03"
+              ]
+            },
+            {
+              "statement": "Health checks at 17:28:00Z all returned healthy with HTTP /health 200: api-gateway, auth-service, checkout-service, search-service.",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H14"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "C10 is a strong candidate for the 'too many requests' 4xx spike: cutting burst from 200 to 20 per client is a 10x tightening that would throttle normal bursty clients and raise 429s at the gateway.",
+              "evidence_ids": [
+                "C10"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "C09 is a plausible candidate for sign-outs: if v1 tokens are rejected or v2 tokens fail validation on some gateway or auth paths, sessions would be invalidated. The 'v1 still accepted' note argues against a blanket failure, so the impact is likely partial or depends on which path validates tokens.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "The two changes may be coincident (same timestamp) and both could contribute. The sign-out and throttling symptoms map roughly onto C09 and C10 respectively, but the timestamps alone cannot separate them.",
+              "evidence_ids": [
+                "C09",
+                "C10"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "Past incident P04 (auth latency after key rotation, cache misses) is a loose analogue for a session-format or key change at auth-service. It is a hypothesis to test, not evidence for this incident.",
+              "evidence_ids": [
+                "P04"
+              ],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "Health checks are shallow and do not confirm rate-limit or token-validation behaviour, so their 'healthy' results do not rule out either change.",
+            "Change history is 7-day capable, but only the 15:00\u201317:30 window for api-gateway and 12:00\u201317:30 for auth-service was queried. Nothing beyond that was checked.",
+            "No per-change details were returned (rollout scope, affected client percentage, rollback status), so owner and scope beyond the author field are unknown.",
+            "No telemetry or 4xx breakdown was available to this role, so the mapping of symptoms to each change is inferred only."
+          ],
+          "suggested_followups": [
+            "Check whether the 429s are on /api/* from C10 by comparing 4xx by route and by client against the 16:57 cutover.",
+            "Check auth-service 401 and session-validation error rates before and after 16:57 to see whether v1 tokens are rejected.",
+            "Ask netops (C10) and deploy-bot / auth owners (C09) for rollout scope and rollback status. Consider rolling back C10 first, since it is the change most directly tied to throttling.",
+            "Check whether any services besides api-gateway are calling auth-service and failing."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T3",
+        "agent": "dependency",
+        "objective": "Using the service dependency graph and health checks, identify which upstream services api-gateway calls for authentication and session validation, and report their health and error rates from 16:00 to 17:30 UTC. Also check past postmortems for similar sign-out or 429 incidents and their root causes.",
+        "focus_services": [
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 1,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "api-gateway has three synchronous upstream dependencies: auth-service (the only one used for authentication and session validation), checkout-service and search-service. All report healthy at 17:28 UTC via shallow /health checks. Two changes landed at 16:57 UTC, three minutes before the alert window: an auth-service v4.0.0 deploy that issues v2 session tokens, and an api-gateway rate-limit policy cut from burst 200 to 20 per client on /api/*. Both timings line up with the reported symptoms (sign-outs and 429s). No error-rate or latency telemetry for 16:00\u201317:30 was available to me, so the error-rate requirement is unmet.",
+          "observations": [
+            {
+              "statement": "api-gateway has sync_http edges to checkout-service, search-service and auth-service; auth-service is the only one of these that handles authentication/session validation.",
+              "evidence_ids": [
+                "D01",
+                "D02",
+                "D03"
+              ]
+            },
+            {
+              "statement": "Health checks at 2026-09-12T17:28:00Z show api-gateway, auth-service, checkout-service and search-service all healthy (HTTP /health 200).",
+              "evidence_ids": [
+                "H01",
+                "H02",
+                "H03",
+                "H14"
+              ]
+            },
+            {
+              "statement": "At 2026-09-12T16:57:00Z auth-service deployed v4.0.0, which issues session tokens in format v2 while still accepting v1.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "At 2026-09-12T16:57:00Z netops changed api-gateway's /api/* rate-limit policy from burst 200 to 20 per client (config_change, completed).",
+              "evidence_ids": [
+                "C10"
+              ]
+            },
+            {
+              "statement": "No other changes to api-gateway, auth-service, checkout-service or search-service appear in the 14:00\u201317:30 UTC window or in auth-service history for 2026-09-12.",
+              "evidence_ids": [
+                "C09",
+                "C10"
+              ]
+            },
+            {
+              "statement": "Past incident P04 (auth latency after key rotation) involved token validation errors, but it is a different symptom profile (login latency) and is not direct evidence for this incident.",
+              "evidence_ids": [
+                "P04"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The api-gateway burst-limit reduction from 200 to 20 per client is a strong candidate for the 'too many requests' 429s: a 10x tighter burst could throttle normal clients, and it is a config change at the gateway itself.",
+              "evidence_ids": [
+                "C10"
+              ],
+              "confidence": 0.7
+            },
+            {
+              "statement": "The auth-service v4.0.0 v2-token format change is a plausible candidate for the sign-outs, if v2 tokens are rejected by some validators or gateway paths; it is unverified because no validation error data was available.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "The two changes landed at the same timestamp, so change timing alone cannot separate them; the 429 symptom better matches C10 and the sign-out symptom better matches C09.",
+              "evidence_ids": [
+                "C09",
+                "C10"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "Health checks are shallow and healthy status does not rule out auth-side token validation failures or gateway throttling.",
+              "evidence_ids": [
+                "H01",
+                "H02"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "Past incidents do not directly match this one: P01\u2013P04 involve node drains, index rebuilds, cache eviction and key rotation latency. P04 is the closest auth-related analogue, and its root cause (cache misses after key change) is a hypothesis to test against v4.0.0 key or token handling.",
+              "evidence_ids": [
+                "P04",
+                "P01",
+                "P02",
+                "P03"
+              ],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "No error-rate, 4xx/429 counts, latency or auth-failure telemetry for 16:00\u201317:30 UTC was available through these tools; the error-rate part of the task could not be completed.",
+            "Health checks were only sampled at 17:28 UTC; no health history before the alert onset (~17:00) was returned.",
+            "No postmortem matched sign-out or 429 symptoms directly; the past-incident search returned four unrelated incidents."
+          ],
+          "suggested_followups": [
+            "Pull api-gateway 4xx and 429 rate and per-client throttle counts for 16:30\u201317:30 UTC, split by route, to confirm the 429 rise begins at 16:57.",
+            "Pull auth-service token validation error rate and v1/v2 token mix for 16:30\u201317:30 UTC to test whether v2 tokens are being rejected.",
+            "Check whether the gateway rate-limit change (C10) can be rolled back in a canary, and whether v4.0.0 (C09) can be rolled back, to isolate each cause.",
+            "Ask netops whether burst 20 was intended for /api/* and how many clients exceed it."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T4",
+        "agent": "dependency",
+        "objective": "Check rollout and rollback history for C10 (api-gateway /api/* burst limit 200->20, applied 16:57Z) and C09 (auth-service v4.0.0 token-format change, deployed 16:57Z): canary percentages, affected client segments, and any partial or full revert events between 16:57Z and 17:30Z. State whether reverting either change is recorded and whether the 17:00 step persisted after any revert.",
+        "focus_services": [
+          "api-gateway",
+          "auth-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 4,
+        "findings": {
+          "summary": "Change history shows C10 (api-gateway /api/* burst limit 200->20 per client, netops, config_change) and C09 (auth-service v4.0.0 deploy issuing v2 session tokens while v1 is still accepted, deploy-bot) both at 2026-09-12T16:57:00Z, both status 'completed'. No canary percentages, affected client segments, rollback, partial revert, or follow-up step (including the 17:00 step) appear in any returned record for the 16:57Z-17:30Z window. Absence of a revert record is not proof that no revert happened.",
+          "observations": [
+            {
+              "statement": "C10 is recorded as a config_change to api-gateway at 2026-09-12T16:57:00Z, changing /api/* burst from 200 to 20 per client, author netops, status completed.",
+              "evidence_ids": [
+                "C10"
+              ]
+            },
+            {
+              "statement": "C09 is recorded as a deploy of auth-service v4.0.0 at 2026-09-12T16:57:00Z, issuing session tokens in format v2 with v1 still accepted, author deploy-bot, status completed.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "Querying all services for 16:50Z-17:30Z returned only C09 and C10; no rollback, revert, or feature-flag record appeared.",
+              "evidence_ids": [
+                "C09",
+                "C10"
+              ]
+            },
+            {
+              "statement": "Neither change record contains a canary percentage, rollout stage, or affected client segment field.",
+              "evidence_ids": [
+                "C09",
+                "C10"
+              ]
+            },
+            {
+              "statement": "Both changes share the same timestamp (16:57:00Z), so change history alone does not show which one landed first.",
+              "evidence_ids": [
+                "C09",
+                "C10"
+              ]
+            },
+            {
+              "statement": "The incident's stated onset (~17:00Z) follows both changes by about 3 minutes.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "C10 is a plausible direct cause of the 'too many requests' 429-type errors: a 10x tighter per-client burst limit would throttle legitimate bursty clients.",
+              "evidence_ids": [
+                "C10"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "C09 is a plausible cause of sign-outs: if v2 tokens are rejected by services or clients that only parse v1 (or v1 acceptance was mis-scoped), sessions would fail validation. Plausibility is inferred from the description only; no auth error telemetry was checked.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "The two symptoms (sign-outs and throttling) map to different changes, so both may be contributing; the 4xx rise could be mixed.",
+              "evidence_ids": [
+                "C09",
+                "C10"
+              ],
+              "confidence": 0.5
+            },
+            {
+              "statement": "A revert of either change is not recorded in the available change history, so the 17:00 step cannot be confirmed as having persisted or been reverted.",
+              "evidence_ids": [],
+              "confidence": 0.7
+            }
+          ],
+          "data_gaps": [
+            "Change records lack canary percentage, rollout stage, and affected client segments; these fields were not returned.",
+            "No rollback or partial revert events were returned for 16:57Z-17:30Z; the tool may not capture manual config reverts by netops.",
+            "No telemetry queried for 4xx breakdown by client or token-validation errors, so I could not verify the symptom mapping.",
+            "The task asked whether the 17:00 step persisted; no record of a 17:00 step exists in the returned change history, so that cannot be determined from these tools."
+          ],
+          "suggested_followups": [
+            "Ask netops to confirm the current live value of the /api/* burst limit and whether any revert was applied outside the change system.",
+            "Check auth-service logs for v1/v2 token validation failures and sign-out events starting at 16:57Z.",
+            "Break down api-gateway 429 and 401 rates by client segment and by minute to see which change moved first.",
+            "Confirm with deploy-bot whether C09 was a full or canary rollout and whether v1 acceptance is still enabled."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T5",
+        "agent": "observability",
+        "objective": "Retry api-gateway log and status-code queries for 16:45-17:30Z: count 401, 403, 429 and other 4xx responses per minute, and break 429s down by client identifier and route. Also count auth-service 401/session-invalidation and token-validation errors split by v1 versus v2 token version over the same window, and report whether the 17:00 step is concentrated in auth validation or in rate-limit rejections.",
+        "focus_services": [
+          "api-gateway",
+          "auth-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 2,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 6,
+        "findings": {
+          "summary": "The api-gateway 4xx rate jumped from about 0.4% to about 14.8% at 17:00:00Z (M02). The task's breakdowns (4xx by status, 429 by client and route) could not be produced because api-gateway log access was denied. In the auth-service, the 17:00 step is clearly visible in request_rate (M10), and session-expiry/refresh warnings begin at 17:00:32Z (L0189). Auth-service's own error_rate did not rise (M07). Because the gateway breakdown is missing, I cannot say whether the step is concentrated in auth validation or in rate-limit rejections.",
+          "observations": [
+            {
+              "statement": "api-gateway error_rate was about 0.37\u20130.41% from 16:45 to 16:55Z, then 14.83% at 17:00Z, and stayed between 13.6% and 14.8% through 17:30Z.",
+              "evidence_ids": [
+                "M02"
+              ]
+            },
+            {
+              "statement": "api-gateway request_rate stayed within 411\u2013432 req/s across the window, with no step change at 17:00Z (mean 421).",
+              "evidence_ids": [
+                "M05"
+              ]
+            },
+            {
+              "statement": "api-gateway cpu, memory and latency_p99 showed no step change at 17:00Z (latency 175\u2013187 ms throughout).",
+              "evidence_ids": [
+                "M01",
+                "M03",
+                "M04"
+              ]
+            },
+            {
+              "statement": "auth-service request_rate stepped from 82.39 req/s at 16:55Z to 108.05 req/s at 17:00Z, and stayed at about 104\u2013108 through 17:30Z.",
+              "evidence_ids": [
+                "M10"
+              ]
+            },
+            {
+              "statement": "auth-service error_rate stayed between 0.06% and 0.15% for the whole window, with no rise at 17:00Z.",
+              "evidence_ids": [
+                "M07"
+              ]
+            },
+            {
+              "statement": "auth-service cpu (24\u201326%), memory and p99 latency (38\u201342 ms) stayed flat across 17:00Z.",
+              "evidence_ids": [
+                "M06",
+                "M08",
+                "M09"
+              ]
+            },
+            {
+              "statement": "The first session-expiry warning in the window is 'token refresh requested for expired or invalid session' at 17:00:32Z. Ten such WARN lines appear between 17:00:32Z and 17:30:00Z, roughly every 3 minutes.",
+              "evidence_ids": [
+                "L0189",
+                "L0201",
+                "L0217",
+                "L0229",
+                "L0241",
+                "L0253",
+                "L0268",
+                "L0280",
+                "L0291",
+                "L0303"
+              ]
+            },
+            {
+              "statement": "One ERROR, 'rejected malformed Authorization header from 64567fa3', occurred at 17:01:01Z. It is the only ERROR-level line in auth-service in the window.",
+              "evidence_ids": [
+                "L0193"
+              ]
+            },
+            {
+              "statement": "Three 'login failed: bad password' WARNs occurred at 16:53:45Z, 16:56:50Z and 17:03:47Z. These are before or around the step and do not form a sustained pattern.",
+              "evidence_ids": [
+                "L0167",
+                "L0178",
+                "L0202"
+              ]
+            },
+            {
+              "statement": "Auth-service INFO lines in 17:00\u201317:30Z show 'issued session token format=v2' many times (e.g., 17:00:12Z, 17:30:00Z). No v1 token lines were returned in the window, and no v1-versus-v2 failure split is available.",
+              "evidence_ids": [
+                "L0188",
+                "L0302",
+                "L0148"
+              ]
+            },
+            {
+              "statement": "api-gateway logs (WARN+ and the 429 search) returned 'access denied: log index api-gateway-* requires elevated permissions'. No gateway status-code or 429 records were returned.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The 17:00Z gateway 4xx step coincides in time with a step in auth-service traffic and with the start of session-expiry/refresh warnings. This is consistent with an auth/session-validation-driven failure mode, but it does not establish causation.",
+              "evidence_ids": [
+                "M02",
+                "M10",
+                "L0189"
+              ],
+              "confidence": 0.45
+            },
+            {
+              "statement": "Auth-service's own error_rate and latency did not rise, so the auth service does not look like it is failing internally. The auth-side signal is an increase in volume and refresh-required sessions, not an error spike.",
+              "evidence_ids": [
+                "M07",
+                "M08",
+                "L0189"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "Rate-limit rejections (429s) cannot be ruled in or out with current evidence. Gateway request_rate was flat, which argues against a traffic-volume-driven throttle, but per-client and per-route 429 data are missing.",
+              "evidence_ids": [
+                "M05",
+                "M02"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "statement": "The v1-versus-v2 split is unresolved. The only token-version evidence is v2 issuance, so a v1 cause is neither supported nor excluded.",
+              "evidence_ids": [
+                "L0188",
+                "L0302"
+              ],
+              "confidence": 0.2
+            }
+          ],
+          "data_gaps": [
+            "api-gateway logs are inaccessible (access denied for api-gateway-* index, two attempts). No 401/403/429/other-4xx per-minute counts and no 429 breakdown by client identifier or route were obtained. The retry was not possible within the tool budget.",
+            "The auth-service log search returned only WARN+ and 'token'-containing INFO lines (limit 50). It does not give a complete per-minute count of 401 or session-invalidation events, and the v1/v2 split is not explicit in the returned lines.",
+            "Metrics are at 5-minute resolution, so the exact minute of the step is only bounded to 16:55\u201317:00Z.",
+            "Metrics were not checked for the token/session store, Redis or rate-limiter components, which were not in scope.",
+            "Tool-call budget (6) was exhausted, so further queries (for example api-gateway 401/403 counts, or auth-service 'v1' term searches) were not run."
+          ],
+          "suggested_followups": [
+            "Obtain elevated read access to the api-gateway-* index, or get the gateway's own metrics for 4xx by status code, and 429 by client and route, for 16:45\u201317:30Z.",
+            "Query auth-service for 'version' / 'v1' / 'unsupported token' / '401' per minute to split validation failures by token version.",
+            "Check whether a deploy, config change or token-format rollout (v2 issuance) occurred shortly before 17:00Z, since the change history was out of scope for this step.",
+            "Check the rate-limiter configuration and counters for any change near 17:00Z, to test the rate-limit hypothesis directly.",
+            "Investigate client 64567fa3 (malformed Authorization header) and whether it is repeated."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T6",
+        "agent": "observability",
+        "objective": "Using metrics rather than log indices, get api-gateway per-minute counts of 429 (rate-limiter rejections), 401, 403 and other 4xx from 16:55Z to 17:30Z, and state the share of 429 versus 401 in the 17:00 step. Also check whether per-client request counts on /api/* and on login/refresh routes rose at or after 17:00Z.",
+        "focus_services": [
+          "api-gateway"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 2,
+        "findings": {
+          "summary": "api-gateway metrics show a step change in error_rate at 17:00Z: about 0.37% at 16:55Z, then 13.6-14.8% in every 5-minute bucket from 17:00Z through 17:30Z. Request_rate and latency stayed flat across the same window. The metrics store has no per-status-code series (no 429/401/403/other-4xx counts), so the requested per-minute 429 vs 401 vs 403 breakdown, the 17:00 share, and the per-client /api/* and login/refresh checks could not be answered from metrics.",
+          "observations": [
+            {
+              "statement": "api-gateway error_rate was 0.37% at 16:55:00Z and 14.83% at 17:00:00Z, the series maximum. It stayed between 13.61% and 14.62% for 17:05 through 17:30.",
+              "evidence_ids": [
+                "M02"
+              ]
+            },
+            {
+              "statement": "api-gateway request_rate stayed in a narrow band of 411-432 req/s across 16:55-17:30, with its maximum at 17:00:00Z (431.86 req/s). Its 17:30 value (416.41) matches the 16:55 value (416.62), so traffic volume did not step up.",
+              "evidence_ids": [
+                "M05"
+              ]
+            },
+            {
+              "statement": "api-gateway latency_p99_ms stayed between 174.6 and 185.12 ms across the window, with no step change at 17:00Z.",
+              "evidence_ids": [
+                "M03"
+              ]
+            },
+            {
+              "statement": "api-gateway cpu_pct (36.56-39.48%) and memory_pct (51.43-53.88%) stayed in normal ranges with no step change at 17:00Z.",
+              "evidence_ids": [
+                "M01",
+                "M04"
+              ]
+            },
+            {
+              "statement": "The metrics store has no status-code breakdown for api-gateway. The only available series are cpu_pct, error_rate, latency_p99_ms, memory_pct and request_rate, so 429, 401, 403 and other-4xx per-minute counts are not available from metrics.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The error_rate step at 17:00Z is consistent with the reported onset of the 4xx spike, and it is not explained by a traffic surge, latency degradation, or resource saturation on the gateway. This points toward a change in response mix (for example, rejections or auth failures) rather than load.",
+              "evidence_ids": [
+                "M02",
+                "M05",
+                "M03",
+                "M01",
+                "M04"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "The 429/401 share at 17:00 cannot be determined from these metrics. The request_rate and error_rate data do not split error responses by status code.",
+              "evidence_ids": [
+                "M02",
+                "M05"
+              ],
+              "confidence": 0.9
+            }
+          ],
+          "data_gaps": [
+            "Per-minute 429 (rate-limiter) counts for api-gateway were not obtained. The metric 'status_429_count' does not exist; the available metrics are cpu_pct, error_rate, latency_p99_ms, memory_pct and request_rate.",
+            "Per-minute 401, 403 and other-4xx counts were not obtained from metrics for the same reason.",
+            "The 17:00-step share of 429 versus 401 is unknown.",
+            "Per-client request counts on /api/* and on login/refresh routes were not checked. No per-client or per-route metric was queried, and the tool budget is exhausted.",
+            "error_rate is aggregate and does not show which status codes make up the 4xx rate."
+          ],
+          "suggested_followups": [
+            "Pull per-minute status-code counts (429, 401, 403, other 4xx) for api-gateway from the logs or the gateway's access-log pipeline for 16:55-17:30Z, and compute the 17:00 share.",
+            "Break down request counts by client identifier for /api/* and for login/refresh routes, comparing 16:55-17:00 against 17:00-17:30, to test whether a client or route drove the rise.",
+            "Check the change history for config or rate-limit policy changes or deploys around 17:00Z, since the error_rate step is abrupt.",
+            "Check upstream auth or session-service error rates around 17:00Z to test whether the 401s originate there."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T7",
+        "agent": "observability",
+        "objective": "Count auth-service token validation failures, 401 and session-invalidation events per minute from 16:55Z to 17:30Z, split by v1 versus v2 token version, and check whether login and token-issue volume rose at 17:00Z (re-login surge). Use metrics first; use logs only for the 'v1' and 'v2' terms.",
+        "focus_services": [
+          "auth-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 3,
+        "findings": {
+          "summary": "Auth-service request rate stepped up from about 82 req/s at 16:55Z to about 108 req/s at 17:00Z and stayed elevated through 17:30Z. Its own error_rate, latency and CPU stayed flat over the same window. The per-minute token-validation, 401 and session-invalidation counts, the v1/v2 split, and the login/token-issue volume were not obtained, because the two log queries were rejected and the metrics returned do not include those counts.",
+          "observations": [
+            {
+              "statement": "auth-service request_rate rose from 82.39 req/s at 16:55Z to 108.05 req/s at 17:00Z (the series maximum) and held between 104 and 108 req/s through 17:30Z (last value 106.49).",
+              "evidence_ids": [
+                "M10"
+              ]
+            },
+            {
+              "statement": "auth-service error_rate stayed between 0.06% and 0.14% across 16:55Z to 17:30Z, with no change at 17:00Z (first 0.13, max 0.14 at 17:15Z).",
+              "evidence_ids": [
+                "M07"
+              ]
+            },
+            {
+              "statement": "auth-service latency_p99_ms stayed between 38.6 and 41.6 ms across the window, with no step at 17:00Z.",
+              "evidence_ids": [
+                "M08"
+              ]
+            },
+            {
+              "statement": "auth-service cpu_pct stayed between 24.4% and 25.8% and memory_pct between 42.3% and 45.4% across the window (memory peaked at 17:00Z and then fell), so there is no resource saturation at 17:00Z.",
+              "evidence_ids": [
+                "M06",
+                "M09"
+              ]
+            },
+            {
+              "statement": "Log queries for the 'v1' and 'v2' terms in auth-service over 16:55Z to 17:30Z were rejected with 'tool-call budget is exhausted', so no log lines were returned.",
+              "evidence_ids": []
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "The roughly 31% request-rate increase at 17:00Z lines up with the alert onset, which fits a surge of traffic into auth-service. The metrics returned cannot say whether that surge is logins/token issues (a re-login surge) or ordinary validation traffic.",
+              "evidence_ids": [
+                "M10"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "statement": "Auth-service is not failing internally at 17:00Z: error_rate, latency and CPU are all flat. If the 'too many requests' and sign-out symptoms come from auth-service, they are likely visible only in response codes (401/429) that the error_rate metric does not capture. This is unverified.",
+              "evidence_ids": [
+                "M07",
+                "M08",
+                "M06"
+              ],
+              "confidence": 0.35
+            }
+          ],
+          "data_gaps": [
+            "Per-minute counts of token validation failures, 401s and session-invalidation events were not obtained (no such metric was returned; log queries were rejected).",
+            "The v1 vs v2 token-version split was not obtained: the 'v1' and 'v2' log queries were rejected with 'tool-call budget is exhausted'.",
+            "Login and token-issue volume at 17:00Z was not measured: no login or token-issue metric was returned, so the re-login surge hypothesis is untested.",
+            "api-gateway 4xx and 429 metrics were not queried, so the link between the gateway's 'too many requests' errors and auth-service traffic is unverified.",
+            "The budget rejections came back after only three tool calls, which does not match the stated six-call limit; the reason is not known."
+          ],
+          "suggested_followups": [
+            "Query auth-service logs for 'v1' and 'v2' over 16:55Z to 17:30Z to split token validation failures by token version.",
+            "Query auth-service logs for 401 and session-invalidation messages per minute, and for login/token-issue events, to test the re-login surge.",
+            "Query api-gateway 4xx and 429 metrics and logs to check whether the throttling originates at the gateway or in auth-service.",
+            "Check change history for a token-version rollout or auth-service deploy near 17:00Z."
+          ]
+        },
+        "error": null
+      },
+      {
+        "id": "T8",
+        "agent": "dependency",
+        "objective": "Retrieve the C10 config diff and confirm whether the 20-per-client /api/* burst limit covers /api/auth, login and token-refresh endpoints. Also confirm C09's scope: which gateway or validator paths accept v1 versus v2 tokens and whether any validator is documented to reject v2.",
+        "focus_services": [
+          "api-gateway",
+          "auth-service"
+        ],
+        "depends_on": [],
+        "requested_by": "orchestrator",
+        "round": 3,
+        "status": "done",
+        "attempts": 1,
+        "tool_calls": 5,
+        "findings": {
+          "summary": "C10 (api-gateway, 16:57Z) lowered the /api/* burst limit from 200 to 20 per client; C09 (auth-service v4.0.0, 16:57Z) began issuing v2 session tokens while still accepting v1. Both changes land about 3 minutes before the ~17:00 alert onset. Health checks are green for all services, but they are shallow. I could not retrieve the C10 config diff, confirm whether the /api/* glob covers auth or token-refresh paths, or determine which validators accept v2. Those remain open.",
+          "observations": [
+            {
+              "statement": "C10 is a completed config_change on api-gateway at 2026-09-12T16:57:00Z by netops: 'Update rate-limit policy: /api/* burst 200 -> 20 per client'.",
+              "evidence_ids": [
+                "C10"
+              ]
+            },
+            {
+              "statement": "C09 is a completed deploy on auth-service at 2026-09-12T16:57:00Z by deploy-bot, version v4.0.0: 'issue session tokens in format v2 (v1 still accepted during migration)'.",
+              "evidence_ids": [
+                "C09"
+              ]
+            },
+            {
+              "statement": "The only api-gateway change in 12:00\u201317:30Z is C10, and the only auth-service change in that window is C09.",
+              "evidence_ids": [
+                "C10",
+                "C09"
+              ]
+            },
+            {
+              "statement": "api-gateway depends on checkout-service, search-service and auth-service over sync HTTP. Health checks at 17:28Z show api-gateway, auth-service, checkout-service and search-service all healthy on HTTP /health 200.",
+              "evidence_ids": [
+                "D01",
+                "D02",
+                "D03",
+                "H01",
+                "H02",
+                "H03",
+                "H14"
+              ]
+            },
+            {
+              "statement": "The change tool returned no config diff for C10, only a one-line description. The description does not say which paths the /api/* pattern matches.",
+              "evidence_ids": [
+                "C10"
+              ]
+            },
+            {
+              "statement": "A past incident (P04) involved auth-service login latency and token validation errors after a signing key rotation. Its root cause was a public-key cache miss, which is a different mechanism from this one.",
+              "evidence_ids": [
+                "P04"
+              ]
+            },
+            {
+              "statement": "A past incident (P03) involved cache eviction, not auth or rate limiting, so it is not relevant here.",
+              "evidence_ids": [
+                "P03"
+              ]
+            }
+          ],
+          "interpretations": [
+            {
+              "statement": "C10 is a plausible direct cause of the 'too many requests' 4xx spike. A 10x cut in per-client burst on /api/* would throttle normal users, provided their traffic falls under that pattern. This is the stronger lead on timing and symptom match.",
+              "evidence_ids": [
+                "C10"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "statement": "C09 could plausibly cause sign-outs, if v2 tokens are rejected by some validator or by clients that only handle v1. This is unconfirmed because no validator-level documentation was retrieved.",
+              "evidence_ids": [
+                "C09"
+              ],
+              "confidence": 0.35
+            },
+            {
+              "statement": "Both changes are at 16:57Z, so timing alone cannot separate them. The 'too many requests' text points to C10 and the sign-outs could point to C09, which would make the incident a combination of the two.",
+              "evidence_ids": [
+                "C10",
+                "C09"
+              ],
+              "confidence": 0.45
+            },
+            {
+              "statement": "Whether /api/auth, login and token-refresh fall under the 20-per-client burst limit is unconfirmed. If they do, a login or refresh loop could explain both throttling and sign-outs. The task asked for this confirmation and it was not obtained.",
+              "evidence_ids": [
+                "C10"
+              ],
+              "confidence": 0.3
+            }
+          ],
+          "data_gaps": [
+            "C10 config diff was not returned; only the description was available, so the exact path matching for /api/* is unknown.",
+            "Could not confirm whether /api/auth, login or token-refresh endpoints are covered by the /api/* burst limit.",
+            "Could not determine which gateway or validator paths accept v1 versus v2 tokens, or whether any validator is documented to reject v2. The follow-up query (search_past_incidents scoped to auth-service) was rejected because the tool-call budget was exhausted.",
+            "Health checks are shallow (/health 200 only) and do not exercise token validation or rate-limit paths, so they cannot rule out either failure mode.",
+            "No telemetry was consulted for this role, so the timing of the first 4xx or sign-out signal relative to 16:57Z is not established."
+          ],
+          "suggested_followups": [
+            "Retrieve the full C10 diff and check whether the /api/* pattern matches /api/auth/*, login and token-refresh routes.",
+            "Check the auth-service v4.0.0 validator config and the api-gateway token-validation config for v2 acceptance, and whether any validator rejects v2.",
+            "Compare the 4xx breakdown by path and status code: 429s on login/refresh would point to C10, while 401s on protected routes would point to C09.",
+            "Check whether the sign-outs begin at 16:57Z or later, and whether they correlate with clients receiving v2 tokens.",
+            "Consider a temporary rollback of C10 to restore the 200 burst limit and measure the effect on 4xx rate, then check C09 separately."
+          ]
+        },
+        "error": null
+      }
+    ],
+    "rounds": [
+      {
+        "number": 1,
+        "task_ids": [
+          "T1",
+          "T2",
+          "T3"
+        ],
+        "new_evidence": 18,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H-A",
+              "service": "api-gateway",
+              "category": "config_error",
+              "mechanism": "The netops rate-limit change at 16:57:00Z cut /api/* burst from 200 to 20 per client, a 10x tightening that throttles normal bursty clients and produces the sustained step to about 14% 4xx at 17:00 with flat request_rate. Onset is 3 minutes after the change, consistent with propagation through the gateway without any traffic change.",
+              "supporting_evidence": [
+                "C10",
+                "M02",
+                "M05",
+                "M01",
+                "M03"
+              ],
+              "contradicting_evidence": [
+                "H01",
+                "H02"
+              ],
+              "assumptions": [
+                "The 4xx spike is dominated by 429 responses, which was not verified because log and status-code breakdowns were denied",
+                "The burst limit is enforced per client as the change text states",
+                "Health checks being shallow means they do not refute gateway throttling"
+              ],
+              "confidence": 0.6
+            },
+            {
+              "id": "H-B",
+              "service": "auth-service",
+              "category": "deployment_regression",
+              "mechanism": "The v4.0.0 deploy at 16:57:00Z issues v2 session tokens, and some gateway or auth validation paths reject them, invalidating sessions and producing 401s that users experience as sign-outs. Onset matches the 17:00 step within minutes, and the shallow health checks would not detect token validation failures.",
+              "supporting_evidence": [
+                "C09",
+                "M02",
+                "H02"
+              ],
+              "contradicting_evidence": [
+                "M05"
+              ],
+              "assumptions": [
+                "Some validators reject v2 tokens despite v1 being accepted, which is unverified",
+                "Sign-out symptoms are a 401 or session-invalidation effect, not a 429 effect",
+                "The rejection rate is large enough to explain the sustained 14% error rate"
+              ],
+              "confidence": 0.45
+            },
+            {
+              "id": "H-C",
+              "service": "api-gateway",
+              "category": "config_error",
+              "mechanism": "The api-gateway is the common point where both changes take effect, so the combined effect of the rate-limit tightening and token-format change may produce both symptoms together. This hypothesis is that the joint change at the gateway explains the full symptom set, and the two changes cannot be separated with current data.",
+              "supporting_evidence": [
+                "C09",
+                "C10",
+                "M02"
+              ],
+              "contradicting_evidence": [],
+              "assumptions": [
+                "Both changes are active at the gateway boundary during the window",
+                "Timestamps alone cannot separate their contributions"
+              ],
+              "confidence": 0.25
+            }
+          ],
+          "reasoning": "Both candidate changes land at 16:57:00Z, three minutes before the step at 17:00:00Z, so temporal precedence holds for both and the timing does not separate them. The flat request_rate, latency and resource metrics rule out a traffic surge or gateway saturation, which points to a rule or auth change. The C10 rate-limit cut best matches the 'too many requests' wording, since a 10x burst tightening directly produces 429s at the gateway, which is the origin of those errors. The C09 token-format change is a plausible source of the sign-outs but is unverified, because it relies on validators rejecting v2 tokens while v1 is still accepted and no auth errors were retrieved. Health checks are shallow and cannot discriminate. All log and 4xx breakdown queries were denied, so no status code, route, or sign-out signature was confirmed, and confidences are kept moderate. Recovery after 17:30 is unknown.",
+          "evidence_needed": [
+            "api-gateway 4xx breakdown by status code (401 vs 429) from 16:55 onward, to split sign-out from throttling errors",
+            "api-gateway access logs showing client identifiers and burst-limit rejections after 16:57",
+            "auth-service validation error logs for v1 and v2 tokens after 16:57",
+            "Rollback or canary history for C09 and C10 to test whether reverting either one restores the error rate",
+            "Per-route and per-client-segment error rates to see whether the spike is concentrated on /api/* bursty clients"
+          ],
+          "response_to_critique": null
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "Both candidate changes (C09 auth v4.0.0 token-format change and C10 gateway burst cut) share the same 16:57Z timestamp, so timing cannot separate them. The analysis rests on inference because every log and status-code query was denied. The 429-versus-401 split that would discriminate the two hypotheses is unobtained. Several cited supports are non-discriminating (flat request_rate, flat CPU/latency) and H-B's listed contradiction is weak. Confidence should stay moderate until the status-code split or a rollback/canary test is available.",
+          "issues": [
+            {
+              "hypothesis_id": "H-A",
+              "issue": "overconfidence",
+              "severity": "material",
+              "detail": "H-A is the leading hypothesis at 0.60 but its central claim that the 4xx spike is dominated by 429 throttling is explicitly unverified. No status-code breakdown or throttling log was retrieved, so C10 cannot be distinguished from C09 producing 401s. The stated mechanism also does not explain the sign-out symptom.",
+              "evidence_ids": [
+                "C10",
+                "M02"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "M05 (flat request_rate) is listed as supporting H-A, but a flat request rate is equally consistent with session-validation rejections (H-B) and does not favour a rate-limit change. It only rules out a traffic surge.",
+              "evidence_ids": [
+                "M05"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "H-B's mechanism depends on some validators rejecting v2 tokens while v1 is still accepted. C09 says v1 remains accepted, which argues against a broad 14% failure and implies only clients holding v2 tokens are affected. Nothing in the ledger shows what fraction of clients hold v2 tokens, so the claimed rejection rate that matches a sustained 14% is unsupported.",
+              "evidence_ids": [
+                "C09",
+                "M02"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "M05 is cited as contradicting H-B, but a flat request rate does not contradict an auth-side rejection of a subset of requests. The contradiction citation is weak and should not count against H-B.",
+              "evidence_ids": [
+                "M05"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "C09 and C10 both fit the timing and the flat resource metrics. The analysis treats the 'too many requests' wording as decisive for C10, but users seeing sign-outs and 'too many requests' together could come from either change or from a combined effect. Neither hypothesis is ruled out, so the leader is not established.",
+              "evidence_ids": [
+                "C09",
+                "C10",
+                "M02"
+              ]
+            },
+            {
+              "hypothesis_id": "H-C",
+              "issue": "other",
+              "severity": "minor",
+              "detail": "H-C is a compound of the two changes rather than a distinct cause. It has no contradicting evidence cited and was assigned 0.25 without any test that could refute it. It should be restated as a combined-cause scenario that is tested by splitting the two changes.",
+              "evidence_ids": [
+                "C09",
+                "C10"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "The T1 summary states the error rate was 0.36\u20130.45% through 16:55Z, but the ledger has metric samples only at 16:45 and 17:00. Onset therefore lies somewhere between 16:45 and 17:00, and the claimed 3-minute lag after the 16:57 change is not established by the samples.",
+              "evidence_ids": [
+                "M02"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "missing_evidence",
+              "severity": "material",
+              "detail": "Decisive evidence is missing that the tools could obtain: the 4xx split by status code, and whether the step follows C10 or C09 when one is reverted. Rollback or canary history for C09 and C10 was not queried. Without it, the leading hypothesis cannot be confirmed or refuted.",
+              "evidence_ids": [
+                "C09",
+                "C10",
+                "M02"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "dependency",
+              "objective": "Check rollout and rollback history for C10 (api-gateway /api/* burst 200->20) and C09 (auth-service v4.0.0): canary percentages, affected client segments, and any rollback or revert events after 16:57Z. Report whether either change was partially or fully reverted before or during 17:00-17:30Z.",
+              "focus_services": [
+                "api-gateway",
+                "auth-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "observability",
+              "objective": "Using auth-service metrics or logs if accessible, report 401/session-invalidation or token-validation error counts for v1 versus v2 tokens from 16:45 to 17:30Z, and any 429 counts exposed by upstream components. Establish whether the error increase at 17:00 is concentrated in auth validation or in rate-limit rejections.",
+              "focus_services": [
+                "auth-service",
+                "api-gateway"
+              ],
+              "depends_on": [
+                "t1"
+              ]
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "Two candidate changes (C09 auth v4.0.0 token-format change and C10 gateway burst cut 200->20) share the 16:57Z timestamp, and no status-code split or rollback history has been obtained, so the leading hypothesis is not established. Specific missing evidence (401 vs 429 split, rollout/rollback status of each change) could discriminate between them, and budget remains (2 rounds, 17 tool calls). Proceeding with the critic-requested tasks, sharpened.",
+          "new_tasks": [
+            {
+              "key": "t4",
+              "agent": "dependency",
+              "objective": "Check rollout and rollback history for C10 (api-gateway /api/* burst limit 200->20, applied 16:57Z) and C09 (auth-service v4.0.0 token-format change, deployed 16:57Z): canary percentages, affected client segments, and any partial or full revert events between 16:57Z and 17:30Z. State whether reverting either change is recorded and whether the 17:00 step persisted after any revert.",
+              "focus_services": [
+                "api-gateway",
+                "auth-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t5",
+              "agent": "observability",
+              "objective": "Retry api-gateway log and status-code queries for 16:45-17:30Z: count 401, 403, 429 and other 4xx responses per minute, and break 429s down by client identifier and route. Also count auth-service 401/session-invalidation and token-validation errors split by v1 versus v2 token version over the same window, and report whether the 17:00 step is concentrated in auth validation or in rate-limit rejections.",
+              "focus_services": [
+                "api-gateway",
+                "auth-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "task_ids": [
+          "T4",
+          "T5"
+        ],
+        "new_evidence": 44,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H-A",
+              "service": "api-gateway",
+              "category": "config_error",
+              "mechanism": "The netops change C10 at 16:57:00Z cut the /api/* burst limit from 200 to 20 per client, a 10x tightening that would reject legitimate bursty clients with 429s and produce the sustained step in api-gateway error_rate from about 0.4% to about 14% at 17:00. Request volume, latency and resource metrics stayed flat, so the rejections are rule-driven rather than load-driven.",
+              "supporting_evidence": [
+                "C10",
+                "M02",
+                "M05",
+                "M01",
+                "M03"
+              ],
+              "contradicting_evidence": [
+                "M05"
+              ],
+              "assumptions": [
+                "The 4xx step is dominated by 429 responses, which is unverified because gateway logs and status-code breakdowns were denied",
+                "The burst limit is enforced per client as the change text states",
+                "Flat request_rate does not discriminate, since it rules out a volume surge but not a rule change"
+              ],
+              "confidence": 0.45
+            },
+            {
+              "id": "H-B",
+              "service": "auth-service",
+              "category": "deployment_regression",
+              "mechanism": "The v4.0.0 deploy C09 at 16:57:00Z began issuing v2 session tokens, and some validation paths or clients reject them, producing 401s and session invalidations that users see as sign-outs. The auth-side log signal (session refresh warnings starting at 17:00:32Z, auth request_rate step to about 108 req/s at 17:00) lines up with the gateway step.",
+              "supporting_evidence": [
+                "C09",
+                "M02",
+                "M10",
+                "L0189",
+                "L0188"
+              ],
+              "contradicting_evidence": [
+                "M07",
+                "M08"
+              ],
+              "assumptions": [
+                "Some validators reject v2 tokens even though v1 is still accepted, which is unverified",
+                "The sign-out symptom is a session-invalidation effect rather than a 429 effect",
+                "Auth error_rate staying at 0.06-0.15% is compatible with rejections happening at the gateway or in clients rather than inside auth-service"
+              ],
+              "confidence": 0.35
+            },
+            {
+              "id": "H-C",
+              "service": "api-gateway",
+              "category": "config_error",
+              "mechanism": "C09 and C10 both take effect at the gateway boundary and together produce both symptoms: throttling from the burst cut and session failures from v2 token handling. This is a combined-cause scenario that cannot be separated with current data.",
+              "supporting_evidence": [
+                "C09",
+                "C10",
+                "M02"
+              ],
+              "contradicting_evidence": [],
+              "assumptions": [
+                "Both changes are active during the window",
+                "Their contributions cannot be separated by timestamp, which is identical"
+              ],
+              "confidence": 0.2
+            }
+          ],
+          "reasoning": "Both C09 and C10 are recorded at 16:57:00Z, and the ledger has metric samples only at 16:45 and 17:00, so the 3-minute lag is bounded but not precise and timing cannot separate the two changes. Flat gateway request_rate, latency and CPU/memory rule out a traffic surge or gateway saturation, which points to a rule or token change. C10 directly explains 429s, but no status-code or client breakdown was obtained, so it cannot be confirmed as the source of the 4xx step. C09 is the only change that plausibly explains sign-outs; auth-service request_rate stepped at 17:00 and session refresh warnings begin at 17:00:32Z, but auth error_rate did not rise and v1 tokens remain accepted, so the failure fraction is unknown. No revert or rollback record exists, so whether the step persisted is unknown. Telemetry ends at 17:30Z and health checks are shallow, so confidences remain moderate and the hypotheses are not well separated.",
+          "evidence_needed": [
+            "api-gateway 4xx breakdown by status code (401 vs 429) from 16:55Z onward",
+            "api-gateway access logs with client identifiers and burst-limit rejection records after 16:57Z",
+            "auth-service validation errors split by v1 and v2 token version after 16:57Z",
+            "Canary or rollback test: reverting C10 alone or C09 alone and checking whether the 17:00 step recovers",
+            "Per-route and per-client error rates to check whether the spike concentrates on /api/* bursty clients or on session-bearing requests",
+            "Metric samples between 16:45 and 17:00Z to bound onset more precisely"
+          ],
+          "response_to_critique": "Overconfidence: H-A confidence lowered from 0.60 to 0.45 because the 429 mechanism is unverified. Misread M05: M05 is no longer cited as support for H-A and is kept only as a non-discriminating contradiction; it is removed as evidence against H-B. Unsupported rejection rate: H-B confidence lowered to 0.35 and it is flagged as dependent on an unknown fraction of v2-holding clients. Alternative not ruled out: both H-A and H-B are retained as competing hypotheses and neither is established. H-C restated as a combined-cause scenario and kept low. Onset misread: the 3-minute lag is described as bounded between 16:45 and 17:00 rather than established. Missing evidence: the status-code split and rollback test are listed as the decisive next steps."
+        },
+        "critique": {
+          "verdict": "investigate",
+          "summary": "The analysis is reasonable but not yet decisive. H-A (C10 burst cut) and H-B (C09 v2 tokens) both have plausible mechanisms, yet neither is tied to a status-code breakdown. The auth request_rate step (+36% at 17:00, coinciding with the gateway step) is a signal the reasoning underweights: it fits sign-outs forcing re-logins, which could then trip the tightened /api/* burst limit. That makes H-C's combined-cause story, or a feedback loop, a live alternative rather than a low-confidence fallback. Confidence in H-A is also high relative to the lack of 429 evidence.",
+          "issues": [
+            {
+              "hypothesis_id": "H-A",
+              "issue": "unsupported_claim",
+              "severity": "material",
+              "detail": "The mechanism asserts the 4xx step is dominated by 429s, but no status-code breakdown was obtained (all gateway log queries denied). Without it, the 14% step could be mostly 401s from session failures, which would make H-A the wrong cause.",
+              "evidence_ids": [
+                "M02",
+                "C10"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "misread_evidence",
+              "severity": "minor",
+              "detail": "M05 is listed as contradicting H-A, but flat request_rate does not contradict a rule change; the analysis itself says it rules out only a volume surge. The contradicting/supporting labels are inconsistent.",
+              "evidence_ids": [
+                "M05"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "Auth request_rate rose about 36% at 17:00 and session refresh warnings begin at 17:00:32Z. This pattern fits C09 causing sign-outs, which drives re-logins and retries that then hit the tightened burst limit (C10). The two changes could be linked in a feedback loop, which the current hypotheses do not test.",
+              "evidence_ids": [
+                "M10",
+                "L0189",
+                "L0188",
+                "C09",
+                "C10"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "Auth-service never logs a 401 or rejection for v2 tokens in the returned lines; the only ERROR is one malformed-header rejection. The claim that v2 tokens are rejected is unverified and the analysis should say the session-invalidation mechanism is inferred from refresh warnings alone.",
+              "evidence_ids": [
+                "L0193",
+                "L0189",
+                "M07"
+              ]
+            },
+            {
+              "hypothesis_id": "H-C",
+              "issue": "ignored_contradiction",
+              "severity": "minor",
+              "detail": "H-C cites no contradicting evidence, yet M07 (auth error_rate flat) and M05 (flat gateway volume) bear on whether a combined cause is needed. It should explicitly weigh that a single-cause explanation fits the step.",
+              "evidence_ids": [
+                "M07",
+                "M05"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "overconfidence",
+              "severity": "material",
+              "detail": "Confidences (0.45 and 0.35) are presented as a ranking, but the mechanisms are not separated. The analysis itself states the hypotheses are not well separated, and no recovery or revert test exists, so the leading cause could be either change or both.",
+              "evidence_ids": [
+                "C09",
+                "C10",
+                "M02",
+                "M10"
+              ]
+            }
+          ],
+          "followup_requests": [
+            {
+              "key": "t1",
+              "agent": "observability",
+              "objective": "Obtain the api-gateway 4xx status-code split by minute from 16:55Z to 17:30Z using any available metrics (rate-limiter rejection counter, 429 count, 401 count, or per-status error counters) rather than log indices; also check whether request counts per client on /api/* rose after 17:00Z.",
+              "focus_services": [
+                "api-gateway"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t2",
+              "agent": "observability",
+              "objective": "Count auth-service token validation failures and 401 or session-invalidation events per minute from 16:55Z to 17:30Z, split by token version v1 vs v2, and check whether auth-service login and token-issue volume rose at 17:00Z from re-logins.",
+              "focus_services": [
+                "auth-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t3",
+              "agent": "dependency",
+              "objective": "Retrieve the configuration diff for C10 and identify which routes the /api/* burst limit covers, specifically whether /api/auth, login, or token-refresh endpoints are subject to the 20-per-client limit; also confirm the scope of C09 (which gateway or validator paths accept v1 vs v2).",
+              "focus_services": [
+                "api-gateway",
+                "auth-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        },
+        "decision": {
+          "action": "continue",
+          "rationale": "The leading cause is still undetermined. The status-code split (429 vs 401) is the key discriminator between C10 and C09, and it was never obtained because gateway logs were denied. A feedback loop (C09 sign-outs driving re-logins into the C10 burst limit) is also untested. One more round can test both with the remaining budget, so I am requesting three targeted tasks: a metrics-based 4xx split, auth-side v1/v2 failure counts, and the C10/C09 scope check.",
+          "new_tasks": [
+            {
+              "key": "t6",
+              "agent": "observability",
+              "objective": "Using metrics rather than log indices, get api-gateway per-minute counts of 429 (rate-limiter rejections), 401, 403 and other 4xx from 16:55Z to 17:30Z, and state the share of 429 versus 401 in the 17:00 step. Also check whether per-client request counts on /api/* and on login/refresh routes rose at or after 17:00Z.",
+              "focus_services": [
+                "api-gateway"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t7",
+              "agent": "observability",
+              "objective": "Count auth-service token validation failures, 401 and session-invalidation events per minute from 16:55Z to 17:30Z, split by v1 versus v2 token version, and check whether login and token-issue volume rose at 17:00Z (re-login surge). Use metrics first; use logs only for the 'v1' and 'v2' terms.",
+              "focus_services": [
+                "auth-service"
+              ],
+              "depends_on": []
+            },
+            {
+              "key": "t8",
+              "agent": "dependency",
+              "objective": "Retrieve the C10 config diff and confirm whether the 20-per-client /api/* burst limit covers /api/auth, login and token-refresh endpoints. Also confirm C09's scope: which gateway or validator paths accept v1 versus v2 tokens and whether any validator is documented to reject v2.",
+              "focus_services": [
+                "api-gateway",
+                "auth-service"
+              ],
+              "depends_on": []
+            }
+          ]
+        }
+      },
+      {
+        "number": 3,
+        "task_ids": [
+          "T6",
+          "T7",
+          "T8"
+        ],
+        "new_evidence": 0,
+        "analysis": {
+          "hypotheses": [
+            {
+              "id": "H-A",
+              "service": "api-gateway",
+              "category": "config_error",
+              "mechanism": "The netops change C10 at 16:57:00Z cut the /api/* burst limit from 200 to 20 per client, so legitimate bursty clients are rejected with 429s, producing the sustained step in api-gateway error_rate from about 0.4% to about 14% at 17:00. Flat request_rate, latency and CPU/memory rule out load-driven failure, so the rejections are rule-driven.",
+              "supporting_evidence": [
+                "C10",
+                "M02",
+                "M05",
+                "M01",
+                "M03"
+              ],
+              "contradicting_evidence": [
+                "L0189"
+              ],
+              "assumptions": [
+                "The 4xx step is dominated by 429s, which is unverified because gateway logs and status-code breakdowns were denied",
+                "The burst limit is enforced per client as the change text states",
+                "Flat request_rate rules out a volume surge but not a rule change"
+              ],
+              "confidence": 0.4
+            },
+            {
+              "id": "H-B",
+              "service": "auth-service",
+              "category": "deployment_regression",
+              "mechanism": "The v4.0.0 deploy C09 at 16:57:00Z began issuing v2 session tokens, and some validators or clients reject them, invalidating sessions and forcing sign-outs. Session refresh warnings beginning at 17:00:32Z and the auth request_rate step at 17:00 are consistent with this, though no v2 rejection was logged.",
+              "supporting_evidence": [
+                "C09",
+                "M10",
+                "L0189",
+                "L0188"
+              ],
+              "contradicting_evidence": [
+                "M07",
+                "M08",
+                "L0148"
+              ],
+              "assumptions": [
+                "Some validators reject v2 tokens although v1 is still accepted, which is unverified",
+                "The sign-out symptom is a session-invalidation effect inferred from refresh warnings alone",
+                "Auth error_rate staying low means failures occur at the gateway or in clients"
+              ],
+              "confidence": 0.3
+            },
+            {
+              "id": "H-C",
+              "service": "api-gateway",
+              "category": "config_error",
+              "mechanism": "C09 and C10 interact: session invalidation from v2 tokens drives re-logins and retries, and these hit the tightened 20-per-client burst limit, so the 4xx step is a feedback loop across both changes. A single-cause explanation fits the step less well, since the auth error_rate did not rise and the gateway was flat.",
+              "supporting_evidence": [
+                "C09",
+                "C10",
+                "M10",
+                "M02"
+              ],
+              "contradicting_evidence": [
+                "M07"
+              ],
+              "assumptions": [
+                "Both changes are active during the window",
+                "The auth request_rate step reflects re-logins rather than ordinary traffic",
+                "Timestamps cannot separate the contributions"
+              ],
+              "confidence": 0.2
+            }
+          ],
+          "reasoning": "Both C09 and C10 are recorded at 16:57:00Z, three minutes before the 17:00 onset, so timing cannot separate them and the metric samples only bound the onset to 16:55-17:00. Flat gateway request_rate, latency and CPU/memory rule out a traffic surge or gateway saturation, pointing to a rule or token change. C10 directly explains 429s, but no status-code breakdown was obtained, so the 4xx mix is unknown. C09 is the only change that plausibly explains sign-outs; the auth request_rate step of about 36% at 17:00 and refresh warnings from 17:00:32Z fit a re-login surge, but auth error_rate did not rise and v1 tokens remain accepted. The feedback loop in H-C is a live alternative that the data cannot exclude. No revert record exists and telemetry ends at 17:30Z, and health checks are shallow, so all confidences are moderate to low and the leading hypothesis is not clearly separated.",
+          "evidence_needed": [
+            "api-gateway 4xx breakdown by status code (401 vs 429) from 16:55Z onward",
+            "api-gateway access logs with client identifiers and burst-limit rejection records after 16:57Z",
+            "auth-service validation errors split by v1 and v2 token version after 16:57Z",
+            "Canary or rollback test: revert C10 alone or C09 alone and check whether the 17:00 step recovers",
+            "Per-route and per-client error rates to check whether the spike concentrates on /api/* bursty clients or session-bearing requests",
+            "Login and token-issue volume at 17:00Z to test the re-login surge",
+            "C10 config diff confirming whether /api/auth, login and token-refresh are covered by the burst limit"
+          ],
+          "response_to_critique": "Point 1 (unsupported 429 claim): accepted; H-A confidence lowered from 0.45 to 0.40 and the 429 dominance is stated as an assumption. Point 2 (M05 mislabelled): accepted; M05 removed from contradicting evidence. Point 3 (feedback loop): accepted; added as H-C with the re-login mechanism. Point 4 (H-B unlogged rejection): accepted; the mechanism now states that no v2 rejection was logged and H-B confidence reduced to 0.30. Point 5 (H-C ignores contradictions): accepted; M07 added as contradicting and the single-cause fit is discussed. Point 6 (overconfidence): accepted; all confidences lowered and the hypotheses are described as not well separated. The requested observability and dependency tasks were not completed in this analysis and remain in evidence_needed."
+        },
+        "critique": {
+          "verdict": "revise",
+          "summary": "The leading hypothesis H-A (C10 burst-limit cut causing 429s) is plausible on timing and symptom match but is not established: no status-code breakdown, gateway logs or per-client data were obtained, and the 4xx mix is unknown. H-B (C09 v2 tokens causing sign-outs) is supported only by auth-side WARN lines and a request_rate step, with no v2 rejection logged and auth error_rate flat. C09 and C10 share a timestamp, so the analysis should be revised to treat them as co-equal candidates, with confidences lowered, and to acknowledge the feedback-loop hypothesis H-C as live. No further investigation is possible, so conclusions must be stated as unresolved.",
+          "issues": [
+            {
+              "hypothesis_id": "H-A",
+              "issue": "overconfidence",
+              "severity": "minor",
+              "detail": "Confidence 0.40 for a rate-limit cause is not supported by any direct evidence of 429s. The claim that the 4xx step is dominated by 429s is explicitly unverified, and the metrics show only aggregate error_rate. The step could equally be 401s from the session change.",
+              "evidence_ids": [
+                "M02",
+                "M05"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "ignored_contradiction",
+              "severity": "material",
+              "detail": "Auth-side evidence shows session-expiry and refresh warnings beginning at 17:00:32Z and a v2 issuance pattern that coincides with the step. The auth request_rate step of about 36% at 17:00 points to a re-login or refresh surge that a pure burst-limit explanation does not account for. The analysis does not reconcile why a 429 rule change would produce session-refresh failures, so H-A is not clearly the wrong-cause-free explanation.",
+              "evidence_ids": [
+                "L0189",
+                "M10",
+                "L0188"
+              ]
+            },
+            {
+              "hypothesis_id": "H-A",
+              "issue": "alternative_not_ruled_out",
+              "severity": "material",
+              "detail": "Whether /api/auth, login and token-refresh routes fall under the /api/* burst limit was not confirmed. If they do, the 20-per-client limit could throttle refresh traffic and produce sign-outs, which would implicate C10 for both symptoms or make C09 secondary. This is an unresolved competing mechanism that could change which change is the cause.",
+              "evidence_ids": [
+                "C10"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "misread_evidence",
+              "severity": "material",
+              "detail": "The auth error_rate stayed at 0.06-0.15% and the only ERROR line is one malformed Authorization header rejection. The analysis cites refresh warnings as support, but those warnings are regular expiry messages that appear roughly every 3 minutes, not a step in rejections. The sign-out mechanism through v2 rejection is therefore not observed; it rests on an unverified assumption that some validator rejects v2.",
+              "evidence_ids": [
+                "M07",
+                "L0193",
+                "L0189",
+                "L0148"
+              ]
+            },
+            {
+              "hypothesis_id": "H-B",
+              "issue": "unsupported_claim",
+              "severity": "minor",
+              "detail": "The claim that auth-service issues v2 tokens after 16:57 is observed, but the claim that v1 is rejected by any validator is not. The analysis itself acknowledges v1 tokens remain accepted, which weakens the sign-out mechanism.",
+              "evidence_ids": [
+                "C09",
+                "L0188"
+              ]
+            },
+            {
+              "hypothesis_id": "H-C",
+              "issue": "alternative_not_ruled_out",
+              "severity": "minor",
+              "detail": "The feedback loop hypothesis is the only one that fits both the auth request_rate step and the gateway 4xx step, yet it was given the lowest confidence without evidence that rules it out. Its low score reflects the absence of data, not a contradiction, and it should not be dismissed.",
+              "evidence_ids": [
+                "M10",
+                "M02",
+                "C09",
+                "C10"
+              ]
+            },
+            {
+              "hypothesis_id": null,
+              "issue": "missing_evidence",
+              "severity": "minor",
+              "detail": "Decisive evidence (gateway status-code split, C10 config diff, v1/v2 validator scope, rollback test) could not be obtained with the tools and budget available. The conclusion must be recorded as inconclusive between the candidate causes rather than assigned to one change.",
+              "evidence_ids": []
+            }
+          ],
+          "followup_requests": []
+        },
+        "decision": null
+      }
+    ],
+    "termination_reason": "max_rounds_reached",
+    "citations": {
+      "valid": 272,
+      "invalid": 3
+    },
+    "evidence_ids": [
+      "D01",
+      "D02",
+      "D03",
+      "H01",
+      "H02",
+      "H03",
+      "H14",
+      "C09",
+      "C10",
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "L0167",
+      "L0178",
+      "L0189",
+      "L0193",
+      "L0201",
+      "L0202",
+      "L0217",
+      "L0229",
+      "L0241",
+      "L0253",
+      "L0268",
+      "L0280",
+      "L0291",
+      "L0303",
+      "M06",
+      "M07",
+      "M08",
+      "M09",
+      "M10",
+      "L0148",
+      "L0188",
+      "L0198",
+      "L0208",
+      "L0211",
+      "L0213",
+      "L0222",
+      "L0226",
+      "L0231",
+      "L0232",
+      "L0238",
+      "L0240",
+      "L0244",
+      "L0248",
+      "L0257",
+      "L0263",
+      "L0265",
+      "L0272",
+      "L0279",
+      "L0283",
+      "L0287",
+      "L0294",
+      "L0295",
+      "L0298",
+      "L0302"
+    ],
+    "trace": [
+      {
+        "t": 4.823,
+        "actor": "orchestrator",
+        "event": "planned",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 4.823,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      {
+        "t": 15.622,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T1",
+        "tool_calls": 4
+      },
+      {
+        "t": 17.195,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T2",
+        "tool_calls": 5
+      },
+      {
+        "t": 17.264,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T3",
+        "tool_calls": 4
+      },
+      {
+        "t": 39.504,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 2
+      },
+      {
+        "t": 43.151,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T4",
+          "T5"
+        ]
+      },
+      {
+        "t": 43.152,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T4",
+          "T5"
+        ]
+      },
+      {
+        "t": 55.013,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T4",
+        "tool_calls": 4
+      },
+      {
+        "t": 62.644,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T5",
+        "tool_calls": 6
+      },
+      {
+        "t": 85.502,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "investigate",
+        "requests": 3
+      },
+      {
+        "t": 90.658,
+        "actor": "orchestrator",
+        "event": "continue",
+        "new_tasks": [
+          "T6",
+          "T7",
+          "T8"
+        ]
+      },
+      {
+        "t": 90.658,
+        "actor": "engine",
+        "event": "wave",
+        "tasks": [
+          "T6",
+          "T7",
+          "T8"
+        ]
+      },
+      {
+        "t": 100.565,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T6",
+        "tool_calls": 2
+      },
+      {
+        "t": 102.919,
+        "actor": "observability",
+        "event": "output_invalid",
+        "schema": "AgentFindings",
+        "attempt": 1,
+        "kind": "json_parse",
+        "finish_reason": "stop",
+        "reply_chars": 0,
+        "completion_tokens": 433,
+        "errors": [
+          {
+            "msg": "no JSON object found in the reply"
+          }
+        ]
+      },
+      {
+        "t": 105.472,
+        "actor": "dependency",
+        "event": "task_done",
+        "task": "T8",
+        "tool_calls": 5
+      },
+      {
+        "t": 109.145,
+        "actor": "observability",
+        "event": "output_repaired",
+        "schema": "AgentFindings",
+        "attempts": 2
+      },
+      {
+        "t": 109.145,
+        "actor": "observability",
+        "event": "task_done",
+        "task": "T7",
+        "tool_calls": 3
+      },
+      {
+        "t": 125.513,
+        "actor": "critic",
+        "event": "verdict",
+        "verdict": "revise",
+        "requests": 0
+      },
+      {
+        "t": 125.513,
+        "actor": "engine",
+        "event": "terminated",
+        "reason": "max_rounds_reached",
+        "round": 3
+      },
+      {
+        "t": 125.514,
+        "actor": "engine",
+        "event": "conclusion",
+        "status": "inconclusive",
+        "reasons": [
+          "top hypothesis confidence 0.40 is below 0.50",
+          "contradicting evidence is 50% of the weighed evidence (max 35%)"
+        ]
+      }
+    ]
+  },
+  "grade": {
+    "system": "multi_agent",
+    "incident_id": "S12",
+    "expected_inconclusive": true,
+    "error": null,
+    "latency_s": 137.827,
+    "tool_calls": 30,
+    "failed_tool_calls": 5,
+    "llm_calls": 33,
+    "prompt_tokens": 218200,
+    "completion_tokens": 34926,
+    "total_tokens": 253126,
+    "cost_usd": 0.039283,
+    "calls_without_usage": 0,
+    "invalid_outputs": 1,
+    "correct": true,
+    "status": "inconclusive",
+    "confidence": 0.4,
+    "top_service": "api-gateway",
+    "top_category": "config_error",
+    "top1_lead": false,
+    "top3": null,
+    "misled": false,
+    "citation_validity": 0.9890909090909091,
+    "key_evidence_cited": null,
+    "key_evidence_retrieved": null,
+    "unsupported_hypotheses": 0,
+    "rounds": 3,
+    "termination_reason": "max_rounds_reached",
+    "repeat": 3
+  }
+}

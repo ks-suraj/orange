@@ -1,0 +1,409 @@
+{
+  "system": "baseline",
+  "incident_id": "S11",
+  "error": null,
+  "latency_s": 22.982,
+  "usage": {
+    "llm_calls": 4,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 42539,
+    "completion_tokens": 4353,
+    "reasoning_tokens": 387,
+    "total_tokens": 46892,
+    "cost_usd": 0.0064304,
+    "llm_time_s": 22.967,
+    "by_role": {
+      "baseline": {
+        "calls": 4,
+        "prompt_tokens": 42539,
+        "completion_tokens": 4353,
+        "cost_usd": 0.006430399999999999
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 9,
+    "rejected_calls": 0,
+    "attempts": 9,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 1080,
+    "by_status": {
+      "ok": 9
+    },
+    "by_tool": {
+      "query_metrics": 2,
+      "get_change_history": 1,
+      "query_logs": 4,
+      "get_dependencies": 1,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 9
+    }
+  },
+  "citations": {
+    "valid": 43,
+    "invalid": 7
+  },
+  "report": {
+    "incident_id": "S11",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.85, margin 0.60, 8 verified supporting and 0 contradicting evidence items (0%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.85, margin 0.60, 8 verified supporting and 0 contradicting evidence items (0%)"
+      ],
+      "top_hypothesis": "payments-db / resource_exhaustion",
+      "top_confidence": 0.85,
+      "margin_over_runner_up": 0.6,
+      "verified_support": [
+        "M39",
+        "M33",
+        "L0189",
+        "L0193",
+        "L0195",
+        "L0202",
+        "L0271",
+        "L0192"
+      ],
+      "contradicting_evidence": [],
+      "contradiction_share": 0.0,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.85,
+    "summary": "payment-service write failures (error rate about 0.2% to about 28% at 12:00 UTC, about 30% by 12:30) are caused by payments-db running out of disk space: every failing INSERT into payments returns 'could not extend file: No space left on device'. Disk usage crossed about 98% at 11:40 and reached 103.97% at 12:30, and the database logs show WAL archiving failing with WAL files accumulating. The v3.1.4 deploy at 09:55 is the only change to payment-service, but it is a logging-only change and does not explain a full database disk. The database health check (SELECT 1 ok) is shallow and reports healthy despite write failures. Checkout's alert is consistent with payment-service errors propagating via retries, but checkout shows no error-level logs.",
+    "root_cause": {
+      "id": "H1",
+      "service": "payments-db",
+      "category": "resource_exhaustion",
+      "mechanism": "payments-db volume filled to full (disk about 98% from 11:40, 104% at 12:30) and WAL archiving failed, so new INSERTs into payments fail with 'could not extend file: No space left on device'. Payment-service returns errors, and checkout retries calls to it.",
+      "supporting_evidence": [
+        "M39",
+        "M33",
+        "L0189",
+        "L0193",
+        "L0195",
+        "L0202",
+        "L0271",
+        "L0192"
+      ],
+      "contradicting_evidence": [],
+      "assumptions": [
+        "The health check does not exercise writes.",
+        "Disk growth source is not yet identified."
+      ],
+      "confidence": 0.85
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "payments-db",
+        "category": "resource_exhaustion",
+        "mechanism": "payments-db volume filled to full (disk about 98% from 11:40, 104% at 12:30) and WAL archiving failed, so new INSERTs into payments fail with 'could not extend file: No space left on device'. Payment-service returns errors, and checkout retries calls to it.",
+        "supporting_evidence": [
+          "M39",
+          "M33",
+          "L0189",
+          "L0193",
+          "L0195",
+          "L0202",
+          "L0271",
+          "L0192"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "The health check does not exercise writes.",
+          "Disk growth source is not yet identified."
+        ],
+        "confidence": 0.85
+      },
+      {
+        "id": "H2",
+        "service": "payment-service",
+        "category": "deployment_regression",
+        "mechanism": "v3.1.4 (deployed 09:55) changed request logging, which may have increased data written to the database volume or added load, leading to disk exhaustion and write failures.",
+        "supporting_evidence": [
+          "C09",
+          "M39"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "Detailed request logs are written to the same volume as the database."
+        ],
+        "confidence": 0.25
+      },
+      {
+        "id": "H3",
+        "service": "payment-provider",
+        "category": "dependency_failure",
+        "mechanism": "Payment provider slowness or errors causing payment-service failures; the provider's status page reports healthy, and the logged provider timeouts are only 2 WARN lines.",
+        "supporting_evidence": [
+          "L0193"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "Provider health page reflects real availability."
+        ],
+        "confidence": 0.05
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "payment-service error_rate was about 0.15\u20130.25% from 11:00 to 11:55, then jumped to 28.19% at 12:00:00 and was 30.32% at 12:30:00.",
+        "evidence_ids": [
+          "M33"
+        ]
+      },
+      {
+        "statement": "payments-db disk_used_pct rose from 87.84% at 11:00 to 98.51% at 11:40, peaked at 103.97% at 12:30 (last value), and was above 98% from 11:40 onward.",
+        "evidence_ids": [
+          "M39"
+        ]
+      },
+      {
+        "statement": "payment-service logged 35 ERROR lines of 'INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)' between 12:00:21 and 12:17:17.",
+        "evidence_ids": [
+          "L0193",
+          "L0198",
+          "L0201",
+          "L0271"
+        ]
+      },
+      {
+        "statement": "payments-db logged 'could not extend file base/16384/24576: No space left on device' from 11:59:29 onward, and 6 archive-command failures with WAL files accumulating.",
+        "evidence_ids": [
+          "L0189",
+          "L0195",
+          "L0202"
+        ]
+      },
+      {
+        "statement": "payments-db connections (about 116\u2013125), cpu (about 34\u201336%), query p99 latency (about 12 ms) and replication lag (about 0.4 s) stayed flat across 11:00\u201312:30.",
+        "evidence_ids": [
+          "M37",
+          "M38",
+          "M40",
+          "M41"
+        ]
+      },
+      {
+        "statement": "payment-service v3.1.4 was deployed at 09:55:00Z; it is described as 'more detailed request logging'. No other change to payment-service or payments-db appears in 00:00\u201312:30.",
+        "evidence_ids": [
+          "C09",
+          "C08"
+        ]
+      },
+      {
+        "statement": "Health checks at 12:28 report payment-service, payments-db and checkout-service as healthy; payments-db check is 'accepting connections; SELECT 1 ok'.",
+        "evidence_ids": [
+          "H11",
+          "H12",
+          "H03"
+        ]
+      },
+      {
+        "statement": "checkout-service has 2 WARN lines in 11:30\u201312:30 (one retry of an idempotent payment-service call at 12:00:08, one slow inventory reservation) and no ERROR lines in that window.",
+        "evidence_ids": [
+          "L0192",
+          "L0292"
+        ]
+      },
+      {
+        "statement": "payment-service CPU (about 32\u201334%), memory (about 53\u201357%) and request rate (about 58\u201362 req/s) show no step change at 12:00.",
+        "evidence_ids": [
+          "M32",
+          "M35",
+          "M36"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The health checks do not exercise database writes, so 'healthy' does not reflect the disk-full state.",
+      "The payments-db disk_used_pct series reflects the volume that holds the payments table and WAL directory.",
+      "The v3.1.4 change only affects payment-service logging and does not write to the database volume.",
+      "Payment-service error rate is driven by failed INSERTs, as the logs show; other error sources are not separately measured."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "Primary cause: payments-db ran out of disk space (WAL accumulation after archive failures), so payment INSERTs fail; payment-service is the symptomatic service, not the origin.",
+        "evidence_ids": [
+          "M39",
+          "L0189",
+          "L0193",
+          "L0195"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "statement": "The v3.1.4 deploy is unlikely to be the root cause: it is logging-only, the failures are database-side write errors, and the disk was already at 88\u201393% before the deploy's effects would be expected to matter; the 12:00 step lines up with the disk crossing its limit, not with the deploy.",
+        "evidence_ids": [
+          "C09",
+          "M39",
+          "M33"
+        ],
+        "confidence": 0.3
+      },
+      {
+        "statement": "Checkout errors are a downstream effect of payment-service failures via retries; checkout is not the origin.",
+        "evidence_ids": [
+          "L0192",
+          "M33"
+        ],
+        "confidence": 0.6
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Free disk space on payments-db immediately (archive or remove old WAL segments once the archive target is fixed, and clear other large files), then confirm writes succeed.",
+        "priority": "immediate",
+        "rationale": "Disk at 104% is the direct cause of INSERT failures."
+      },
+      {
+        "action": "Fix the failing WAL archive command so WAL segments stop accumulating.",
+        "priority": "immediate",
+        "rationale": "Archive failures are the likely driver of disk growth."
+      },
+      {
+        "action": "Consider rolling back payment-service to v3.1.3 only if disk recovery does not stop errors; it is not expected to help.",
+        "priority": "short_term",
+        "rationale": "Keeps the deploy hypothesis tested cheaply without assuming it is the cause."
+      },
+      {
+        "action": "Add disk-usage and WAL-archive alerts on payments-db with headroom thresholds well below 90%.",
+        "priority": "short_term",
+        "rationale": "Disk crossed 98% without an alert firing before failures."
+      },
+      {
+        "action": "Make the database health check exercise a write or check free space, since SELECT 1 reported healthy during failures.",
+        "priority": "long_term",
+        "rationale": "Shallow health checks hid the write outage."
+      }
+    ],
+    "open_questions": [
+      "What filled the payments-db disk between 11:00 and 11:40 (WAL growth, table growth, or a batch job), and what was disk usage before 11:00?",
+      "Why are WAL archive commands failing, and since when?",
+      "Does checkout's error rate also rise, or only its retries and latency?",
+      "Was disk usage growing before the 09:55 deploy, which would rule the deploy out?",
+      "Are refund queries (slow SELECT on refunds, 8 occurrences) contributing to disk or temp-file use?"
+    ],
+    "data_gaps": [],
+    "data_gaps_total": 0,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S11",
+      "title": "payment write failures",
+      "reported_at": "2026-09-11T12:30:00Z",
+      "alert": "ALERT [P1] payment-service error rate 30% since ~12:00 UTC. payment-service was deployed earlier today.",
+      "affected_services": [
+        "payment-service",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-11T11:00:00Z",
+      "window_end": "2026-09-11T12:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 43,
+      "invalid": 7
+    },
+    "evidence_ids": [
+      "M32",
+      "M33",
+      "M34",
+      "M35",
+      "M36",
+      "C08",
+      "C09",
+      "L0193",
+      "L0198",
+      "L0201",
+      "L0204",
+      "L0208",
+      "L0210",
+      "L0215",
+      "L0222",
+      "L0225",
+      "L0229",
+      "L0235",
+      "L0239",
+      "L0243",
+      "L0245",
+      "L0250",
+      "L0257",
+      "L0259",
+      "L0261",
+      "L0263",
+      "L0271",
+      "M37",
+      "M38",
+      "M39",
+      "M40",
+      "M41",
+      "D04",
+      "D08",
+      "D09",
+      "H03",
+      "H10",
+      "H11",
+      "H12",
+      "P03",
+      "P06",
+      "P07",
+      "L0192",
+      "L0292",
+      "L0181",
+      "L0189",
+      "L0195",
+      "L0202",
+      "L0209",
+      "L0219",
+      "L0223",
+      "L0230",
+      "L0240",
+      "L0246"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S11",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 22.982,
+    "tool_calls": 9,
+    "failed_tool_calls": 0,
+    "llm_calls": 4,
+    "prompt_tokens": 42539,
+    "completion_tokens": 4353,
+    "total_tokens": 46892,
+    "cost_usd": 0.0064304,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.85,
+    "top_service": "payments-db",
+    "top_category": "resource_exhaustion",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 0.86,
+    "key_evidence_cited": 0.8,
+    "key_evidence_retrieved": 0.8,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 3
+  }
+}

@@ -35,8 +35,9 @@ python -m pytest
 python scripts/run_investigation.py S05
 python scripts/run_investigation.py S05 --system baseline
 
-# full comparison: multi-agent vs baseline over all scenarios
+# full comparison: multi-agent vs baseline over all scenarios, then the outcome analysis
 python scripts/run_evaluation.py --repeats 3 --out results/final
+python scripts/analyze_results.py results/final
 
 # regenerate the synthetic data (deterministic)
 python scripts/generate_scenarios.py
@@ -61,11 +62,15 @@ src/incident_investigator/
   agents/      orchestrator, observability, dependency, reasoning, critic, reporting (+ base)
   tools/       logs, metrics, deployments, dependencies, historical_incidents (+ base: executor)
   evaluation/  baseline, metrics, runner
-scripts/       run_investigation.py, run_evaluation.py, generate_scenarios.py
+scripts/       run_investigation.py, run_evaluation.py, analyze_results.py, generate_scenarios.py
 tests/         offline tests with a scripted LLM (tests/fakes.py)
 docs/          architecture, technical note, evaluation results
 ```
 
 ## Results
 
-See [docs/evaluation_results.md](docs/evaluation_results.md). Only measured numbers are reported there.
+Final evaluation: 72/72 runs, Claude Haiku 5.5. Diagnosis accuracy was 55.6% for the multi-agent system and
+83.3% for the single-agent baseline. The leading hypothesis was correct in 90.0% vs 96.7% of runs; the
+multi-agent system abstained more often, including correctly on every ambiguous incident. It cost $1.45 vs
+$0.23 and took 126 s vs 23 s per run. See [docs/evaluation_results.md](docs/evaluation_results.md) for the full,
+measured results and limitations; raw run records are in `results/final/`.

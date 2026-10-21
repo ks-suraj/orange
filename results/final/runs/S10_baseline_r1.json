@@ -1,0 +1,362 @@
+{
+  "system": "baseline",
+  "incident_id": "S10",
+  "error": null,
+  "latency_s": 24.146,
+  "usage": {
+    "llm_calls": 5,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 43058,
+    "completion_tokens": 4370,
+    "reasoning_tokens": 540,
+    "total_tokens": 47428,
+    "cost_usd": 0.0064908,
+    "llm_time_s": 24.132,
+    "by_role": {
+      "baseline": {
+        "calls": 5,
+        "prompt_tokens": 43058,
+        "completion_tokens": 4370,
+        "cost_usd": 0.0064908
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 10,
+    "rejected_calls": 0,
+    "attempts": 14,
+    "failed_calls": 3,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 61040,
+    "by_status": {
+      "ok": 7,
+      "error": 1,
+      "timeout": 2
+    },
+    "by_tool": {
+      "query_metrics": 3,
+      "get_change_history": 2,
+      "get_dependencies": 1,
+      "query_logs": 3,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 10
+    }
+  },
+  "citations": {
+    "valid": 43,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S10",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "inconclusive",
+    "status_reason": "top hypothesis confidence 0.40 is below 0.50",
+    "decision": {
+      "status": "inconclusive",
+      "reasons": [
+        "top hypothesis confidence 0.40 is below 0.50"
+      ],
+      "top_hypothesis": "search-service / dependency_failure",
+      "top_confidence": 0.4,
+      "margin_over_runner_up": 0.25,
+      "verified_support": [
+        "M03",
+        "L0126",
+        "L0178",
+        "L0185",
+        "L0192"
+      ],
+      "contradicting_evidence": [
+        "H01",
+        "H14"
+      ],
+      "contradiction_share": 0.286,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.4,
+    "summary": "The api-gateway p99 latency spike is a single 5-minute bucket at 20:00Z (1633 ms vs a ~180 ms baseline) that auto-resolved by 20:05Z. The only slow upstream warnings are on the /api/v1/search route, which points at search-service, but its metrics are unavailable (retention gap) and its logs time out, so the origin cannot be confirmed. Gateway CPU, memory, request rate and error rate stayed flat, and no changes were recorded in the window. Customer impact appears negligible (error rate 0.34\u20130.45% throughout). Confidence is low and the incident is best treated as a transient, unexplained search-path slowdown pending search-service data.",
+    "root_cause": null,
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "search-service",
+        "category": "dependency_failure",
+        "mechanism": "A transient slowdown in search-service (possibly its index or backend) increased response times on /api/v1/search, pushing gateway p99 above threshold for about 5 minutes until it recovered.",
+        "supporting_evidence": [
+          "M03",
+          "L0126",
+          "L0178",
+          "L0185",
+          "L0192"
+        ],
+        "contradicting_evidence": [
+          "H01",
+          "H14"
+        ],
+        "assumptions": [
+          "Gateway p99 on the search route reflects search-service latency.",
+          "The health checks are shallow and do not exercise search queries."
+        ],
+        "confidence": 0.4
+      },
+      {
+        "id": "H2",
+        "service": "search-service",
+        "category": "deployment_regression",
+        "mechanism": "The v5.3.1 query parser change introduced slow queries for some inputs, with the slow path triggered intermittently.",
+        "supporting_evidence": [
+          "C04",
+          "L0126"
+        ],
+        "contradicting_evidence": [
+          "M03",
+          "C04"
+        ],
+        "assumptions": [
+          "The deploy did not show slowdown until 19:42Z, two days after release, which requires a trigger such as a specific query pattern."
+        ],
+        "confidence": 0.15
+      },
+      {
+        "id": "H3",
+        "service": "api-gateway",
+        "category": "traffic_surge",
+        "mechanism": "A burst from one or a few clients pushed the gateway into rate limiting and queueing, raising p99 for a few minutes.",
+        "supporting_evidence": [
+          "L0151",
+          "L0228"
+        ],
+        "contradicting_evidence": [
+          "M05",
+          "M01",
+          "M04"
+        ],
+        "assumptions": [
+          "Rate-limiter warnings reflect real bursts rather than normal limiter behaviour."
+        ],
+        "confidence": 0.08
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "api-gateway p99 latency was 1633.34 ms at 2026-09-10T20:00:00Z, against 173\u2013187 ms in all other 5-minute buckets from 19:00 to 20:30Z.",
+        "evidence_ids": [
+          "M03"
+        ]
+      },
+      {
+        "statement": "api-gateway error_rate stayed between 0.34% and 0.45% over 19:00\u201320:30Z, with no visible change at 20:00Z.",
+        "evidence_ids": [
+          "M02"
+        ]
+      },
+      {
+        "statement": "api-gateway cpu_pct (36.5\u201339.5%), memory_pct (50.5\u201354.0%) and request_rate (407\u2013435 req/s) show no spike around 20:00Z.",
+        "evidence_ids": [
+          "M01",
+          "M04",
+          "M05"
+        ]
+      },
+      {
+        "statement": "Gateway logs show 'upstream response slow' warnings on route /api/v1/search at 19:42:27 (885 ms), 19:59:08 (892 ms), 20:01:12 (1072 ms) and 20:03:10 (1079 ms).",
+        "evidence_ids": [
+          "L0126",
+          "L0178",
+          "L0185",
+          "L0192"
+        ]
+      },
+      {
+        "statement": "Two rate-limiter 'client near burst limit' warnings occurred, at 19:50:21 and 20:16:01, both outside the 20:00\u201320:05 window.",
+        "evidence_ids": [
+          "L0151",
+          "L0228"
+        ]
+      },
+      {
+        "statement": "Health checks at 20:28Z report api-gateway, auth-service, checkout-service and search-service as healthy (HTTP /health 200); these checks are shallow.",
+        "evidence_ids": [
+          "H01",
+          "H02",
+          "H03",
+          "H14"
+        ]
+      },
+      {
+        "statement": "The only recorded change to search-service in the 7-day window is deploy v5.3.1 at 2026-09-08T20:30:00Z; no changes to api-gateway or its other dependencies in 18:00\u201320:30Z.",
+        "evidence_ids": [
+          "C04"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The /health endpoints do not exercise the search query path, so 'healthy' does not rule out search-service slowness.",
+      "The gateway's p99 for the search route is dominated by the search-service response time, since the slow warnings are on that route.",
+      "The retention gap and log timeouts are data-availability issues, not signals that search-service is down.",
+      "The gateway's rate-limiter warnings are unrelated to the 20:00Z latency spike.",
+      "(unverified - no valid evidence cited) search-service metrics query returned an error: metrics unavailable due to a retention gap.",
+      "(unverified - no valid evidence cited) search-service log queries timed out three times, including a narrow 19:55\u201320:06Z window."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The most likely origin is a transient slowdown in search-service (or its index/backend) that lasted about 5 minutes and recovered without intervention.",
+        "evidence_ids": [
+          "M03",
+          "L0178",
+          "L0185",
+          "L0192"
+        ],
+        "confidence": 0.4
+      },
+      {
+        "statement": "A gateway-side resource problem is unlikely, because CPU, memory and request rate were flat during the spike.",
+        "evidence_ids": [
+          "M01",
+          "M04",
+          "M05"
+        ],
+        "confidence": 0.75
+      },
+      {
+        "statement": "The v5.3.1 search-service deploy two days earlier is an unlikely trigger, since slow warnings began only in the 20:00 window and not at deploy time, but this is not ruled out without search-service data.",
+        "evidence_ids": [
+          "C04",
+          "L0126"
+        ],
+        "confidence": 0.2
+      },
+      {
+        "statement": "Customer impact is likely negligible given the flat error rate and the self-resolved, single-bucket nature of the spike.",
+        "evidence_ids": [
+          "M02",
+          "M03"
+        ],
+        "confidence": 0.6
+      }
+    ],
+    "remediation": [
+      {
+        "action": "No immediate mitigation needed; monitor api-gateway p99 on /api/v1/search for recurrence over the next hour.",
+        "priority": "immediate",
+        "rationale": "The spike self-resolved and no customer impact is reported."
+      },
+      {
+        "action": "Restore search-service metrics and log access (retention gap and log backend timeouts) and re-query 19:50\u201320:10Z.",
+        "priority": "immediate",
+        "rationale": "Needed to confirm or reject search-service as the origin."
+      },
+      {
+        "action": "Check search-service index or background jobs (e.g. index rebuild, compaction) running around 20:00Z, as in past incident P02.",
+        "priority": "short_term",
+        "rationale": "A past search latency spike was caused by a rebuild during peak traffic."
+      },
+      {
+        "action": "Add a deep health check on search-service that exercises a real query, and per-route latency panels at the gateway.",
+        "priority": "long_term",
+        "rationale": "Current /health checks are shallow and do not show the slow route."
+      },
+      {
+        "action": "Fix the telemetry retention gap for search-service metrics and the log backend timeouts.",
+        "priority": "long_term",
+        "rationale": "Current gaps prevented root-cause analysis of this incident."
+      }
+    ],
+    "open_questions": [
+      "What did search-service latency, CPU and dependency calls look like between 19:50 and 20:10Z? Metrics are unavailable and logs time out.",
+      "Was there a scheduled job, index rebuild or traffic burst on the search backend at 20:00Z?",
+      "Does the 20:00Z spike appear on the search route only, or on other gateway routes too? Per-route data was not available.",
+      "Is the v5.3.1 deploy (2026-09-08) linked to the slow-search warnings that started at 19:42Z?"
+    ],
+    "data_gaps": [
+      "query_metrics(start=2026-09-10T19:30:00Z, end=2026-09-10T20:30:00Z, service=search-service) -> error: Error: metrics for search-service unavailable (retention gap)",
+      "query_logs(start=2026-09-10T19:30:00Z, end=2026-09-10T20:30:00Z, service=search-service, min_level=WARN, limit=20) -> timeout: Timed out after 10000 ms: log backend query for search-service exceeded deadline (gave up after 3 attempts)",
+      "query_logs(start=2026-09-10T19:55:00Z, end=2026-09-10T20:06:00Z, service=search-service, min_level=INFO, limit=10) -> timeout: Timed out after 10000 ms: log backend query for search-service exceeded deadline (gave up after 3 attempts)"
+    ],
+    "data_gaps_total": 3,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S10",
+      "title": "brief gateway latency blip",
+      "reported_at": "2026-09-10T20:30:00Z",
+      "alert": "ALERT [P3] api-gateway p99 latency 1.6s (threshold 1.5s) for ~4 minutes around 20:00 UTC; auto-resolved at 20:05 UTC. No customer reports.",
+      "affected_services": [
+        "api-gateway"
+      ],
+      "window_start": "2026-09-10T19:00:00Z",
+      "window_end": "2026-09-10T20:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 43,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "D01",
+      "D02",
+      "D03",
+      "H01",
+      "H02",
+      "H03",
+      "H14",
+      "L0126",
+      "L0151",
+      "L0178",
+      "L0185",
+      "L0192",
+      "L0228",
+      "P02",
+      "P01",
+      "P04",
+      "P06",
+      "C04"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S10",
+    "expected_inconclusive": true,
+    "error": null,
+    "latency_s": 24.146,
+    "tool_calls": 10,
+    "failed_tool_calls": 3,
+    "llm_calls": 5,
+    "prompt_tokens": 43058,
+    "completion_tokens": 4370,
+    "total_tokens": 47428,
+    "cost_usd": 0.0064908,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "inconclusive",
+    "confidence": 0.4,
+    "top_service": "search-service",
+    "top_category": "dependency_failure",
+    "top1_lead": false,
+    "top3": null,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": null,
+    "key_evidence_retrieved": null,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 1
+  }
+}

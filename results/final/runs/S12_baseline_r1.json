@@ -1,0 +1,377 @@
+{
+  "system": "baseline",
+  "incident_id": "S12",
+  "error": null,
+  "latency_s": 19.438,
+  "usage": {
+    "llm_calls": 3,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 26400,
+    "completion_tokens": 3856,
+    "reasoning_tokens": 297,
+    "total_tokens": 30256,
+    "cost_usd": 0.004568,
+    "llm_time_s": 19.414,
+    "by_role": {
+      "baseline": {
+        "calls": 3,
+        "prompt_tokens": 26400,
+        "completion_tokens": 3856,
+        "cost_usd": 0.004568
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 8,
+    "rejected_calls": 0,
+    "attempts": 8,
+    "failed_calls": 1,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 1040,
+    "by_status": {
+      "ok": 7,
+      "error": 1
+    },
+    "by_tool": {
+      "query_metrics": 2,
+      "get_change_history": 2,
+      "query_logs": 2,
+      "get_dependencies": 1,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 8
+    }
+  },
+  "citations": {
+    "valid": 34,
+    "invalid": 6
+  },
+  "report": {
+    "incident_id": "S12",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.60, margin 0.25, 4 verified supporting and 0 contradicting evidence items (0%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.60, margin 0.25, 4 verified supporting and 0 contradicting evidence items (0%)"
+      ],
+      "top_hypothesis": "api-gateway / config_error",
+      "top_confidence": 0.6,
+      "margin_over_runner_up": 0.25,
+      "verified_support": [
+        "C10",
+        "M02",
+        "M05",
+        "M10"
+      ],
+      "contradicting_evidence": [],
+      "contradiction_share": 0.0,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.6,
+    "summary": "api-gateway 4xx rate jumped from about 0.4% to about 14% starting at 17:00 UTC, the same window as two changes made at 16:57: a netops rate-limit change cutting /api/* burst from 200 to 20 per client, and an auth-service v4.0.0 deploy that issues session tokens in format v2. The 'too many requests' symptom matches the rate-limit change directly, and the sign-outs match the token-format change, but the api-gateway logs were inaccessible, so I could not confirm which status codes or token errors the gateway is returning. Both changes are plausible causes, and the rate-limit change is the better-supported one for the 4xx spike. Health checks are green everywhere, so they do not reflect this failure.",
+    "root_cause": {
+      "id": "H-ratelimit",
+      "service": "api-gateway",
+      "category": "config_error",
+      "mechanism": "Burst limit cut from 200 to 20 per client at 16:57 causes legitimate client bursts to receive 429 'too many requests', producing the 14% 4xx rate and pushing clients into retries and re-auth.",
+      "supporting_evidence": [
+        "C10",
+        "M02",
+        "M05",
+        "M10"
+      ],
+      "contradicting_evidence": [],
+      "assumptions": [
+        "Typical client bursts exceed 20 requests."
+      ],
+      "confidence": 0.6
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H-ratelimit",
+        "service": "api-gateway",
+        "category": "config_error",
+        "mechanism": "Burst limit cut from 200 to 20 per client at 16:57 causes legitimate client bursts to receive 429 'too many requests', producing the 14% 4xx rate and pushing clients into retries and re-auth.",
+        "supporting_evidence": [
+          "C10",
+          "M02",
+          "M05",
+          "M10"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "Typical client bursts exceed 20 requests."
+        ],
+        "confidence": 0.6
+      },
+      {
+        "id": "H-authtoken",
+        "service": "auth-service",
+        "category": "deployment_regression",
+        "mechanism": "v4.0.0 issues v2-format session tokens that some clients or the gateway fail to validate, so sessions are invalidated, refresh fails, and users are signed out.",
+        "supporting_evidence": [
+          "C09",
+          "L0189",
+          "L0193",
+          "M10"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "v1 tokens are still accepted, so the failure is client-side or gateway-side for v2 tokens."
+        ],
+        "confidence": 0.35
+      },
+      {
+        "id": "H-coincident-infra",
+        "service": "platform",
+        "category": "infrastructure_failure",
+        "mechanism": "The 08:00 node pool upgrade causes intermittent failures. It is unlikely because the onset is at 17:00 and all nodes were Ready.",
+        "supporting_evidence": [
+          "C08"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "Node issues would show up in resource metrics."
+        ],
+        "confidence": 0.05
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "api-gateway error_rate went from 0.37% at 16:55 to 14.83% at 17:00 and stayed between 13.6% and 14.6% through 17:30.",
+        "evidence_ids": [
+          "M02"
+        ]
+      },
+      {
+        "statement": "api-gateway request_rate stayed flat (about 403-432 req/s) across the window, with no traffic jump at 17:00.",
+        "evidence_ids": [
+          "M05"
+        ]
+      },
+      {
+        "statement": "Two changes were recorded at 16:57:00Z: auth-service deploy v4.0.0 (session tokens issued in format v2, v1 still accepted) and api-gateway config change lowering /api/* burst 200 -> 20 per client.",
+        "evidence_ids": [
+          "C09",
+          "C10"
+        ]
+      },
+      {
+        "statement": "auth-service request_rate rose from about 80 req/s to about 105-108 req/s starting at 17:00, while its error_rate stayed at about 0.06-0.15%.",
+        "evidence_ids": [
+          "M10",
+          "M07"
+        ]
+      },
+      {
+        "statement": "auth-service logged repeated WARN 'token refresh requested for expired or invalid session' messages from 17:00:32 through 17:30:00 (10 in the window), plus one ERROR 'rejected malformed Authorization header' at 17:01:01.",
+        "evidence_ids": [
+          "L0189",
+          "L0193",
+          "L0303"
+        ]
+      },
+      {
+        "statement": "api-gateway latency_p99 stayed around 173-187 ms and CPU and memory stayed flat, so there is no sign of gateway resource exhaustion.",
+        "evidence_ids": [
+          "M03",
+          "M01",
+          "M04"
+        ]
+      },
+      {
+        "statement": "Dependency health checks for api-gateway, auth-service, checkout-service and search-service all returned HTTP 200 at 17:28.",
+        "evidence_ids": [
+          "H01",
+          "H02",
+          "H03",
+          "H14"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The 4xx spike is 429 responses from the new burst limit of 20 per client; this is not confirmed because gateway logs were unavailable.",
+      "Users' sign-outs come from v2 session tokens being rejected or failing refresh; no auth-service log names the token format directly.",
+      "Health checks do not exercise rate limiting or token validation, so their green status does not rule out either fault.",
+      "The 16:57 timestamps for C09 and C10 are accurate and the changes took effect at that time.",
+      "(unverified - no valid evidence cited) query_logs on api-gateway-* failed with 'access denied: requires elevated permissions'."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "The api-gateway rate-limit policy change (burst 200 -> 20 per client) most likely explains the 4xx spike and the 'too many requests' errors, because it coincides to the minute with the onset and cuts the allowed burst tenfold while traffic is unchanged.",
+        "evidence_ids": [
+          "C10",
+          "M02",
+          "M05"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "The auth-service v4.0.0 token-format change is the likely cause of sign-outs and refresh failures, and it may also contribute to 4xx responses; the spike in auth request_rate suggests clients are re-authenticating in response.",
+        "evidence_ids": [
+          "C09",
+          "L0189",
+          "M10"
+        ],
+        "confidence": 0.35
+      },
+      {
+        "statement": "The two changes are not distinguishable from the available data, because both start at 16:57 and both are visible in the first 17:00 bucket.",
+        "evidence_ids": [
+          "C09",
+          "C10",
+          "M02"
+        ],
+        "confidence": 0.5
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Roll back the api-gateway rate-limit change C10 to burst 200 per client, which is the fastest test of the rate-limit hypothesis.",
+        "priority": "immediate",
+        "rationale": "It is a reversible config change tied to the exact onset minute."
+      },
+      {
+        "action": "Roll back or pause auth-service v4.0.0 (C09), or force clients to keep using v1 tokens, to stop the refresh failures and sign-outs.",
+        "priority": "immediate",
+        "rationale": "Auth refresh errors and the auth request surge both start at 17:00."
+      },
+      {
+        "action": "Get api-gateway status-code and log access for the incident responders so the 429 versus 401 split can be checked.",
+        "priority": "immediate",
+        "rationale": "Current gateway logs are blocked, so the root cause cannot be confirmed."
+      },
+      {
+        "action": "Verify the rollback by checking api-gateway error_rate returns to about 0.4% and auth refresh warnings stop.",
+        "priority": "short_term",
+        "rationale": "Confirms which change was responsible."
+      },
+      {
+        "action": "Stage rate-limit changes with canary or shadow mode and review burst values before rollout.",
+        "priority": "long_term",
+        "rationale": "A 10x cut shipped without traffic validation."
+      },
+      {
+        "action": "Require backward-compatibility testing and a staged rollout for token format migrations.",
+        "priority": "long_term",
+        "rationale": "v1 was still accepted by design, yet sign-outs still occurred."
+      }
+    ],
+    "open_questions": [
+      "What HTTP status codes does api-gateway return for the 4xx responses (429 or 401/403)?",
+      "Did the rate-limit change affect all clients or only some, and what is the per-client request rate after 17:00?",
+      "Does auth-service reject v2 tokens at the gateway, or do clients fail to refresh and then sign out?",
+      "Why did auth request_rate rise about 30% at 17:00 without a matching rise in gateway traffic?",
+      "Did the 16:57 deploy and config change land at exactly the same time, or does the gateway pick up config later than the deploy?"
+    ],
+    "data_gaps": [
+      "query_logs(start=2026-09-12T16:00:00Z, end=2026-09-12T17:30:00Z, service=api-gateway, min_level=WARN, limit=20) -> error: Error: access denied: log index 'api-gateway-*' requires elevated permissions"
+    ],
+    "data_gaps_total": 1,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S12",
+      "title": "users signed out and throttled",
+      "reported_at": "2026-09-12T17:30:00Z",
+      "alert": "ALERT [P2] api-gateway 4xx rate 14% (baseline 1%) since ~17:00 UTC; users report being signed out and seeing 'too many requests' errors.",
+      "affected_services": [
+        "api-gateway"
+      ],
+      "window_start": "2026-09-12T16:00:00Z",
+      "window_end": "2026-09-12T17:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 34,
+      "invalid": 6
+    },
+    "evidence_ids": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "C09",
+      "C10",
+      "D01",
+      "D02",
+      "D03",
+      "H01",
+      "H02",
+      "H03",
+      "H14",
+      "L0167",
+      "L0178",
+      "L0189",
+      "L0193",
+      "L0201",
+      "L0202",
+      "L0217",
+      "L0229",
+      "L0241",
+      "L0253",
+      "L0268",
+      "L0280",
+      "L0291",
+      "L0303",
+      "M06",
+      "M07",
+      "M08",
+      "M09",
+      "M10",
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "C05",
+      "C06",
+      "C07",
+      "C08",
+      "P03",
+      "P04"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S12",
+    "expected_inconclusive": true,
+    "error": null,
+    "latency_s": 19.438,
+    "tool_calls": 8,
+    "failed_tool_calls": 1,
+    "llm_calls": 3,
+    "prompt_tokens": 26400,
+    "completion_tokens": 3856,
+    "total_tokens": 30256,
+    "cost_usd": 0.004568,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": false,
+    "status": "conclusive",
+    "confidence": 0.6,
+    "top_service": "api-gateway",
+    "top_category": "config_error",
+    "top1_lead": false,
+    "top3": null,
+    "misled": false,
+    "citation_validity": 0.85,
+    "key_evidence_cited": null,
+    "key_evidence_retrieved": null,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 1
+  }
+}

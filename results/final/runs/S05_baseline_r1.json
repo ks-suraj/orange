@@ -1,0 +1,415 @@
+{
+  "system": "baseline",
+  "incident_id": "S05",
+  "error": null,
+  "latency_s": 20.185,
+  "usage": {
+    "llm_calls": 3,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 29791,
+    "completion_tokens": 3901,
+    "reasoning_tokens": 342,
+    "total_tokens": 33692,
+    "cost_usd": 0.0049296,
+    "llm_time_s": 20.166,
+    "by_role": {
+      "baseline": {
+        "calls": 3,
+        "prompt_tokens": 29791,
+        "completion_tokens": 3901,
+        "cost_usd": 0.0049296
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 8,
+    "rejected_calls": 0,
+    "attempts": 8,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 960,
+    "by_status": {
+      "ok": 8
+    },
+    "by_tool": {
+      "get_change_history": 2,
+      "query_metrics": 1,
+      "query_logs": 3,
+      "get_dependencies": 1,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 8
+    }
+  },
+  "citations": {
+    "valid": 41,
+    "invalid": 0
+  },
+  "report": {
+    "incident_id": "S05",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.90, margin 0.85, 6 verified supporting and 1 contradicting evidence items (14%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.90, margin 0.85, 6 verified supporting and 1 contradicting evidence items (14%)"
+      ],
+      "top_hypothesis": "auth-service / certificate_expiry",
+      "top_confidence": 0.9,
+      "margin_over_runner_up": 0.85,
+      "verified_support": [
+        "L0018",
+        "L0065",
+        "L0184",
+        "L0185",
+        "M12",
+        "L0254"
+      ],
+      "contradicting_evidence": [
+        "H02"
+      ],
+      "contradiction_share": 0.143,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.9,
+    "summary": "Checkout and sign-in failures start at 09:00 UTC because the auth.internal certificate expired at 08:59:59 UTC. Auth-service's ACME renewal was rate-limited, so the certificate was never renewed, and both api-gateway and checkout-service now fail TLS validation against auth-service. checkout-service error rate jumped from 0.26% at 08:55 to 33.91% at 09:00. The 08:54 checkout deploy (v2.15.1, static strings only) is coincidental: its timing is close, but the failure signature is TLS, not application code. Health checks report healthy because they hit plaintext /health endpoints and do not exercise TLS.",
+    "root_cause": {
+      "id": "H-A",
+      "service": "auth-service",
+      "category": "certificate_expiry",
+      "mechanism": "The auth.internal certificate expired at 08:59:59Z. Its ACME renewal was rate-limited, so auth-service kept serving the expired certificate. Callers api-gateway and checkout-service reject the TLS handshake, so token validation fails and sign-in and checkout break.",
+      "supporting_evidence": [
+        "L0018",
+        "L0065",
+        "L0184",
+        "L0185",
+        "M12",
+        "L0254"
+      ],
+      "contradicting_evidence": [
+        "H02"
+      ],
+      "assumptions": [
+        "The served certificate is the one that expired at 08:59:59Z.",
+        "Health checks do not exercise TLS."
+      ],
+      "confidence": 0.9
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H-A",
+        "service": "auth-service",
+        "category": "certificate_expiry",
+        "mechanism": "The auth.internal certificate expired at 08:59:59Z. Its ACME renewal was rate-limited, so auth-service kept serving the expired certificate. Callers api-gateway and checkout-service reject the TLS handshake, so token validation fails and sign-in and checkout break.",
+        "supporting_evidence": [
+          "L0018",
+          "L0065",
+          "L0184",
+          "L0185",
+          "M12",
+          "L0254"
+        ],
+        "contradicting_evidence": [
+          "H02"
+        ],
+        "assumptions": [
+          "The served certificate is the one that expired at 08:59:59Z.",
+          "Health checks do not exercise TLS."
+        ],
+        "confidence": 0.9
+      },
+      {
+        "id": "H-B",
+        "service": "checkout-service",
+        "category": "deployment_regression",
+        "mechanism": "The v2.15.1 deploy at 08:54 may have changed TLS or trust-store handling, causing checkout to reject a valid certificate.",
+        "supporting_evidence": [
+          "C09"
+        ],
+        "contradicting_evidence": [
+          "M12",
+          "L0184",
+          "L0185"
+        ],
+        "assumptions": [
+          "The deploy may have included non-static changes not in the description."
+        ],
+        "confidence": 0.05
+      },
+      {
+        "id": "H-C",
+        "service": "payment-service",
+        "category": "certificate_expiry",
+        "mechanism": "An expired certificate on a downstream service could cause checkout failures, as in past incident P06.",
+        "supporting_evidence": [
+          "P06"
+        ],
+        "contradicting_evidence": [
+          "H11",
+          "L0044"
+        ],
+        "assumptions": [
+          "Payment calls are the source of the errors. No payment TLS errors were found in the logs I queried."
+        ],
+        "confidence": 0.03
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "checkout-service error_rate was 0.26% at 08:55 and 33.91% at 09:00, with a max at 09:00 and 30.77% at 09:30.",
+        "evidence_ids": [
+          "M12"
+        ]
+      },
+      {
+        "statement": "auth-service logged twice that certificate renewal for cn=auth.internal failed with ACME order rejected (rate limited); current certificate expires 2026-09-05T08:59:59Z, at 08:05:03 and 08:20:17.",
+        "evidence_ids": [
+          "L0018",
+          "L0065"
+        ]
+      },
+      {
+        "statement": "checkout-service's first PKIX 'validity check failed' error against auth.internal:8443 occurred at 09:00:04, and 45 such errors appear in the window.",
+        "evidence_ids": [
+          "L0184",
+          "L0190"
+        ]
+      },
+      {
+        "statement": "api-gateway logged 'auth check failed: x509 certificate has expired' for cn=auth.internal from 09:00:15 onward, 20 errors in the window.",
+        "evidence_ids": [
+          "L0185",
+          "L0254"
+        ]
+      },
+      {
+        "statement": "The only change in the window is checkout-service deploy v2.15.1 at 08:54:00, described as static copy and translation changes; no auth-service certificate or deploy change appears.",
+        "evidence_ids": [
+          "C09"
+        ]
+      },
+      {
+        "statement": "The health check for auth-service returns 200 on the plaintext admin port 8080, and the checkout and gateway health checks return 200.",
+        "evidence_ids": [
+          "H02",
+          "H03",
+          "H01"
+        ]
+      },
+      {
+        "statement": "checkout-service CPU (about 40-43%), memory (about 56-60%), latency p99 (about 307-332 ms) and request rate (about 82-87 req/s) stayed flat across 08:00-09:30.",
+        "evidence_ids": [
+          "M11",
+          "M13",
+          "M14",
+          "M15"
+        ]
+      },
+      {
+        "statement": "A past incident (2026-06-11) had checkout 5xx errors caused by an expired TLS certificate on payment-service, with the fix being renewal plus expiry alerting.",
+        "evidence_ids": [
+          "P06"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The 08:59:59Z expiry in the auth-service warning is the certificate now served on auth.internal:8443, since the gateway and checkout errors cite the same expiry.",
+      "The auth-service ACME rate limit has not lifted, so the certificate has not been renewed by 09:30.",
+      "The health checks do not exercise TLS on the 8443 listener, as implied by the plaintext 8080 health detail.",
+      "The 33% error rate is driven by auth validation failures and not by the single card-decline error."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "Root cause: expired auth.internal certificate on auth-service, which failed to renew because of ACME rate limiting. This breaks TLS token validation in checkout-service and the api-gateway auth check, causing sign-in and checkout failures.",
+        "evidence_ids": [
+          "L0018",
+          "L0065",
+          "L0184",
+          "L0185",
+          "M12"
+        ],
+        "confidence": 0.9
+      },
+      {
+        "statement": "The checkout-service v2.15.1 deploy at 08:54 is unlikely to be the cause: it changed only static strings, the errors are TLS validation errors, and the error rate was flat until 09:00.",
+        "evidence_ids": [
+          "C09",
+          "M12",
+          "L0184"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "statement": "The lack of alerting on certificate expiry and the TLS-blind health checks let this go unnoticed until the outage, and the renewal failures at 08:05 and 08:20 gave roughly 55 minutes of warning.",
+        "evidence_ids": [
+          "L0018",
+          "L0065",
+          "H02"
+        ],
+        "confidence": 0.6
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Install a valid certificate on auth-service now, either by manually issuing or importing one from the internal CA, or by using an alternate ACME account or an override to bypass the rate limit. Then restart or reload the listener on 8443.",
+        "priority": "immediate",
+        "rationale": "The expired certificate causes all token validation to fail, so this directly restores sign-in and checkout."
+      },
+      {
+        "action": "Confirm that checkout-service and api-gateway recover, and that the error rate returns to about 0.3%.",
+        "priority": "immediate",
+        "rationale": "Verifies the mitigation worked."
+      },
+      {
+        "action": "Fix the ACME rate-limit failure and retry renewal with backoff, and check the cert-manager and ACME account configuration.",
+        "priority": "short_term",
+        "rationale": "Prevents the certificate from expiring again."
+      },
+      {
+        "action": "Add certificate-expiry alerts at 30, 14 and 7 days and alerts on renewal failure.",
+        "priority": "short_term",
+        "rationale": "Renewal failures at 08:05 and 08:20 were logged as WARN and did not page anyone."
+      },
+      {
+        "action": "Make health checks exercise the TLS listener on 8443 and validate the certificate expiry date.",
+        "priority": "long_term",
+        "rationale": "Plaintext /health returned healthy during the outage."
+      },
+      {
+        "action": "Investigate the v2.15.1 deploy only to rule it out, and do not roll back unless errors persist after the cert fix.",
+        "priority": "short_term",
+        "rationale": "Avoids a rollback that would not fix the cause."
+      }
+    ],
+    "open_questions": [
+      "Why was the ACME order rate-limited, and what triggered the excessive renewal attempts?",
+      "Did anyone receive the renewal-failure warnings, and was there an alerting gap?",
+      "Is the certificate on other internal listeners (for example payment-service) also near expiry?",
+      "Why does the 08:05 renewal failure report expiry 08:59:59 when the 'expires' timestamp was not flagged earlier?"
+    ],
+    "data_gaps": [],
+    "data_gaps_total": 0,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S05",
+      "title": "sign-in and checkout failures",
+      "reported_at": "2026-09-05T09:30:00Z",
+      "alert": "ALERT [P1] checkout-service error rate 33% since ~09:00 UTC; users cannot sign in or complete checkout. A checkout-service deploy went out at 08:54 UTC.",
+      "affected_services": [
+        "checkout-service",
+        "api-gateway"
+      ],
+      "window_start": "2026-09-05T08:00:00Z",
+      "window_end": "2026-09-05T09:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 41,
+      "invalid": 0
+    },
+    "evidence_ids": [
+      "C09",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "M15",
+      "L0044",
+      "L0184",
+      "L0190",
+      "L0192",
+      "L0196",
+      "L0198",
+      "L0200",
+      "L0206",
+      "L0208",
+      "L0213",
+      "L0214",
+      "L0219",
+      "L0221",
+      "L0224",
+      "L0226",
+      "L0227",
+      "L0235",
+      "L0237",
+      "L0241",
+      "L0243",
+      "D01",
+      "D04",
+      "D05",
+      "D06",
+      "D07",
+      "H01",
+      "H02",
+      "H03",
+      "H07",
+      "H08",
+      "H11",
+      "L0018",
+      "L0023",
+      "L0057",
+      "L0065",
+      "L0082",
+      "L0143",
+      "L0149",
+      "C02",
+      "P06",
+      "P05",
+      "P02",
+      "P03",
+      "P04",
+      "L0185",
+      "L0194",
+      "L0202",
+      "L0210",
+      "L0216",
+      "L0223",
+      "L0228",
+      "L0238",
+      "L0244",
+      "L0254"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S05",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 20.185,
+    "tool_calls": 8,
+    "failed_tool_calls": 0,
+    "llm_calls": 3,
+    "prompt_tokens": 29791,
+    "completion_tokens": 3901,
+    "total_tokens": 33692,
+    "cost_usd": 0.0049296,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.9,
+    "top_service": "auth-service",
+    "top_category": "certificate_expiry",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 1.0,
+    "key_evidence_cited": 0.75,
+    "key_evidence_retrieved": 0.75,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 1
+  }
+}

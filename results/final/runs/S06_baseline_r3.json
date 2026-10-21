@@ -1,0 +1,415 @@
+{
+  "system": "baseline",
+  "incident_id": "S06",
+  "error": null,
+  "latency_s": 22.753,
+  "usage": {
+    "llm_calls": 4,
+    "failed_llm_calls": 0,
+    "calls_without_usage": 0,
+    "prompt_tokens": 44761,
+    "completion_tokens": 4497,
+    "reasoning_tokens": 448,
+    "total_tokens": 49258,
+    "cost_usd": 0.0067246,
+    "llm_time_s": 22.736,
+    "by_role": {
+      "baseline": {
+        "calls": 4,
+        "prompt_tokens": 44761,
+        "completion_tokens": 4497,
+        "cost_usd": 0.006724599999999999
+      }
+    }
+  },
+  "tool_stats": {
+    "tool_calls": 10,
+    "rejected_calls": 0,
+    "attempts": 10,
+    "failed_calls": 0,
+    "partial_calls": 0,
+    "simulated_tool_latency_ms": 1200,
+    "by_status": {
+      "ok": 10
+    },
+    "by_tool": {
+      "query_metrics": 2,
+      "get_change_history": 2,
+      "query_logs": 4,
+      "get_dependencies": 1,
+      "search_past_incidents": 1
+    },
+    "by_agent": {
+      "baseline": 10
+    }
+  },
+  "citations": {
+    "valid": 39,
+    "invalid": 8
+  },
+  "report": {
+    "incident_id": "S06",
+    "system": "baseline",
+    "model": "anthropic/claude-haiku-5.5",
+    "status": "conclusive",
+    "status_reason": "confidence 0.80, margin 0.70, 8 verified supporting and 0 contradicting evidence items (0%)",
+    "decision": {
+      "status": "conclusive",
+      "reasons": [
+        "confidence 0.80, margin 0.70, 8 verified supporting and 0 contradicting evidence items (0%)"
+      ],
+      "top_hypothesis": "inventory-db / infrastructure_failure",
+      "top_confidence": 0.8,
+      "margin_over_runner_up": 0.7,
+      "verified_support": [
+        "L0180",
+        "L0183",
+        "L0199",
+        "H06",
+        "L0185",
+        "L0250",
+        "M22",
+        "M20"
+      ],
+      "contradicting_evidence": [],
+      "contradiction_share": 0.0,
+      "blocking_objections": [],
+      "non_blocking_objections": 0
+    },
+    "confidence": 0.8,
+    "summary": "inventory-service reservation failures start at 13:00 UTC because its writes go to inventory-db's primary endpoint, which resolves to a read-only standby (db-inv-2). The original primary db-inv-1 lost replication connectivity at 12:59:32Z, and the standby's promotion is still pending manual approval. The 40 SQLSTATE 25006 errors match this exactly, while inventory-service health checks only test process liveness and do not exercise writes. No deploy or config change appears in the change history, so the trigger for the primary's loss is not established. Recovery needs a human-approved promotion (or repointing the primary endpoint to a writable node) and verification that stock writes succeed.",
+    "root_cause": {
+      "id": "H1",
+      "service": "inventory-db",
+      "category": "infrastructure_failure",
+      "mechanism": "The primary db-inv-1 became unreachable at 12:59Z. The failover left the inventory-db primary endpoint on standby db-inv-2, which is read-only until promotion is manually approved. inventory-service UPDATEs on stock_reservations therefore fail with SQLSTATE 25006, producing the 15% error rate.",
+      "supporting_evidence": [
+        "L0180",
+        "L0183",
+        "L0199",
+        "H06",
+        "L0185",
+        "L0250",
+        "M22",
+        "M20"
+      ],
+      "contradicting_evidence": [],
+      "assumptions": [
+        "The endpoint switch to db-inv-2 was automatic and happened after the primary was lost.",
+        "Read-only errors from the standby account for all failing reservations."
+      ],
+      "confidence": 0.8
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H1",
+        "service": "inventory-db",
+        "category": "infrastructure_failure",
+        "mechanism": "The primary db-inv-1 became unreachable at 12:59Z. The failover left the inventory-db primary endpoint on standby db-inv-2, which is read-only until promotion is manually approved. inventory-service UPDATEs on stock_reservations therefore fail with SQLSTATE 25006, producing the 15% error rate.",
+        "supporting_evidence": [
+          "L0180",
+          "L0183",
+          "L0199",
+          "H06",
+          "L0185",
+          "L0250",
+          "M22",
+          "M20"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "The endpoint switch to db-inv-2 was automatic and happened after the primary was lost.",
+          "Read-only errors from the standby account for all failing reservations."
+        ],
+        "confidence": 0.8
+      },
+      {
+        "id": "H2",
+        "service": "inventory-service",
+        "category": "resource_exhaustion",
+        "mechanism": "High heap usage and a cache-miss storm drove slow or failing stock reservations. This is a plausible secondary failure mode because of a prior cache eviction incident.",
+        "supporting_evidence": [
+          "M24",
+          "M21"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "The cache-miss log lines are real and not noise."
+        ],
+        "confidence": 0.1
+      },
+      {
+        "id": "H3",
+        "service": "inventory-db",
+        "category": "dependency_failure",
+        "mechanism": "Slow queries on stock_levels (WARN lines 603-1076ms, after autovacuum) raised database load and may have made the primary less responsive, contributing to its loss at 12:59.",
+        "supporting_evidence": [
+          "L0107",
+          "L0225",
+          "L0266",
+          "L0296",
+          "L0102"
+        ],
+        "contradicting_evidence": [],
+        "assumptions": [
+          "Slow query WARN lines are not an artefact of logging."
+        ],
+        "confidence": 0.1
+      }
+    ],
+    "observed_facts": [
+      {
+        "statement": "inventory-service error_rate jumped from about 0.2% (12:55 and earlier) to 15.43% at 13:00:00Z, and stayed between 14.4% and 15.85% through 13:30.",
+        "evidence_ids": [
+          "M22"
+        ]
+      },
+      {
+        "statement": "inventory-service logs show 40 ERROR lines 'UPDATE stock_reservations failed: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)', the first at 13:00:29Z.",
+        "evidence_ids": [
+          "L0185",
+          "L0188",
+          "L0250"
+        ]
+      },
+      {
+        "statement": "inventory-db replication lag went from 0.3s to 48.38s at 13:00:00Z and returned to 0.29s by 13:10:00Z.",
+        "evidence_ids": [
+          "M18",
+          "M20"
+        ]
+      },
+      {
+        "statement": "inventory-db logged 'replication: lost connection to primary db-inv-1 (timeout after 10s)' at 12:59:32Z and 13:00:16Z.",
+        "evidence_ids": [
+          "L0180",
+          "L0183"
+        ]
+      },
+      {
+        "statement": "inventory-db logged 'standby db-inv-2 still in recovery: promotion pending manual approval' at 13:03:34Z.",
+        "evidence_ids": [
+          "L0199"
+        ]
+      },
+      {
+        "statement": "The health check for inventory-db reports 'degraded: primary endpoint resolves to db-inv-2 (standby, read-only)' at 13:28:00Z.",
+        "evidence_ids": [
+          "H06"
+        ]
+      },
+      {
+        "statement": "The inventory-service health check returns 200 and is documented as checking process liveness only, not database writes.",
+        "evidence_ids": [
+          "H07"
+        ]
+      },
+      {
+        "statement": "inventory-db connections dropped to 20 at 13:00 and 13:05 and were back to 86 by 13:10.",
+        "evidence_ids": [
+          "M16"
+        ]
+      },
+      {
+        "statement": "checkout-service logs show no WARN or ERROR lines between 12:55 and 13:30 UTC, and its health check returns healthy.",
+        "evidence_ids": [
+          "H03"
+        ]
+      }
+    ],
+    "assumptions": [
+      "The health check for inventory-service does not exercise database writes, so a green result does not indicate reservation capability.",
+      "The 'primary endpoint' DNS or VIP for inventory-db was switched to db-inv-2 at or after the 12:59 primary loss, or db-inv-2 has been read-only since then.",
+      "The change history is complete for the period; infra-level changes such as failover automation may not be logged there.",
+      "Errors are counted per request, so the 15% error rate corresponds to the share of reservation writes that fail.",
+      "(unverified - no valid evidence cited) No deployments, config changes, feature flags or infra events were recorded for inventory-service or inventory-db in the change history from 06:00 to 13:30 UTC."
+    ],
+    "inferred_conclusions": [
+      {
+        "statement": "Primary cause: loss of db-inv-1 (primary) at ~12:59Z, followed by failover that left the primary endpoint on read-only standby db-inv-2 because promotion is awaiting manual approval. This is what stops stock reservation writes.",
+        "evidence_ids": [
+          "L0180",
+          "L0183",
+          "L0199",
+          "H06",
+          "L0185",
+          "M20"
+        ],
+        "confidence": 0.8
+      },
+      {
+        "statement": "The cache-miss storm and high heap usage in inventory-service are secondary. Memory has stayed at 88-94% since before 12:00 and the cache has no failures, so they do not explain the 25006 errors.",
+        "evidence_ids": [
+          "M24",
+          "M22"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "statement": "The 13:10 recovery of replication lag and connections did not restore writes, so the fault is the unpromoted standby and not transient replication lag.",
+        "evidence_ids": [
+          "M20",
+          "M16",
+          "H06"
+        ],
+        "confidence": 0.7
+      }
+    ],
+    "remediation": [
+      {
+        "action": "Approve and execute promotion of db-inv-2 (or restore db-inv-1 as primary), then repoint the inventory-db primary endpoint to a writable node.",
+        "priority": "immediate",
+        "rationale": "Stops the read-only SQLSTATE 25006 errors that are causing reservation failures."
+      },
+      {
+        "action": "Verify writes succeed end to end, e.g. a test reservation, rather than relying on the inventory-service liveness health check.",
+        "priority": "immediate",
+        "rationale": "The current health checks are green while writes fail."
+      },
+      {
+        "action": "Confirm checkout retries or fallbacks for failed reservations and check for oversell or stale stock during the window.",
+        "priority": "immediate",
+        "rationale": "Failed reservations may have left orders or stock levels inconsistent."
+      },
+      {
+        "action": "Find out why db-inv-1 lost replication at 12:59 (network, host, or resource) before failing back.",
+        "priority": "short_term",
+        "rationale": "Root cause of the primary loss is not established by the data."
+      },
+      {
+        "action": "Add a write-path health check to inventory-service and an alert on read-only or standby endpoints.",
+        "priority": "long_term",
+        "rationale": "The health check is shallow, so the failure went unnoticed by health monitoring."
+      },
+      {
+        "action": "Automate or pre-approve the failover promotion runbook to cut manual wait time.",
+        "priority": "long_term",
+        "rationale": "Promotion was pending manual approval, which extended the outage."
+      }
+    ],
+    "open_questions": [
+      "Why did db-inv-1 stop responding at 12:59:32Z (host crash, network partition, or resource exhaustion)?",
+      "Who or what changed the primary endpoint to db-inv-2, and when?",
+      "Has the promotion of db-inv-2 been requested, and who must approve it?",
+      "Did any reservations fail silently or get lost between 13:00 and the fix, and what is the stock impact?",
+      "Is the cache-miss storm and high heap a separate issue that could resurface once writes recover?"
+    ],
+    "data_gaps": [],
+    "data_gaps_total": 0,
+    "termination_reason": "agent_finished"
+  },
+  "state": {
+    "brief": {
+      "id": "S06",
+      "title": "stock reservation failures",
+      "reported_at": "2026-09-06T13:30:00Z",
+      "alert": "ALERT [P2] inventory-service error rate 15% since ~13:00 UTC; stock reservations failing at checkout. inventory-service health checks are green.",
+      "affected_services": [
+        "inventory-service",
+        "checkout-service"
+      ],
+      "window_start": "2026-09-06T12:00:00Z",
+      "window_end": "2026-09-06T13:30:00Z"
+    },
+    "plan": null,
+    "tasks": [],
+    "rounds": [],
+    "termination_reason": "agent_finished",
+    "citations": {
+      "valid": 39,
+      "invalid": 8
+    },
+    "evidence_ids": [
+      "M21",
+      "M22",
+      "M23",
+      "M24",
+      "M25",
+      "L0185",
+      "L0188",
+      "L0189",
+      "L0192",
+      "L0197",
+      "L0202",
+      "L0206",
+      "L0208",
+      "L0211",
+      "L0215",
+      "L0219",
+      "L0221",
+      "L0227",
+      "L0230",
+      "L0235",
+      "L0238",
+      "L0240",
+      "L0244",
+      "L0246",
+      "L0250",
+      "D05",
+      "D10",
+      "D11",
+      "H03",
+      "H05",
+      "H06",
+      "H07",
+      "M16",
+      "M17",
+      "M18",
+      "M19",
+      "M20",
+      "L0096",
+      "L0102",
+      "L0107",
+      "L0119",
+      "L0124",
+      "L0133",
+      "L0144",
+      "L0157",
+      "L0164",
+      "L0175",
+      "L0180",
+      "L0183",
+      "L0184",
+      "L0199",
+      "L0200",
+      "L0207",
+      "L0225",
+      "L0232",
+      "L0266",
+      "L0296",
+      "P03"
+    ],
+    "trace": []
+  },
+  "grade": {
+    "system": "baseline",
+    "incident_id": "S06",
+    "expected_inconclusive": false,
+    "error": null,
+    "latency_s": 22.753,
+    "tool_calls": 10,
+    "failed_tool_calls": 0,
+    "llm_calls": 4,
+    "prompt_tokens": 44761,
+    "completion_tokens": 4497,
+    "total_tokens": 49258,
+    "cost_usd": 0.0067246,
+    "calls_without_usage": 0,
+    "invalid_outputs": 0,
+    "correct": true,
+    "status": "conclusive",
+    "confidence": 0.8,
+    "top_service": "inventory-db",
+    "top_category": "infrastructure_failure",
+    "top1_lead": true,
+    "top3": true,
+    "misled": false,
+    "citation_validity": 0.8297872340425532,
+    "key_evidence_cited": 1.0,
+    "key_evidence_retrieved": 1.0,
+    "unsupported_hypotheses": 0,
+    "rounds": null,
+    "termination_reason": "agent_finished",
+    "repeat": 3
+  }
+}
