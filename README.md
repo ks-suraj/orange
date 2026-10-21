@@ -62,9 +62,9 @@ src/incident_investigator/
   agents/      orchestrator, observability, dependency, reasoning, critic, reporting (+ base)
   tools/       logs, metrics, deployments, dependencies, historical_incidents (+ base: executor)
   evaluation/  baseline, metrics, runner
-  scripts/       run_investigation.py, run_evaluation.py, analyze_results.py, generate_scenarios.py
-  tests/         offline tests with a scripted LLM (tests/fakes.py)
-  docs/          architecture, technical note, evaluation results
+  scripts/         run_investigation.py, run_evaluation.py, analyze_results.py, generate_scenarios.py
+  tests/           offline tests with a scripted LLM (tests/fakes.py)
+  docs/            architecture, technical note, evaluation results
 ```
 
 ## Results
