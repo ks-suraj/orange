@@ -50,7 +50,14 @@ def test_committed_dataset_matches_manifest():
     manifest = json.loads((DATA_DIR / "MANIFEST.json").read_text(encoding="utf-8"))
     assert len(manifest["files"]) == 12 * 7
     for rel, digest in manifest["files"].items():
-        assert hashlib.sha256((DATA_DIR / rel).read_bytes()).hexdigest() == digest, rel
+        data = (DATA_DIR / rel).read_bytes().replace(b"\r\n", b"\n")  # same normalisation as the generator
+        assert hashlib.sha256(data).hexdigest() == digest, rel
+
+
+def test_dataset_files_are_written_with_lf_line_endings(generator, tmp_path):
+    generator.main(tmp_path)
+    files = list((tmp_path / "incidents").rglob("*.json")) + list((tmp_path / "ground_truth").glob("*.json"))
+    assert len(files) == 84 and not any(b"\r\n" in f.read_bytes() for f in files)
 
 
 def test_regeneration_is_deterministic_and_reproduces_committed_data(generator, tmp_path):

@@ -1,2 +1,4 @@
 # Keep LF everywhere so data/MANIFEST.json hashes hold on every checkout
 * text=auto eol=lf
+*.json text eol=lf
+*.py text eol=lf

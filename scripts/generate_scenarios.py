@@ -553,7 +553,13 @@ def build_past(spec: Spec) -> tuple[list[dict], list[list[str]], list[list[str]]
 
 
 def write_json(path: Path, obj) -> None:
-    path.write_text(json.dumps(obj, indent=1) + "\n", encoding="utf-8")
+    # Write bytes, not text: text mode would turn "\n" into "\r\n" on Windows and make the files OS-dependent.
+    path.write_bytes((json.dumps(obj, indent=1) + "\n").encode("utf-8"))
+
+
+def content_sha256(path: Path) -> str:
+    """SHA-256 of a file with line endings normalised to LF, so hashes match on any OS and any Git checkout."""
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def generate(spec: Spec, root: Path = DATA) -> None:
@@ -603,8 +609,9 @@ def write_manifest(root: Path) -> dict:
     files = sorted(p for sub in ("incidents", "ground_truth") for p in (root / sub).rglob("*.json"))
     manifest = {
         "dataset_version": DATASET_VERSION,
-        "generator_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        "files": {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files},
+        "hash_method": "sha256 of UTF-8 bytes with LF line endings",
+        "generator_sha256": content_sha256(Path(__file__)),
+        "files": {p.relative_to(root).as_posix(): content_sha256(p) for p in files},
     }
     write_json(root / "MANIFEST.json", manifest)
     return manifest

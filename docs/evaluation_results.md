@@ -142,6 +142,14 @@ Ground-truth answers, key-evidence groups and decoys are unchanged in every scen
 because the noise was regenerated; ground truth is regenerated with them. The inconsistencies listed under
 "Why the multi-agent system abstained" remain in v2.1.
 
+**Reproducibility fix (after the evaluation, no semantic change).** The generator wrote JSON in text mode, so
+on Windows the files had CRLF line endings and the manifest hashed CRLF bytes. Git stores LF, so a fresh clone
+failed the integrity test. The generator now writes LF bytes explicitly. Manifest hashes are SHA-256 of
+LF-normalised content (`hash_method` in `MANIFEST.json`). `.gitattributes` pins LF for all text, JSON and
+Python files. After regeneration, all 84 dataset files are byte-identical to the committed versions the
+evaluation used, and their parsed JSON is unchanged. Only `MANIFEST.json` (hashes), the generator and the
+dataset test changed. The dataset version stays v2.1 and the evaluation results above are unaffected.
+
 ## Limitations
 
 - **Small, synthetic benchmark.** 12 scenarios with one shared topology, 3 repeats and one model. The
