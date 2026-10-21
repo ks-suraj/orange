@@ -1,0 +1,69 @@
+{
+ "incident_id": "S01",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "checkout-service"
+ ],
+ "root_cause_categories": [
+  "deployment_regression"
+ ],
+ "summary": "checkout-service v2.14.0 (new discount engine) throws NullPointerException on every discounted cart.",
+ "key_evidence": [
+  [
+   "C09"
+  ],
+  [
+   "M12"
+  ],
+  [
+   "L0188",
+   "L0190",
+   "L0194",
+   "L0198",
+   "L0203",
+   "L0207",
+   "L0210",
+   "L0215",
+   "L0219",
+   "L0222",
+   "L0226",
+   "L0231",
+   "L0235",
+   "L0238",
+   "L0242",
+   "L0247",
+   "L0249",
+   "L0251",
+   "L0254",
+   "L0257",
+   "L0265",
+   "L0266",
+   "L0269",
+   "L0278",
+   "L0280",
+   "L0283",
+   "L0288",
+   "L0290",
+   "L0295",
+   "L0300",
+   "L0305",
+   "L0307",
+   "L0312",
+   "L0316",
+   "L0319",
+   "L0323",
+   "L0329",
+   "L0333",
+   "L0336",
+   "L0340"
+  ],
+  [
+   "P04"
+  ]
+ ],
+ "misleading_evidence": [],
+ "decoy_hypotheses": [],
+ "tags": [
+  "baseline_case"
+ ]
+}

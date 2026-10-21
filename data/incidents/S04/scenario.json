@@ -1,0 +1,15 @@
+{
+ "brief": {
+  "id": "S04",
+  "title": "checkout and payment errors",
+  "reported_at": "2026-09-04T16:30:00Z",
+  "alert": "ALERT [P1] checkout-service error rate 21% and api-gateway 5xx 8% since ~16:00 UTC. Customers report failed payments.",
+  "affected_services": [
+   "checkout-service",
+   "api-gateway"
+  ],
+  "window_start": "2026-09-04T15:00:00Z",
+  "window_end": "2026-09-04T16:30:00Z"
+ },
+ "faults": []
+}

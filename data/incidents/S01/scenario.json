@@ -1,0 +1,15 @@
+{
+ "brief": {
+  "id": "S01",
+  "title": "api-gateway 5xx spike on checkout",
+  "reported_at": "2026-09-01T14:30:00Z",
+  "alert": "ALERT [P1] api-gateway 5xx rate 6.2% (threshold 2%) for 5 minutes, starting ~14:00 UTC. Checkout conversion down 40%.",
+  "affected_services": [
+   "api-gateway",
+   "checkout-service"
+  ],
+  "window_start": "2026-09-01T13:00:00Z",
+  "window_end": "2026-09-01T14:30:00Z"
+ },
+ "faults": []
+}

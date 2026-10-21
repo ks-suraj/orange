@@ -1,0 +1,98 @@
+[
+ {
+  "id": "C01",
+  "record_type": "change",
+  "ts": "2026-08-30T05:40:00Z",
+  "service": "api-gateway",
+  "type": "deploy",
+  "description": "Deploy v7.4.2: upgrade TLS library; minor routing fixes",
+  "author": "deploy-bot",
+  "status": "completed",
+  "version": "v7.4.2"
+ },
+ {
+  "id": "C02",
+  "record_type": "change",
+  "ts": "2026-08-31T10:30:00Z",
+  "service": "auth-service",
+  "type": "config_change",
+  "description": "Lower log level for /healthz from INFO to WARN",
+  "author": "s.okafor",
+  "status": "completed"
+ },
+ {
+  "id": "C03",
+  "record_type": "change",
+  "ts": "2026-09-02T05:00:00Z",
+  "service": "inventory-service",
+  "type": "deploy",
+  "description": "Deploy v4.1.9: add SKU bulk lookup endpoint",
+  "author": "deploy-bot",
+  "status": "completed",
+  "version": "v4.1.9"
+ },
+ {
+  "id": "C04",
+  "record_type": "change",
+  "ts": "2026-09-03T09:30:00Z",
+  "service": "search-service",
+  "type": "deploy",
+  "description": "Deploy v5.3.1: query parser fixes",
+  "author": "deploy-bot",
+  "status": "completed",
+  "version": "v5.3.1"
+ },
+ {
+  "id": "C05",
+  "record_type": "change",
+  "ts": "2026-09-04T03:00:00Z",
+  "service": "payment-service",
+  "type": "deploy",
+  "description": "Deploy v3.1.3: refund flow improvements",
+  "author": "deploy-bot",
+  "status": "completed",
+  "version": "v3.1.3"
+ },
+ {
+  "id": "C06",
+  "record_type": "change",
+  "ts": "2026-09-04T07:00:00Z",
+  "service": "notification-worker",
+  "type": "config_change",
+  "description": "Increase send batch size 50 -> 100",
+  "author": "m.chen",
+  "status": "completed"
+ },
+ {
+  "id": "C07",
+  "record_type": "change",
+  "ts": "2026-09-04T13:00:00Z",
+  "service": "checkout-service",
+  "type": "deploy",
+  "description": "Deploy v2.13.4: cart page performance tweaks",
+  "author": "deploy-bot",
+  "status": "completed",
+  "version": "v2.13.4"
+ },
+ {
+  "id": "C08",
+  "record_type": "change",
+  "ts": "2026-09-05T00:00:00Z",
+  "service": "platform",
+  "type": "infra",
+  "description": "Kubernetes node pool upgrade 1.30 -> 1.31 completed; all nodes Ready",
+  "author": "platform-team",
+  "status": "completed"
+ },
+ {
+  "id": "C09",
+  "record_type": "change",
+  "ts": "2026-09-05T08:54:00Z",
+  "service": "checkout-service",
+  "type": "deploy",
+  "description": "Deploy v2.15.1: update checkout button copy and translations (static strings only)",
+  "author": "deploy-bot",
+  "status": "completed",
+  "version": "v2.15.1"
+ }
+]

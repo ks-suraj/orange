@@ -1,0 +1,15 @@
+{
+ "brief": {
+  "id": "S02",
+  "title": "payment failures at checkout",
+  "reported_at": "2026-09-02T10:30:00Z",
+  "alert": "ALERT [P1] checkout-service payment step failing: error rate 12% since ~10:00 UTC; payment-service 5xx elevated.",
+  "affected_services": [
+   "checkout-service",
+   "payment-service"
+  ],
+  "window_start": "2026-09-02T09:00:00Z",
+  "window_end": "2026-09-02T10:30:00Z"
+ },
+ "faults": []
+}

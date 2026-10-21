@@ -1,0 +1,90 @@
+[
+ {
+  "id": "P01",
+  "record_type": "past_incident",
+  "date": "2026-01-14",
+  "title": "API gateway 502s during node pool upgrade",
+  "services": [
+   "api-gateway"
+  ],
+  "symptoms": "gateway 502 errors, pod restarts during node drain",
+  "root_cause": "Node drain without PodDisruptionBudget",
+  "resolution": "Added PodDisruptionBudgets"
+ },
+ {
+  "id": "P02",
+  "record_type": "past_incident",
+  "date": "2026-02-27",
+  "title": "Search latency spike from index rebuild",
+  "services": [
+   "search-service",
+   "search-index"
+  ],
+  "symptoms": "search p99 latency high, gateway slow upstream warnings",
+  "root_cause": "Index rebuild scheduled during peak traffic",
+  "resolution": "Moved rebuilds off-peak"
+ },
+ {
+  "id": "P03",
+  "record_type": "past_incident",
+  "date": "2026-04-03",
+  "title": "Inventory reservation failures from cache eviction storm",
+  "services": [
+   "inventory-service",
+   "inventory-cache"
+  ],
+  "symptoms": "inventory errors, cache misses, high database load",
+  "root_cause": "Cache memory limit too low after catalogue growth",
+  "resolution": "Increased cache memory, added eviction alert"
+ },
+ {
+  "id": "P04",
+  "record_type": "past_incident",
+  "date": "2026-05-30",
+  "title": "Auth latency after signing key rotation",
+  "services": [
+   "auth-service"
+  ],
+  "symptoms": "login latency, token validation errors",
+  "root_cause": "Key rotation caused public-key cache misses",
+  "resolution": "Pre-warm key cache before rotation"
+ },
+ {
+  "id": "P05",
+  "record_type": "past_incident",
+  "date": "2026-06-11",
+  "title": "Checkout errors from expired TLS certificate on payment-service",
+  "services": [
+   "payment-service",
+   "checkout-service"
+  ],
+  "symptoms": "TLS handshake failures, checkout 5xx errors",
+  "root_cause": "Certificate not renewed due to cert-manager misconfiguration",
+  "resolution": "Renewed certificate; added expiry alerting"
+ },
+ {
+  "id": "P06",
+  "record_type": "past_incident",
+  "date": "2026-07-30",
+  "title": "Payment failures after payment-service deploy v3.0.9",
+  "services": [
+   "payment-service"
+  ],
+  "symptoms": "payment-service 5xx errors after deploy; insert failures",
+  "root_cause": "Regression in new release",
+  "resolution": "Rolled back v3.0.9"
+ },
+ {
+  "id": "P07",
+  "record_type": "past_incident",
+  "date": "2026-08-08",
+  "title": "Payment timeouts from payments-db connection exhaustion",
+  "services": [
+   "payment-service",
+   "payments-db"
+  ],
+  "symptoms": "payment timeouts, connection pool waits, slow queries",
+  "root_cause": "Connection leak in nightly batch job",
+  "resolution": "Fixed leak; added pool saturation alerts"
+ }
+]

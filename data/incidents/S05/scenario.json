@@ -1,0 +1,15 @@
+{
+ "brief": {
+  "id": "S05",
+  "title": "sign-in and checkout failures",
+  "reported_at": "2026-09-05T09:30:00Z",
+  "alert": "ALERT [P1] checkout-service error rate 33% since ~09:00 UTC; users cannot sign in or complete checkout. A checkout-service deploy went out at 08:54 UTC.",
+  "affected_services": [
+   "checkout-service",
+   "api-gateway"
+  ],
+  "window_start": "2026-09-05T08:00:00Z",
+  "window_end": "2026-09-05T09:30:00Z"
+ },
+ "faults": []
+}

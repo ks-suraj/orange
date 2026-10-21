@@ -1,0 +1,15 @@
+{
+ "brief": {
+  "id": "S06",
+  "title": "stock reservation failures",
+  "reported_at": "2026-09-06T13:30:00Z",
+  "alert": "ALERT [P2] inventory-service error rate 15% since ~13:00 UTC; stock reservations failing at checkout. inventory-service health checks are green.",
+  "affected_services": [
+   "inventory-service",
+   "checkout-service"
+  ],
+  "window_start": "2026-09-06T12:00:00Z",
+  "window_end": "2026-09-06T13:30:00Z"
+ },
+ "faults": []
+}

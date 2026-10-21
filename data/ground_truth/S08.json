@@ -1,0 +1,54 @@
+{
+ "incident_id": "S08",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "payment-service"
+ ],
+ "root_cause_categories": [
+  "deployment_regression"
+ ],
+ "summary": "payment-service v3.2.0 writes an idempotency_key column whose migration was never applied. The log backend times out for payment-service, so the cause must be inferred from changes and metrics.",
+ "key_evidence": [
+  [
+   "C09"
+  ],
+  [
+   "M33"
+  ],
+  [
+   "L0182",
+   "L0190",
+   "L0195",
+   "L0203",
+   "L0208",
+   "L0217",
+   "L0221",
+   "L0226",
+   "L0233",
+   "L0245",
+   "L0249",
+   "L0255",
+   "L0260",
+   "L0268",
+   "L0272",
+   "L0277",
+   "L0282",
+   "L0290",
+   "L0297",
+   "L0304",
+   "L0310",
+   "L0316",
+   "L0321",
+   "L0331",
+   "L0333"
+  ],
+  [
+   "P02"
+  ]
+ ],
+ "misleading_evidence": [],
+ "decoy_hypotheses": [],
+ "tags": [
+  "tool_failure"
+ ]
+}

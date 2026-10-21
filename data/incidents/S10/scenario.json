@@ -1,0 +1,32 @@
+{
+ "brief": {
+  "id": "S10",
+  "title": "brief gateway latency blip",
+  "reported_at": "2026-09-10T20:30:00Z",
+  "alert": "ALERT [P3] api-gateway p99 latency 1.6s (threshold 1.5s) for ~4 minutes around 20:00 UTC; auto-resolved at 20:05 UTC. No customer reports.",
+  "affected_services": [
+   "api-gateway"
+  ],
+  "window_start": "2026-09-10T19:00:00Z",
+  "window_end": "2026-09-10T20:30:00Z"
+ },
+ "faults": [
+  {
+   "tool": "query_metrics",
+   "mode": "error",
+   "when": {
+    "service": "search-service"
+   },
+   "recoverable": false,
+   "message": "metrics for search-service unavailable (retention gap)"
+  },
+  {
+   "tool": "query_logs",
+   "mode": "timeout",
+   "when": {
+    "service": "search-service"
+   },
+   "message": "log backend query for search-service exceeded deadline"
+  }
+ ]
+}

@@ -1,0 +1,3130 @@
+[
+ {
+  "id": "L0001",
+  "record_type": "log",
+  "ts": "2026-09-07T17:00:04Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order ecbddabb"
+ },
+ {
+  "id": "L0002",
+  "record_type": "log",
+  "ts": "2026-09-07T17:00:16Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1287ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0003",
+  "record_type": "log",
+  "ts": "2026-09-07T17:00:37Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/dd0d4c1f 200 160ms"
+ },
+ {
+  "id": "L0004",
+  "record_type": "log",
+  "ts": "2026-09-07T17:00:38Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5512 buffers"
+ },
+ {
+  "id": "L0005",
+  "record_type": "log",
+  "ts": "2026-09-07T17:00:40Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 322ms"
+ },
+ {
+  "id": "L0006",
+  "record_type": "log",
+  "ts": "2026-09-07T17:00:57Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 231ms"
+ },
+ {
+  "id": "L0007",
+  "record_type": "log",
+  "ts": "2026-09-07T17:01:14Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=bf3a9fc1 in 113ms"
+ },
+ {
+  "id": "L0008",
+  "record_type": "log",
+  "ts": "2026-09-07T17:01:27Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 376ms"
+ },
+ {
+  "id": "L0009",
+  "record_type": "log",
+  "ts": "2026-09-07T17:01:29Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user c9bb15f9"
+ },
+ {
+  "id": "L0010",
+  "record_type": "log",
+  "ts": "2026-09-07T17:02:27Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order a4c93718 created in 29ms"
+ },
+ {
+  "id": "L0011",
+  "record_type": "log",
+  "ts": "2026-09-07T17:03:19Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix f671cdb9: 49 misses/s"
+ },
+ {
+  "id": "L0012",
+  "record_type": "log",
+  "ts": "2026-09-07T17:03:48Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4812 buffers"
+ },
+ {
+  "id": "L0013",
+  "record_type": "log",
+  "ts": "2026-09-07T17:04:03Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 375ms"
+ },
+ {
+  "id": "L0014",
+  "record_type": "log",
+  "ts": "2026-09-07T17:04:07Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 838ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0015",
+  "record_type": "log",
+  "ts": "2026-09-07T17:04:17Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund c0fe8129 processed"
+ },
+ {
+  "id": "L0016",
+  "record_type": "log",
+  "ts": "2026-09-07T17:04:25Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 660ms"
+ },
+ {
+  "id": "L0017",
+  "record_type": "log",
+  "ts": "2026-09-07T17:04:41Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 290ms"
+ },
+ {
+  "id": "L0018",
+  "record_type": "log",
+  "ts": "2026-09-07T17:04:58Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 05450a31"
+ },
+ {
+  "id": "L0019",
+  "record_type": "log",
+  "ts": "2026-09-07T17:05:52Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8840 buffers"
+ },
+ {
+  "id": "L0020",
+  "record_type": "log",
+  "ts": "2026-09-07T17:06:05Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 212ms"
+ },
+ {
+  "id": "L0021",
+  "record_type": "log",
+  "ts": "2026-09-07T17:06:21Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.960"
+ },
+ {
+  "id": "L0022",
+  "record_type": "log",
+  "ts": "2026-09-07T17:06:24Z",
+  "service": "search-service",
+  "level": "ERROR",
+  "message": "query parse error: unbalanced quotes"
+ },
+ {
+  "id": "L0023",
+  "record_type": "log",
+  "ts": "2026-09-07T17:06:27Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 5ab817a0 created in 212ms"
+ },
+ {
+  "id": "L0024",
+  "record_type": "log",
+  "ts": "2026-09-07T17:07:28Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0025",
+  "record_type": "log",
+  "ts": "2026-09-07T17:07:39Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 36db0fa5: bad password"
+ },
+ {
+  "id": "L0026",
+  "record_type": "log",
+  "ts": "2026-09-07T17:08:04Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 235ms"
+ },
+ {
+  "id": "L0027",
+  "record_type": "log",
+  "ts": "2026-09-07T17:08:25Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "order 73cdce64 rejected: card declined by issuer"
+ },
+ {
+  "id": "L0028",
+  "record_type": "log",
+  "ts": "2026-09-07T17:08:30Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order d1fe4f38"
+ },
+ {
+  "id": "L0029",
+  "record_type": "log",
+  "ts": "2026-09-07T17:08:31Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 89efffdc processed"
+ },
+ {
+  "id": "L0030",
+  "record_type": "log",
+  "ts": "2026-09-07T17:08:40Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 665ms"
+ },
+ {
+  "id": "L0031",
+  "record_type": "log",
+  "ts": "2026-09-07T17:09:02Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 556cf57b: 41 misses/s"
+ },
+ {
+  "id": "L0032",
+  "record_type": "log",
+  "ts": "2026-09-07T17:09:18Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0033",
+  "record_type": "log",
+  "ts": "2026-09-07T17:09:52Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0034",
+  "record_type": "log",
+  "ts": "2026-09-07T17:10:15Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 13023976 created in 292ms"
+ },
+ {
+  "id": "L0035",
+  "record_type": "log",
+  "ts": "2026-09-07T17:11:15Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user f065fefd"
+ },
+ {
+  "id": "L0036",
+  "record_type": "log",
+  "ts": "2026-09-07T17:11:31Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.927"
+ },
+ {
+  "id": "L0037",
+  "record_type": "log",
+  "ts": "2026-09-07T17:11:33Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund b2e499e1 processed"
+ },
+ {
+  "id": "L0038",
+  "record_type": "log",
+  "ts": "2026-09-07T17:11:40Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 88ms"
+ },
+ {
+  "id": "L0039",
+  "record_type": "log",
+  "ts": "2026-09-07T17:12:04Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2440 buffers"
+ },
+ {
+  "id": "L0040",
+  "record_type": "log",
+  "ts": "2026-09-07T17:12:17Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order e288b87c"
+ },
+ {
+  "id": "L0041",
+  "record_type": "log",
+  "ts": "2026-09-07T17:12:31Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0042",
+  "record_type": "log",
+  "ts": "2026-09-07T17:12:46Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 38ms"
+ },
+ {
+  "id": "L0043",
+  "record_type": "log",
+  "ts": "2026-09-07T17:13:24Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 6a9198a1 processed"
+ },
+ {
+  "id": "L0044",
+  "record_type": "log",
+  "ts": "2026-09-07T17:13:41Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart bf0ac442"
+ },
+ {
+  "id": "L0045",
+  "record_type": "log",
+  "ts": "2026-09-07T17:14:05Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart f3de85b3 priced in 101ms"
+ },
+ {
+  "id": "L0046",
+  "record_type": "log",
+  "ts": "2026-09-07T17:14:16Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0047",
+  "record_type": "log",
+  "ts": "2026-09-07T17:14:29Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0048",
+  "record_type": "log",
+  "ts": "2026-09-07T17:14:49Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 353ms"
+ },
+ {
+  "id": "L0049",
+  "record_type": "log",
+  "ts": "2026-09-07T17:14:59Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 50baab96"
+ },
+ {
+  "id": "L0050",
+  "record_type": "log",
+  "ts": "2026-09-07T17:15:05Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order c68e3026"
+ },
+ {
+  "id": "L0051",
+  "record_type": "log",
+  "ts": "2026-09-07T17:15:59Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "charge 5991919e failed: insufficient funds (declined)"
+ },
+ {
+  "id": "L0052",
+  "record_type": "log",
+  "ts": "2026-09-07T17:16:10Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.976"
+ },
+ {
+  "id": "L0053",
+  "record_type": "log",
+  "ts": "2026-09-07T17:16:53Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2912 buffers"
+ },
+ {
+  "id": "L0054",
+  "record_type": "log",
+  "ts": "2026-09-07T17:16:56Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 163ms"
+ },
+ {
+  "id": "L0055",
+  "record_type": "log",
+  "ts": "2026-09-07T17:17:05Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2840 buffers"
+ },
+ {
+  "id": "L0056",
+  "record_type": "log",
+  "ts": "2026-09-07T17:17:10Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user d15c2bc2: bad password"
+ },
+ {
+  "id": "L0057",
+  "record_type": "log",
+  "ts": "2026-09-07T17:17:29Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/6a0e8a5d 200 154ms"
+ },
+ {
+  "id": "L0058",
+  "record_type": "log",
+  "ts": "2026-09-07T17:18:57Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 85ms"
+ },
+ {
+  "id": "L0059",
+  "record_type": "log",
+  "ts": "2026-09-07T17:18:59Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 379ms"
+ },
+ {
+  "id": "L0060",
+  "record_type": "log",
+  "ts": "2026-09-07T17:19:15Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 4199ef62: 54 misses/s"
+ },
+ {
+  "id": "L0061",
+  "record_type": "log",
+  "ts": "2026-09-07T17:19:24Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 516c9786 authorized in 319ms"
+ },
+ {
+  "id": "L0062",
+  "record_type": "log",
+  "ts": "2026-09-07T17:19:41Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2312 buffers"
+ },
+ {
+  "id": "L0063",
+  "record_type": "log",
+  "ts": "2026-09-07T17:19:43Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user a6c7ff9c"
+ },
+ {
+  "id": "L0064",
+  "record_type": "log",
+  "ts": "2026-09-07T17:20:30Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart d3e74d61 priced in 194ms"
+ },
+ {
+  "id": "L0065",
+  "record_type": "log",
+  "ts": "2026-09-07T17:20:49Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0066",
+  "record_type": "log",
+  "ts": "2026-09-07T17:20:50Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 146ms"
+ },
+ {
+  "id": "L0067",
+  "record_type": "log",
+  "ts": "2026-09-07T17:21:17Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 26ms"
+ },
+ {
+  "id": "L0068",
+  "record_type": "log",
+  "ts": "2026-09-07T17:21:36Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 132ms"
+ },
+ {
+  "id": "L0069",
+  "record_type": "log",
+  "ts": "2026-09-07T17:21:40Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=4a5cff32 in 206ms"
+ },
+ {
+  "id": "L0070",
+  "record_type": "log",
+  "ts": "2026-09-07T17:22:55Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user ece0213a"
+ },
+ {
+  "id": "L0071",
+  "record_type": "log",
+  "ts": "2026-09-07T17:23:00Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 332ms"
+ },
+ {
+  "id": "L0072",
+  "record_type": "log",
+  "ts": "2026-09-07T17:23:35Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "retrying idempotent call to payment-service (attempt 2)"
+ },
+ {
+  "id": "L0073",
+  "record_type": "log",
+  "ts": "2026-09-07T17:23:55Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0074",
+  "record_type": "log",
+  "ts": "2026-09-07T17:24:31Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8740 buffers"
+ },
+ {
+  "id": "L0075",
+  "record_type": "log",
+  "ts": "2026-09-07T17:24:41Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 118ms"
+ },
+ {
+  "id": "L0076",
+  "record_type": "log",
+  "ts": "2026-09-07T17:24:56Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 107ms"
+ },
+ {
+  "id": "L0077",
+  "record_type": "log",
+  "ts": "2026-09-07T17:25:06Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "Starting inventory-service v4.2.0 (build 77ab01e)"
+ },
+ {
+  "id": "L0078",
+  "record_type": "log",
+  "ts": "2026-09-07T17:25:11Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 99c1b1a4"
+ },
+ {
+  "id": "L0079",
+  "record_type": "log",
+  "ts": "2026-09-07T17:25:49Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "reservation 5e118fa0 expired before confirmation"
+ },
+ {
+  "id": "L0080",
+  "record_type": "log",
+  "ts": "2026-09-07T17:26:18Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 43ms"
+ },
+ {
+  "id": "L0081",
+  "record_type": "log",
+  "ts": "2026-09-07T17:26:21Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 9c65fbff in 364ms"
+ },
+ {
+  "id": "L0082",
+  "record_type": "log",
+  "ts": "2026-09-07T17:26:29Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "Starting inventory-service v4.2.0 (build 77ab01e)"
+ },
+ {
+  "id": "L0083",
+  "record_type": "log",
+  "ts": "2026-09-07T17:26:29Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 286ms"
+ },
+ {
+  "id": "L0084",
+  "record_type": "log",
+  "ts": "2026-09-07T17:26:30Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 721ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0085",
+  "record_type": "log",
+  "ts": "2026-09-07T17:27:07Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8240 buffers"
+ },
+ {
+  "id": "L0086",
+  "record_type": "log",
+  "ts": "2026-09-07T17:27:39Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 252ms"
+ },
+ {
+  "id": "L0087",
+  "record_type": "log",
+  "ts": "2026-09-07T17:27:55Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 2dde2f3b created in 230ms"
+ },
+ {
+  "id": "L0088",
+  "record_type": "log",
+  "ts": "2026-09-07T17:28:55Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 22fee6d5 processed"
+ },
+ {
+  "id": "L0089",
+  "record_type": "log",
+  "ts": "2026-09-07T17:28:58Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 3d5591a3"
+ },
+ {
+  "id": "L0090",
+  "record_type": "log",
+  "ts": "2026-09-07T17:29:34Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0091",
+  "record_type": "log",
+  "ts": "2026-09-07T17:29:36Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 186ms"
+ },
+ {
+  "id": "L0092",
+  "record_type": "log",
+  "ts": "2026-09-07T17:29:36Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 360ms"
+ },
+ {
+  "id": "L0093",
+  "record_type": "log",
+  "ts": "2026-09-07T17:30:04Z",
+  "service": "auth-service",
+  "level": "ERROR",
+  "message": "rejected malformed Authorization header from 21865131"
+ },
+ {
+  "id": "L0094",
+  "record_type": "log",
+  "ts": "2026-09-07T17:30:14Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/31a478f4 200 335ms"
+ },
+ {
+  "id": "L0095",
+  "record_type": "log",
+  "ts": "2026-09-07T17:30:25Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5112 buffers"
+ },
+ {
+  "id": "L0096",
+  "record_type": "log",
+  "ts": "2026-09-07T17:31:24Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 271ms"
+ },
+ {
+  "id": "L0097",
+  "record_type": "log",
+  "ts": "2026-09-07T17:31:30Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 8d15e8d4"
+ },
+ {
+  "id": "L0098",
+  "record_type": "log",
+  "ts": "2026-09-07T17:31:51Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 118b9a2b"
+ },
+ {
+  "id": "L0099",
+  "record_type": "log",
+  "ts": "2026-09-07T17:32:03Z",
+  "service": "auth-service",
+  "level": "ERROR",
+  "message": "rejected malformed Authorization header from c0bac4f7"
+ },
+ {
+  "id": "L0100",
+  "record_type": "log",
+  "ts": "2026-09-07T17:32:48Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1236ms for charge 38cc4fb0"
+ },
+ {
+  "id": "L0101",
+  "record_type": "log",
+  "ts": "2026-09-07T17:33:06Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6640 buffers"
+ },
+ {
+  "id": "L0102",
+  "record_type": "log",
+  "ts": "2026-09-07T17:33:21Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/c1b1818f 200 64ms"
+ },
+ {
+  "id": "L0103",
+  "record_type": "log",
+  "ts": "2026-09-07T17:33:36Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 52ms"
+ },
+ {
+  "id": "L0104",
+  "record_type": "log",
+  "ts": "2026-09-07T17:33:49Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 160ms"
+ },
+ {
+  "id": "L0105",
+  "record_type": "log",
+  "ts": "2026-09-07T17:34:06Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 131ms"
+ },
+ {
+  "id": "L0106",
+  "record_type": "log",
+  "ts": "2026-09-07T17:34:26Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 801ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0107",
+  "record_type": "log",
+  "ts": "2026-09-07T17:34:36Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 00a3cff1"
+ },
+ {
+  "id": "L0108",
+  "record_type": "log",
+  "ts": "2026-09-07T17:35:34Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 93ms"
+ },
+ {
+  "id": "L0109",
+  "record_type": "log",
+  "ts": "2026-09-07T17:35:43Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 00af8f32 created in 111ms"
+ },
+ {
+  "id": "L0110",
+  "record_type": "log",
+  "ts": "2026-09-07T17:35:44Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart d3963d6a"
+ },
+ {
+  "id": "L0111",
+  "record_type": "log",
+  "ts": "2026-09-07T17:35:52Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 960ms"
+ },
+ {
+  "id": "L0112",
+  "record_type": "log",
+  "ts": "2026-09-07T17:36:00Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 65ms"
+ },
+ {
+  "id": "L0113",
+  "record_type": "log",
+  "ts": "2026-09-07T17:36:11Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3312 buffers"
+ },
+ {
+  "id": "L0114",
+  "record_type": "log",
+  "ts": "2026-09-07T17:37:20Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2940 buffers"
+ },
+ {
+  "id": "L0115",
+  "record_type": "log",
+  "ts": "2026-09-07T17:37:32Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 198ms"
+ },
+ {
+  "id": "L0116",
+  "record_type": "log",
+  "ts": "2026-09-07T17:38:08Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 297ms"
+ },
+ {
+  "id": "L0117",
+  "record_type": "log",
+  "ts": "2026-09-07T17:38:40Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 401b6be7 authorized in 283ms"
+ },
+ {
+  "id": "L0118",
+  "record_type": "log",
+  "ts": "2026-09-07T17:38:46Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 97835fec"
+ },
+ {
+  "id": "L0119",
+  "record_type": "log",
+  "ts": "2026-09-07T17:38:48Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7412 buffers"
+ },
+ {
+  "id": "L0120",
+  "record_type": "log",
+  "ts": "2026-09-07T17:38:50Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 834a6b78 priced in 73ms"
+ },
+ {
+  "id": "L0121",
+  "record_type": "log",
+  "ts": "2026-09-07T17:39:27Z",
+  "service": "notification-worker",
+  "level": "ERROR",
+  "message": "bounce for recipient 7695496d@example.com"
+ },
+ {
+  "id": "L0122",
+  "record_type": "log",
+  "ts": "2026-09-07T17:39:28Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=8b22ab86 in 42ms"
+ },
+ {
+  "id": "L0123",
+  "record_type": "log",
+  "ts": "2026-09-07T17:39:36Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8240 buffers"
+ },
+ {
+  "id": "L0124",
+  "record_type": "log",
+  "ts": "2026-09-07T17:39:51Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 220ms"
+ },
+ {
+  "id": "L0125",
+  "record_type": "log",
+  "ts": "2026-09-07T17:41:35Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 106ms"
+ },
+ {
+  "id": "L0126",
+  "record_type": "log",
+  "ts": "2026-09-07T17:41:51Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge edb84c43 authorized in 326ms"
+ },
+ {
+  "id": "L0127",
+  "record_type": "log",
+  "ts": "2026-09-07T17:42:14Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 167ms"
+ },
+ {
+  "id": "L0128",
+  "record_type": "log",
+  "ts": "2026-09-07T17:42:16Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4840 buffers"
+ },
+ {
+  "id": "L0129",
+  "record_type": "log",
+  "ts": "2026-09-07T17:42:23Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/d7538374 200 171ms"
+ },
+ {
+  "id": "L0130",
+  "record_type": "log",
+  "ts": "2026-09-07T17:42:33Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user acdc1c38: bad password"
+ },
+ {
+  "id": "L0131",
+  "record_type": "log",
+  "ts": "2026-09-07T17:42:41Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0132",
+  "record_type": "log",
+  "ts": "2026-09-07T17:43:17Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=02021444 in 115ms"
+ },
+ {
+  "id": "L0133",
+  "record_type": "log",
+  "ts": "2026-09-07T17:44:03Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 189ms"
+ },
+ {
+  "id": "L0134",
+  "record_type": "log",
+  "ts": "2026-09-07T17:44:29Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 48ms"
+ },
+ {
+  "id": "L0135",
+  "record_type": "log",
+  "ts": "2026-09-07T17:44:34Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user d108fb1e: bad password"
+ },
+ {
+  "id": "L0136",
+  "record_type": "log",
+  "ts": "2026-09-07T17:44:49Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 259c6d74 priced in 96ms"
+ },
+ {
+  "id": "L0137",
+  "record_type": "log",
+  "ts": "2026-09-07T17:45:11Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 85daf2ee processed"
+ },
+ {
+  "id": "L0138",
+  "record_type": "log",
+  "ts": "2026-09-07T17:45:24Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 878dad54"
+ },
+ {
+  "id": "L0139",
+  "record_type": "log",
+  "ts": "2026-09-07T17:45:43Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0140",
+  "record_type": "log",
+  "ts": "2026-09-07T17:45:57Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1320ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0141",
+  "record_type": "log",
+  "ts": "2026-09-07T17:46:00Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.971"
+ },
+ {
+  "id": "L0142",
+  "record_type": "log",
+  "ts": "2026-09-07T17:47:12Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 260ms"
+ },
+ {
+  "id": "L0143",
+  "record_type": "log",
+  "ts": "2026-09-07T17:47:16Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 3274d628"
+ },
+ {
+  "id": "L0144",
+  "record_type": "log",
+  "ts": "2026-09-07T17:47:21Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 293ms"
+ },
+ {
+  "id": "L0145",
+  "record_type": "log",
+  "ts": "2026-09-07T17:47:43Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0146",
+  "record_type": "log",
+  "ts": "2026-09-07T17:47:50Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 147ms"
+ },
+ {
+  "id": "L0147",
+  "record_type": "log",
+  "ts": "2026-09-07T17:48:05Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix dc560dc3: 80 misses/s"
+ },
+ {
+  "id": "L0148",
+  "record_type": "log",
+  "ts": "2026-09-07T17:48:44Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 364ms"
+ },
+ {
+  "id": "L0149",
+  "record_type": "log",
+  "ts": "2026-09-07T17:48:54Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 020be6c0 priced in 229ms"
+ },
+ {
+  "id": "L0150",
+  "record_type": "log",
+  "ts": "2026-09-07T17:48:58Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0151",
+  "record_type": "log",
+  "ts": "2026-09-07T17:49:45Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge e7408556 authorized in 41ms"
+ },
+ {
+  "id": "L0152",
+  "record_type": "log",
+  "ts": "2026-09-07T17:50:06Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.921"
+ },
+ {
+  "id": "L0153",
+  "record_type": "log",
+  "ts": "2026-09-07T17:50:17Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 254ms"
+ },
+ {
+  "id": "L0154",
+  "record_type": "log",
+  "ts": "2026-09-07T17:50:31Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 9803e9d4"
+ },
+ {
+  "id": "L0155",
+  "record_type": "log",
+  "ts": "2026-09-07T17:50:33Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 159ms"
+ },
+ {
+  "id": "L0156",
+  "record_type": "log",
+  "ts": "2026-09-07T17:50:40Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0157",
+  "record_type": "log",
+  "ts": "2026-09-07T17:51:26Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund c7e3a549 processed"
+ },
+ {
+  "id": "L0158",
+  "record_type": "log",
+  "ts": "2026-09-07T17:51:27Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order d433dba7"
+ },
+ {
+  "id": "L0159",
+  "record_type": "log",
+  "ts": "2026-09-07T17:51:37Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 2200b384 created in 242ms"
+ },
+ {
+  "id": "L0160",
+  "record_type": "log",
+  "ts": "2026-09-07T17:51:41Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0161",
+  "record_type": "log",
+  "ts": "2026-09-07T17:52:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=080872c8 in 189ms"
+ },
+ {
+  "id": "L0162",
+  "record_type": "log",
+  "ts": "2026-09-07T17:53:09Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 128ms"
+ },
+ {
+  "id": "L0163",
+  "record_type": "log",
+  "ts": "2026-09-07T17:53:23Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8512 buffers"
+ },
+ {
+  "id": "L0164",
+  "record_type": "log",
+  "ts": "2026-09-07T17:53:26Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 9e05fefb authorized in 39ms"
+ },
+ {
+  "id": "L0165",
+  "record_type": "log",
+  "ts": "2026-09-07T17:53:32Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3240 buffers"
+ },
+ {
+  "id": "L0166",
+  "record_type": "log",
+  "ts": "2026-09-07T17:53:35Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 37ms"
+ },
+ {
+  "id": "L0167",
+  "record_type": "log",
+  "ts": "2026-09-07T17:53:40Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 7234fc36"
+ },
+ {
+  "id": "L0168",
+  "record_type": "log",
+  "ts": "2026-09-07T17:54:07Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 560d6097 in 55ms"
+ },
+ {
+  "id": "L0169",
+  "record_type": "log",
+  "ts": "2026-09-07T17:55:03Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 5bb4c5dd"
+ },
+ {
+  "id": "L0170",
+  "record_type": "log",
+  "ts": "2026-09-07T17:55:14Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/f36ccfd1 200 227ms"
+ },
+ {
+  "id": "L0171",
+  "record_type": "log",
+  "ts": "2026-09-07T17:55:27Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 689ms"
+ },
+ {
+  "id": "L0172",
+  "record_type": "log",
+  "ts": "2026-09-07T17:55:53Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 09c50bcb"
+ },
+ {
+  "id": "L0173",
+  "record_type": "log",
+  "ts": "2026-09-07T17:56:01Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0174",
+  "record_type": "log",
+  "ts": "2026-09-07T17:56:07Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 24bc2bf7: bad password"
+ },
+ {
+  "id": "L0175",
+  "record_type": "log",
+  "ts": "2026-09-07T17:57:19Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6040 buffers"
+ },
+ {
+  "id": "L0176",
+  "record_type": "log",
+  "ts": "2026-09-07T17:57:26Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "rate limiter: client 0db575c2 near burst limit"
+ },
+ {
+  "id": "L0177",
+  "record_type": "log",
+  "ts": "2026-09-07T17:57:33Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 228ms"
+ },
+ {
+  "id": "L0178",
+  "record_type": "log",
+  "ts": "2026-09-07T17:57:43Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=6331dc78 in 41ms"
+ },
+ {
+  "id": "L0179",
+  "record_type": "log",
+  "ts": "2026-09-07T17:57:45Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 520833ca created in 93ms"
+ },
+ {
+  "id": "L0180",
+  "record_type": "log",
+  "ts": "2026-09-07T17:58:20Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5712 buffers"
+ },
+ {
+  "id": "L0181",
+  "record_type": "log",
+  "ts": "2026-09-07T17:58:52Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 94fc7cc1 in 234ms"
+ },
+ {
+  "id": "L0182",
+  "record_type": "log",
+  "ts": "2026-09-07T17:59:16Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 187ms"
+ },
+ {
+  "id": "L0183",
+  "record_type": "log",
+  "ts": "2026-09-07T17:59:55Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.911"
+ },
+ {
+  "id": "L0184",
+  "record_type": "log",
+  "ts": "2026-09-07T18:00:08Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 63ms"
+ },
+ {
+  "id": "L0185",
+  "record_type": "log",
+  "ts": "2026-09-07T18:00:08Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 85522439 processed"
+ },
+ {
+  "id": "L0186",
+  "record_type": "log",
+  "ts": "2026-09-07T18:01:05Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 7dd26b03 in 268ms"
+ },
+ {
+  "id": "L0187",
+  "record_type": "log",
+  "ts": "2026-09-07T18:01:06Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3612 buffers"
+ },
+ {
+  "id": "L0188",
+  "record_type": "log",
+  "ts": "2026-09-07T18:01:12Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 232ms"
+ },
+ {
+  "id": "L0189",
+  "record_type": "log",
+  "ts": "2026-09-07T18:01:21Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 4a541187 priced in 333ms"
+ },
+ {
+  "id": "L0190",
+  "record_type": "log",
+  "ts": "2026-09-07T18:01:23Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2740 buffers"
+ },
+ {
+  "id": "L0191",
+  "record_type": "log",
+  "ts": "2026-09-07T18:01:41Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 289ms"
+ },
+ {
+  "id": "L0192",
+  "record_type": "log",
+  "ts": "2026-09-07T18:01:49Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "retrying idempotent call to payment-service (attempt 2)"
+ },
+ {
+  "id": "L0193",
+  "record_type": "log",
+  "ts": "2026-09-07T18:02:34Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "HPA checkout-service: desired replicas 34 exceeds maxReplicas 20"
+ },
+ {
+  "id": "L0194",
+  "record_type": "log",
+  "ts": "2026-09-07T18:02:42Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 923ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0195",
+  "record_type": "log",
+  "ts": "2026-09-07T18:02:52Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "order 20a8cb33 rejected: card declined by issuer"
+ },
+ {
+  "id": "L0196",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:11Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 18ms"
+ },
+ {
+  "id": "L0197",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:17Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8712 buffers"
+ },
+ {
+  "id": "L0198",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:24Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.941"
+ },
+ {
+  "id": "L0199",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:25Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0200",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:31Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order fea77ac0 created in 29ms"
+ },
+ {
+  "id": "L0201",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:38Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 8faff024 authorized in 292ms"
+ },
+ {
+  "id": "L0202",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:41Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 235ms"
+ },
+ {
+  "id": "L0203",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:56Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 346ms"
+ },
+ {
+  "id": "L0204",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:58Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart b98becd0 priced in 148ms"
+ },
+ {
+  "id": "L0205",
+  "record_type": "log",
+  "ts": "2026-09-07T18:03:58Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0206",
+  "record_type": "log",
+  "ts": "2026-09-07T18:04:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=ea9735fa in 26ms"
+ },
+ {
+  "id": "L0207",
+  "record_type": "log",
+  "ts": "2026-09-07T18:04:25Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 253ms"
+ },
+ {
+  "id": "L0208",
+  "record_type": "log",
+  "ts": "2026-09-07T18:04:36Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart cd6deda9 priced in 68ms"
+ },
+ {
+  "id": "L0209",
+  "record_type": "log",
+  "ts": "2026-09-07T18:04:41Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0210",
+  "record_type": "log",
+  "ts": "2026-09-07T18:04:45Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "reservation 756ca9d1 expired before confirmation"
+ },
+ {
+  "id": "L0211",
+  "record_type": "log",
+  "ts": "2026-09-07T18:04:50Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "rate limiter: client f60920c8 near burst limit"
+ },
+ {
+  "id": "L0212",
+  "record_type": "log",
+  "ts": "2026-09-07T18:04:53Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 50ms"
+ },
+ {
+  "id": "L0213",
+  "record_type": "log",
+  "ts": "2026-09-07T18:04:59Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0214",
+  "record_type": "log",
+  "ts": "2026-09-07T18:05:05Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart c9daf5f6 priced in 90ms"
+ },
+ {
+  "id": "L0215",
+  "record_type": "log",
+  "ts": "2026-09-07T18:05:08Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 90fceace: bad password"
+ },
+ {
+  "id": "L0216",
+  "record_type": "log",
+  "ts": "2026-09-07T18:05:22Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 155ms"
+ },
+ {
+  "id": "L0217",
+  "record_type": "log",
+  "ts": "2026-09-07T18:05:24Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 85b72958"
+ },
+ {
+  "id": "L0218",
+  "record_type": "log",
+  "ts": "2026-09-07T18:05:46Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 1538609c created in 57ms"
+ },
+ {
+  "id": "L0219",
+  "record_type": "log",
+  "ts": "2026-09-07T18:05:53Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0220",
+  "record_type": "log",
+  "ts": "2026-09-07T18:05:54Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 149ms"
+ },
+ {
+  "id": "L0221",
+  "record_type": "log",
+  "ts": "2026-09-07T18:06:10Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1044ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0222",
+  "record_type": "log",
+  "ts": "2026-09-07T18:06:10Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "HPA checkout-service: desired replicas 34 exceeds maxReplicas 20"
+ },
+ {
+  "id": "L0223",
+  "record_type": "log",
+  "ts": "2026-09-07T18:06:16Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 372ms"
+ },
+ {
+  "id": "L0224",
+  "record_type": "log",
+  "ts": "2026-09-07T18:06:19Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart f5e3b266"
+ },
+ {
+  "id": "L0225",
+  "record_type": "log",
+  "ts": "2026-09-07T18:06:22Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0226",
+  "record_type": "log",
+  "ts": "2026-09-07T18:06:32Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7312 buffers"
+ },
+ {
+  "id": "L0227",
+  "record_type": "log",
+  "ts": "2026-09-07T18:06:50Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 2127d9e0 created in 369ms"
+ },
+ {
+  "id": "L0228",
+  "record_type": "log",
+  "ts": "2026-09-07T18:06:56Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 371ms"
+ },
+ {
+  "id": "L0229",
+  "record_type": "log",
+  "ts": "2026-09-07T18:07:01Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0230",
+  "record_type": "log",
+  "ts": "2026-09-07T18:07:07Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=305a832b in 132ms"
+ },
+ {
+  "id": "L0231",
+  "record_type": "log",
+  "ts": "2026-09-07T18:07:19Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 151ms"
+ },
+ {
+  "id": "L0232",
+  "record_type": "log",
+  "ts": "2026-09-07T18:07:26Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 6fbc9a76"
+ },
+ {
+  "id": "L0233",
+  "record_type": "log",
+  "ts": "2026-09-07T18:07:35Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 744738d0 created in 366ms"
+ },
+ {
+  "id": "L0234",
+  "record_type": "log",
+  "ts": "2026-09-07T18:07:49Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 303ms"
+ },
+ {
+  "id": "L0235",
+  "record_type": "log",
+  "ts": "2026-09-07T18:08:08Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0236",
+  "record_type": "log",
+  "ts": "2026-09-07T18:08:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 9a01c67f"
+ },
+ {
+  "id": "L0237",
+  "record_type": "log",
+  "ts": "2026-09-07T18:08:25Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/b656957d 200 131ms"
+ },
+ {
+  "id": "L0238",
+  "record_type": "log",
+  "ts": "2026-09-07T18:08:33Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "rate limiter: client fb4f8429 near burst limit"
+ },
+ {
+  "id": "L0239",
+  "record_type": "log",
+  "ts": "2026-09-07T18:08:38Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8512 buffers"
+ },
+ {
+  "id": "L0240",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:06Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0241",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:10Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 679ms for cart 165782b6"
+ },
+ {
+  "id": "L0242",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:21Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 3189131a: 83 misses/s"
+ },
+ {
+  "id": "L0243",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:24Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "rate limiter: client 3e713ac6 near burst limit"
+ },
+ {
+  "id": "L0244",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:37Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0245",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:39Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order eeec06e3 created in 249ms"
+ },
+ {
+  "id": "L0246",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:50Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7240 buffers"
+ },
+ {
+  "id": "L0247",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:54Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 37ms"
+ },
+ {
+  "id": "L0248",
+  "record_type": "log",
+  "ts": "2026-09-07T18:09:55Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 215ms"
+ },
+ {
+  "id": "L0249",
+  "record_type": "log",
+  "ts": "2026-09-07T18:10:20Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order ca7f6334 created in 55ms"
+ },
+ {
+  "id": "L0250",
+  "record_type": "log",
+  "ts": "2026-09-07T18:10:21Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 350ms"
+ },
+ {
+  "id": "L0251",
+  "record_type": "log",
+  "ts": "2026-09-07T18:10:26Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 3e5b1ba9: 55 misses/s"
+ },
+ {
+  "id": "L0252",
+  "record_type": "log",
+  "ts": "2026-09-07T18:10:29Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "HPA checkout-service: desired replicas 34 exceeds maxReplicas 20"
+ },
+ {
+  "id": "L0253",
+  "record_type": "log",
+  "ts": "2026-09-07T18:10:35Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 354ms"
+ },
+ {
+  "id": "L0254",
+  "record_type": "log",
+  "ts": "2026-09-07T18:10:37Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 100ms"
+ },
+ {
+  "id": "L0255",
+  "record_type": "log",
+  "ts": "2026-09-07T18:10:52Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 80061e7b priced in 242ms"
+ },
+ {
+  "id": "L0256",
+  "record_type": "log",
+  "ts": "2026-09-07T18:10:56Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 871623ec in 103ms"
+ },
+ {
+  "id": "L0257",
+  "record_type": "log",
+  "ts": "2026-09-07T18:11:05Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 172ms"
+ },
+ {
+  "id": "L0258",
+  "record_type": "log",
+  "ts": "2026-09-07T18:11:06Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0259",
+  "record_type": "log",
+  "ts": "2026-09-07T18:11:24Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart c1b6ec47 priced in 99ms"
+ },
+ {
+  "id": "L0260",
+  "record_type": "log",
+  "ts": "2026-09-07T18:11:32Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart ecd9cfda"
+ },
+ {
+  "id": "L0261",
+  "record_type": "log",
+  "ts": "2026-09-07T18:11:47Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0262",
+  "record_type": "log",
+  "ts": "2026-09-07T18:11:50Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 3ac16c76 priced in 271ms"
+ },
+ {
+  "id": "L0263",
+  "record_type": "log",
+  "ts": "2026-09-07T18:12:00Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 315ms"
+ },
+ {
+  "id": "L0264",
+  "record_type": "log",
+  "ts": "2026-09-07T18:12:26Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0265",
+  "record_type": "log",
+  "ts": "2026-09-07T18:12:27Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 152ms"
+ },
+ {
+  "id": "L0266",
+  "record_type": "log",
+  "ts": "2026-09-07T18:12:28Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0267",
+  "record_type": "log",
+  "ts": "2026-09-07T18:12:37Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=c254fedf in 38ms"
+ },
+ {
+  "id": "L0268",
+  "record_type": "log",
+  "ts": "2026-09-07T18:12:44Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart a5822868 priced in 154ms"
+ },
+ {
+  "id": "L0269",
+  "record_type": "log",
+  "ts": "2026-09-07T18:12:54Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 54939f6b"
+ },
+ {
+  "id": "L0270",
+  "record_type": "log",
+  "ts": "2026-09-07T18:12:57Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 186ms"
+ },
+ {
+  "id": "L0271",
+  "record_type": "log",
+  "ts": "2026-09-07T18:13:10Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0272",
+  "record_type": "log",
+  "ts": "2026-09-07T18:13:14Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order a722ccfc created in 332ms"
+ },
+ {
+  "id": "L0273",
+  "record_type": "log",
+  "ts": "2026-09-07T18:13:40Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart fd7b3929 priced in 63ms"
+ },
+ {
+  "id": "L0274",
+  "record_type": "log",
+  "ts": "2026-09-07T18:13:42Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 6028b966: 34 misses/s"
+ },
+ {
+  "id": "L0275",
+  "record_type": "log",
+  "ts": "2026-09-07T18:13:45Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1327ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0276",
+  "record_type": "log",
+  "ts": "2026-09-07T18:13:45Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0277",
+  "record_type": "log",
+  "ts": "2026-09-07T18:14:04Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 56b2130e processed"
+ },
+ {
+  "id": "L0278",
+  "record_type": "log",
+  "ts": "2026-09-07T18:14:05Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order e57afb19"
+ },
+ {
+  "id": "L0279",
+  "record_type": "log",
+  "ts": "2026-09-07T18:14:13Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "HPA checkout-service: desired replicas 34 exceeds maxReplicas 20"
+ },
+ {
+  "id": "L0280",
+  "record_type": "log",
+  "ts": "2026-09-07T18:14:22Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0281",
+  "record_type": "log",
+  "ts": "2026-09-07T18:14:25Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 51ms"
+ },
+ {
+  "id": "L0282",
+  "record_type": "log",
+  "ts": "2026-09-07T18:14:38Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 2744218f priced in 53ms"
+ },
+ {
+  "id": "L0283",
+  "record_type": "log",
+  "ts": "2026-09-07T18:14:40Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 33ms"
+ },
+ {
+  "id": "L0284",
+  "record_type": "log",
+  "ts": "2026-09-07T18:14:49Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.943"
+ },
+ {
+  "id": "L0285",
+  "record_type": "log",
+  "ts": "2026-09-07T18:15:07Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 23ms"
+ },
+ {
+  "id": "L0286",
+  "record_type": "log",
+  "ts": "2026-09-07T18:15:08Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0287",
+  "record_type": "log",
+  "ts": "2026-09-07T18:15:21Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order a1539bb9 created in 247ms"
+ },
+ {
+  "id": "L0288",
+  "record_type": "log",
+  "ts": "2026-09-07T18:15:27Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9340 buffers"
+ },
+ {
+  "id": "L0289",
+  "record_type": "log",
+  "ts": "2026-09-07T18:15:37Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=f0c48f54 in 375ms"
+ },
+ {
+  "id": "L0290",
+  "record_type": "log",
+  "ts": "2026-09-07T18:15:47Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 107ms"
+ },
+ {
+  "id": "L0291",
+  "record_type": "log",
+  "ts": "2026-09-07T18:15:49Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 50ms"
+ },
+ {
+  "id": "L0292",
+  "record_type": "log",
+  "ts": "2026-09-07T18:16:01Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5012 buffers"
+ },
+ {
+  "id": "L0293",
+  "record_type": "log",
+  "ts": "2026-09-07T18:16:08Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0294",
+  "record_type": "log",
+  "ts": "2026-09-07T18:16:18Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 298ms"
+ },
+ {
+  "id": "L0295",
+  "record_type": "log",
+  "ts": "2026-09-07T18:16:22Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1239ms"
+ },
+ {
+  "id": "L0296",
+  "record_type": "log",
+  "ts": "2026-09-07T18:16:25Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 9a0a8d0e priced in 359ms"
+ },
+ {
+  "id": "L0297",
+  "record_type": "log",
+  "ts": "2026-09-07T18:16:31Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.924"
+ },
+ {
+  "id": "L0298",
+  "record_type": "log",
+  "ts": "2026-09-07T18:16:59Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 9d2e615c authorized in 277ms"
+ },
+ {
+  "id": "L0299",
+  "record_type": "log",
+  "ts": "2026-09-07T18:17:09Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0300",
+  "record_type": "log",
+  "ts": "2026-09-07T18:17:10Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 8f7fe544"
+ },
+ {
+  "id": "L0301",
+  "record_type": "log",
+  "ts": "2026-09-07T18:17:11Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=44815240 in 158ms"
+ },
+ {
+  "id": "L0302",
+  "record_type": "log",
+  "ts": "2026-09-07T18:17:17Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 1236ms for cart 9ecef351"
+ },
+ {
+  "id": "L0303",
+  "record_type": "log",
+  "ts": "2026-09-07T18:17:22Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 129ms"
+ },
+ {
+  "id": "L0304",
+  "record_type": "log",
+  "ts": "2026-09-07T18:17:42Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0305",
+  "record_type": "log",
+  "ts": "2026-09-07T18:17:55Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.940"
+ },
+ {
+  "id": "L0306",
+  "record_type": "log",
+  "ts": "2026-09-07T18:17:57Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 209ms"
+ },
+ {
+  "id": "L0307",
+  "record_type": "log",
+  "ts": "2026-09-07T18:18:20Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "retrying idempotent call to payment-service (attempt 2)"
+ },
+ {
+  "id": "L0308",
+  "record_type": "log",
+  "ts": "2026-09-07T18:18:28Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 335ms"
+ },
+ {
+  "id": "L0309",
+  "record_type": "log",
+  "ts": "2026-09-07T18:18:30Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "HPA checkout-service: desired replicas 34 exceeds maxReplicas 20"
+ },
+ {
+  "id": "L0310",
+  "record_type": "log",
+  "ts": "2026-09-07T18:18:33Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0311",
+  "record_type": "log",
+  "ts": "2026-09-07T18:18:35Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 82058a3f"
+ },
+ {
+  "id": "L0312",
+  "record_type": "log",
+  "ts": "2026-09-07T18:18:45Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 08fe5237 created in 174ms"
+ },
+ {
+  "id": "L0313",
+  "record_type": "log",
+  "ts": "2026-09-07T18:18:58Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=e5533301 in 20ms"
+ },
+ {
+  "id": "L0314",
+  "record_type": "log",
+  "ts": "2026-09-07T18:19:09Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0315",
+  "record_type": "log",
+  "ts": "2026-09-07T18:19:12Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 160ms"
+ },
+ {
+  "id": "L0316",
+  "record_type": "log",
+  "ts": "2026-09-07T18:19:32Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 80d0cebc: bad password"
+ },
+ {
+  "id": "L0317",
+  "record_type": "log",
+  "ts": "2026-09-07T18:19:39Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.958"
+ },
+ {
+  "id": "L0318",
+  "record_type": "log",
+  "ts": "2026-09-07T18:19:43Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 1086ms for cart 35cf64f7"
+ },
+ {
+  "id": "L0319",
+  "record_type": "log",
+  "ts": "2026-09-07T18:19:58Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1049ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0320",
+  "record_type": "log",
+  "ts": "2026-09-07T18:19:59Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 232ms"
+ },
+ {
+  "id": "L0321",
+  "record_type": "log",
+  "ts": "2026-09-07T18:20:00Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 143ms"
+ },
+ {
+  "id": "L0322",
+  "record_type": "log",
+  "ts": "2026-09-07T18:20:08Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0323",
+  "record_type": "log",
+  "ts": "2026-09-07T18:20:24Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=7dfb8bb3 in 295ms"
+ },
+ {
+  "id": "L0324",
+  "record_type": "log",
+  "ts": "2026-09-07T18:20:27Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 263ms"
+ },
+ {
+  "id": "L0325",
+  "record_type": "log",
+  "ts": "2026-09-07T18:20:42Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1379ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0326",
+  "record_type": "log",
+  "ts": "2026-09-07T18:20:46Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 3273c872 created in 166ms"
+ },
+ {
+  "id": "L0327",
+  "record_type": "log",
+  "ts": "2026-09-07T18:20:54Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 305ms"
+ },
+ {
+  "id": "L0328",
+  "record_type": "log",
+  "ts": "2026-09-07T18:20:58Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0329",
+  "record_type": "log",
+  "ts": "2026-09-07T18:21:28Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 350ms"
+ },
+ {
+  "id": "L0330",
+  "record_type": "log",
+  "ts": "2026-09-07T18:21:30Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix c6c37d45: 69 misses/s"
+ },
+ {
+  "id": "L0331",
+  "record_type": "log",
+  "ts": "2026-09-07T18:21:32Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/51e0bed3 200 157ms"
+ },
+ {
+  "id": "L0332",
+  "record_type": "log",
+  "ts": "2026-09-07T18:21:48Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order f51f33cc"
+ },
+ {
+  "id": "L0333",
+  "record_type": "log",
+  "ts": "2026-09-07T18:21:50Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0334",
+  "record_type": "log",
+  "ts": "2026-09-07T18:21:53Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 7c209df0 in 281ms"
+ },
+ {
+  "id": "L0335",
+  "record_type": "log",
+  "ts": "2026-09-07T18:21:53Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 247ms"
+ },
+ {
+  "id": "L0336",
+  "record_type": "log",
+  "ts": "2026-09-07T18:22:03Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0337",
+  "record_type": "log",
+  "ts": "2026-09-07T18:22:05Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "HPA checkout-service: desired replicas 34 exceeds maxReplicas 20"
+ },
+ {
+  "id": "L0338",
+  "record_type": "log",
+  "ts": "2026-09-07T18:22:18Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 99a3965d"
+ },
+ {
+  "id": "L0339",
+  "record_type": "log",
+  "ts": "2026-09-07T18:22:36Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 317a6e81 created in 65ms"
+ },
+ {
+  "id": "L0340",
+  "record_type": "log",
+  "ts": "2026-09-07T18:22:51Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 173838a4: 21 misses/s"
+ },
+ {
+  "id": "L0341",
+  "record_type": "log",
+  "ts": "2026-09-07T18:22:58Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0342",
+  "record_type": "log",
+  "ts": "2026-09-07T18:23:00Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 327ms"
+ },
+ {
+  "id": "L0343",
+  "record_type": "log",
+  "ts": "2026-09-07T18:23:19Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 168ms"
+ },
+ {
+  "id": "L0344",
+  "record_type": "log",
+  "ts": "2026-09-07T18:23:43Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 278ms"
+ },
+ {
+  "id": "L0345",
+  "record_type": "log",
+  "ts": "2026-09-07T18:23:43Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0346",
+  "record_type": "log",
+  "ts": "2026-09-07T18:23:48Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart bba9b64d"
+ },
+ {
+  "id": "L0347",
+  "record_type": "log",
+  "ts": "2026-09-07T18:23:58Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 78e1405a priced in 134ms"
+ },
+ {
+  "id": "L0348",
+  "record_type": "log",
+  "ts": "2026-09-07T18:24:01Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1274ms"
+ },
+ {
+  "id": "L0349",
+  "record_type": "log",
+  "ts": "2026-09-07T18:24:07Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0350",
+  "record_type": "log",
+  "ts": "2026-09-07T18:24:29Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 75287b8c"
+ },
+ {
+  "id": "L0351",
+  "record_type": "log",
+  "ts": "2026-09-07T18:24:30Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 371ms"
+ },
+ {
+  "id": "L0352",
+  "record_type": "log",
+  "ts": "2026-09-07T18:24:34Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 204ms"
+ },
+ {
+  "id": "L0353",
+  "record_type": "log",
+  "ts": "2026-09-07T18:24:38Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0354",
+  "record_type": "log",
+  "ts": "2026-09-07T18:24:40Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0355",
+  "record_type": "log",
+  "ts": "2026-09-07T18:24:59Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 373ms"
+ },
+ {
+  "id": "L0356",
+  "record_type": "log",
+  "ts": "2026-09-07T18:25:18Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=fc21c404 in 272ms"
+ },
+ {
+  "id": "L0357",
+  "record_type": "log",
+  "ts": "2026-09-07T18:25:19Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 244404bd created in 248ms"
+ },
+ {
+  "id": "L0358",
+  "record_type": "log",
+  "ts": "2026-09-07T18:25:20Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user b0db6572 in 229ms"
+ },
+ {
+  "id": "L0359",
+  "record_type": "log",
+  "ts": "2026-09-07T18:25:44Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 153ms"
+ },
+ {
+  "id": "L0360",
+  "record_type": "log",
+  "ts": "2026-09-07T18:25:47Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0361",
+  "record_type": "log",
+  "ts": "2026-09-07T18:26:00Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "HPA checkout-service: desired replicas 34 exceeds maxReplicas 20"
+ },
+ {
+  "id": "L0362",
+  "record_type": "log",
+  "ts": "2026-09-07T18:26:02Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0363",
+  "record_type": "log",
+  "ts": "2026-09-07T18:26:20Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0364",
+  "record_type": "log",
+  "ts": "2026-09-07T18:26:21Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/197109c0 200 85ms"
+ },
+ {
+  "id": "L0365",
+  "record_type": "log",
+  "ts": "2026-09-07T18:26:24Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart c9884309"
+ },
+ {
+  "id": "L0366",
+  "record_type": "log",
+  "ts": "2026-09-07T18:26:31Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0367",
+  "record_type": "log",
+  "ts": "2026-09-07T18:26:42Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 199ms"
+ },
+ {
+  "id": "L0368",
+  "record_type": "log",
+  "ts": "2026-09-07T18:27:13Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 21ms"
+ },
+ {
+  "id": "L0369",
+  "record_type": "log",
+  "ts": "2026-09-07T18:27:14Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 59af0686 priced in 265ms"
+ },
+ {
+  "id": "L0370",
+  "record_type": "log",
+  "ts": "2026-09-07T18:27:17Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.984"
+ },
+ {
+  "id": "L0371",
+  "record_type": "log",
+  "ts": "2026-09-07T18:27:21Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 88ms"
+ },
+ {
+  "id": "L0372",
+  "record_type": "log",
+  "ts": "2026-09-07T18:27:27Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 225ms"
+ },
+ {
+  "id": "L0373",
+  "record_type": "log",
+  "ts": "2026-09-07T18:27:32Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1022ms for charge 5dc8f36d"
+ },
+ {
+  "id": "L0374",
+  "record_type": "log",
+  "ts": "2026-09-07T18:27:39Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0375",
+  "record_type": "log",
+  "ts": "2026-09-07T18:27:56Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1390ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0376",
+  "record_type": "log",
+  "ts": "2026-09-07T18:28:17Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 1b2bb214 priced in 105ms"
+ },
+ {
+  "id": "L0377",
+  "record_type": "log",
+  "ts": "2026-09-07T18:28:22Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 6cd369c3"
+ },
+ {
+  "id": "L0378",
+  "record_type": "log",
+  "ts": "2026-09-07T18:28:31Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2212 buffers"
+ },
+ {
+  "id": "L0379",
+  "record_type": "log",
+  "ts": "2026-09-07T18:28:35Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0380",
+  "record_type": "log",
+  "ts": "2026-09-07T18:28:41Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 5b1d4b70 in 262ms"
+ },
+ {
+  "id": "L0381",
+  "record_type": "log",
+  "ts": "2026-09-07T18:28:44Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 309ms"
+ },
+ {
+  "id": "L0382",
+  "record_type": "log",
+  "ts": "2026-09-07T18:28:50Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0383",
+  "record_type": "log",
+  "ts": "2026-09-07T18:29:00Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.935"
+ },
+ {
+  "id": "L0384",
+  "record_type": "log",
+  "ts": "2026-09-07T18:29:20Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 205ms"
+ },
+ {
+  "id": "L0385",
+  "record_type": "log",
+  "ts": "2026-09-07T18:29:20Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 3a659c86 created in 54ms"
+ },
+ {
+  "id": "L0386",
+  "record_type": "log",
+  "ts": "2026-09-07T18:29:20Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ },
+ {
+  "id": "L0387",
+  "record_type": "log",
+  "ts": "2026-09-07T18:29:37Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 8ea4bb0a authorized in 198ms"
+ },
+ {
+  "id": "L0388",
+  "record_type": "log",
+  "ts": "2026-09-07T18:29:49Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 1117dbd0 priced in 181ms"
+ },
+ {
+  "id": "L0389",
+  "record_type": "log",
+  "ts": "2026-09-07T18:29:54Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 2e357ee4: 24 misses/s"
+ },
+ {
+  "id": "L0390",
+  "record_type": "log",
+  "ts": "2026-09-07T18:30:00Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "HPA checkout-service: desired replicas 34 exceeds maxReplicas 20"
+ },
+ {
+  "id": "L0391",
+  "record_type": "log",
+  "ts": "2026-09-07T18:30:00Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "rejecting request: worker pool saturated (queue 500/500) -> 503"
+ }
+]

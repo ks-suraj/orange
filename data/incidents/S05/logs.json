@@ -1,0 +1,2602 @@
+[
+ {
+  "id": "L0001",
+  "record_type": "log",
+  "ts": "2026-09-05T08:00:00Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge fed08f6b authorized in 335ms"
+ },
+ {
+  "id": "L0002",
+  "record_type": "log",
+  "ts": "2026-09-05T08:00:12Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0003",
+  "record_type": "log",
+  "ts": "2026-09-05T08:00:54Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/65708ee2 200 208ms"
+ },
+ {
+  "id": "L0004",
+  "record_type": "log",
+  "ts": "2026-09-05T08:01:04Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=bb203785 in 48ms"
+ },
+ {
+  "id": "L0005",
+  "record_type": "log",
+  "ts": "2026-09-05T08:01:09Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 34a39879"
+ },
+ {
+  "id": "L0006",
+  "record_type": "log",
+  "ts": "2026-09-05T08:01:12Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 774ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0007",
+  "record_type": "log",
+  "ts": "2026-09-05T08:01:18Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 151ms"
+ },
+ {
+  "id": "L0008",
+  "record_type": "log",
+  "ts": "2026-09-05T08:01:28Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 8da1aa94 in 328ms"
+ },
+ {
+  "id": "L0009",
+  "record_type": "log",
+  "ts": "2026-09-05T08:01:30Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8812 buffers"
+ },
+ {
+  "id": "L0010",
+  "record_type": "log",
+  "ts": "2026-09-05T08:02:51Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order db4ff2b1 created in 273ms"
+ },
+ {
+  "id": "L0011",
+  "record_type": "log",
+  "ts": "2026-09-05T08:03:22Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 1fba8fe0 in 295ms"
+ },
+ {
+  "id": "L0012",
+  "record_type": "log",
+  "ts": "2026-09-05T08:03:34Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order d83064ee"
+ },
+ {
+  "id": "L0013",
+  "record_type": "log",
+  "ts": "2026-09-05T08:03:39Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0014",
+  "record_type": "log",
+  "ts": "2026-09-05T08:03:41Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 63ms"
+ },
+ {
+  "id": "L0015",
+  "record_type": "log",
+  "ts": "2026-09-05T08:03:48Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 742ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0016",
+  "record_type": "log",
+  "ts": "2026-09-05T08:04:07Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 941ms"
+ },
+ {
+  "id": "L0017",
+  "record_type": "log",
+  "ts": "2026-09-05T08:04:09Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge f4dac29e authorized in 223ms"
+ },
+ {
+  "id": "L0018",
+  "record_type": "log",
+  "ts": "2026-09-05T08:05:03Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "certificate renewal for cn=auth.internal failed: ACME order rejected (rate limited); current certificate expires 2026-09-05T08:59:59Z"
+ },
+ {
+  "id": "L0019",
+  "record_type": "log",
+  "ts": "2026-09-05T08:05:20Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 7e63ffdb"
+ },
+ {
+  "id": "L0020",
+  "record_type": "log",
+  "ts": "2026-09-05T08:05:39Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart f3851ae6 priced in 239ms"
+ },
+ {
+  "id": "L0021",
+  "record_type": "log",
+  "ts": "2026-09-05T08:05:57Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5912 buffers"
+ },
+ {
+  "id": "L0022",
+  "record_type": "log",
+  "ts": "2026-09-05T08:06:05Z",
+  "service": "inventory-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0023",
+  "record_type": "log",
+  "ts": "2026-09-05T08:06:06Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user a4870fc2: bad password"
+ },
+ {
+  "id": "L0024",
+  "record_type": "log",
+  "ts": "2026-09-05T08:07:21Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 22ms"
+ },
+ {
+  "id": "L0025",
+  "record_type": "log",
+  "ts": "2026-09-05T08:07:27Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 634ms"
+ },
+ {
+  "id": "L0026",
+  "record_type": "log",
+  "ts": "2026-09-05T08:07:49Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "rate limiter: client 2ae451d7 near burst limit"
+ },
+ {
+  "id": "L0027",
+  "record_type": "log",
+  "ts": "2026-09-05T08:07:53Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 151ms"
+ },
+ {
+  "id": "L0028",
+  "record_type": "log",
+  "ts": "2026-09-05T08:08:37Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0029",
+  "record_type": "log",
+  "ts": "2026-09-05T08:09:02Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart c0616686 priced in 61ms"
+ },
+ {
+  "id": "L0030",
+  "record_type": "log",
+  "ts": "2026-09-05T08:09:38Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.948"
+ },
+ {
+  "id": "L0031",
+  "record_type": "log",
+  "ts": "2026-09-05T08:09:53Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9212 buffers"
+ },
+ {
+  "id": "L0032",
+  "record_type": "log",
+  "ts": "2026-09-05T08:09:56Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 19d0780c in 221ms"
+ },
+ {
+  "id": "L0033",
+  "record_type": "log",
+  "ts": "2026-09-05T08:10:29Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 75ms"
+ },
+ {
+  "id": "L0034",
+  "record_type": "log",
+  "ts": "2026-09-05T08:10:52Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/883f9972 200 332ms"
+ },
+ {
+  "id": "L0035",
+  "record_type": "log",
+  "ts": "2026-09-05T08:10:55Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5240 buffers"
+ },
+ {
+  "id": "L0036",
+  "record_type": "log",
+  "ts": "2026-09-05T08:11:00Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1336ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0037",
+  "record_type": "log",
+  "ts": "2026-09-05T08:11:37Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=60f206a3 in 352ms"
+ },
+ {
+  "id": "L0038",
+  "record_type": "log",
+  "ts": "2026-09-05T08:11:37Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 45dbb294"
+ },
+ {
+  "id": "L0039",
+  "record_type": "log",
+  "ts": "2026-09-05T08:12:04Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 261ms"
+ },
+ {
+  "id": "L0040",
+  "record_type": "log",
+  "ts": "2026-09-05T08:12:19Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 45d443c6 in 312ms"
+ },
+ {
+  "id": "L0041",
+  "record_type": "log",
+  "ts": "2026-09-05T08:12:49Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 365ms"
+ },
+ {
+  "id": "L0042",
+  "record_type": "log",
+  "ts": "2026-09-05T08:12:49Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0043",
+  "record_type": "log",
+  "ts": "2026-09-05T08:13:28Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 151ms"
+ },
+ {
+  "id": "L0044",
+  "record_type": "log",
+  "ts": "2026-09-05T08:13:47Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "order 3a1a0362 rejected: card declined by issuer"
+ },
+ {
+  "id": "L0045",
+  "record_type": "log",
+  "ts": "2026-09-05T08:14:05Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 320ms"
+ },
+ {
+  "id": "L0046",
+  "record_type": "log",
+  "ts": "2026-09-05T08:14:06Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 0a8960ab"
+ },
+ {
+  "id": "L0047",
+  "record_type": "log",
+  "ts": "2026-09-05T08:14:09Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart d52d3eef"
+ },
+ {
+  "id": "L0048",
+  "record_type": "log",
+  "ts": "2026-09-05T08:14:18Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0049",
+  "record_type": "log",
+  "ts": "2026-09-05T08:14:38Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7812 buffers"
+ },
+ {
+  "id": "L0050",
+  "record_type": "log",
+  "ts": "2026-09-05T08:14:53Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 336ms"
+ },
+ {
+  "id": "L0051",
+  "record_type": "log",
+  "ts": "2026-09-05T08:15:54Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 02da4638"
+ },
+ {
+  "id": "L0052",
+  "record_type": "log",
+  "ts": "2026-09-05T08:16:06Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.971"
+ },
+ {
+  "id": "L0053",
+  "record_type": "log",
+  "ts": "2026-09-05T08:16:19Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart c22f83e0 priced in 132ms"
+ },
+ {
+  "id": "L0054",
+  "record_type": "log",
+  "ts": "2026-09-05T08:16:34Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund dad26ffc processed"
+ },
+ {
+  "id": "L0055",
+  "record_type": "log",
+  "ts": "2026-09-05T08:16:57Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1306ms"
+ },
+ {
+  "id": "L0056",
+  "record_type": "log",
+  "ts": "2026-09-05T08:17:28Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0057",
+  "record_type": "log",
+  "ts": "2026-09-05T08:17:46Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user b94f3e9b: bad password"
+ },
+ {
+  "id": "L0058",
+  "record_type": "log",
+  "ts": "2026-09-05T08:17:59Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 141ms"
+ },
+ {
+  "id": "L0059",
+  "record_type": "log",
+  "ts": "2026-09-05T08:18:32Z",
+  "service": "inventory-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0060",
+  "record_type": "log",
+  "ts": "2026-09-05T08:18:37Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "retrying idempotent call to payment-service (attempt 2)"
+ },
+ {
+  "id": "L0061",
+  "record_type": "log",
+  "ts": "2026-09-05T08:18:45Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1151ms for charge 8f237743"
+ },
+ {
+  "id": "L0062",
+  "record_type": "log",
+  "ts": "2026-09-05T08:18:49Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 8fa9ec78"
+ },
+ {
+  "id": "L0063",
+  "record_type": "log",
+  "ts": "2026-09-05T08:19:21Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 05931b33"
+ },
+ {
+  "id": "L0064",
+  "record_type": "log",
+  "ts": "2026-09-05T08:19:23Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 270ms"
+ },
+ {
+  "id": "L0065",
+  "record_type": "log",
+  "ts": "2026-09-05T08:20:17Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "certificate renewal for cn=auth.internal failed: ACME order rejected (rate limited); current certificate expires 2026-09-05T08:59:59Z"
+ },
+ {
+  "id": "L0066",
+  "record_type": "log",
+  "ts": "2026-09-05T08:20:23Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 245ms"
+ },
+ {
+  "id": "L0067",
+  "record_type": "log",
+  "ts": "2026-09-05T08:20:24Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0068",
+  "record_type": "log",
+  "ts": "2026-09-05T08:21:06Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 2884a8f6"
+ },
+ {
+  "id": "L0069",
+  "record_type": "log",
+  "ts": "2026-09-05T08:21:35Z",
+  "service": "inventory-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0070",
+  "record_type": "log",
+  "ts": "2026-09-05T08:21:52Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 669ms for cart 10ff8731"
+ },
+ {
+  "id": "L0071",
+  "record_type": "log",
+  "ts": "2026-09-05T08:21:53Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 7d7bc6e1"
+ },
+ {
+  "id": "L0072",
+  "record_type": "log",
+  "ts": "2026-09-05T08:22:19Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0073",
+  "record_type": "log",
+  "ts": "2026-09-05T08:22:33Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order bfc7e174"
+ },
+ {
+  "id": "L0074",
+  "record_type": "log",
+  "ts": "2026-09-05T08:22:42Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 649ms for charge 8eef887c"
+ },
+ {
+  "id": "L0075",
+  "record_type": "log",
+  "ts": "2026-09-05T08:23:17Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 183ms"
+ },
+ {
+  "id": "L0076",
+  "record_type": "log",
+  "ts": "2026-09-05T08:23:23Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart b398d902"
+ },
+ {
+  "id": "L0077",
+  "record_type": "log",
+  "ts": "2026-09-05T08:24:12Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart e5090c0f priced in 331ms"
+ },
+ {
+  "id": "L0078",
+  "record_type": "log",
+  "ts": "2026-09-05T08:24:19Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8912 buffers"
+ },
+ {
+  "id": "L0079",
+  "record_type": "log",
+  "ts": "2026-09-05T08:24:39Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 260ms"
+ },
+ {
+  "id": "L0080",
+  "record_type": "log",
+  "ts": "2026-09-05T08:24:53Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0081",
+  "record_type": "log",
+  "ts": "2026-09-05T08:24:58Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 369ms"
+ },
+ {
+  "id": "L0082",
+  "record_type": "log",
+  "ts": "2026-09-05T08:26:02Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user b266d626: bad password"
+ },
+ {
+  "id": "L0083",
+  "record_type": "log",
+  "ts": "2026-09-05T08:26:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.942"
+ },
+ {
+  "id": "L0084",
+  "record_type": "log",
+  "ts": "2026-09-05T08:26:18Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 93318fa4"
+ },
+ {
+  "id": "L0085",
+  "record_type": "log",
+  "ts": "2026-09-05T08:26:48Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0086",
+  "record_type": "log",
+  "ts": "2026-09-05T08:27:01Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/1974143e 200 166ms"
+ },
+ {
+  "id": "L0087",
+  "record_type": "log",
+  "ts": "2026-09-05T08:27:03Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 64ms"
+ },
+ {
+  "id": "L0088",
+  "record_type": "log",
+  "ts": "2026-09-05T08:27:04Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6312 buffers"
+ },
+ {
+  "id": "L0089",
+  "record_type": "log",
+  "ts": "2026-09-05T08:27:41Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 341ms"
+ },
+ {
+  "id": "L0090",
+  "record_type": "log",
+  "ts": "2026-09-05T08:27:58Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "charge 2be5e832 failed: insufficient funds (declined)"
+ },
+ {
+  "id": "L0091",
+  "record_type": "log",
+  "ts": "2026-09-05T08:28:11Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 94aa8906"
+ },
+ {
+  "id": "L0092",
+  "record_type": "log",
+  "ts": "2026-09-05T08:29:52Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 88ms"
+ },
+ {
+  "id": "L0093",
+  "record_type": "log",
+  "ts": "2026-09-05T08:30:00Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 533346cf created in 103ms"
+ },
+ {
+  "id": "L0094",
+  "record_type": "log",
+  "ts": "2026-09-05T08:30:00Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=8fb33604 in 171ms"
+ },
+ {
+  "id": "L0095",
+  "record_type": "log",
+  "ts": "2026-09-05T08:30:07Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 306ms"
+ },
+ {
+  "id": "L0096",
+  "record_type": "log",
+  "ts": "2026-09-05T08:30:25Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0097",
+  "record_type": "log",
+  "ts": "2026-09-05T08:30:37Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 129ms"
+ },
+ {
+  "id": "L0098",
+  "record_type": "log",
+  "ts": "2026-09-05T08:30:58Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1204ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0099",
+  "record_type": "log",
+  "ts": "2026-09-05T08:31:17Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 938a67bc in 260ms"
+ },
+ {
+  "id": "L0100",
+  "record_type": "log",
+  "ts": "2026-09-05T08:31:42Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/84185faa 200 346ms"
+ },
+ {
+  "id": "L0101",
+  "record_type": "log",
+  "ts": "2026-09-05T08:31:49Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.924"
+ },
+ {
+  "id": "L0102",
+  "record_type": "log",
+  "ts": "2026-09-05T08:31:51Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 244ms"
+ },
+ {
+  "id": "L0103",
+  "record_type": "log",
+  "ts": "2026-09-05T08:31:57Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1112ms for charge 15848ed5"
+ },
+ {
+  "id": "L0104",
+  "record_type": "log",
+  "ts": "2026-09-05T08:32:45Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 62fe5e69"
+ },
+ {
+  "id": "L0105",
+  "record_type": "log",
+  "ts": "2026-09-05T08:32:46Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3912 buffers"
+ },
+ {
+  "id": "L0106",
+  "record_type": "log",
+  "ts": "2026-09-05T08:34:05Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 28ms"
+ },
+ {
+  "id": "L0107",
+  "record_type": "log",
+  "ts": "2026-09-05T08:34:14Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/2932c69c 200 136ms"
+ },
+ {
+  "id": "L0108",
+  "record_type": "log",
+  "ts": "2026-09-05T08:34:23Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9840 buffers"
+ },
+ {
+  "id": "L0109",
+  "record_type": "log",
+  "ts": "2026-09-05T08:34:29Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 124ms"
+ },
+ {
+  "id": "L0110",
+  "record_type": "log",
+  "ts": "2026-09-05T08:34:31Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 9ed2c65c"
+ },
+ {
+  "id": "L0111",
+  "record_type": "log",
+  "ts": "2026-09-05T08:34:50Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.969"
+ },
+ {
+  "id": "L0112",
+  "record_type": "log",
+  "ts": "2026-09-05T08:35:24Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 0f9b72c0"
+ },
+ {
+  "id": "L0113",
+  "record_type": "log",
+  "ts": "2026-09-05T08:35:27Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1412 buffers"
+ },
+ {
+  "id": "L0114",
+  "record_type": "log",
+  "ts": "2026-09-05T08:35:42Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 642762db authorized in 81ms"
+ },
+ {
+  "id": "L0115",
+  "record_type": "log",
+  "ts": "2026-09-05T08:37:27Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 307ms"
+ },
+ {
+  "id": "L0116",
+  "record_type": "log",
+  "ts": "2026-09-05T08:38:02Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 792ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0117",
+  "record_type": "log",
+  "ts": "2026-09-05T08:38:15Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0118",
+  "record_type": "log",
+  "ts": "2026-09-05T08:38:24Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/c43321d1 200 319ms"
+ },
+ {
+  "id": "L0119",
+  "record_type": "log",
+  "ts": "2026-09-05T08:38:30Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix fc4bc437: 63 misses/s"
+ },
+ {
+  "id": "L0120",
+  "record_type": "log",
+  "ts": "2026-09-05T08:38:40Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 6ebbdb82 in 279ms"
+ },
+ {
+  "id": "L0121",
+  "record_type": "log",
+  "ts": "2026-09-05T08:38:52Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0122",
+  "record_type": "log",
+  "ts": "2026-09-05T08:39:14Z",
+  "service": "search-service",
+  "level": "ERROR",
+  "message": "query parse error: unbalanced quotes"
+ },
+ {
+  "id": "L0123",
+  "record_type": "log",
+  "ts": "2026-09-05T08:39:18Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge b1ea35da authorized in 336ms"
+ },
+ {
+  "id": "L0124",
+  "record_type": "log",
+  "ts": "2026-09-05T08:39:39Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 59366845"
+ },
+ {
+  "id": "L0125",
+  "record_type": "log",
+  "ts": "2026-09-05T08:40:39Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0126",
+  "record_type": "log",
+  "ts": "2026-09-05T08:41:01Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 376596bd"
+ },
+ {
+  "id": "L0127",
+  "record_type": "log",
+  "ts": "2026-09-05T08:41:12Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 121ms"
+ },
+ {
+  "id": "L0128",
+  "record_type": "log",
+  "ts": "2026-09-05T08:41:31Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 330ms"
+ },
+ {
+  "id": "L0129",
+  "record_type": "log",
+  "ts": "2026-09-05T08:42:16Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0130",
+  "record_type": "log",
+  "ts": "2026-09-05T08:42:32Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 83d3650b priced in 217ms"
+ },
+ {
+  "id": "L0131",
+  "record_type": "log",
+  "ts": "2026-09-05T08:42:41Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 2becdd51 in 158ms"
+ },
+ {
+  "id": "L0132",
+  "record_type": "log",
+  "ts": "2026-09-05T08:42:43Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 9cd0ee62 processed"
+ },
+ {
+  "id": "L0133",
+  "record_type": "log",
+  "ts": "2026-09-05T08:42:46Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 62c55108"
+ },
+ {
+  "id": "L0134",
+  "record_type": "log",
+  "ts": "2026-09-05T08:43:37Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 60ms"
+ },
+ {
+  "id": "L0135",
+  "record_type": "log",
+  "ts": "2026-09-05T08:44:35Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0136",
+  "record_type": "log",
+  "ts": "2026-09-05T08:44:36Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.917"
+ },
+ {
+  "id": "L0137",
+  "record_type": "log",
+  "ts": "2026-09-05T08:44:54Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 269ms"
+ },
+ {
+  "id": "L0138",
+  "record_type": "log",
+  "ts": "2026-09-05T08:45:19Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 209ms"
+ },
+ {
+  "id": "L0139",
+  "record_type": "log",
+  "ts": "2026-09-05T08:45:49Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/de8ba942 200 209ms"
+ },
+ {
+  "id": "L0140",
+  "record_type": "log",
+  "ts": "2026-09-05T08:45:49Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 71ms"
+ },
+ {
+  "id": "L0141",
+  "record_type": "log",
+  "ts": "2026-09-05T08:45:56Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0142",
+  "record_type": "log",
+  "ts": "2026-09-05T08:46:33Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 779be7d6: 57 misses/s"
+ },
+ {
+  "id": "L0143",
+  "record_type": "log",
+  "ts": "2026-09-05T08:46:35Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 324ce4d5: bad password"
+ },
+ {
+  "id": "L0144",
+  "record_type": "log",
+  "ts": "2026-09-05T08:46:56Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 274ms"
+ },
+ {
+  "id": "L0145",
+  "record_type": "log",
+  "ts": "2026-09-05T08:47:58Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 595eed0b"
+ },
+ {
+  "id": "L0146",
+  "record_type": "log",
+  "ts": "2026-09-05T08:48:00Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0147",
+  "record_type": "log",
+  "ts": "2026-09-05T08:48:25Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 3ff991e3: 53 misses/s"
+ },
+ {
+  "id": "L0148",
+  "record_type": "log",
+  "ts": "2026-09-05T08:48:50Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 229ms"
+ },
+ {
+  "id": "L0149",
+  "record_type": "log",
+  "ts": "2026-09-05T08:48:51Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 86255457: bad password"
+ },
+ {
+  "id": "L0150",
+  "record_type": "log",
+  "ts": "2026-09-05T08:49:04Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 191ms"
+ },
+ {
+  "id": "L0151",
+  "record_type": "log",
+  "ts": "2026-09-05T08:49:19Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 3bce9a3f authorized in 212ms"
+ },
+ {
+  "id": "L0152",
+  "record_type": "log",
+  "ts": "2026-09-05T08:49:34Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/bcffc76d 200 291ms"
+ },
+ {
+  "id": "L0153",
+  "record_type": "log",
+  "ts": "2026-09-05T08:49:38Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1512 buffers"
+ },
+ {
+  "id": "L0154",
+  "record_type": "log",
+  "ts": "2026-09-05T08:50:23Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=6ec756ad in 291ms"
+ },
+ {
+  "id": "L0155",
+  "record_type": "log",
+  "ts": "2026-09-05T08:51:10Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 175ms"
+ },
+ {
+  "id": "L0156",
+  "record_type": "log",
+  "ts": "2026-09-05T08:51:11Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 8bb47f85 authorized in 355ms"
+ },
+ {
+  "id": "L0157",
+  "record_type": "log",
+  "ts": "2026-09-05T08:51:42Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user e2c13ad2"
+ },
+ {
+  "id": "L0158",
+  "record_type": "log",
+  "ts": "2026-09-05T08:52:01Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 255ms"
+ },
+ {
+  "id": "L0159",
+  "record_type": "log",
+  "ts": "2026-09-05T08:52:09Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5240 buffers"
+ },
+ {
+  "id": "L0160",
+  "record_type": "log",
+  "ts": "2026-09-05T08:52:31Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 275ms"
+ },
+ {
+  "id": "L0161",
+  "record_type": "log",
+  "ts": "2026-09-05T08:53:09Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1912 buffers"
+ },
+ {
+  "id": "L0162",
+  "record_type": "log",
+  "ts": "2026-09-05T08:53:16Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart e5d24805 priced in 38ms"
+ },
+ {
+  "id": "L0163",
+  "record_type": "log",
+  "ts": "2026-09-05T08:53:36Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 53ms"
+ },
+ {
+  "id": "L0164",
+  "record_type": "log",
+  "ts": "2026-09-05T08:53:41Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order bd23f15a"
+ },
+ {
+  "id": "L0165",
+  "record_type": "log",
+  "ts": "2026-09-05T08:54:02Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 97de4849"
+ },
+ {
+  "id": "L0166",
+  "record_type": "log",
+  "ts": "2026-09-05T08:54:12Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "Starting checkout-service v2.15.1 (build 1c77e0a)"
+ },
+ {
+  "id": "L0167",
+  "record_type": "log",
+  "ts": "2026-09-05T08:54:37Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "reservation 19ebd991 expired before confirmation"
+ },
+ {
+  "id": "L0168",
+  "record_type": "log",
+  "ts": "2026-09-05T08:54:43Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "Starting checkout-service v2.15.1 (build 1c77e0a)"
+ },
+ {
+  "id": "L0169",
+  "record_type": "log",
+  "ts": "2026-09-05T08:54:51Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 883ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0170",
+  "record_type": "log",
+  "ts": "2026-09-05T08:55:05Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "charge 94e83af7 failed: insufficient funds (declined)"
+ },
+ {
+  "id": "L0171",
+  "record_type": "log",
+  "ts": "2026-09-05T08:55:11Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1241ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0172",
+  "record_type": "log",
+  "ts": "2026-09-05T08:55:12Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "Starting checkout-service v2.15.1 (build 1c77e0a)"
+ },
+ {
+  "id": "L0173",
+  "record_type": "log",
+  "ts": "2026-09-05T08:56:19Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2112 buffers"
+ },
+ {
+  "id": "L0174",
+  "record_type": "log",
+  "ts": "2026-09-05T08:56:32Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 2567fb87 in 223ms"
+ },
+ {
+  "id": "L0175",
+  "record_type": "log",
+  "ts": "2026-09-05T08:56:52Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 242ms"
+ },
+ {
+  "id": "L0176",
+  "record_type": "log",
+  "ts": "2026-09-05T08:57:18Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 860ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0177",
+  "record_type": "log",
+  "ts": "2026-09-05T08:57:23Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 67d7f47b created in 185ms"
+ },
+ {
+  "id": "L0178",
+  "record_type": "log",
+  "ts": "2026-09-05T08:57:44Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 71a5b077"
+ },
+ {
+  "id": "L0179",
+  "record_type": "log",
+  "ts": "2026-09-05T08:57:57Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart b31a9d89"
+ },
+ {
+  "id": "L0180",
+  "record_type": "log",
+  "ts": "2026-09-05T08:57:57Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 624ms for charge 330bc055"
+ },
+ {
+  "id": "L0181",
+  "record_type": "log",
+  "ts": "2026-09-05T08:58:35Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0182",
+  "record_type": "log",
+  "ts": "2026-09-05T08:58:56Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0183",
+  "record_type": "log",
+  "ts": "2026-09-05T08:59:42Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 67ms"
+ },
+ {
+  "id": "L0184",
+  "record_type": "log",
+  "ts": "2026-09-05T09:00:04Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0185",
+  "record_type": "log",
+  "ts": "2026-09-05T09:00:15Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0186",
+  "record_type": "log",
+  "ts": "2026-09-05T09:00:33Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 92598887"
+ },
+ {
+  "id": "L0187",
+  "record_type": "log",
+  "ts": "2026-09-05T09:00:34Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 309ms"
+ },
+ {
+  "id": "L0188",
+  "record_type": "log",
+  "ts": "2026-09-05T09:00:41Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0189",
+  "record_type": "log",
+  "ts": "2026-09-05T09:00:49Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6840 buffers"
+ },
+ {
+  "id": "L0190",
+  "record_type": "log",
+  "ts": "2026-09-05T09:00:57Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0191",
+  "record_type": "log",
+  "ts": "2026-09-05T09:00:58Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=e0897b7c in 311ms"
+ },
+ {
+  "id": "L0192",
+  "record_type": "log",
+  "ts": "2026-09-05T09:01:33Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0193",
+  "record_type": "log",
+  "ts": "2026-09-05T09:01:37Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 326ms"
+ },
+ {
+  "id": "L0194",
+  "record_type": "log",
+  "ts": "2026-09-05T09:02:02Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0195",
+  "record_type": "log",
+  "ts": "2026-09-05T09:02:04Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 6035ee58"
+ },
+ {
+  "id": "L0196",
+  "record_type": "log",
+  "ts": "2026-09-05T09:02:24Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0197",
+  "record_type": "log",
+  "ts": "2026-09-05T09:02:40Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6612 buffers"
+ },
+ {
+  "id": "L0198",
+  "record_type": "log",
+  "ts": "2026-09-05T09:02:54Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0199",
+  "record_type": "log",
+  "ts": "2026-09-05T09:03:27Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 161ms"
+ },
+ {
+  "id": "L0200",
+  "record_type": "log",
+  "ts": "2026-09-05T09:03:30Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0201",
+  "record_type": "log",
+  "ts": "2026-09-05T09:03:32Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 96ms"
+ },
+ {
+  "id": "L0202",
+  "record_type": "log",
+  "ts": "2026-09-05T09:03:45Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0203",
+  "record_type": "log",
+  "ts": "2026-09-05T09:03:48Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0204",
+  "record_type": "log",
+  "ts": "2026-09-05T09:03:52Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 347ms"
+ },
+ {
+  "id": "L0205",
+  "record_type": "log",
+  "ts": "2026-09-05T09:04:06Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 349ms"
+ },
+ {
+  "id": "L0206",
+  "record_type": "log",
+  "ts": "2026-09-05T09:04:18Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0207",
+  "record_type": "log",
+  "ts": "2026-09-05T09:04:41Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.957"
+ },
+ {
+  "id": "L0208",
+  "record_type": "log",
+  "ts": "2026-09-05T09:04:55Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0209",
+  "record_type": "log",
+  "ts": "2026-09-05T09:05:19Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 148ms"
+ },
+ {
+  "id": "L0210",
+  "record_type": "log",
+  "ts": "2026-09-05T09:05:20Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0211",
+  "record_type": "log",
+  "ts": "2026-09-05T09:05:36Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/30d7aa1a 200 37ms"
+ },
+ {
+  "id": "L0212",
+  "record_type": "log",
+  "ts": "2026-09-05T09:05:58Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2512 buffers"
+ },
+ {
+  "id": "L0213",
+  "record_type": "log",
+  "ts": "2026-09-05T09:06:01Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0214",
+  "record_type": "log",
+  "ts": "2026-09-05T09:06:36Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0215",
+  "record_type": "log",
+  "ts": "2026-09-05T09:06:36Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 312ms"
+ },
+ {
+  "id": "L0216",
+  "record_type": "log",
+  "ts": "2026-09-05T09:06:41Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0217",
+  "record_type": "log",
+  "ts": "2026-09-05T09:06:56Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 279ms"
+ },
+ {
+  "id": "L0218",
+  "record_type": "log",
+  "ts": "2026-09-05T09:06:56Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 90ms"
+ },
+ {
+  "id": "L0219",
+  "record_type": "log",
+  "ts": "2026-09-05T09:06:59Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0220",
+  "record_type": "log",
+  "ts": "2026-09-05T09:07:09Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1044ms for charge 438bcc05"
+ },
+ {
+  "id": "L0221",
+  "record_type": "log",
+  "ts": "2026-09-05T09:07:57Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0222",
+  "record_type": "log",
+  "ts": "2026-09-05T09:07:58Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8840 buffers"
+ },
+ {
+  "id": "L0223",
+  "record_type": "log",
+  "ts": "2026-09-05T09:08:06Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0224",
+  "record_type": "log",
+  "ts": "2026-09-05T09:08:22Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0225",
+  "record_type": "log",
+  "ts": "2026-09-05T09:08:47Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=bf957d24 in 232ms"
+ },
+ {
+  "id": "L0226",
+  "record_type": "log",
+  "ts": "2026-09-05T09:09:19Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0227",
+  "record_type": "log",
+  "ts": "2026-09-05T09:09:35Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0228",
+  "record_type": "log",
+  "ts": "2026-09-05T09:09:37Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0229",
+  "record_type": "log",
+  "ts": "2026-09-05T09:09:38Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0230",
+  "record_type": "log",
+  "ts": "2026-09-05T09:09:41Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 9c404148 created in 305ms"
+ },
+ {
+  "id": "L0231",
+  "record_type": "log",
+  "ts": "2026-09-05T09:10:13Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0232",
+  "record_type": "log",
+  "ts": "2026-09-05T09:10:25Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order e21f7a39"
+ },
+ {
+  "id": "L0233",
+  "record_type": "log",
+  "ts": "2026-09-05T09:10:26Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 26ms"
+ },
+ {
+  "id": "L0234",
+  "record_type": "log",
+  "ts": "2026-09-05T09:10:36Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 342ms"
+ },
+ {
+  "id": "L0235",
+  "record_type": "log",
+  "ts": "2026-09-05T09:10:44Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0236",
+  "record_type": "log",
+  "ts": "2026-09-05T09:10:47Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1362ms for charge 96fa4884"
+ },
+ {
+  "id": "L0237",
+  "record_type": "log",
+  "ts": "2026-09-05T09:10:58Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0238",
+  "record_type": "log",
+  "ts": "2026-09-05T09:11:17Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0239",
+  "record_type": "log",
+  "ts": "2026-09-05T09:11:31Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/968e1fab 200 315ms"
+ },
+ {
+  "id": "L0240",
+  "record_type": "log",
+  "ts": "2026-09-05T09:11:40Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0241",
+  "record_type": "log",
+  "ts": "2026-09-05T09:12:08Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0242",
+  "record_type": "log",
+  "ts": "2026-09-05T09:12:30Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8440 buffers"
+ },
+ {
+  "id": "L0243",
+  "record_type": "log",
+  "ts": "2026-09-05T09:12:33Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0244",
+  "record_type": "log",
+  "ts": "2026-09-05T09:12:38Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0245",
+  "record_type": "log",
+  "ts": "2026-09-05T09:12:38Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 257ms"
+ },
+ {
+  "id": "L0246",
+  "record_type": "log",
+  "ts": "2026-09-05T09:13:03Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 63d656e9"
+ },
+ {
+  "id": "L0247",
+  "record_type": "log",
+  "ts": "2026-09-05T09:13:21Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 270ms"
+ },
+ {
+  "id": "L0248",
+  "record_type": "log",
+  "ts": "2026-09-05T09:13:28Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 40ms"
+ },
+ {
+  "id": "L0249",
+  "record_type": "log",
+  "ts": "2026-09-05T09:13:33Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0250",
+  "record_type": "log",
+  "ts": "2026-09-05T09:14:17Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0251",
+  "record_type": "log",
+  "ts": "2026-09-05T09:14:18Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 74ms"
+ },
+ {
+  "id": "L0252",
+  "record_type": "log",
+  "ts": "2026-09-05T09:14:22Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/5948723d 200 30ms"
+ },
+ {
+  "id": "L0253",
+  "record_type": "log",
+  "ts": "2026-09-05T09:14:25Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2212 buffers"
+ },
+ {
+  "id": "L0254",
+  "record_type": "log",
+  "ts": "2026-09-05T09:14:34Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0255",
+  "record_type": "log",
+  "ts": "2026-09-05T09:14:35Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0256",
+  "record_type": "log",
+  "ts": "2026-09-05T09:14:48Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 25eefc48"
+ },
+ {
+  "id": "L0257",
+  "record_type": "log",
+  "ts": "2026-09-05T09:15:03Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0258",
+  "record_type": "log",
+  "ts": "2026-09-05T09:15:31Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0259",
+  "record_type": "log",
+  "ts": "2026-09-05T09:15:48Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0260",
+  "record_type": "log",
+  "ts": "2026-09-05T09:15:49Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 42692107"
+ },
+ {
+  "id": "L0261",
+  "record_type": "log",
+  "ts": "2026-09-05T09:15:50Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0262",
+  "record_type": "log",
+  "ts": "2026-09-05T09:16:32Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/a8840336 200 374ms"
+ },
+ {
+  "id": "L0263",
+  "record_type": "log",
+  "ts": "2026-09-05T09:16:44Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0264",
+  "record_type": "log",
+  "ts": "2026-09-05T09:16:45Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 425c2ccd"
+ },
+ {
+  "id": "L0265",
+  "record_type": "log",
+  "ts": "2026-09-05T09:17:02Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 601ms for charge ad50d1a6"
+ },
+ {
+  "id": "L0266",
+  "record_type": "log",
+  "ts": "2026-09-05T09:17:09Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 268ms"
+ },
+ {
+  "id": "L0267",
+  "record_type": "log",
+  "ts": "2026-09-05T09:17:27Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0268",
+  "record_type": "log",
+  "ts": "2026-09-05T09:17:32Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0269",
+  "record_type": "log",
+  "ts": "2026-09-05T09:17:38Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 250ms"
+ },
+ {
+  "id": "L0270",
+  "record_type": "log",
+  "ts": "2026-09-05T09:17:59Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0271",
+  "record_type": "log",
+  "ts": "2026-09-05T09:18:18Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0272",
+  "record_type": "log",
+  "ts": "2026-09-05T09:18:22Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2012 buffers"
+ },
+ {
+  "id": "L0273",
+  "record_type": "log",
+  "ts": "2026-09-05T09:18:47Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0274",
+  "record_type": "log",
+  "ts": "2026-09-05T09:19:10Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order de40b5dc"
+ },
+ {
+  "id": "L0275",
+  "record_type": "log",
+  "ts": "2026-09-05T09:19:29Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 3da1280a"
+ },
+ {
+  "id": "L0276",
+  "record_type": "log",
+  "ts": "2026-09-05T09:19:30Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0277",
+  "record_type": "log",
+  "ts": "2026-09-05T09:19:45Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0278",
+  "record_type": "log",
+  "ts": "2026-09-05T09:19:47Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0279",
+  "record_type": "log",
+  "ts": "2026-09-05T09:19:51Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 42ms"
+ },
+ {
+  "id": "L0280",
+  "record_type": "log",
+  "ts": "2026-09-05T09:20:18Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 63ms"
+ },
+ {
+  "id": "L0281",
+  "record_type": "log",
+  "ts": "2026-09-05T09:20:34Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0282",
+  "record_type": "log",
+  "ts": "2026-09-05T09:20:45Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 198ms"
+ },
+ {
+  "id": "L0283",
+  "record_type": "log",
+  "ts": "2026-09-05T09:20:54Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0284",
+  "record_type": "log",
+  "ts": "2026-09-05T09:21:26Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 234ms"
+ },
+ {
+  "id": "L0285",
+  "record_type": "log",
+  "ts": "2026-09-05T09:21:35Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart b3bc3790 priced in 248ms"
+ },
+ {
+  "id": "L0286",
+  "record_type": "log",
+  "ts": "2026-09-05T09:21:36Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0287",
+  "record_type": "log",
+  "ts": "2026-09-05T09:21:52Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1080ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0288",
+  "record_type": "log",
+  "ts": "2026-09-05T09:21:57Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0289",
+  "record_type": "log",
+  "ts": "2026-09-05T09:22:06Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0290",
+  "record_type": "log",
+  "ts": "2026-09-05T09:22:37Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0291",
+  "record_type": "log",
+  "ts": "2026-09-05T09:22:55Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0292",
+  "record_type": "log",
+  "ts": "2026-09-05T09:23:12Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0293",
+  "record_type": "log",
+  "ts": "2026-09-05T09:23:29Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart d06e4866"
+ },
+ {
+  "id": "L0294",
+  "record_type": "log",
+  "ts": "2026-09-05T09:23:44Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/e5547457 200 140ms"
+ },
+ {
+  "id": "L0295",
+  "record_type": "log",
+  "ts": "2026-09-05T09:23:44Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 209ms"
+ },
+ {
+  "id": "L0296",
+  "record_type": "log",
+  "ts": "2026-09-05T09:23:50Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0297",
+  "record_type": "log",
+  "ts": "2026-09-05T09:23:55Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9012 buffers"
+ },
+ {
+  "id": "L0298",
+  "record_type": "log",
+  "ts": "2026-09-05T09:24:05Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 160ms"
+ },
+ {
+  "id": "L0299",
+  "record_type": "log",
+  "ts": "2026-09-05T09:24:28Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0300",
+  "record_type": "log",
+  "ts": "2026-09-05T09:24:48Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 992ms"
+ },
+ {
+  "id": "L0301",
+  "record_type": "log",
+  "ts": "2026-09-05T09:24:56Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund fd42c96a processed"
+ },
+ {
+  "id": "L0302",
+  "record_type": "log",
+  "ts": "2026-09-05T09:25:00Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0303",
+  "record_type": "log",
+  "ts": "2026-09-05T09:25:21Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0304",
+  "record_type": "log",
+  "ts": "2026-09-05T09:25:35Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0305",
+  "record_type": "log",
+  "ts": "2026-09-05T09:25:47Z",
+  "service": "inventory-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0306",
+  "record_type": "log",
+  "ts": "2026-09-05T09:25:57Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0307",
+  "record_type": "log",
+  "ts": "2026-09-05T09:25:58Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/e06bc728 200 281ms"
+ },
+ {
+  "id": "L0308",
+  "record_type": "log",
+  "ts": "2026-09-05T09:26:45Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0309",
+  "record_type": "log",
+  "ts": "2026-09-05T09:26:50Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0310",
+  "record_type": "log",
+  "ts": "2026-09-05T09:27:08Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order d3053122"
+ },
+ {
+  "id": "L0311",
+  "record_type": "log",
+  "ts": "2026-09-05T09:27:09Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.972"
+ },
+ {
+  "id": "L0312",
+  "record_type": "log",
+  "ts": "2026-09-05T09:27:37Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4412 buffers"
+ },
+ {
+  "id": "L0313",
+  "record_type": "log",
+  "ts": "2026-09-05T09:27:53Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0314",
+  "record_type": "log",
+  "ts": "2026-09-05T09:27:55Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 345ms"
+ },
+ {
+  "id": "L0315",
+  "record_type": "log",
+  "ts": "2026-09-05T09:28:21Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0316",
+  "record_type": "log",
+  "ts": "2026-09-05T09:28:27Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 195ms"
+ },
+ {
+  "id": "L0317",
+  "record_type": "log",
+  "ts": "2026-09-05T09:28:36Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0318",
+  "record_type": "log",
+  "ts": "2026-09-05T09:28:47Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0319",
+  "record_type": "log",
+  "ts": "2026-09-05T09:29:16Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0320",
+  "record_type": "log",
+  "ts": "2026-09-05T09:29:17Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.952"
+ },
+ {
+  "id": "L0321",
+  "record_type": "log",
+  "ts": "2026-09-05T09:29:32Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 355ms"
+ },
+ {
+  "id": "L0322",
+  "record_type": "log",
+  "ts": "2026-09-05T09:29:40Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 523fa921"
+ },
+ {
+  "id": "L0323",
+  "record_type": "log",
+  "ts": "2026-09-05T09:29:48Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ },
+ {
+  "id": "L0324",
+  "record_type": "log",
+  "ts": "2026-09-05T09:30:00Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "auth check failed: x509: certificate has expired or is not yet valid: current time is after 2026-09-05T08:59:59Z (cn=auth.internal)"
+ },
+ {
+  "id": "L0325",
+  "record_type": "log",
+  "ts": "2026-09-05T09:30:00Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "auth-service token validation failed: javax.net.ssl.SSLHandshakeException: PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed (peer auth.internal:8443)"
+ }
+]

@@ -1,0 +1,104 @@
+{
+ "incident_id": "S11",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "payments-db"
+ ],
+ "root_cause_categories": [
+  "resource_exhaustion"
+ ],
+ "summary": "payments-db ran out of disk because WAL archiving was failing; inserts fail with 'No space left on device'. The earlier payment-service deploy and a similar past incident are red herrings.",
+ "key_evidence": [
+  [
+   "M33"
+  ],
+  [
+   "M39"
+  ],
+  [
+   "L0002",
+   "L0039",
+   "L0071",
+   "L0106",
+   "L0142",
+   "L0177"
+  ],
+  [
+   "L0189",
+   "L0195",
+   "L0202",
+   "L0209",
+   "L0219",
+   "L0223",
+   "L0230",
+   "L0240",
+   "L0246",
+   "L0258",
+   "L0264",
+   "L0269",
+   "L0278",
+   "L0286",
+   "L0294",
+   "L0301",
+   "L0310",
+   "L0317",
+   "L0324",
+   "L0331"
+  ],
+  [
+   "L0193",
+   "L0198",
+   "L0201",
+   "L0204",
+   "L0208",
+   "L0210",
+   "L0215",
+   "L0222",
+   "L0225",
+   "L0229",
+   "L0235",
+   "L0239",
+   "L0243",
+   "L0245",
+   "L0250",
+   "L0257",
+   "L0259",
+   "L0261",
+   "L0263",
+   "L0271",
+   "L0274",
+   "L0277",
+   "L0283",
+   "L0287",
+   "L0291",
+   "L0295",
+   "L0296",
+   "L0305",
+   "L0307",
+   "L0314",
+   "L0315",
+   "L0318",
+   "L0325",
+   "L0328",
+   "L0330"
+  ]
+ ],
+ "misleading_evidence": [
+  [
+   "C09"
+  ],
+  [
+   "P06"
+  ]
+ ],
+ "decoy_hypotheses": [
+  {
+   "service": "payment-service",
+   "category": "deployment_regression"
+  }
+ ],
+ "tags": [
+  "misleading_history",
+  "misleading_deploy"
+ ]
+}

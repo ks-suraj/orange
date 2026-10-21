@@ -1,0 +1,112 @@
+{
+ "incident_id": "S05",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "auth-service"
+ ],
+ "root_cause_categories": [
+  "certificate_expiry"
+ ],
+ "summary": "auth-service's TLS certificate expired at 08:59:59 after a failed renewal; callers fail TLS handshakes. The checkout deploy only changed UI strings.",
+ "key_evidence": [
+  [
+   "M10"
+  ],
+  [
+   "L0018",
+   "L0065"
+  ],
+  [
+   "L0184",
+   "L0190",
+   "L0192",
+   "L0196",
+   "L0198",
+   "L0200",
+   "L0206",
+   "L0208",
+   "L0213",
+   "L0214",
+   "L0219",
+   "L0221",
+   "L0224",
+   "L0226",
+   "L0227",
+   "L0235",
+   "L0237",
+   "L0241",
+   "L0243",
+   "L0249",
+   "L0250",
+   "L0255",
+   "L0257",
+   "L0261",
+   "L0263",
+   "L0268",
+   "L0271",
+   "L0273",
+   "L0277",
+   "L0278",
+   "L0281",
+   "L0286",
+   "L0289",
+   "L0291",
+   "L0292",
+   "L0299",
+   "L0302",
+   "L0303",
+   "L0306",
+   "L0308",
+   "L0313",
+   "L0315",
+   "L0319",
+   "L0323",
+   "L0325"
+  ],
+  [
+   "L0185",
+   "L0194",
+   "L0202",
+   "L0210",
+   "L0216",
+   "L0223",
+   "L0228",
+   "L0238",
+   "L0244",
+   "L0254",
+   "L0259",
+   "L0267",
+   "L0276",
+   "L0283",
+   "L0290",
+   "L0296",
+   "L0304",
+   "L0309",
+   "L0318",
+   "L0324"
+  ]
+ ],
+ "misleading_evidence": [
+  [
+   "C09"
+  ],
+  [
+   "L0166",
+   "L0168",
+   "L0172"
+  ],
+  [
+   "P04"
+  ]
+ ],
+ "decoy_hypotheses": [
+  {
+   "service": "checkout-service",
+   "category": "deployment_regression"
+  }
+ ],
+ "tags": [
+  "misleading_deploy",
+  "conflicting_evidence"
+ ]
+}

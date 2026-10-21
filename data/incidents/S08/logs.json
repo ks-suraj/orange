@@ -1,0 +1,2674 @@
+[
+ {
+  "id": "L0001",
+  "record_type": "log",
+  "ts": "2026-09-08T10:00:13Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order eca365e5 created in 336ms"
+ },
+ {
+  "id": "L0002",
+  "record_type": "log",
+  "ts": "2026-09-08T10:00:14Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 310ms"
+ },
+ {
+  "id": "L0003",
+  "record_type": "log",
+  "ts": "2026-09-08T10:00:16Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0004",
+  "record_type": "log",
+  "ts": "2026-09-08T10:00:22Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9112 buffers"
+ },
+ {
+  "id": "L0005",
+  "record_type": "log",
+  "ts": "2026-09-08T10:00:34Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 97be2855"
+ },
+ {
+  "id": "L0006",
+  "record_type": "log",
+  "ts": "2026-09-08T10:00:36Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 36ms"
+ },
+ {
+  "id": "L0007",
+  "record_type": "log",
+  "ts": "2026-09-08T10:00:45Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user ab674d1b: bad password"
+ },
+ {
+  "id": "L0008",
+  "record_type": "log",
+  "ts": "2026-09-08T10:00:50Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge d87d1de0 authorized in 136ms"
+ },
+ {
+  "id": "L0009",
+  "record_type": "log",
+  "ts": "2026-09-08T10:01:24Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 025ef7ce: 14 misses/s"
+ },
+ {
+  "id": "L0010",
+  "record_type": "log",
+  "ts": "2026-09-08T10:01:58Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 255ms"
+ },
+ {
+  "id": "L0011",
+  "record_type": "log",
+  "ts": "2026-09-08T10:02:44Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 377ms"
+ },
+ {
+  "id": "L0012",
+  "record_type": "log",
+  "ts": "2026-09-08T10:03:17Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart b3e69a8d"
+ },
+ {
+  "id": "L0013",
+  "record_type": "log",
+  "ts": "2026-09-08T10:03:21Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 262ms"
+ },
+ {
+  "id": "L0014",
+  "record_type": "log",
+  "ts": "2026-09-08T10:03:37Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 117ms"
+ },
+ {
+  "id": "L0015",
+  "record_type": "log",
+  "ts": "2026-09-08T10:03:44Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6812 buffers"
+ },
+ {
+  "id": "L0016",
+  "record_type": "log",
+  "ts": "2026-09-08T10:04:00Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 5df65490"
+ },
+ {
+  "id": "L0017",
+  "record_type": "log",
+  "ts": "2026-09-08T10:04:10Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8040 buffers"
+ },
+ {
+  "id": "L0018",
+  "record_type": "log",
+  "ts": "2026-09-08T10:04:12Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart be23d109 priced in 35ms"
+ },
+ {
+  "id": "L0019",
+  "record_type": "log",
+  "ts": "2026-09-08T10:04:17Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 240ms"
+ },
+ {
+  "id": "L0020",
+  "record_type": "log",
+  "ts": "2026-09-08T10:05:33Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1142ms"
+ },
+ {
+  "id": "L0021",
+  "record_type": "log",
+  "ts": "2026-09-08T10:05:57Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 53188f1c"
+ },
+ {
+  "id": "L0022",
+  "record_type": "log",
+  "ts": "2026-09-08T10:06:06Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0023",
+  "record_type": "log",
+  "ts": "2026-09-08T10:06:12Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 155ms"
+ },
+ {
+  "id": "L0024",
+  "record_type": "log",
+  "ts": "2026-09-08T10:06:21Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 245ms"
+ },
+ {
+  "id": "L0025",
+  "record_type": "log",
+  "ts": "2026-09-08T10:06:46Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 202ms"
+ },
+ {
+  "id": "L0026",
+  "record_type": "log",
+  "ts": "2026-09-08T10:06:57Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart db87237a priced in 277ms"
+ },
+ {
+  "id": "L0027",
+  "record_type": "log",
+  "ts": "2026-09-08T10:07:23Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 142ms"
+ },
+ {
+  "id": "L0028",
+  "record_type": "log",
+  "ts": "2026-09-08T10:07:39Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 1c0b1585 in 173ms"
+ },
+ {
+  "id": "L0029",
+  "record_type": "log",
+  "ts": "2026-09-08T10:07:55Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4012 buffers"
+ },
+ {
+  "id": "L0030",
+  "record_type": "log",
+  "ts": "2026-09-08T10:08:49Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 74ms"
+ },
+ {
+  "id": "L0031",
+  "record_type": "log",
+  "ts": "2026-09-08T10:08:53Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order f6e4f108 created in 60ms"
+ },
+ {
+  "id": "L0032",
+  "record_type": "log",
+  "ts": "2026-09-08T10:09:39Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 303ms"
+ },
+ {
+  "id": "L0033",
+  "record_type": "log",
+  "ts": "2026-09-08T10:09:44Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0034",
+  "record_type": "log",
+  "ts": "2026-09-08T10:10:02Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0035",
+  "record_type": "log",
+  "ts": "2026-09-08T10:10:04Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart efd944bf"
+ },
+ {
+  "id": "L0036",
+  "record_type": "log",
+  "ts": "2026-09-08T10:10:05Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 103ms"
+ },
+ {
+  "id": "L0037",
+  "record_type": "log",
+  "ts": "2026-09-08T10:10:34Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1512 buffers"
+ },
+ {
+  "id": "L0038",
+  "record_type": "log",
+  "ts": "2026-09-08T10:10:53Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 127ms"
+ },
+ {
+  "id": "L0039",
+  "record_type": "log",
+  "ts": "2026-09-08T10:11:12Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user b1e570bf in 54ms"
+ },
+ {
+  "id": "L0040",
+  "record_type": "log",
+  "ts": "2026-09-08T10:11:23Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 107ms"
+ },
+ {
+  "id": "L0041",
+  "record_type": "log",
+  "ts": "2026-09-08T10:12:40Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart bbf153d7"
+ },
+ {
+  "id": "L0042",
+  "record_type": "log",
+  "ts": "2026-09-08T10:12:56Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 87944091 priced in 127ms"
+ },
+ {
+  "id": "L0043",
+  "record_type": "log",
+  "ts": "2026-09-08T10:13:15Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0044",
+  "record_type": "log",
+  "ts": "2026-09-08T10:13:19Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 49e4d944"
+ },
+ {
+  "id": "L0045",
+  "record_type": "log",
+  "ts": "2026-09-08T10:13:41Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1260ms for charge 3a94f1c4"
+ },
+ {
+  "id": "L0046",
+  "record_type": "log",
+  "ts": "2026-09-08T10:13:49Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2112 buffers"
+ },
+ {
+  "id": "L0047",
+  "record_type": "log",
+  "ts": "2026-09-08T10:13:59Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 294ms"
+ },
+ {
+  "id": "L0048",
+  "record_type": "log",
+  "ts": "2026-09-08T10:14:17Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user f8124877 in 354ms"
+ },
+ {
+  "id": "L0049",
+  "record_type": "log",
+  "ts": "2026-09-08T10:14:55Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 134ms"
+ },
+ {
+  "id": "L0050",
+  "record_type": "log",
+  "ts": "2026-09-08T10:16:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 28893b12"
+ },
+ {
+  "id": "L0051",
+  "record_type": "log",
+  "ts": "2026-09-08T10:16:43Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 152ms"
+ },
+ {
+  "id": "L0052",
+  "record_type": "log",
+  "ts": "2026-09-08T10:17:08Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/869d3871 200 333ms"
+ },
+ {
+  "id": "L0053",
+  "record_type": "log",
+  "ts": "2026-09-08T10:17:09Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0054",
+  "record_type": "log",
+  "ts": "2026-09-08T10:17:23Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 666ms for charge dbc23c53"
+ },
+ {
+  "id": "L0055",
+  "record_type": "log",
+  "ts": "2026-09-08T10:17:25Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5312 buffers"
+ },
+ {
+  "id": "L0056",
+  "record_type": "log",
+  "ts": "2026-09-08T10:17:36Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 275ms"
+ },
+ {
+  "id": "L0057",
+  "record_type": "log",
+  "ts": "2026-09-08T10:18:10Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 352ms"
+ },
+ {
+  "id": "L0058",
+  "record_type": "log",
+  "ts": "2026-09-08T10:18:13Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user dba25df5"
+ },
+ {
+  "id": "L0059",
+  "record_type": "log",
+  "ts": "2026-09-08T10:19:13Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=9c744235 in 361ms"
+ },
+ {
+  "id": "L0060",
+  "record_type": "log",
+  "ts": "2026-09-08T10:19:26Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 1bccf5f6 authorized in 71ms"
+ },
+ {
+  "id": "L0061",
+  "record_type": "log",
+  "ts": "2026-09-08T10:19:51Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5412 buffers"
+ },
+ {
+  "id": "L0062",
+  "record_type": "log",
+  "ts": "2026-09-08T10:19:52Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 71adab70 priced in 60ms"
+ },
+ {
+  "id": "L0063",
+  "record_type": "log",
+  "ts": "2026-09-08T10:19:56Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 213ms"
+ },
+ {
+  "id": "L0064",
+  "record_type": "log",
+  "ts": "2026-09-08T10:19:57Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 088ee399"
+ },
+ {
+  "id": "L0065",
+  "record_type": "log",
+  "ts": "2026-09-08T10:21:02Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8040 buffers"
+ },
+ {
+  "id": "L0066",
+  "record_type": "log",
+  "ts": "2026-09-08T10:21:16Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0067",
+  "record_type": "log",
+  "ts": "2026-09-08T10:21:56Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5612 buffers"
+ },
+ {
+  "id": "L0068",
+  "record_type": "log",
+  "ts": "2026-09-08T10:22:18Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 60d9f375 in 35ms"
+ },
+ {
+  "id": "L0069",
+  "record_type": "log",
+  "ts": "2026-09-08T10:22:58Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 3327e2f1 priced in 366ms"
+ },
+ {
+  "id": "L0070",
+  "record_type": "log",
+  "ts": "2026-09-08T10:23:00Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 696ms for charge d1b2d3b8"
+ },
+ {
+  "id": "L0071",
+  "record_type": "log",
+  "ts": "2026-09-08T10:23:12Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 0a13946b"
+ },
+ {
+  "id": "L0072",
+  "record_type": "log",
+  "ts": "2026-09-08T10:23:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.939"
+ },
+ {
+  "id": "L0073",
+  "record_type": "log",
+  "ts": "2026-09-08T10:23:52Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 246ms"
+ },
+ {
+  "id": "L0074",
+  "record_type": "log",
+  "ts": "2026-09-08T10:23:56Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 96ms"
+ },
+ {
+  "id": "L0075",
+  "record_type": "log",
+  "ts": "2026-09-08T10:24:05Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 089488a4: bad password"
+ },
+ {
+  "id": "L0076",
+  "record_type": "log",
+  "ts": "2026-09-08T10:24:36Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1240 buffers"
+ },
+ {
+  "id": "L0077",
+  "record_type": "log",
+  "ts": "2026-09-08T10:25:21Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7412 buffers"
+ },
+ {
+  "id": "L0078",
+  "record_type": "log",
+  "ts": "2026-09-08T10:25:33Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 252ms"
+ },
+ {
+  "id": "L0079",
+  "record_type": "log",
+  "ts": "2026-09-08T10:25:44Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/331873d6 200 21ms"
+ },
+ {
+  "id": "L0080",
+  "record_type": "log",
+  "ts": "2026-09-08T10:26:09Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 56ms"
+ },
+ {
+  "id": "L0081",
+  "record_type": "log",
+  "ts": "2026-09-08T10:26:21Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=eea47d1d in 323ms"
+ },
+ {
+  "id": "L0082",
+  "record_type": "log",
+  "ts": "2026-09-08T10:26:52Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 280ms"
+ },
+ {
+  "id": "L0083",
+  "record_type": "log",
+  "ts": "2026-09-08T10:27:10Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 364ms"
+ },
+ {
+  "id": "L0084",
+  "record_type": "log",
+  "ts": "2026-09-08T10:27:19Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0085",
+  "record_type": "log",
+  "ts": "2026-09-08T10:27:26Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0086",
+  "record_type": "log",
+  "ts": "2026-09-08T10:27:36Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 4102a4ec: bad password"
+ },
+ {
+  "id": "L0087",
+  "record_type": "log",
+  "ts": "2026-09-08T10:27:50Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 345ms"
+ },
+ {
+  "id": "L0088",
+  "record_type": "log",
+  "ts": "2026-09-08T10:28:09Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 235ms"
+ },
+ {
+  "id": "L0089",
+  "record_type": "log",
+  "ts": "2026-09-08T10:29:08Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4312 buffers"
+ },
+ {
+  "id": "L0090",
+  "record_type": "log",
+  "ts": "2026-09-08T10:29:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 5d02d8cd"
+ },
+ {
+  "id": "L0091",
+  "record_type": "log",
+  "ts": "2026-09-08T10:29:26Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 413580c6"
+ },
+ {
+  "id": "L0092",
+  "record_type": "log",
+  "ts": "2026-09-08T10:29:28Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "retrying idempotent call to payment-service (attempt 2)"
+ },
+ {
+  "id": "L0093",
+  "record_type": "log",
+  "ts": "2026-09-08T10:30:34Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4040 buffers"
+ },
+ {
+  "id": "L0094",
+  "record_type": "log",
+  "ts": "2026-09-08T10:30:51Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge cd099388 authorized in 67ms"
+ },
+ {
+  "id": "L0095",
+  "record_type": "log",
+  "ts": "2026-09-08T10:31:07Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 941ms"
+ },
+ {
+  "id": "L0096",
+  "record_type": "log",
+  "ts": "2026-09-08T10:31:08Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4312 buffers"
+ },
+ {
+  "id": "L0097",
+  "record_type": "log",
+  "ts": "2026-09-08T10:31:24Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user d22de6ea"
+ },
+ {
+  "id": "L0098",
+  "record_type": "log",
+  "ts": "2026-09-08T10:31:36Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 105d6806"
+ },
+ {
+  "id": "L0099",
+  "record_type": "log",
+  "ts": "2026-09-08T10:31:59Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 167ms"
+ },
+ {
+  "id": "L0100",
+  "record_type": "log",
+  "ts": "2026-09-08T10:32:43Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 72e5a3e4 priced in 316ms"
+ },
+ {
+  "id": "L0101",
+  "record_type": "log",
+  "ts": "2026-09-08T10:32:49Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 606242a2: 86 misses/s"
+ },
+ {
+  "id": "L0102",
+  "record_type": "log",
+  "ts": "2026-09-08T10:32:49Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0103",
+  "record_type": "log",
+  "ts": "2026-09-08T10:33:33Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1049ms"
+ },
+ {
+  "id": "L0104",
+  "record_type": "log",
+  "ts": "2026-09-08T10:34:00Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0105",
+  "record_type": "log",
+  "ts": "2026-09-08T10:34:10Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 296ms"
+ },
+ {
+  "id": "L0106",
+  "record_type": "log",
+  "ts": "2026-09-08T10:34:51Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 207ms"
+ },
+ {
+  "id": "L0107",
+  "record_type": "log",
+  "ts": "2026-09-08T10:34:52Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 0edd1036: bad password"
+ },
+ {
+  "id": "L0108",
+  "record_type": "log",
+  "ts": "2026-09-08T10:35:01Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=2983be06 in 253ms"
+ },
+ {
+  "id": "L0109",
+  "record_type": "log",
+  "ts": "2026-09-08T10:35:20Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0110",
+  "record_type": "log",
+  "ts": "2026-09-08T10:35:20Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 799ms"
+ },
+ {
+  "id": "L0111",
+  "record_type": "log",
+  "ts": "2026-09-08T10:35:32Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart dcfba501 priced in 242ms"
+ },
+ {
+  "id": "L0112",
+  "record_type": "log",
+  "ts": "2026-09-08T10:35:39Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 310ms"
+ },
+ {
+  "id": "L0113",
+  "record_type": "log",
+  "ts": "2026-09-08T10:36:29Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0114",
+  "record_type": "log",
+  "ts": "2026-09-08T10:37:07Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=8caa942a in 309ms"
+ },
+ {
+  "id": "L0115",
+  "record_type": "log",
+  "ts": "2026-09-08T10:37:27Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order d0c8d713 created in 122ms"
+ },
+ {
+  "id": "L0116",
+  "record_type": "log",
+  "ts": "2026-09-08T10:37:34Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4212 buffers"
+ },
+ {
+  "id": "L0117",
+  "record_type": "log",
+  "ts": "2026-09-08T10:37:57Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 1cb7ed75 authorized in 268ms"
+ },
+ {
+  "id": "L0118",
+  "record_type": "log",
+  "ts": "2026-09-08T10:37:58Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1450ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0119",
+  "record_type": "log",
+  "ts": "2026-09-08T10:39:30Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 253ms"
+ },
+ {
+  "id": "L0120",
+  "record_type": "log",
+  "ts": "2026-09-08T10:39:45Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 1a16174e authorized in 240ms"
+ },
+ {
+  "id": "L0121",
+  "record_type": "log",
+  "ts": "2026-09-08T10:39:51Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 183ms"
+ },
+ {
+  "id": "L0122",
+  "record_type": "log",
+  "ts": "2026-09-08T10:39:53Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 91ms"
+ },
+ {
+  "id": "L0123",
+  "record_type": "log",
+  "ts": "2026-09-08T10:40:20Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 1c252b3d priced in 207ms"
+ },
+ {
+  "id": "L0124",
+  "record_type": "log",
+  "ts": "2026-09-08T10:40:43Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5040 buffers"
+ },
+ {
+  "id": "L0125",
+  "record_type": "log",
+  "ts": "2026-09-08T10:40:51Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user ef79cd77"
+ },
+ {
+  "id": "L0126",
+  "record_type": "log",
+  "ts": "2026-09-08T10:41:15Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix b058e863: 43 misses/s"
+ },
+ {
+  "id": "L0127",
+  "record_type": "log",
+  "ts": "2026-09-08T10:41:36Z",
+  "service": "notification-worker",
+  "level": "ERROR",
+  "message": "bounce for recipient 05a991db@example.com"
+ },
+ {
+  "id": "L0128",
+  "record_type": "log",
+  "ts": "2026-09-08T10:41:51Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1112 buffers"
+ },
+ {
+  "id": "L0129",
+  "record_type": "log",
+  "ts": "2026-09-08T10:42:15Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 351ms"
+ },
+ {
+  "id": "L0130",
+  "record_type": "log",
+  "ts": "2026-09-08T10:42:33Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1440 buffers"
+ },
+ {
+  "id": "L0131",
+  "record_type": "log",
+  "ts": "2026-09-08T10:42:45Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 7fbdbc17 authorized in 214ms"
+ },
+ {
+  "id": "L0132",
+  "record_type": "log",
+  "ts": "2026-09-08T10:42:55Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 190ms"
+ },
+ {
+  "id": "L0133",
+  "record_type": "log",
+  "ts": "2026-09-08T10:43:06Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/c66b6493 200 57ms"
+ },
+ {
+  "id": "L0134",
+  "record_type": "log",
+  "ts": "2026-09-08T10:43:49Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user c086d765: bad password"
+ },
+ {
+  "id": "L0135",
+  "record_type": "log",
+  "ts": "2026-09-08T10:44:37Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=d942cdcf in 55ms"
+ },
+ {
+  "id": "L0136",
+  "record_type": "log",
+  "ts": "2026-09-08T10:45:01Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 173ms"
+ },
+ {
+  "id": "L0137",
+  "record_type": "log",
+  "ts": "2026-09-08T10:45:16Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 6023d8d8 processed"
+ },
+ {
+  "id": "L0138",
+  "record_type": "log",
+  "ts": "2026-09-08T10:45:32Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8112 buffers"
+ },
+ {
+  "id": "L0139",
+  "record_type": "log",
+  "ts": "2026-09-08T10:45:39Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 76a0bf21 priced in 316ms"
+ },
+ {
+  "id": "L0140",
+  "record_type": "log",
+  "ts": "2026-09-08T10:45:58Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 40ms"
+ },
+ {
+  "id": "L0141",
+  "record_type": "log",
+  "ts": "2026-09-08T10:46:20Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 25ms"
+ },
+ {
+  "id": "L0142",
+  "record_type": "log",
+  "ts": "2026-09-08T10:46:25Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8440 buffers"
+ },
+ {
+  "id": "L0143",
+  "record_type": "log",
+  "ts": "2026-09-08T10:47:16Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 91ms"
+ },
+ {
+  "id": "L0144",
+  "record_type": "log",
+  "ts": "2026-09-08T10:47:56Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 84be5e60"
+ },
+ {
+  "id": "L0145",
+  "record_type": "log",
+  "ts": "2026-09-08T10:48:10Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=d3770c83 in 263ms"
+ },
+ {
+  "id": "L0146",
+  "record_type": "log",
+  "ts": "2026-09-08T10:48:10Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 229ms"
+ },
+ {
+  "id": "L0147",
+  "record_type": "log",
+  "ts": "2026-09-08T10:48:24Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 376ms"
+ },
+ {
+  "id": "L0148",
+  "record_type": "log",
+  "ts": "2026-09-08T10:48:46Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 48ms"
+ },
+ {
+  "id": "L0149",
+  "record_type": "log",
+  "ts": "2026-09-08T10:49:35Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7940 buffers"
+ },
+ {
+  "id": "L0150",
+  "record_type": "log",
+  "ts": "2026-09-08T10:49:42Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 665ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0151",
+  "record_type": "log",
+  "ts": "2026-09-08T10:49:51Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order ecc2e144"
+ },
+ {
+  "id": "L0152",
+  "record_type": "log",
+  "ts": "2026-09-08T10:49:57Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 6f3d8cbf created in 266ms"
+ },
+ {
+  "id": "L0153",
+  "record_type": "log",
+  "ts": "2026-09-08T10:50:57Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 2d5ed660: 51 misses/s"
+ },
+ {
+  "id": "L0154",
+  "record_type": "log",
+  "ts": "2026-09-08T10:51:26Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 91c4ecfe"
+ },
+ {
+  "id": "L0155",
+  "record_type": "log",
+  "ts": "2026-09-08T10:51:33Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 728ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0156",
+  "record_type": "log",
+  "ts": "2026-09-08T10:51:40Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 124a9791 authorized in 258ms"
+ },
+ {
+  "id": "L0157",
+  "record_type": "log",
+  "ts": "2026-09-08T10:51:58Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 131ms"
+ },
+ {
+  "id": "L0158",
+  "record_type": "log",
+  "ts": "2026-09-08T10:52:24Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 290ms"
+ },
+ {
+  "id": "L0159",
+  "record_type": "log",
+  "ts": "2026-09-08T10:52:34Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0160",
+  "record_type": "log",
+  "ts": "2026-09-08T10:52:44Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order d3d83af3 created in 332ms"
+ },
+ {
+  "id": "L0161",
+  "record_type": "log",
+  "ts": "2026-09-08T10:53:34Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 4554674a"
+ },
+ {
+  "id": "L0162",
+  "record_type": "log",
+  "ts": "2026-09-08T10:53:42Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 22eaae6c"
+ },
+ {
+  "id": "L0163",
+  "record_type": "log",
+  "ts": "2026-09-08T10:54:13Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0164",
+  "record_type": "log",
+  "ts": "2026-09-08T10:54:47Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix ca13651b: 70 misses/s"
+ },
+ {
+  "id": "L0165",
+  "record_type": "log",
+  "ts": "2026-09-08T10:54:56Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3140 buffers"
+ },
+ {
+  "id": "L0166",
+  "record_type": "log",
+  "ts": "2026-09-08T10:54:59Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund b7c13106 processed"
+ },
+ {
+  "id": "L0167",
+  "record_type": "log",
+  "ts": "2026-09-08T10:55:39Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 6b8c3a9a"
+ },
+ {
+  "id": "L0168",
+  "record_type": "log",
+  "ts": "2026-09-08T10:55:40Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 6fa20b56 priced in 44ms"
+ },
+ {
+  "id": "L0169",
+  "record_type": "log",
+  "ts": "2026-09-08T10:55:46Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 362ms"
+ },
+ {
+  "id": "L0170",
+  "record_type": "log",
+  "ts": "2026-09-08T10:56:01Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 618ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0171",
+  "record_type": "log",
+  "ts": "2026-09-08T10:56:24Z",
+  "service": "search-service",
+  "level": "ERROR",
+  "message": "query parse error: unbalanced quotes"
+ },
+ {
+  "id": "L0172",
+  "record_type": "log",
+  "ts": "2026-09-08T10:56:34Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 62be7b2e: bad password"
+ },
+ {
+  "id": "L0173",
+  "record_type": "log",
+  "ts": "2026-09-08T10:57:10Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 6f9a2b15"
+ },
+ {
+  "id": "L0174",
+  "record_type": "log",
+  "ts": "2026-09-08T10:58:09Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 797ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0175",
+  "record_type": "log",
+  "ts": "2026-09-08T10:58:09Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 158ms"
+ },
+ {
+  "id": "L0176",
+  "record_type": "log",
+  "ts": "2026-09-08T10:58:12Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 262ms"
+ },
+ {
+  "id": "L0177",
+  "record_type": "log",
+  "ts": "2026-09-08T10:58:37Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 321ms"
+ },
+ {
+  "id": "L0178",
+  "record_type": "log",
+  "ts": "2026-09-08T10:59:01Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 9c1e8309 created in 246ms"
+ },
+ {
+  "id": "L0179",
+  "record_type": "log",
+  "ts": "2026-09-08T10:59:01Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0180",
+  "record_type": "log",
+  "ts": "2026-09-08T10:59:07Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 06604e53 processed"
+ },
+ {
+  "id": "L0181",
+  "record_type": "log",
+  "ts": "2026-09-08T10:59:53Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 46ms"
+ },
+ {
+  "id": "L0182",
+  "record_type": "log",
+  "ts": "2026-09-08T11:00:14Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 0bbceb7d"
+ },
+ {
+  "id": "L0183",
+  "record_type": "log",
+  "ts": "2026-09-08T11:00:20Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 675ms"
+ },
+ {
+  "id": "L0184",
+  "record_type": "log",
+  "ts": "2026-09-08T11:00:20Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0185",
+  "record_type": "log",
+  "ts": "2026-09-08T11:00:42Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 0dacbd7f"
+ },
+ {
+  "id": "L0186",
+  "record_type": "log",
+  "ts": "2026-09-08T11:00:52Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0187",
+  "record_type": "log",
+  "ts": "2026-09-08T11:01:08Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart abae7aa0 priced in 68ms"
+ },
+ {
+  "id": "L0188",
+  "record_type": "log",
+  "ts": "2026-09-08T11:01:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart dabb9c33"
+ },
+ {
+  "id": "L0189",
+  "record_type": "log",
+  "ts": "2026-09-08T11:01:16Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 374ms"
+ },
+ {
+  "id": "L0190",
+  "record_type": "log",
+  "ts": "2026-09-08T11:01:40Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 2c334830"
+ },
+ {
+  "id": "L0191",
+  "record_type": "log",
+  "ts": "2026-09-08T11:02:02Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8540 buffers"
+ },
+ {
+  "id": "L0192",
+  "record_type": "log",
+  "ts": "2026-09-08T11:02:10Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0193",
+  "record_type": "log",
+  "ts": "2026-09-08T11:02:19Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0194",
+  "record_type": "log",
+  "ts": "2026-09-08T11:02:24Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 8af5627f"
+ },
+ {
+  "id": "L0195",
+  "record_type": "log",
+  "ts": "2026-09-08T11:02:30Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order a8302fff"
+ },
+ {
+  "id": "L0196",
+  "record_type": "log",
+  "ts": "2026-09-08T11:02:50Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7112 buffers"
+ },
+ {
+  "id": "L0197",
+  "record_type": "log",
+  "ts": "2026-09-08T11:02:53Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0198",
+  "record_type": "log",
+  "ts": "2026-09-08T11:03:08Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 50c11c31 processed"
+ },
+ {
+  "id": "L0199",
+  "record_type": "log",
+  "ts": "2026-09-08T11:03:30Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart d21d6d5f priced in 166ms"
+ },
+ {
+  "id": "L0200",
+  "record_type": "log",
+  "ts": "2026-09-08T11:03:36Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0201",
+  "record_type": "log",
+  "ts": "2026-09-08T11:03:45Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 1a773341"
+ },
+ {
+  "id": "L0202",
+  "record_type": "log",
+  "ts": "2026-09-08T11:03:54Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user ca3c9056"
+ },
+ {
+  "id": "L0203",
+  "record_type": "log",
+  "ts": "2026-09-08T11:03:57Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order f900224f"
+ },
+ {
+  "id": "L0204",
+  "record_type": "log",
+  "ts": "2026-09-08T11:04:13Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6440 buffers"
+ },
+ {
+  "id": "L0205",
+  "record_type": "log",
+  "ts": "2026-09-08T11:04:15Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0206",
+  "record_type": "log",
+  "ts": "2026-09-08T11:04:19Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 316ms"
+ },
+ {
+  "id": "L0207",
+  "record_type": "log",
+  "ts": "2026-09-08T11:05:02Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "charge 9fa30e2a failed: insufficient funds (declined)"
+ },
+ {
+  "id": "L0208",
+  "record_type": "log",
+  "ts": "2026-09-08T11:05:08Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order be3cf6d2"
+ },
+ {
+  "id": "L0209",
+  "record_type": "log",
+  "ts": "2026-09-08T11:05:10Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0210",
+  "record_type": "log",
+  "ts": "2026-09-08T11:05:24Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0211",
+  "record_type": "log",
+  "ts": "2026-09-08T11:05:27Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.952"
+ },
+ {
+  "id": "L0212",
+  "record_type": "log",
+  "ts": "2026-09-08T11:05:54Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "order b044293f rejected: card declined by issuer"
+ },
+ {
+  "id": "L0213",
+  "record_type": "log",
+  "ts": "2026-09-08T11:06:14Z",
+  "service": "notification-worker",
+  "level": "ERROR",
+  "message": "bounce for recipient e48043ef@example.com"
+ },
+ {
+  "id": "L0214",
+  "record_type": "log",
+  "ts": "2026-09-08T11:06:15Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 233ms"
+ },
+ {
+  "id": "L0215",
+  "record_type": "log",
+  "ts": "2026-09-08T11:06:24Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0216",
+  "record_type": "log",
+  "ts": "2026-09-08T11:06:38Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 223ms"
+ },
+ {
+  "id": "L0217",
+  "record_type": "log",
+  "ts": "2026-09-08T11:06:45Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order b3d8f046"
+ },
+ {
+  "id": "L0218",
+  "record_type": "log",
+  "ts": "2026-09-08T11:06:47Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3612 buffers"
+ },
+ {
+  "id": "L0219",
+  "record_type": "log",
+  "ts": "2026-09-08T11:06:58Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0220",
+  "record_type": "log",
+  "ts": "2026-09-08T11:07:48Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.951"
+ },
+ {
+  "id": "L0221",
+  "record_type": "log",
+  "ts": "2026-09-08T11:07:52Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 315cc3e0"
+ },
+ {
+  "id": "L0222",
+  "record_type": "log",
+  "ts": "2026-09-08T11:07:57Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 76f89f22: bad password"
+ },
+ {
+  "id": "L0223",
+  "record_type": "log",
+  "ts": "2026-09-08T11:08:09Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0224",
+  "record_type": "log",
+  "ts": "2026-09-08T11:08:19Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 31ms"
+ },
+ {
+  "id": "L0225",
+  "record_type": "log",
+  "ts": "2026-09-08T11:08:21Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0226",
+  "record_type": "log",
+  "ts": "2026-09-08T11:08:51Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 7dddc0ec"
+ },
+ {
+  "id": "L0227",
+  "record_type": "log",
+  "ts": "2026-09-08T11:08:55Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0228",
+  "record_type": "log",
+  "ts": "2026-09-08T11:09:11Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 1e01a9b7 processed"
+ },
+ {
+  "id": "L0229",
+  "record_type": "log",
+  "ts": "2026-09-08T11:09:11Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7812 buffers"
+ },
+ {
+  "id": "L0230",
+  "record_type": "log",
+  "ts": "2026-09-08T11:09:21Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0231",
+  "record_type": "log",
+  "ts": "2026-09-08T11:09:31Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 3056ac15 priced in 158ms"
+ },
+ {
+  "id": "L0232",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:03Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 4c441d9f"
+ },
+ {
+  "id": "L0233",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:15Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 0aa1b578"
+ },
+ {
+  "id": "L0234",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:20Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6940 buffers"
+ },
+ {
+  "id": "L0235",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:20Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0236",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:23Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0237",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:34Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.958"
+ },
+ {
+  "id": "L0238",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:52Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 217ms"
+ },
+ {
+  "id": "L0239",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:55Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund f28ba16b processed"
+ },
+ {
+  "id": "L0240",
+  "record_type": "log",
+  "ts": "2026-09-08T11:10:58Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0241",
+  "record_type": "log",
+  "ts": "2026-09-08T11:11:07Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3012 buffers"
+ },
+ {
+  "id": "L0242",
+  "record_type": "log",
+  "ts": "2026-09-08T11:11:16Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 9df5b7e3 priced in 224ms"
+ },
+ {
+  "id": "L0243",
+  "record_type": "log",
+  "ts": "2026-09-08T11:11:33Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 13e914c9"
+ },
+ {
+  "id": "L0244",
+  "record_type": "log",
+  "ts": "2026-09-08T11:11:36Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0245",
+  "record_type": "log",
+  "ts": "2026-09-08T11:11:47Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 563761b8"
+ },
+ {
+  "id": "L0246",
+  "record_type": "log",
+  "ts": "2026-09-08T11:12:05Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1061ms"
+ },
+ {
+  "id": "L0247",
+  "record_type": "log",
+  "ts": "2026-09-08T11:12:37Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 1243fa99 processed"
+ },
+ {
+  "id": "L0248",
+  "record_type": "log",
+  "ts": "2026-09-08T11:12:39Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0249",
+  "record_type": "log",
+  "ts": "2026-09-08T11:12:40Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order d4d33a0e"
+ },
+ {
+  "id": "L0250",
+  "record_type": "log",
+  "ts": "2026-09-08T11:12:51Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0251",
+  "record_type": "log",
+  "ts": "2026-09-08T11:13:12Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0252",
+  "record_type": "log",
+  "ts": "2026-09-08T11:13:16Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 336ms"
+ },
+ {
+  "id": "L0253",
+  "record_type": "log",
+  "ts": "2026-09-08T11:13:29Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.915"
+ },
+ {
+  "id": "L0254",
+  "record_type": "log",
+  "ts": "2026-09-08T11:13:59Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0255",
+  "record_type": "log",
+  "ts": "2026-09-08T11:14:02Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order e85e12e0"
+ },
+ {
+  "id": "L0256",
+  "record_type": "log",
+  "ts": "2026-09-08T11:14:23Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0257",
+  "record_type": "log",
+  "ts": "2026-09-08T11:14:24Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 965ms"
+ },
+ {
+  "id": "L0258",
+  "record_type": "log",
+  "ts": "2026-09-08T11:14:42Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1712 buffers"
+ },
+ {
+  "id": "L0259",
+  "record_type": "log",
+  "ts": "2026-09-08T11:14:55Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0260",
+  "record_type": "log",
+  "ts": "2026-09-08T11:15:08Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order dc7ae1ee"
+ },
+ {
+  "id": "L0261",
+  "record_type": "log",
+  "ts": "2026-09-08T11:15:12Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order abf5f112 created in 129ms"
+ },
+ {
+  "id": "L0262",
+  "record_type": "log",
+  "ts": "2026-09-08T11:15:17Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 6586878f"
+ },
+ {
+  "id": "L0263",
+  "record_type": "log",
+  "ts": "2026-09-08T11:15:47Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0264",
+  "record_type": "log",
+  "ts": "2026-09-08T11:16:17Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 181ms"
+ },
+ {
+  "id": "L0265",
+  "record_type": "log",
+  "ts": "2026-09-08T11:16:19Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 57e5a2e2"
+ },
+ {
+  "id": "L0266",
+  "record_type": "log",
+  "ts": "2026-09-08T11:16:23Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 316ms"
+ },
+ {
+  "id": "L0267",
+  "record_type": "log",
+  "ts": "2026-09-08T11:16:28Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0268",
+  "record_type": "log",
+  "ts": "2026-09-08T11:16:39Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order d4292f70"
+ },
+ {
+  "id": "L0269",
+  "record_type": "log",
+  "ts": "2026-09-08T11:17:15Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0270",
+  "record_type": "log",
+  "ts": "2026-09-08T11:17:19Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 6b6823a6 in 74ms"
+ },
+ {
+  "id": "L0271",
+  "record_type": "log",
+  "ts": "2026-09-08T11:17:26Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 368ms"
+ },
+ {
+  "id": "L0272",
+  "record_type": "log",
+  "ts": "2026-09-08T11:17:46Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 07adf3af"
+ },
+ {
+  "id": "L0273",
+  "record_type": "log",
+  "ts": "2026-09-08T11:17:46Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0274",
+  "record_type": "log",
+  "ts": "2026-09-08T11:17:58Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5840 buffers"
+ },
+ {
+  "id": "L0275",
+  "record_type": "log",
+  "ts": "2026-09-08T11:18:15Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart c2a77333 priced in 346ms"
+ },
+ {
+  "id": "L0276",
+  "record_type": "log",
+  "ts": "2026-09-08T11:18:26Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6312 buffers"
+ },
+ {
+  "id": "L0277",
+  "record_type": "log",
+  "ts": "2026-09-08T11:18:47Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 240fb57e"
+ },
+ {
+  "id": "L0278",
+  "record_type": "log",
+  "ts": "2026-09-08T11:18:49Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 470c4b11"
+ },
+ {
+  "id": "L0279",
+  "record_type": "log",
+  "ts": "2026-09-08T11:19:04Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0280",
+  "record_type": "log",
+  "ts": "2026-09-08T11:19:29Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 26ms"
+ },
+ {
+  "id": "L0281",
+  "record_type": "log",
+  "ts": "2026-09-08T11:19:44Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0282",
+  "record_type": "log",
+  "ts": "2026-09-08T11:20:23Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 80677c2d"
+ },
+ {
+  "id": "L0283",
+  "record_type": "log",
+  "ts": "2026-09-08T11:20:29Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0284",
+  "record_type": "log",
+  "ts": "2026-09-08T11:20:32Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3140 buffers"
+ },
+ {
+  "id": "L0285",
+  "record_type": "log",
+  "ts": "2026-09-08T11:20:37Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order e4a4be78"
+ },
+ {
+  "id": "L0286",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:01Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user fea31ebf in 379ms"
+ },
+ {
+  "id": "L0287",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:01Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0288",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:32Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 262ms"
+ },
+ {
+  "id": "L0289",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:33Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 0d9f2859 priced in 43ms"
+ },
+ {
+  "id": "L0290",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:40Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 73234a6b"
+ },
+ {
+  "id": "L0291",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:42Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.932"
+ },
+ {
+  "id": "L0292",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:43Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 361ms"
+ },
+ {
+  "id": "L0293",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:46Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 8145c048 processed"
+ },
+ {
+  "id": "L0294",
+  "record_type": "log",
+  "ts": "2026-09-08T11:21:57Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0295",
+  "record_type": "log",
+  "ts": "2026-09-08T11:22:13Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0296",
+  "record_type": "log",
+  "ts": "2026-09-08T11:22:31Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0297",
+  "record_type": "log",
+  "ts": "2026-09-08T11:22:39Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 2a62c631"
+ },
+ {
+  "id": "L0298",
+  "record_type": "log",
+  "ts": "2026-09-08T11:22:39Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6012 buffers"
+ },
+ {
+  "id": "L0299",
+  "record_type": "log",
+  "ts": "2026-09-08T11:23:07Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0300",
+  "record_type": "log",
+  "ts": "2026-09-08T11:23:51Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/3be0cde4 200 267ms"
+ },
+ {
+  "id": "L0301",
+  "record_type": "log",
+  "ts": "2026-09-08T11:24:07Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 65e953ec in 363ms"
+ },
+ {
+  "id": "L0302",
+  "record_type": "log",
+  "ts": "2026-09-08T11:24:11Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 146ms"
+ },
+ {
+  "id": "L0303",
+  "record_type": "log",
+  "ts": "2026-09-08T11:24:12Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0304",
+  "record_type": "log",
+  "ts": "2026-09-08T11:24:15Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 8bee841c"
+ },
+ {
+  "id": "L0305",
+  "record_type": "log",
+  "ts": "2026-09-08T11:24:27Z",
+  "service": "notification-worker",
+  "level": "ERROR",
+  "message": "bounce for recipient 7de8f819@example.com"
+ },
+ {
+  "id": "L0306",
+  "record_type": "log",
+  "ts": "2026-09-08T11:24:36Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=17dbe2d1 in 231ms"
+ },
+ {
+  "id": "L0307",
+  "record_type": "log",
+  "ts": "2026-09-08T11:25:07Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0308",
+  "record_type": "log",
+  "ts": "2026-09-08T11:25:09Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 304ms"
+ },
+ {
+  "id": "L0309",
+  "record_type": "log",
+  "ts": "2026-09-08T11:25:13Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0310",
+  "record_type": "log",
+  "ts": "2026-09-08T11:25:27Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order a67fc2e4"
+ },
+ {
+  "id": "L0311",
+  "record_type": "log",
+  "ts": "2026-09-08T11:25:54Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9340 buffers"
+ },
+ {
+  "id": "L0312",
+  "record_type": "log",
+  "ts": "2026-09-08T11:25:55Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 157ms"
+ },
+ {
+  "id": "L0313",
+  "record_type": "log",
+  "ts": "2026-09-08T11:25:57Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 138ms"
+ },
+ {
+  "id": "L0314",
+  "record_type": "log",
+  "ts": "2026-09-08T11:26:03Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0315",
+  "record_type": "log",
+  "ts": "2026-09-08T11:26:23Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/2b773b69 200 261ms"
+ },
+ {
+  "id": "L0316",
+  "record_type": "log",
+  "ts": "2026-09-08T11:26:29Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order 10f9bbd0"
+ },
+ {
+  "id": "L0317",
+  "record_type": "log",
+  "ts": "2026-09-08T11:26:35Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0318",
+  "record_type": "log",
+  "ts": "2026-09-08T11:27:21Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 113ms"
+ },
+ {
+  "id": "L0319",
+  "record_type": "log",
+  "ts": "2026-09-08T11:27:22Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 232ms"
+ },
+ {
+  "id": "L0320",
+  "record_type": "log",
+  "ts": "2026-09-08T11:27:23Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0321",
+  "record_type": "log",
+  "ts": "2026-09-08T11:27:37Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order a9a30a10"
+ },
+ {
+  "id": "L0322",
+  "record_type": "log",
+  "ts": "2026-09-08T11:27:37Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=4c3c5071 in 58ms"
+ },
+ {
+  "id": "L0323",
+  "record_type": "log",
+  "ts": "2026-09-08T11:27:41Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 125ms"
+ },
+ {
+  "id": "L0324",
+  "record_type": "log",
+  "ts": "2026-09-08T11:28:12Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user c8f244d8 in 164ms"
+ },
+ {
+  "id": "L0325",
+  "record_type": "log",
+  "ts": "2026-09-08T11:28:18Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0326",
+  "record_type": "log",
+  "ts": "2026-09-08T11:28:36Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0327",
+  "record_type": "log",
+  "ts": "2026-09-08T11:29:05Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0328",
+  "record_type": "log",
+  "ts": "2026-09-08T11:29:06Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0329",
+  "record_type": "log",
+  "ts": "2026-09-08T11:29:17Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ },
+ {
+  "id": "L0330",
+  "record_type": "log",
+  "ts": "2026-09-08T11:29:20Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 273ms"
+ },
+ {
+  "id": "L0331",
+  "record_type": "log",
+  "ts": "2026-09-08T11:29:22Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order dc8007fd"
+ },
+ {
+  "id": "L0332",
+  "record_type": "log",
+  "ts": "2026-09-08T11:29:37Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 67ms"
+ },
+ {
+  "id": "L0333",
+  "record_type": "log",
+  "ts": "2026-09-08T11:30:00Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "payment-service returned 500 Internal Server Error for order bda4c82b"
+ },
+ {
+  "id": "L0334",
+  "record_type": "log",
+  "ts": "2026-09-08T11:30:00Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: column \"idempotency_key\" of relation \"payments\" does not exist"
+ }
+]

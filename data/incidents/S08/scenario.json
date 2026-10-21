@@ -1,0 +1,24 @@
+{
+ "brief": {
+  "id": "S08",
+  "title": "payment-service errors",
+  "reported_at": "2026-09-08T11:30:00Z",
+  "alert": "ALERT [P1] payment-service error rate 22% since ~11:00 UTC; payments failing.",
+  "affected_services": [
+   "payment-service",
+   "checkout-service"
+  ],
+  "window_start": "2026-09-08T10:00:00Z",
+  "window_end": "2026-09-08T11:30:00Z"
+ },
+ "faults": [
+  {
+   "tool": "query_logs",
+   "mode": "timeout",
+   "when": {
+    "service": "payment-service"
+   },
+   "message": "log backend query for payment-service exceeded deadline"
+  }
+ ]
+}

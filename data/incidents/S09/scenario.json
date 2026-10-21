@@ -1,0 +1,32 @@
+{
+ "brief": {
+  "id": "S09",
+  "title": "inventory latency",
+  "reported_at": "2026-09-09T15:30:00Z",
+  "alert": "ALERT [P2] inventory-service p99 latency 2.4s (SLO 300ms) since ~15:00 UTC; checkout pages slow.",
+  "affected_services": [
+   "inventory-service",
+   "checkout-service"
+  ],
+  "window_start": "2026-09-09T14:00:00Z",
+  "window_end": "2026-09-09T15:30:00Z"
+ },
+ "faults": [
+  {
+   "tool": "query_metrics",
+   "mode": "partial",
+   "when": {
+    "service": "inventory-service"
+   },
+   "fail_attempts": 1,
+   "message": "metrics shard unavailable"
+  },
+  {
+   "tool": "get_change_history",
+   "mode": "error",
+   "fail_attempts": 1,
+   "recoverable": true,
+   "message": "change-history API returned 503"
+  }
+ ]
+}

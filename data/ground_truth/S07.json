@@ -1,0 +1,86 @@
+{
+ "incident_id": "S07",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "checkout-service",
+  "api-gateway"
+ ],
+ "root_cause_categories": [
+  "traffic_surge"
+ ],
+ "summary": "A marketing campaign (email blast + homepage banner at 18:00) quadrupled traffic; checkout hit its autoscaling ceiling and saturated.",
+ "key_evidence": [
+  [
+   "C10"
+  ],
+  [
+   "M05"
+  ],
+  [
+   "M11"
+  ],
+  [
+   "M15"
+  ],
+  [
+   "L0193",
+   "L0222",
+   "L0252",
+   "L0279",
+   "L0309",
+   "L0337",
+   "L0361",
+   "L0390"
+  ],
+  [
+   "L0199",
+   "L0205",
+   "L0213",
+   "L0219",
+   "L0229",
+   "L0235",
+   "L0240",
+   "L0244",
+   "L0258",
+   "L0261",
+   "L0264",
+   "L0276",
+   "L0280",
+   "L0286",
+   "L0293",
+   "L0299",
+   "L0310",
+   "L0314",
+   "L0322",
+   "L0328",
+   "L0333",
+   "L0341",
+   "L0345",
+   "L0354",
+   "L0360",
+   "L0366",
+   "L0374",
+   "L0379",
+   "L0386",
+   "L0391"
+  ]
+ ],
+ "misleading_evidence": [
+  [
+   "C09"
+  ],
+  [
+   "L0077",
+   "L0082"
+  ]
+ ],
+ "decoy_hypotheses": [
+  {
+   "service": "inventory-service",
+   "category": "deployment_regression"
+  }
+ ],
+ "tags": [
+  "misleading_deploy"
+ ]
+}

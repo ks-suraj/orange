@@ -1,0 +1,15 @@
+{
+ "incident_id": "S12",
+ "expected_inconclusive": true,
+ "root_cause_services": [],
+ "root_cause_categories": [],
+ "summary": "Two plausible simultaneous changes (auth token format v2 and a gateway rate-limit change) and api-gateway logs are inaccessible, so the evidence cannot separate them.",
+ "key_evidence": [],
+ "misleading_evidence": [],
+ "decoy_hypotheses": [],
+ "tags": [
+  "ambiguous",
+  "tool_failure",
+  "conflicting_evidence"
+ ]
+}

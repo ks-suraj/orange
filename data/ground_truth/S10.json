@@ -1,0 +1,14 @@
+{
+ "incident_id": "S10",
+ "expected_inconclusive": true,
+ "root_cause_services": [],
+ "root_cause_categories": [],
+ "summary": "A short latency blip with no errors, no changes and no telemetry for the most likely upstream (search-service). The evidence cannot determine a cause.",
+ "key_evidence": [],
+ "misleading_evidence": [],
+ "decoy_hypotheses": [],
+ "tags": [
+  "insufficient_evidence",
+  "tool_failure"
+ ]
+}

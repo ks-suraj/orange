@@ -1,0 +1,149 @@
+{
+ "incident_id": "S04",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "payment-provider"
+ ],
+ "root_cause_categories": [
+  "dependency_failure"
+ ],
+ "summary": "The external payment provider's Charges API is failing (503s); payment-service opens its circuit breaker and errors cascade to checkout and the gateway.",
+ "key_evidence": [
+  [
+   "M33"
+  ],
+  [
+   "M34"
+  ],
+  [
+   "L0186",
+   "L0192",
+   "L0203",
+   "L0208",
+   "L0213",
+   "L0219",
+   "L0226",
+   "L0231",
+   "L0235",
+   "L0242",
+   "L0251",
+   "L0259",
+   "L0262",
+   "L0265",
+   "L0278",
+   "L0281",
+   "L0287",
+   "L0295",
+   "L0302",
+   "L0308",
+   "L0317",
+   "L0320",
+   "L0325",
+   "L0334",
+   "L0339",
+   "L0349",
+   "L0350",
+   "L0364",
+   "L0369",
+   "L0372",
+   "L0380",
+   "L0385",
+   "L0394",
+   "L0399",
+   "L0402"
+  ],
+  [
+   "L0200",
+   "L0256",
+   "L0312",
+   "L0368"
+  ],
+  [
+   "H10"
+  ]
+ ],
+ "misleading_evidence": [
+  [
+   "C09"
+  ],
+  [
+   "L0188",
+   "L0190",
+   "L0196",
+   "L0199",
+   "L0204",
+   "L0205",
+   "L0210",
+   "L0215",
+   "L0218",
+   "L0221",
+   "L0222",
+   "L0227",
+   "L0232",
+   "L0233",
+   "L0237",
+   "L0240",
+   "L0246",
+   "L0247",
+   "L0254",
+   "L0255",
+   "L0257",
+   "L0263",
+   "L0264",
+   "L0271",
+   "L0273",
+   "L0277",
+   "L0280",
+   "L0285",
+   "L0289",
+   "L0293",
+   "L0294",
+   "L0298",
+   "L0305",
+   "L0306",
+   "L0311",
+   "L0314",
+   "L0318",
+   "L0322",
+   "L0328",
+   "L0331",
+   "L0332",
+   "L0336",
+   "L0340",
+   "L0345",
+   "L0348",
+   "L0352",
+   "L0358",
+   "L0361",
+   "L0365",
+   "L0370",
+   "L0371",
+   "L0373",
+   "L0379",
+   "L0384",
+   "L0386",
+   "L0393",
+   "L0395",
+   "L0396",
+   "L0398",
+   "L0401"
+  ],
+  [
+   "P03"
+  ]
+ ],
+ "decoy_hypotheses": [
+  {
+   "service": "checkout-service",
+   "category": "resource_exhaustion"
+  },
+  {
+   "service": "checkout-service",
+   "category": "deployment_regression"
+  }
+ ],
+ "tags": [
+  "cascading_failure",
+  "misleading_volume"
+ ]
+}

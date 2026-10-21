@@ -1,0 +1,2506 @@
+[
+ {
+  "id": "L0001",
+  "record_type": "log",
+  "ts": "2026-09-09T14:00:00Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 112ms"
+ },
+ {
+  "id": "L0002",
+  "record_type": "log",
+  "ts": "2026-09-09T14:00:05Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 349ms"
+ },
+ {
+  "id": "L0003",
+  "record_type": "log",
+  "ts": "2026-09-09T14:00:17Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1329ms"
+ },
+ {
+  "id": "L0004",
+  "record_type": "log",
+  "ts": "2026-09-09T14:00:27Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 991ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0005",
+  "record_type": "log",
+  "ts": "2026-09-09T14:00:32Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "order 89d34619 rejected: card declined by issuer"
+ },
+ {
+  "id": "L0006",
+  "record_type": "log",
+  "ts": "2026-09-09T14:00:33Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2540 buffers"
+ },
+ {
+  "id": "L0007",
+  "record_type": "log",
+  "ts": "2026-09-09T14:00:44Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user d6acec49"
+ },
+ {
+  "id": "L0008",
+  "record_type": "log",
+  "ts": "2026-09-09T14:01:12Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge bfbac872 authorized in 38ms"
+ },
+ {
+  "id": "L0009",
+  "record_type": "log",
+  "ts": "2026-09-09T14:01:25Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=aa93a175 in 193ms"
+ },
+ {
+  "id": "L0010",
+  "record_type": "log",
+  "ts": "2026-09-09T14:02:23Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0011",
+  "record_type": "log",
+  "ts": "2026-09-09T14:02:30Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 169ms"
+ },
+ {
+  "id": "L0012",
+  "record_type": "log",
+  "ts": "2026-09-09T14:02:39Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 95ms"
+ },
+ {
+  "id": "L0013",
+  "record_type": "log",
+  "ts": "2026-09-09T14:02:48Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order cd8f28d4"
+ },
+ {
+  "id": "L0014",
+  "record_type": "log",
+  "ts": "2026-09-09T14:02:58Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart db963d71 priced in 121ms"
+ },
+ {
+  "id": "L0015",
+  "record_type": "log",
+  "ts": "2026-09-09T14:03:15Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 474ffad1 in 356ms"
+ },
+ {
+  "id": "L0016",
+  "record_type": "log",
+  "ts": "2026-09-09T14:03:49Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0017",
+  "record_type": "log",
+  "ts": "2026-09-09T14:03:50Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 37ec55c5 authorized in 71ms"
+ },
+ {
+  "id": "L0018",
+  "record_type": "log",
+  "ts": "2026-09-09T14:04:55Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 543c630d created in 227ms"
+ },
+ {
+  "id": "L0019",
+  "record_type": "log",
+  "ts": "2026-09-09T14:05:02Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0020",
+  "record_type": "log",
+  "ts": "2026-09-09T14:05:11Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 5a3563b5"
+ },
+ {
+  "id": "L0021",
+  "record_type": "log",
+  "ts": "2026-09-09T14:05:12Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 256ms"
+ },
+ {
+  "id": "L0022",
+  "record_type": "log",
+  "ts": "2026-09-09T14:05:45Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 2b3be1fa"
+ },
+ {
+  "id": "L0023",
+  "record_type": "log",
+  "ts": "2026-09-09T14:05:54Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0024",
+  "record_type": "log",
+  "ts": "2026-09-09T14:06:31Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 8eabe1c3"
+ },
+ {
+  "id": "L0025",
+  "record_type": "log",
+  "ts": "2026-09-09T14:06:56Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 100ms"
+ },
+ {
+  "id": "L0026",
+  "record_type": "log",
+  "ts": "2026-09-09T14:06:57Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0027",
+  "record_type": "log",
+  "ts": "2026-09-09T14:07:46Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 56393b47 created in 201ms"
+ },
+ {
+  "id": "L0028",
+  "record_type": "log",
+  "ts": "2026-09-09T14:07:46Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1117ms for charge 0b89c3fd"
+ },
+ {
+  "id": "L0029",
+  "record_type": "log",
+  "ts": "2026-09-09T14:08:13Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 193ms"
+ },
+ {
+  "id": "L0030",
+  "record_type": "log",
+  "ts": "2026-09-09T14:08:39Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1010ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0031",
+  "record_type": "log",
+  "ts": "2026-09-09T14:08:58Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 14995c63"
+ },
+ {
+  "id": "L0032",
+  "record_type": "log",
+  "ts": "2026-09-09T14:09:29Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 268ms"
+ },
+ {
+  "id": "L0033",
+  "record_type": "log",
+  "ts": "2026-09-09T14:09:34Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund d3a6db7f processed"
+ },
+ {
+  "id": "L0034",
+  "record_type": "log",
+  "ts": "2026-09-09T14:09:47Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix f1788eba: 57 misses/s"
+ },
+ {
+  "id": "L0035",
+  "record_type": "log",
+  "ts": "2026-09-09T14:10:21Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 337ms"
+ },
+ {
+  "id": "L0036",
+  "record_type": "log",
+  "ts": "2026-09-09T14:10:37Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 9f46404e"
+ },
+ {
+  "id": "L0037",
+  "record_type": "log",
+  "ts": "2026-09-09T14:10:43Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0038",
+  "record_type": "log",
+  "ts": "2026-09-09T14:11:12Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 880184ef"
+ },
+ {
+  "id": "L0039",
+  "record_type": "log",
+  "ts": "2026-09-09T14:11:52Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 1200ms for cart 4d2a76f0"
+ },
+ {
+  "id": "L0040",
+  "record_type": "log",
+  "ts": "2026-09-09T14:11:57Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix c431b75d: 62 misses/s"
+ },
+ {
+  "id": "L0041",
+  "record_type": "log",
+  "ts": "2026-09-09T14:12:20Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 146ms"
+ },
+ {
+  "id": "L0042",
+  "record_type": "log",
+  "ts": "2026-09-09T14:12:37Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4140 buffers"
+ },
+ {
+  "id": "L0043",
+  "record_type": "log",
+  "ts": "2026-09-09T14:13:09Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 3339e763 processed"
+ },
+ {
+  "id": "L0044",
+  "record_type": "log",
+  "ts": "2026-09-09T14:13:13Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 301ms"
+ },
+ {
+  "id": "L0045",
+  "record_type": "log",
+  "ts": "2026-09-09T14:13:22Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order eb0401fe"
+ },
+ {
+  "id": "L0046",
+  "record_type": "log",
+  "ts": "2026-09-09T14:13:47Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1067ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0047",
+  "record_type": "log",
+  "ts": "2026-09-09T14:14:04Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 197ms"
+ },
+ {
+  "id": "L0048",
+  "record_type": "log",
+  "ts": "2026-09-09T14:15:02Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 4d510612 created in 356ms"
+ },
+ {
+  "id": "L0049",
+  "record_type": "log",
+  "ts": "2026-09-09T14:15:13Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user fee51f7a in 71ms"
+ },
+ {
+  "id": "L0050",
+  "record_type": "log",
+  "ts": "2026-09-09T14:15:23Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=97cc999a in 138ms"
+ },
+ {
+  "id": "L0051",
+  "record_type": "log",
+  "ts": "2026-09-09T14:16:00Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order d783a6dd"
+ },
+ {
+  "id": "L0052",
+  "record_type": "log",
+  "ts": "2026-09-09T14:16:02Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 164ms"
+ },
+ {
+  "id": "L0053",
+  "record_type": "log",
+  "ts": "2026-09-09T14:16:20Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5340 buffers"
+ },
+ {
+  "id": "L0054",
+  "record_type": "log",
+  "ts": "2026-09-09T14:16:37Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 235ms"
+ },
+ {
+  "id": "L0055",
+  "record_type": "log",
+  "ts": "2026-09-09T14:17:07Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "order 0d8fec13 rejected: card declined by issuer"
+ },
+ {
+  "id": "L0056",
+  "record_type": "log",
+  "ts": "2026-09-09T14:18:04Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6512 buffers"
+ },
+ {
+  "id": "L0057",
+  "record_type": "log",
+  "ts": "2026-09-09T14:18:05Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 320ms"
+ },
+ {
+  "id": "L0058",
+  "record_type": "log",
+  "ts": "2026-09-09T14:18:12Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 119ms"
+ },
+ {
+  "id": "L0059",
+  "record_type": "log",
+  "ts": "2026-09-09T14:18:55Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 316ms"
+ },
+ {
+  "id": "L0060",
+  "record_type": "log",
+  "ts": "2026-09-09T14:19:12Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 546ede34"
+ },
+ {
+  "id": "L0061",
+  "record_type": "log",
+  "ts": "2026-09-09T14:19:19Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 4647dae2: 80 misses/s"
+ },
+ {
+  "id": "L0062",
+  "record_type": "log",
+  "ts": "2026-09-09T14:19:31Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 348ms"
+ },
+ {
+  "id": "L0063",
+  "record_type": "log",
+  "ts": "2026-09-09T14:19:53Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0064",
+  "record_type": "log",
+  "ts": "2026-09-09T14:20:27Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 4bbca38b"
+ },
+ {
+  "id": "L0065",
+  "record_type": "log",
+  "ts": "2026-09-09T14:20:50Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/ab9d200d 200 300ms"
+ },
+ {
+  "id": "L0066",
+  "record_type": "log",
+  "ts": "2026-09-09T14:21:11Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 315ms"
+ },
+ {
+  "id": "L0067",
+  "record_type": "log",
+  "ts": "2026-09-09T14:21:35Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user ab6fcad1"
+ },
+ {
+  "id": "L0068",
+  "record_type": "log",
+  "ts": "2026-09-09T14:21:37Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0069",
+  "record_type": "log",
+  "ts": "2026-09-09T14:21:40Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.974"
+ },
+ {
+  "id": "L0070",
+  "record_type": "log",
+  "ts": "2026-09-09T14:22:02Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 72ms"
+ },
+ {
+  "id": "L0071",
+  "record_type": "log",
+  "ts": "2026-09-09T14:22:09Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0072",
+  "record_type": "log",
+  "ts": "2026-09-09T14:22:32Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 164ms"
+ },
+ {
+  "id": "L0073",
+  "record_type": "log",
+  "ts": "2026-09-09T14:22:47Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 369ms"
+ },
+ {
+  "id": "L0074",
+  "record_type": "log",
+  "ts": "2026-09-09T14:23:35Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "order 62a5e4ea rejected: card declined by issuer"
+ },
+ {
+  "id": "L0075",
+  "record_type": "log",
+  "ts": "2026-09-09T14:23:46Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 134ms"
+ },
+ {
+  "id": "L0076",
+  "record_type": "log",
+  "ts": "2026-09-09T14:23:51Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1136ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0077",
+  "record_type": "log",
+  "ts": "2026-09-09T14:24:30Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user afd62fb5"
+ },
+ {
+  "id": "L0078",
+  "record_type": "log",
+  "ts": "2026-09-09T14:24:36Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund b57959a9 processed"
+ },
+ {
+  "id": "L0079",
+  "record_type": "log",
+  "ts": "2026-09-09T14:24:52Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0080",
+  "record_type": "log",
+  "ts": "2026-09-09T14:25:24Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 3e75ff71"
+ },
+ {
+  "id": "L0081",
+  "record_type": "log",
+  "ts": "2026-09-09T14:25:37Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order d2e6319e created in 365ms"
+ },
+ {
+  "id": "L0082",
+  "record_type": "log",
+  "ts": "2026-09-09T14:26:10Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user ab63a5b9 in 116ms"
+ },
+ {
+  "id": "L0083",
+  "record_type": "log",
+  "ts": "2026-09-09T14:26:40Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 343ms"
+ },
+ {
+  "id": "L0084",
+  "record_type": "log",
+  "ts": "2026-09-09T14:27:12Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 106ms"
+ },
+ {
+  "id": "L0085",
+  "record_type": "log",
+  "ts": "2026-09-09T14:27:28Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 54ms"
+ },
+ {
+  "id": "L0086",
+  "record_type": "log",
+  "ts": "2026-09-09T14:27:54Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4412 buffers"
+ },
+ {
+  "id": "L0087",
+  "record_type": "log",
+  "ts": "2026-09-09T14:27:57Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4440 buffers"
+ },
+ {
+  "id": "L0088",
+  "record_type": "log",
+  "ts": "2026-09-09T14:28:26Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/f5194cb8 200 141ms"
+ },
+ {
+  "id": "L0089",
+  "record_type": "log",
+  "ts": "2026-09-09T14:28:50Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 8fb6ba23"
+ },
+ {
+  "id": "L0090",
+  "record_type": "log",
+  "ts": "2026-09-09T14:29:06Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 3e7c119b"
+ },
+ {
+  "id": "L0091",
+  "record_type": "log",
+  "ts": "2026-09-09T14:29:16Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 111ms"
+ },
+ {
+  "id": "L0092",
+  "record_type": "log",
+  "ts": "2026-09-09T14:29:27Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 285ms"
+ },
+ {
+  "id": "L0093",
+  "record_type": "log",
+  "ts": "2026-09-09T14:29:33Z",
+  "service": "notification-worker",
+  "level": "ERROR",
+  "message": "bounce for recipient 4a3d1ffc@example.com"
+ },
+ {
+  "id": "L0094",
+  "record_type": "log",
+  "ts": "2026-09-09T14:30:02Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7212 buffers"
+ },
+ {
+  "id": "L0095",
+  "record_type": "log",
+  "ts": "2026-09-09T14:30:54Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0096",
+  "record_type": "log",
+  "ts": "2026-09-09T14:31:05Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 52b5c538 processed"
+ },
+ {
+  "id": "L0097",
+  "record_type": "log",
+  "ts": "2026-09-09T14:31:19Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 96ms"
+ },
+ {
+  "id": "L0098",
+  "record_type": "log",
+  "ts": "2026-09-09T14:32:17Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 979ms"
+ },
+ {
+  "id": "L0099",
+  "record_type": "log",
+  "ts": "2026-09-09T14:32:26Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 20ms"
+ },
+ {
+  "id": "L0100",
+  "record_type": "log",
+  "ts": "2026-09-09T14:32:35Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/a5f31256 200 68ms"
+ },
+ {
+  "id": "L0101",
+  "record_type": "log",
+  "ts": "2026-09-09T14:32:38Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1180ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0102",
+  "record_type": "log",
+  "ts": "2026-09-09T14:32:40Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.954"
+ },
+ {
+  "id": "L0103",
+  "record_type": "log",
+  "ts": "2026-09-09T14:32:56Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0104",
+  "record_type": "log",
+  "ts": "2026-09-09T14:33:09Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user aed57ba0"
+ },
+ {
+  "id": "L0105",
+  "record_type": "log",
+  "ts": "2026-09-09T14:34:01Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 4bd34352 processed"
+ },
+ {
+  "id": "L0106",
+  "record_type": "log",
+  "ts": "2026-09-09T14:34:08Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 250ms"
+ },
+ {
+  "id": "L0107",
+  "record_type": "log",
+  "ts": "2026-09-09T14:34:39Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 257ms"
+ },
+ {
+  "id": "L0108",
+  "record_type": "log",
+  "ts": "2026-09-09T14:35:10Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8540 buffers"
+ },
+ {
+  "id": "L0109",
+  "record_type": "log",
+  "ts": "2026-09-09T14:35:15Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=21c1334e in 295ms"
+ },
+ {
+  "id": "L0110",
+  "record_type": "log",
+  "ts": "2026-09-09T14:35:35Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7212 buffers"
+ },
+ {
+  "id": "L0111",
+  "record_type": "log",
+  "ts": "2026-09-09T14:36:04Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order d5f47306"
+ },
+ {
+  "id": "L0112",
+  "record_type": "log",
+  "ts": "2026-09-09T14:36:40Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 1362ms for cart 7f1200e0"
+ },
+ {
+  "id": "L0113",
+  "record_type": "log",
+  "ts": "2026-09-09T14:36:51Z",
+  "service": "auth-service",
+  "level": "ERROR",
+  "message": "rejected malformed Authorization header from 6fe2cb8d"
+ },
+ {
+  "id": "L0114",
+  "record_type": "log",
+  "ts": "2026-09-09T14:37:05Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 21ms"
+ },
+ {
+  "id": "L0115",
+  "record_type": "log",
+  "ts": "2026-09-09T14:37:06Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0116",
+  "record_type": "log",
+  "ts": "2026-09-09T14:37:22Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 344ms"
+ },
+ {
+  "id": "L0117",
+  "record_type": "log",
+  "ts": "2026-09-09T14:38:12Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 72c76ae8"
+ },
+ {
+  "id": "L0118",
+  "record_type": "log",
+  "ts": "2026-09-09T14:38:13Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=174b0d2e in 292ms"
+ },
+ {
+  "id": "L0119",
+  "record_type": "log",
+  "ts": "2026-09-09T14:38:18Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 632ms for charge 80ab52eb"
+ },
+ {
+  "id": "L0120",
+  "record_type": "log",
+  "ts": "2026-09-09T14:39:22Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 107ms"
+ },
+ {
+  "id": "L0121",
+  "record_type": "log",
+  "ts": "2026-09-09T14:39:24Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0122",
+  "record_type": "log",
+  "ts": "2026-09-09T14:39:32Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0123",
+  "record_type": "log",
+  "ts": "2026-09-09T14:39:53Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 293ms"
+ },
+ {
+  "id": "L0124",
+  "record_type": "log",
+  "ts": "2026-09-09T14:39:54Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order fc2d30a1 created in 314ms"
+ },
+ {
+  "id": "L0125",
+  "record_type": "log",
+  "ts": "2026-09-09T14:40:57Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 8ec48a4c authorized in 51ms"
+ },
+ {
+  "id": "L0126",
+  "record_type": "log",
+  "ts": "2026-09-09T14:40:59Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 13fc0b2d in 373ms"
+ },
+ {
+  "id": "L0127",
+  "record_type": "log",
+  "ts": "2026-09-09T14:41:35Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8812 buffers"
+ },
+ {
+  "id": "L0128",
+  "record_type": "log",
+  "ts": "2026-09-09T14:41:53Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 2ced876b"
+ },
+ {
+  "id": "L0129",
+  "record_type": "log",
+  "ts": "2026-09-09T14:41:55Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=63db5258 in 135ms"
+ },
+ {
+  "id": "L0130",
+  "record_type": "log",
+  "ts": "2026-09-09T14:42:21Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 180ms"
+ },
+ {
+  "id": "L0131",
+  "record_type": "log",
+  "ts": "2026-09-09T14:43:08Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0132",
+  "record_type": "log",
+  "ts": "2026-09-09T14:43:24Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 362ms"
+ },
+ {
+  "id": "L0133",
+  "record_type": "log",
+  "ts": "2026-09-09T14:43:31Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 42ms"
+ },
+ {
+  "id": "L0134",
+  "record_type": "log",
+  "ts": "2026-09-09T14:43:57Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/17c4f4b2 200 323ms"
+ },
+ {
+  "id": "L0135",
+  "record_type": "log",
+  "ts": "2026-09-09T14:44:25Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user dd74323d"
+ },
+ {
+  "id": "L0136",
+  "record_type": "log",
+  "ts": "2026-09-09T14:44:27Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6312 buffers"
+ },
+ {
+  "id": "L0137",
+  "record_type": "log",
+  "ts": "2026-09-09T14:44:44Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 202ms"
+ },
+ {
+  "id": "L0138",
+  "record_type": "log",
+  "ts": "2026-09-09T14:44:58Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 982e5ba1"
+ },
+ {
+  "id": "L0139",
+  "record_type": "log",
+  "ts": "2026-09-09T14:45:16Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 119ms"
+ },
+ {
+  "id": "L0140",
+  "record_type": "log",
+  "ts": "2026-09-09T14:45:41Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.926"
+ },
+ {
+  "id": "L0141",
+  "record_type": "log",
+  "ts": "2026-09-09T14:46:06Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 389036f5 authorized in 380ms"
+ },
+ {
+  "id": "L0142",
+  "record_type": "log",
+  "ts": "2026-09-09T14:46:39Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 443157d4 created in 47ms"
+ },
+ {
+  "id": "L0143",
+  "record_type": "log",
+  "ts": "2026-09-09T14:46:56Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0144",
+  "record_type": "log",
+  "ts": "2026-09-09T14:47:28Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 121ms"
+ },
+ {
+  "id": "L0145",
+  "record_type": "log",
+  "ts": "2026-09-09T14:47:35Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0146",
+  "record_type": "log",
+  "ts": "2026-09-09T14:47:49Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 232ms"
+ },
+ {
+  "id": "L0147",
+  "record_type": "log",
+  "ts": "2026-09-09T14:48:10Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user ae6f56be"
+ },
+ {
+  "id": "L0148",
+  "record_type": "log",
+  "ts": "2026-09-09T14:48:39Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=f135fdd0 in 104ms"
+ },
+ {
+  "id": "L0149",
+  "record_type": "log",
+  "ts": "2026-09-09T14:49:04Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1071ms for charge b5ad1aa2"
+ },
+ {
+  "id": "L0150",
+  "record_type": "log",
+  "ts": "2026-09-09T14:49:21Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 356ms"
+ },
+ {
+  "id": "L0151",
+  "record_type": "log",
+  "ts": "2026-09-09T14:49:59Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order ad9fd257"
+ },
+ {
+  "id": "L0152",
+  "record_type": "log",
+  "ts": "2026-09-09T14:50:44Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/f06a440e 200 221ms"
+ },
+ {
+  "id": "L0153",
+  "record_type": "log",
+  "ts": "2026-09-09T14:50:44Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0154",
+  "record_type": "log",
+  "ts": "2026-09-09T14:50:47Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 264ms"
+ },
+ {
+  "id": "L0155",
+  "record_type": "log",
+  "ts": "2026-09-09T14:50:50Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 63204017"
+ },
+ {
+  "id": "L0156",
+  "record_type": "log",
+  "ts": "2026-09-09T14:51:13Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 348ms"
+ },
+ {
+  "id": "L0157",
+  "record_type": "log",
+  "ts": "2026-09-09T14:51:42Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9712 buffers"
+ },
+ {
+  "id": "L0158",
+  "record_type": "log",
+  "ts": "2026-09-09T14:51:50Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 6120d8c6"
+ },
+ {
+  "id": "L0159",
+  "record_type": "log",
+  "ts": "2026-09-09T14:52:19Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 344ms"
+ },
+ {
+  "id": "L0160",
+  "record_type": "log",
+  "ts": "2026-09-09T14:52:35Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2640 buffers"
+ },
+ {
+  "id": "L0161",
+  "record_type": "log",
+  "ts": "2026-09-09T14:53:07Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 177ms"
+ },
+ {
+  "id": "L0162",
+  "record_type": "log",
+  "ts": "2026-09-09T14:53:56Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 39478be2 created in 207ms"
+ },
+ {
+  "id": "L0163",
+  "record_type": "log",
+  "ts": "2026-09-09T14:54:02Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9012 buffers"
+ },
+ {
+  "id": "L0164",
+  "record_type": "log",
+  "ts": "2026-09-09T14:54:04Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user a1c41d6b"
+ },
+ {
+  "id": "L0165",
+  "record_type": "log",
+  "ts": "2026-09-09T14:54:18Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7940 buffers"
+ },
+ {
+  "id": "L0166",
+  "record_type": "log",
+  "ts": "2026-09-09T14:54:52Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 248ms"
+ },
+ {
+  "id": "L0167",
+  "record_type": "log",
+  "ts": "2026-09-09T14:54:53Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 300ms"
+ },
+ {
+  "id": "L0168",
+  "record_type": "log",
+  "ts": "2026-09-09T14:55:06Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=41df9e09 in 306ms"
+ },
+ {
+  "id": "L0169",
+  "record_type": "log",
+  "ts": "2026-09-09T14:55:46Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 253ms"
+ },
+ {
+  "id": "L0170",
+  "record_type": "log",
+  "ts": "2026-09-09T14:56:00Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 167fb127 created in 85ms"
+ },
+ {
+  "id": "L0171",
+  "record_type": "log",
+  "ts": "2026-09-09T14:56:23Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 56d94e7c processed"
+ },
+ {
+  "id": "L0172",
+  "record_type": "log",
+  "ts": "2026-09-09T14:56:50Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 361302de in 18ms"
+ },
+ {
+  "id": "L0173",
+  "record_type": "log",
+  "ts": "2026-09-09T14:57:00Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 97ms"
+ },
+ {
+  "id": "L0174",
+  "record_type": "log",
+  "ts": "2026-09-09T14:57:22Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1153ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0175",
+  "record_type": "log",
+  "ts": "2026-09-09T14:57:44Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=bf50c1d2 in 170ms"
+ },
+ {
+  "id": "L0176",
+  "record_type": "log",
+  "ts": "2026-09-09T14:58:22Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1387ms for charge 7d9ec5cf"
+ },
+ {
+  "id": "L0177",
+  "record_type": "log",
+  "ts": "2026-09-09T14:58:30Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7940 buffers"
+ },
+ {
+  "id": "L0178",
+  "record_type": "log",
+  "ts": "2026-09-09T14:58:32Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 396c160a: bad password"
+ },
+ {
+  "id": "L0179",
+  "record_type": "log",
+  "ts": "2026-09-09T14:58:39Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "rate limiter: client 59734300 near burst limit"
+ },
+ {
+  "id": "L0180",
+  "record_type": "log",
+  "ts": "2026-09-09T14:58:47Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 9e40bc39 created in 64ms"
+ },
+ {
+  "id": "L0181",
+  "record_type": "log",
+  "ts": "2026-09-09T14:59:12Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4912 buffers"
+ },
+ {
+  "id": "L0182",
+  "record_type": "log",
+  "ts": "2026-09-09T14:59:14Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 122ms"
+ },
+ {
+  "id": "L0183",
+  "record_type": "log",
+  "ts": "2026-09-09T14:59:30Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 255ms"
+ },
+ {
+  "id": "L0184",
+  "record_type": "log",
+  "ts": "2026-09-09T15:00:01Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 2b593158"
+ },
+ {
+  "id": "L0185",
+  "record_type": "log",
+  "ts": "2026-09-09T15:00:05Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1900ms: SELECT sku, qty FROM stock_levels"
+ },
+ {
+  "id": "L0186",
+  "record_type": "log",
+  "ts": "2026-09-09T15:00:06Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0187",
+  "record_type": "log",
+  "ts": "2026-09-09T15:00:35Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 379ms"
+ },
+ {
+  "id": "L0188",
+  "record_type": "log",
+  "ts": "2026-09-09T15:00:41Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 6cc69171"
+ },
+ {
+  "id": "L0189",
+  "record_type": "log",
+  "ts": "2026-09-09T15:01:15Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0190",
+  "record_type": "log",
+  "ts": "2026-09-09T15:01:28Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0191",
+  "record_type": "log",
+  "ts": "2026-09-09T15:02:07Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 874ms"
+ },
+ {
+  "id": "L0192",
+  "record_type": "log",
+  "ts": "2026-09-09T15:02:10Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0193",
+  "record_type": "log",
+  "ts": "2026-09-09T15:02:12Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 3e34d1db"
+ },
+ {
+  "id": "L0194",
+  "record_type": "log",
+  "ts": "2026-09-09T15:02:14Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 72228fa5 priced in 173ms"
+ },
+ {
+  "id": "L0195",
+  "record_type": "log",
+  "ts": "2026-09-09T15:02:18Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 06367b30 processed"
+ },
+ {
+  "id": "L0196",
+  "record_type": "log",
+  "ts": "2026-09-09T15:02:43Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0197",
+  "record_type": "log",
+  "ts": "2026-09-09T15:03:05Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 128ms"
+ },
+ {
+  "id": "L0198",
+  "record_type": "log",
+  "ts": "2026-09-09T15:03:30Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0199",
+  "record_type": "log",
+  "ts": "2026-09-09T15:03:33Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 250ms"
+ },
+ {
+  "id": "L0200",
+  "record_type": "log",
+  "ts": "2026-09-09T15:03:57Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0201",
+  "record_type": "log",
+  "ts": "2026-09-09T15:04:22Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=fb7a65e1 in 279ms"
+ },
+ {
+  "id": "L0202",
+  "record_type": "log",
+  "ts": "2026-09-09T15:04:37Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 37bd56f8 in 353ms"
+ },
+ {
+  "id": "L0203",
+  "record_type": "log",
+  "ts": "2026-09-09T15:04:42Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0204",
+  "record_type": "log",
+  "ts": "2026-09-09T15:04:56Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1900ms: SELECT sku, qty FROM stock_levels"
+ },
+ {
+  "id": "L0205",
+  "record_type": "log",
+  "ts": "2026-09-09T15:05:23Z",
+  "service": "inventory-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0206",
+  "record_type": "log",
+  "ts": "2026-09-09T15:05:31Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 43ms"
+ },
+ {
+  "id": "L0207",
+  "record_type": "log",
+  "ts": "2026-09-09T15:05:42Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0208",
+  "record_type": "log",
+  "ts": "2026-09-09T15:05:43Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 0385804c priced in 31ms"
+ },
+ {
+  "id": "L0209",
+  "record_type": "log",
+  "ts": "2026-09-09T15:05:43Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 8221df5e"
+ },
+ {
+  "id": "L0210",
+  "record_type": "log",
+  "ts": "2026-09-09T15:06:01Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1192ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0211",
+  "record_type": "log",
+  "ts": "2026-09-09T15:06:25Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0212",
+  "record_type": "log",
+  "ts": "2026-09-09T15:06:32Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 70c01a49 authorized in 326ms"
+ },
+ {
+  "id": "L0213",
+  "record_type": "log",
+  "ts": "2026-09-09T15:07:13Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 376ms"
+ },
+ {
+  "id": "L0214",
+  "record_type": "log",
+  "ts": "2026-09-09T15:07:30Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 54ddb633"
+ },
+ {
+  "id": "L0215",
+  "record_type": "log",
+  "ts": "2026-09-09T15:07:34Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0216",
+  "record_type": "log",
+  "ts": "2026-09-09T15:07:37Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user f25f540f"
+ },
+ {
+  "id": "L0217",
+  "record_type": "log",
+  "ts": "2026-09-09T15:07:50Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1712 buffers"
+ },
+ {
+  "id": "L0218",
+  "record_type": "log",
+  "ts": "2026-09-09T15:08:22Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4140 buffers"
+ },
+ {
+  "id": "L0219",
+  "record_type": "log",
+  "ts": "2026-09-09T15:08:22Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0220",
+  "record_type": "log",
+  "ts": "2026-09-09T15:09:04Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1900ms: SELECT sku, qty FROM stock_levels"
+ },
+ {
+  "id": "L0221",
+  "record_type": "log",
+  "ts": "2026-09-09T15:09:17Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 341ms"
+ },
+ {
+  "id": "L0222",
+  "record_type": "log",
+  "ts": "2026-09-09T15:09:18Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 5cc0f6da priced in 224ms"
+ },
+ {
+  "id": "L0223",
+  "record_type": "log",
+  "ts": "2026-09-09T15:09:30Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.989"
+ },
+ {
+  "id": "L0224",
+  "record_type": "log",
+  "ts": "2026-09-09T15:09:32Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 256ms"
+ },
+ {
+  "id": "L0225",
+  "record_type": "log",
+  "ts": "2026-09-09T15:09:34Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0226",
+  "record_type": "log",
+  "ts": "2026-09-09T15:09:36Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 7428f679 authorized in 299ms"
+ },
+ {
+  "id": "L0227",
+  "record_type": "log",
+  "ts": "2026-09-09T15:09:42Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 346ms"
+ },
+ {
+  "id": "L0228",
+  "record_type": "log",
+  "ts": "2026-09-09T15:10:34Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0229",
+  "record_type": "log",
+  "ts": "2026-09-09T15:10:37Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0230",
+  "record_type": "log",
+  "ts": "2026-09-09T15:11:00Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "retrying idempotent call to payment-service (attempt 2)"
+ },
+ {
+  "id": "L0231",
+  "record_type": "log",
+  "ts": "2026-09-09T15:11:11Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5440 buffers"
+ },
+ {
+  "id": "L0232",
+  "record_type": "log",
+  "ts": "2026-09-09T15:11:31Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 4c1eb3b3"
+ },
+ {
+  "id": "L0233",
+  "record_type": "log",
+  "ts": "2026-09-09T15:11:43Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0234",
+  "record_type": "log",
+  "ts": "2026-09-09T15:12:11Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 71ms"
+ },
+ {
+  "id": "L0235",
+  "record_type": "log",
+  "ts": "2026-09-09T15:12:20Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 253ms"
+ },
+ {
+  "id": "L0236",
+  "record_type": "log",
+  "ts": "2026-09-09T15:12:50Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0237",
+  "record_type": "log",
+  "ts": "2026-09-09T15:12:53Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 57ms"
+ },
+ {
+  "id": "L0238",
+  "record_type": "log",
+  "ts": "2026-09-09T15:13:00Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1900ms: SELECT sku, qty FROM stock_levels"
+ },
+ {
+  "id": "L0239",
+  "record_type": "log",
+  "ts": "2026-09-09T15:13:01Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 143ms"
+ },
+ {
+  "id": "L0240",
+  "record_type": "log",
+  "ts": "2026-09-09T15:13:49Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 61d8fc60"
+ },
+ {
+  "id": "L0241",
+  "record_type": "log",
+  "ts": "2026-09-09T15:13:53Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0242",
+  "record_type": "log",
+  "ts": "2026-09-09T15:14:09Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund e8412ca8 processed"
+ },
+ {
+  "id": "L0243",
+  "record_type": "log",
+  "ts": "2026-09-09T15:14:10Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7512 buffers"
+ },
+ {
+  "id": "L0244",
+  "record_type": "log",
+  "ts": "2026-09-09T15:14:17Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9240 buffers"
+ },
+ {
+  "id": "L0245",
+  "record_type": "log",
+  "ts": "2026-09-09T15:14:23Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order d9743b72 created in 147ms"
+ },
+ {
+  "id": "L0246",
+  "record_type": "log",
+  "ts": "2026-09-09T15:14:32Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=6690c0a8 in 249ms"
+ },
+ {
+  "id": "L0247",
+  "record_type": "log",
+  "ts": "2026-09-09T15:14:43Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0248",
+  "record_type": "log",
+  "ts": "2026-09-09T15:15:38Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 91ms"
+ },
+ {
+  "id": "L0249",
+  "record_type": "log",
+  "ts": "2026-09-09T15:15:54Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0250",
+  "record_type": "log",
+  "ts": "2026-09-09T15:16:04Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 184ms"
+ },
+ {
+  "id": "L0251",
+  "record_type": "log",
+  "ts": "2026-09-09T15:16:05Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 65ms"
+ },
+ {
+  "id": "L0252",
+  "record_type": "log",
+  "ts": "2026-09-09T15:16:18Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1340 buffers"
+ },
+ {
+  "id": "L0253",
+  "record_type": "log",
+  "ts": "2026-09-09T15:16:52Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=3bb8b7a6 in 267ms"
+ },
+ {
+  "id": "L0254",
+  "record_type": "log",
+  "ts": "2026-09-09T15:17:11Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0255",
+  "record_type": "log",
+  "ts": "2026-09-09T15:17:14Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1900ms: SELECT sku, qty FROM stock_levels"
+ },
+ {
+  "id": "L0256",
+  "record_type": "log",
+  "ts": "2026-09-09T15:17:41Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 8aaf96b0 priced in 328ms"
+ },
+ {
+  "id": "L0257",
+  "record_type": "log",
+  "ts": "2026-09-09T15:17:42Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 215ms"
+ },
+ {
+  "id": "L0258",
+  "record_type": "log",
+  "ts": "2026-09-09T15:17:46Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0259",
+  "record_type": "log",
+  "ts": "2026-09-09T15:17:51Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 70ac2b12: bad password"
+ },
+ {
+  "id": "L0260",
+  "record_type": "log",
+  "ts": "2026-09-09T15:17:55Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 123ms"
+ },
+ {
+  "id": "L0261",
+  "record_type": "log",
+  "ts": "2026-09-09T15:18:05Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7312 buffers"
+ },
+ {
+  "id": "L0262",
+  "record_type": "log",
+  "ts": "2026-09-09T15:18:23Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 36ms"
+ },
+ {
+  "id": "L0263",
+  "record_type": "log",
+  "ts": "2026-09-09T15:18:25Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0264",
+  "record_type": "log",
+  "ts": "2026-09-09T15:19:02Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0265",
+  "record_type": "log",
+  "ts": "2026-09-09T15:19:15Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=00801c7a in 188ms"
+ },
+ {
+  "id": "L0266",
+  "record_type": "log",
+  "ts": "2026-09-09T15:19:50Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0267",
+  "record_type": "log",
+  "ts": "2026-09-09T15:19:53Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 47fe199a"
+ },
+ {
+  "id": "L0268",
+  "record_type": "log",
+  "ts": "2026-09-09T15:20:06Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0269",
+  "record_type": "log",
+  "ts": "2026-09-09T15:20:07Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 9e3d253c"
+ },
+ {
+  "id": "L0270",
+  "record_type": "log",
+  "ts": "2026-09-09T15:20:54Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 336ms"
+ },
+ {
+  "id": "L0271",
+  "record_type": "log",
+  "ts": "2026-09-09T15:21:14Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/23d0cbef 200 375ms"
+ },
+ {
+  "id": "L0272",
+  "record_type": "log",
+  "ts": "2026-09-09T15:21:14Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0273",
+  "record_type": "log",
+  "ts": "2026-09-09T15:21:21Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0274",
+  "record_type": "log",
+  "ts": "2026-09-09T15:21:33Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2440 buffers"
+ },
+ {
+  "id": "L0275",
+  "record_type": "log",
+  "ts": "2026-09-09T15:21:38Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 6b95b143"
+ },
+ {
+  "id": "L0276",
+  "record_type": "log",
+  "ts": "2026-09-09T15:21:40Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1900ms: SELECT sku, qty FROM stock_levels"
+ },
+ {
+  "id": "L0277",
+  "record_type": "log",
+  "ts": "2026-09-09T15:22:13Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0278",
+  "record_type": "log",
+  "ts": "2026-09-09T15:22:23Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 281ms"
+ },
+ {
+  "id": "L0279",
+  "record_type": "log",
+  "ts": "2026-09-09T15:22:25Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 64ms"
+ },
+ {
+  "id": "L0280",
+  "record_type": "log",
+  "ts": "2026-09-09T15:22:55Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0281",
+  "record_type": "log",
+  "ts": "2026-09-09T15:23:04Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 20ms"
+ },
+ {
+  "id": "L0282",
+  "record_type": "log",
+  "ts": "2026-09-09T15:23:13Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0283",
+  "record_type": "log",
+  "ts": "2026-09-09T15:23:14Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6812 buffers"
+ },
+ {
+  "id": "L0284",
+  "record_type": "log",
+  "ts": "2026-09-09T15:23:41Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user ea3452f3"
+ },
+ {
+  "id": "L0285",
+  "record_type": "log",
+  "ts": "2026-09-09T15:23:58Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0286",
+  "record_type": "log",
+  "ts": "2026-09-09T15:24:06Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart f08ac667 priced in 353ms"
+ },
+ {
+  "id": "L0287",
+  "record_type": "log",
+  "ts": "2026-09-09T15:24:16Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 355ms"
+ },
+ {
+  "id": "L0288",
+  "record_type": "log",
+  "ts": "2026-09-09T15:24:39Z",
+  "service": "notification-worker",
+  "level": "ERROR",
+  "message": "bounce for recipient b4f04ce1@example.com"
+ },
+ {
+  "id": "L0289",
+  "record_type": "log",
+  "ts": "2026-09-09T15:24:51Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0290",
+  "record_type": "log",
+  "ts": "2026-09-09T15:24:51Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 168ms"
+ },
+ {
+  "id": "L0291",
+  "record_type": "log",
+  "ts": "2026-09-09T15:25:19Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0292",
+  "record_type": "log",
+  "ts": "2026-09-09T15:25:29Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.921"
+ },
+ {
+  "id": "L0293",
+  "record_type": "log",
+  "ts": "2026-09-09T15:25:42Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1900ms: SELECT sku, qty FROM stock_levels"
+ },
+ {
+  "id": "L0294",
+  "record_type": "log",
+  "ts": "2026-09-09T15:25:44Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 748cf9e4"
+ },
+ {
+  "id": "L0295",
+  "record_type": "log",
+  "ts": "2026-09-09T15:25:59Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0296",
+  "record_type": "log",
+  "ts": "2026-09-09T15:26:02Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 324ms"
+ },
+ {
+  "id": "L0297",
+  "record_type": "log",
+  "ts": "2026-09-09T15:26:31Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 8025e767"
+ },
+ {
+  "id": "L0298",
+  "record_type": "log",
+  "ts": "2026-09-09T15:26:48Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart d042f96f priced in 92ms"
+ },
+ {
+  "id": "L0299",
+  "record_type": "log",
+  "ts": "2026-09-09T15:26:51Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0300",
+  "record_type": "log",
+  "ts": "2026-09-09T15:27:05Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 248ms"
+ },
+ {
+  "id": "L0301",
+  "record_type": "log",
+  "ts": "2026-09-09T15:27:08Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0302",
+  "record_type": "log",
+  "ts": "2026-09-09T15:27:17Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0303",
+  "record_type": "log",
+  "ts": "2026-09-09T15:27:31Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 81651760 in 72ms"
+ },
+ {
+  "id": "L0304",
+  "record_type": "log",
+  "ts": "2026-09-09T15:27:41Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 178ms"
+ },
+ {
+  "id": "L0305",
+  "record_type": "log",
+  "ts": "2026-09-09T15:27:46Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 897ms"
+ },
+ {
+  "id": "L0306",
+  "record_type": "log",
+  "ts": "2026-09-09T15:28:33Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0307",
+  "record_type": "log",
+  "ts": "2026-09-09T15:28:36Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1415ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0308",
+  "record_type": "log",
+  "ts": "2026-09-09T15:28:51Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund ef57d7dc processed"
+ },
+ {
+  "id": "L0309",
+  "record_type": "log",
+  "ts": "2026-09-09T15:29:07Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1289ms"
+ },
+ {
+  "id": "L0310",
+  "record_type": "log",
+  "ts": "2026-09-09T15:29:09Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ },
+ {
+  "id": "L0311",
+  "record_type": "log",
+  "ts": "2026-09-09T15:29:33Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=c88e1325 in 240ms"
+ },
+ {
+  "id": "L0312",
+  "record_type": "log",
+  "ts": "2026-09-09T15:30:00Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1900ms: SELECT sku, qty FROM stock_levels"
+ },
+ {
+  "id": "L0313",
+  "record_type": "log",
+  "ts": "2026-09-09T15:30:00Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "request exceeded deadline 2000ms in StockRecalculator.recomputeAll (sku_count=48211)"
+ }
+]

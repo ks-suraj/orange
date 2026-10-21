@@ -1,0 +1,14 @@
+{
+ "brief": {
+  "id": "S03",
+  "title": "order emails delayed",
+  "reported_at": "2026-09-03T10:30:00Z",
+  "alert": "ALERT [P2] notification-queue consumer lag above 15 minutes (threshold 5m) since ~10:00 UTC; order confirmation emails delayed.",
+  "affected_services": [
+   "notification-worker"
+  ],
+  "window_start": "2026-09-03T09:00:00Z",
+  "window_end": "2026-09-03T10:30:00Z"
+ },
+ "faults": []
+}

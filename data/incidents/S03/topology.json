@@ -1,0 +1,216 @@
+{
+ "edges": [
+  {
+   "id": "D01",
+   "record_type": "edge",
+   "caller": "api-gateway",
+   "callee": "checkout-service",
+   "kind": "sync_http"
+  },
+  {
+   "id": "D02",
+   "record_type": "edge",
+   "caller": "api-gateway",
+   "callee": "search-service",
+   "kind": "sync_http"
+  },
+  {
+   "id": "D03",
+   "record_type": "edge",
+   "caller": "api-gateway",
+   "callee": "auth-service",
+   "kind": "sync_http"
+  },
+  {
+   "id": "D04",
+   "record_type": "edge",
+   "caller": "checkout-service",
+   "callee": "payment-service",
+   "kind": "sync_http"
+  },
+  {
+   "id": "D05",
+   "record_type": "edge",
+   "caller": "checkout-service",
+   "callee": "inventory-service",
+   "kind": "sync_http"
+  },
+  {
+   "id": "D06",
+   "record_type": "edge",
+   "caller": "checkout-service",
+   "callee": "auth-service",
+   "kind": "sync_http"
+  },
+  {
+   "id": "D07",
+   "record_type": "edge",
+   "caller": "checkout-service",
+   "callee": "notification-queue",
+   "kind": "queue"
+  },
+  {
+   "id": "D08",
+   "record_type": "edge",
+   "caller": "payment-service",
+   "callee": "payments-db",
+   "kind": "database"
+  },
+  {
+   "id": "D09",
+   "record_type": "edge",
+   "caller": "payment-service",
+   "callee": "payment-provider",
+   "kind": "external_http"
+  },
+  {
+   "id": "D10",
+   "record_type": "edge",
+   "caller": "inventory-service",
+   "callee": "inventory-db",
+   "kind": "database"
+  },
+  {
+   "id": "D11",
+   "record_type": "edge",
+   "caller": "inventory-service",
+   "callee": "inventory-cache",
+   "kind": "cache"
+  },
+  {
+   "id": "D12",
+   "record_type": "edge",
+   "caller": "notification-worker",
+   "callee": "notification-queue",
+   "kind": "queue"
+  },
+  {
+   "id": "D13",
+   "record_type": "edge",
+   "caller": "notification-worker",
+   "callee": "email-provider",
+   "kind": "external_http"
+  },
+  {
+   "id": "D14",
+   "record_type": "edge",
+   "caller": "search-service",
+   "callee": "search-index",
+   "kind": "sync_http"
+  }
+ ],
+ "health": [
+  {
+   "id": "H01",
+   "record_type": "health",
+   "service": "api-gateway",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H02",
+   "record_type": "health",
+   "service": "auth-service",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H03",
+   "record_type": "health",
+   "service": "checkout-service",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H04",
+   "record_type": "health",
+   "service": "email-provider",
+   "status": "degraded",
+   "detail": "status page: elevated latency in eu-west region",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H05",
+   "record_type": "health",
+   "service": "inventory-cache",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H06",
+   "record_type": "health",
+   "service": "inventory-db",
+   "status": "healthy",
+   "detail": "accepting connections; SELECT 1 ok",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H07",
+   "record_type": "health",
+   "service": "inventory-service",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H08",
+   "record_type": "health",
+   "service": "notification-queue",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H09",
+   "record_type": "health",
+   "service": "notification-worker",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H10",
+   "record_type": "health",
+   "service": "payment-provider",
+   "status": "healthy",
+   "detail": "status page: all systems operational",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H11",
+   "record_type": "health",
+   "service": "payment-service",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H12",
+   "record_type": "health",
+   "service": "payments-db",
+   "status": "healthy",
+   "detail": "accepting connections; SELECT 1 ok",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H13",
+   "record_type": "health",
+   "service": "search-index",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  },
+  {
+   "id": "H14",
+   "record_type": "health",
+   "service": "search-service",
+   "status": "healthy",
+   "detail": "HTTP /health 200",
+   "checked_at": "2026-09-03T10:28:00Z"
+  }
+ ]
+}

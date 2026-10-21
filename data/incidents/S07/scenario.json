@@ -1,0 +1,15 @@
+{
+ "brief": {
+  "id": "S07",
+  "title": "checkout latency and 503s",
+  "reported_at": "2026-09-07T18:30:00Z",
+  "alert": "ALERT [P2] checkout-service p99 latency 2.9s (SLO 800ms) and elevated 503s since ~18:00 UTC.",
+  "affected_services": [
+   "checkout-service",
+   "api-gateway"
+  ],
+  "window_start": "2026-09-07T17:00:00Z",
+  "window_end": "2026-09-07T18:30:00Z"
+ },
+ "faults": []
+}

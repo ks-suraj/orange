@@ -1,0 +1,96 @@
+{
+ "incident_id": "S06",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "inventory-db"
+ ],
+ "root_cause_categories": [
+  "infrastructure_failure"
+ ],
+ "summary": "inventory-db's primary became unreachable; the endpoint now points at a standby still in recovery (read-only), so all writes fail while reads work.",
+ "key_evidence": [
+  [
+   "M20"
+  ],
+  [
+   "M22"
+  ],
+  [
+   "L0180",
+   "L0183"
+  ],
+  [
+   "L0199",
+   "L0233",
+   "L0265",
+   "L0299"
+  ],
+  [
+   "L0185",
+   "L0188",
+   "L0189",
+   "L0192",
+   "L0197",
+   "L0202",
+   "L0206",
+   "L0208",
+   "L0211",
+   "L0215",
+   "L0219",
+   "L0221",
+   "L0227",
+   "L0230",
+   "L0235",
+   "L0238",
+   "L0240",
+   "L0244",
+   "L0246",
+   "L0250",
+   "L0254",
+   "L0255",
+   "L0260",
+   "L0264",
+   "L0267",
+   "L0271",
+   "L0276",
+   "L0279",
+   "L0280",
+   "L0283",
+   "L0287",
+   "L0292",
+   "L0295",
+   "L0298",
+   "L0303",
+   "L0307",
+   "L0309",
+   "L0312",
+   "L0314",
+   "L0317"
+  ],
+  [
+   "H06"
+  ]
+ ],
+ "misleading_evidence": [
+  [
+   "M24"
+  ],
+  [
+   "L0034",
+   "L0092",
+   "L0145",
+   "L0212",
+   "L0297"
+  ]
+ ],
+ "decoy_hypotheses": [
+  {
+   "service": "inventory-service",
+   "category": "resource_exhaustion"
+  }
+ ],
+ "tags": [
+  "conflicting_evidence",
+  "shallow_health_check"
+ ]
+}

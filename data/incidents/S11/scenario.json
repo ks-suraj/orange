@@ -1,0 +1,15 @@
+{
+ "brief": {
+  "id": "S11",
+  "title": "payment write failures",
+  "reported_at": "2026-09-11T12:30:00Z",
+  "alert": "ALERT [P1] payment-service error rate 30% since ~12:00 UTC. payment-service was deployed earlier today.",
+  "affected_services": [
+   "payment-service",
+   "checkout-service"
+  ],
+  "window_start": "2026-09-11T11:00:00Z",
+  "window_end": "2026-09-11T12:30:00Z"
+ },
+ "faults": []
+}

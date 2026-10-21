@@ -1,0 +1,65 @@
+{
+ "incident_id": "S09",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "inventory-service"
+ ],
+ "root_cause_categories": [
+  "config_error"
+ ],
+ "summary": "Feature flag realtime_stock_recalc was raised from 5% to 100%, making every request recompute stock; inventory-service CPU saturates. Metrics first return partial data and change history fails once.",
+ "key_evidence": [
+  [
+   "C09"
+  ],
+  [
+   "M21"
+  ],
+  [
+   "M23"
+  ],
+  [
+   "L0186",
+   "L0190",
+   "L0192",
+   "L0198",
+   "L0203",
+   "L0207",
+   "L0211",
+   "L0215",
+   "L0219",
+   "L0225",
+   "L0228",
+   "L0233",
+   "L0236",
+   "L0241",
+   "L0247",
+   "L0249",
+   "L0254",
+   "L0258",
+   "L0264",
+   "L0266",
+   "L0273",
+   "L0277",
+   "L0280",
+   "L0285",
+   "L0289",
+   "L0295",
+   "L0302",
+   "L0306",
+   "L0310",
+   "L0313"
+  ]
+ ],
+ "misleading_evidence": [],
+ "decoy_hypotheses": [
+  {
+   "service": "inventory-db",
+   "category": "resource_exhaustion"
+  }
+ ],
+ "tags": [
+  "tool_failure",
+  "partial_results"
+ ]
+}

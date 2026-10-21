@@ -1,0 +1,86 @@
+{
+ "incident_id": "S02",
+ "expected_inconclusive": false,
+ "root_cause_services": [
+  "payment-service"
+ ],
+ "root_cause_categories": [
+  "config_error"
+ ],
+ "summary": "A config change cut payment-service's DB pool acquire timeout from 5000 ms to 50 ms; requests fail fast while payments-db is healthy.",
+ "key_evidence": [
+  [
+   "C09"
+  ],
+  [
+   "M33"
+  ],
+  [
+   "L0193",
+   "L0197",
+   "L0199",
+   "L0205",
+   "L0211",
+   "L0212",
+   "L0215",
+   "L0218",
+   "L0224",
+   "L0228",
+   "L0231",
+   "L0235",
+   "L0238",
+   "L0242",
+   "L0246",
+   "L0251",
+   "L0253",
+   "L0256",
+   "L0259",
+   "L0263",
+   "L0267",
+   "L0270",
+   "L0272",
+   "L0277",
+   "L0282",
+   "L0286",
+   "L0289",
+   "L0291",
+   "L0293",
+   "L0297",
+   "L0303",
+   "L0305",
+   "L0309",
+   "L0312",
+   "L0315",
+   "L0319",
+   "L0322",
+   "L0327",
+   "L0335",
+   "L0337",
+   "L0339",
+   "L0341",
+   "L0346",
+   "L0350",
+   "L0353"
+  ]
+ ],
+ "misleading_evidence": [
+  [
+   "L0036",
+   "L0078",
+   "L0128",
+   "L0179",
+   "L0248",
+   "L0329"
+  ]
+ ],
+ "decoy_hypotheses": [
+  {
+   "service": "payments-db",
+   "category": "resource_exhaustion"
+  }
+ ],
+ "tags": [
+  "conflicting_evidence",
+  "misleading_history"
+ ]
+}

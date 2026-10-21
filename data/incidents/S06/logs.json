@@ -1,0 +1,2538 @@
+[
+ {
+  "id": "L0001",
+  "record_type": "log",
+  "ts": "2026-09-06T12:00:01Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 219ms"
+ },
+ {
+  "id": "L0002",
+  "record_type": "log",
+  "ts": "2026-09-06T12:00:06Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0003",
+  "record_type": "log",
+  "ts": "2026-09-06T12:00:11Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 531d4a26 processed"
+ },
+ {
+  "id": "L0004",
+  "record_type": "log",
+  "ts": "2026-09-06T12:00:14Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 83d9b570: bad password"
+ },
+ {
+  "id": "L0005",
+  "record_type": "log",
+  "ts": "2026-09-06T12:01:03Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 320ms"
+ },
+ {
+  "id": "L0006",
+  "record_type": "log",
+  "ts": "2026-09-06T12:01:06Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/3169d1bb 200 126ms"
+ },
+ {
+  "id": "L0007",
+  "record_type": "log",
+  "ts": "2026-09-06T12:01:09Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart a10f67d0"
+ },
+ {
+  "id": "L0008",
+  "record_type": "log",
+  "ts": "2026-09-06T12:01:15Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 326ms"
+ },
+ {
+  "id": "L0009",
+  "record_type": "log",
+  "ts": "2026-09-06T12:01:16Z",
+  "service": "inventory-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0010",
+  "record_type": "log",
+  "ts": "2026-09-06T12:02:35Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 1d6ee9bc"
+ },
+ {
+  "id": "L0011",
+  "record_type": "log",
+  "ts": "2026-09-06T12:03:02Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.948"
+ },
+ {
+  "id": "L0012",
+  "record_type": "log",
+  "ts": "2026-09-06T12:03:04Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 324ms"
+ },
+ {
+  "id": "L0013",
+  "record_type": "log",
+  "ts": "2026-09-06T12:03:10Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5740 buffers"
+ },
+ {
+  "id": "L0014",
+  "record_type": "log",
+  "ts": "2026-09-06T12:03:19Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 199ms"
+ },
+ {
+  "id": "L0015",
+  "record_type": "log",
+  "ts": "2026-09-06T12:03:37Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 249ms"
+ },
+ {
+  "id": "L0016",
+  "record_type": "log",
+  "ts": "2026-09-06T12:03:51Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 6beee6d0"
+ },
+ {
+  "id": "L0017",
+  "record_type": "log",
+  "ts": "2026-09-06T12:03:58Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart ba4394f4 priced in 80ms"
+ },
+ {
+  "id": "L0018",
+  "record_type": "log",
+  "ts": "2026-09-06T12:04:17Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0019",
+  "record_type": "log",
+  "ts": "2026-09-06T12:05:11Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0020",
+  "record_type": "log",
+  "ts": "2026-09-06T12:05:24Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund ad152328 processed"
+ },
+ {
+  "id": "L0021",
+  "record_type": "log",
+  "ts": "2026-09-06T12:06:19Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 6942f738"
+ },
+ {
+  "id": "L0022",
+  "record_type": "log",
+  "ts": "2026-09-06T12:06:30Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 140ms"
+ },
+ {
+  "id": "L0023",
+  "record_type": "log",
+  "ts": "2026-09-06T12:06:33Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 55ms"
+ },
+ {
+  "id": "L0024",
+  "record_type": "log",
+  "ts": "2026-09-06T12:06:38Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 21ms"
+ },
+ {
+  "id": "L0025",
+  "record_type": "log",
+  "ts": "2026-09-06T12:06:50Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user fe894455: bad password"
+ },
+ {
+  "id": "L0026",
+  "record_type": "log",
+  "ts": "2026-09-06T12:07:27Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4012 buffers"
+ },
+ {
+  "id": "L0027",
+  "record_type": "log",
+  "ts": "2026-09-06T12:07:32Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0028",
+  "record_type": "log",
+  "ts": "2026-09-06T12:07:32Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 229c4d1f processed"
+ },
+ {
+  "id": "L0029",
+  "record_type": "log",
+  "ts": "2026-09-06T12:07:44Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart ebb0393c priced in 234ms"
+ },
+ {
+  "id": "L0030",
+  "record_type": "log",
+  "ts": "2026-09-06T12:08:29Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.962"
+ },
+ {
+  "id": "L0031",
+  "record_type": "log",
+  "ts": "2026-09-06T12:09:20Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order d6241d06"
+ },
+ {
+  "id": "L0032",
+  "record_type": "log",
+  "ts": "2026-09-06T12:09:39Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 0111c3ed in 256ms"
+ },
+ {
+  "id": "L0033",
+  "record_type": "log",
+  "ts": "2026-09-06T12:10:29Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 373ms"
+ },
+ {
+  "id": "L0034",
+  "record_type": "log",
+  "ts": "2026-09-06T12:10:36Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "high heap usage: 91% of 1Gi"
+ },
+ {
+  "id": "L0035",
+  "record_type": "log",
+  "ts": "2026-09-06T12:10:39Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 222ms"
+ },
+ {
+  "id": "L0036",
+  "record_type": "log",
+  "ts": "2026-09-06T12:11:20Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0037",
+  "record_type": "log",
+  "ts": "2026-09-06T12:11:26Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 775afc33 authorized in 47ms"
+ },
+ {
+  "id": "L0038",
+  "record_type": "log",
+  "ts": "2026-09-06T12:11:27Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1112 buffers"
+ },
+ {
+  "id": "L0039",
+  "record_type": "log",
+  "ts": "2026-09-06T12:11:42Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/be1a4bc7 200 256ms"
+ },
+ {
+  "id": "L0040",
+  "record_type": "log",
+  "ts": "2026-09-06T12:12:13Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1172ms"
+ },
+ {
+  "id": "L0041",
+  "record_type": "log",
+  "ts": "2026-09-06T12:12:21Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 151ms"
+ },
+ {
+  "id": "L0042",
+  "record_type": "log",
+  "ts": "2026-09-06T12:12:39Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart fd7ba593"
+ },
+ {
+  "id": "L0043",
+  "record_type": "log",
+  "ts": "2026-09-06T12:13:29Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0044",
+  "record_type": "log",
+  "ts": "2026-09-06T12:13:39Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 07e2c82d: bad password"
+ },
+ {
+  "id": "L0045",
+  "record_type": "log",
+  "ts": "2026-09-06T12:13:51Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "charge aa9063c2 failed: insufficient funds (declined)"
+ },
+ {
+  "id": "L0046",
+  "record_type": "log",
+  "ts": "2026-09-06T12:14:41Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=8819a9e6 in 158ms"
+ },
+ {
+  "id": "L0047",
+  "record_type": "log",
+  "ts": "2026-09-06T12:14:42Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1160ms"
+ },
+ {
+  "id": "L0048",
+  "record_type": "log",
+  "ts": "2026-09-06T12:14:52Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 0e67248c created in 377ms"
+ },
+ {
+  "id": "L0049",
+  "record_type": "log",
+  "ts": "2026-09-06T12:14:54Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 378ms"
+ },
+ {
+  "id": "L0050",
+  "record_type": "log",
+  "ts": "2026-09-06T12:14:59Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 49ms"
+ },
+ {
+  "id": "L0051",
+  "record_type": "log",
+  "ts": "2026-09-06T12:15:20Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1440 buffers"
+ },
+ {
+  "id": "L0052",
+  "record_type": "log",
+  "ts": "2026-09-06T12:16:33Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3912 buffers"
+ },
+ {
+  "id": "L0053",
+  "record_type": "log",
+  "ts": "2026-09-06T12:16:34Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 13c372f3"
+ },
+ {
+  "id": "L0054",
+  "record_type": "log",
+  "ts": "2026-09-06T12:16:40Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund a38c01f1 processed"
+ },
+ {
+  "id": "L0055",
+  "record_type": "log",
+  "ts": "2026-09-06T12:17:09Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 342ms"
+ },
+ {
+  "id": "L0056",
+  "record_type": "log",
+  "ts": "2026-09-06T12:17:19Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 8122181f created in 46ms"
+ },
+ {
+  "id": "L0057",
+  "record_type": "log",
+  "ts": "2026-09-06T12:17:19Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0058",
+  "record_type": "log",
+  "ts": "2026-09-06T12:17:21Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 182ms"
+ },
+ {
+  "id": "L0059",
+  "record_type": "log",
+  "ts": "2026-09-06T12:17:22Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 76b9ce29"
+ },
+ {
+  "id": "L0060",
+  "record_type": "log",
+  "ts": "2026-09-06T12:17:26Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 9a6944cf"
+ },
+ {
+  "id": "L0061",
+  "record_type": "log",
+  "ts": "2026-09-06T12:18:48Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.928"
+ },
+ {
+  "id": "L0062",
+  "record_type": "log",
+  "ts": "2026-09-06T12:19:31Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 105ms"
+ },
+ {
+  "id": "L0063",
+  "record_type": "log",
+  "ts": "2026-09-06T12:19:35Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart e60397aa priced in 185ms"
+ },
+ {
+  "id": "L0064",
+  "record_type": "log",
+  "ts": "2026-09-06T12:19:45Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8440 buffers"
+ },
+ {
+  "id": "L0065",
+  "record_type": "log",
+  "ts": "2026-09-06T12:20:36Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 199d0dda authorized in 242ms"
+ },
+ {
+  "id": "L0066",
+  "record_type": "log",
+  "ts": "2026-09-06T12:20:37Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 968ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0067",
+  "record_type": "log",
+  "ts": "2026-09-06T12:20:43Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 6009fd77"
+ },
+ {
+  "id": "L0068",
+  "record_type": "log",
+  "ts": "2026-09-06T12:20:50Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 793e6550"
+ },
+ {
+  "id": "L0069",
+  "record_type": "log",
+  "ts": "2026-09-06T12:20:58Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 81ms"
+ },
+ {
+  "id": "L0070",
+  "record_type": "log",
+  "ts": "2026-09-06T12:21:01Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 207ms"
+ },
+ {
+  "id": "L0071",
+  "record_type": "log",
+  "ts": "2026-09-06T12:22:15Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0072",
+  "record_type": "log",
+  "ts": "2026-09-06T12:23:16Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 242d9703 in 365ms"
+ },
+ {
+  "id": "L0073",
+  "record_type": "log",
+  "ts": "2026-09-06T12:23:35Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/dc8a8a41 200 187ms"
+ },
+ {
+  "id": "L0074",
+  "record_type": "log",
+  "ts": "2026-09-06T12:23:38Z",
+  "service": "search-service",
+  "level": "ERROR",
+  "message": "query parse error: unbalanced quotes"
+ },
+ {
+  "id": "L0075",
+  "record_type": "log",
+  "ts": "2026-09-06T12:23:39Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 148ms"
+ },
+ {
+  "id": "L0076",
+  "record_type": "log",
+  "ts": "2026-09-06T12:24:15Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 239ms"
+ },
+ {
+  "id": "L0077",
+  "record_type": "log",
+  "ts": "2026-09-06T12:24:20Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0078",
+  "record_type": "log",
+  "ts": "2026-09-06T12:24:31Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 49963a73 processed"
+ },
+ {
+  "id": "L0079",
+  "record_type": "log",
+  "ts": "2026-09-06T12:24:37Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 729de4b0"
+ },
+ {
+  "id": "L0080",
+  "record_type": "log",
+  "ts": "2026-09-06T12:24:45Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2212 buffers"
+ },
+ {
+  "id": "L0081",
+  "record_type": "log",
+  "ts": "2026-09-06T12:24:58Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user f5b6e257"
+ },
+ {
+  "id": "L0082",
+  "record_type": "log",
+  "ts": "2026-09-06T12:25:39Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order a813fa97"
+ },
+ {
+  "id": "L0083",
+  "record_type": "log",
+  "ts": "2026-09-06T12:26:08Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 1147ms for cart 89328118"
+ },
+ {
+  "id": "L0084",
+  "record_type": "log",
+  "ts": "2026-09-06T12:26:33Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge cbfcbbae authorized in 129ms"
+ },
+ {
+  "id": "L0085",
+  "record_type": "log",
+  "ts": "2026-09-06T12:26:55Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 3e99f831"
+ },
+ {
+  "id": "L0086",
+  "record_type": "log",
+  "ts": "2026-09-06T12:27:00Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3812 buffers"
+ },
+ {
+  "id": "L0087",
+  "record_type": "log",
+  "ts": "2026-09-06T12:27:10Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 55ms"
+ },
+ {
+  "id": "L0088",
+  "record_type": "log",
+  "ts": "2026-09-06T12:27:53Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0089",
+  "record_type": "log",
+  "ts": "2026-09-06T12:27:55Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 161ms"
+ },
+ {
+  "id": "L0090",
+  "record_type": "log",
+  "ts": "2026-09-06T12:28:37Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 9fe70643 created in 142ms"
+ },
+ {
+  "id": "L0091",
+  "record_type": "log",
+  "ts": "2026-09-06T12:28:55Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user b8eb4f72 in 314ms"
+ },
+ {
+  "id": "L0092",
+  "record_type": "log",
+  "ts": "2026-09-06T12:29:00Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "high heap usage: 91% of 1Gi"
+ },
+ {
+  "id": "L0093",
+  "record_type": "log",
+  "ts": "2026-09-06T12:29:13Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order aed4a5fb"
+ },
+ {
+  "id": "L0094",
+  "record_type": "log",
+  "ts": "2026-09-06T12:29:31Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.955"
+ },
+ {
+  "id": "L0095",
+  "record_type": "log",
+  "ts": "2026-09-06T12:29:44Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6312 buffers"
+ },
+ {
+  "id": "L0096",
+  "record_type": "log",
+  "ts": "2026-09-06T12:30:08Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6640 buffers"
+ },
+ {
+  "id": "L0097",
+  "record_type": "log",
+  "ts": "2026-09-06T12:30:27Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 227ms"
+ },
+ {
+  "id": "L0098",
+  "record_type": "log",
+  "ts": "2026-09-06T12:31:09Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/3108249b 200 170ms"
+ },
+ {
+  "id": "L0099",
+  "record_type": "log",
+  "ts": "2026-09-06T12:31:23Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 315ms"
+ },
+ {
+  "id": "L0100",
+  "record_type": "log",
+  "ts": "2026-09-06T12:32:04Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 276ms"
+ },
+ {
+  "id": "L0101",
+  "record_type": "log",
+  "ts": "2026-09-06T12:32:19Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=42f8d5ad in 267ms"
+ },
+ {
+  "id": "L0102",
+  "record_type": "log",
+  "ts": "2026-09-06T12:32:32Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0103",
+  "record_type": "log",
+  "ts": "2026-09-06T12:32:32Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0104",
+  "record_type": "log",
+  "ts": "2026-09-06T12:33:08Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 4158da0d"
+ },
+ {
+  "id": "L0105",
+  "record_type": "log",
+  "ts": "2026-09-06T12:33:28Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 0e541ce7"
+ },
+ {
+  "id": "L0106",
+  "record_type": "log",
+  "ts": "2026-09-06T12:33:50Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 63a25abd created in 218ms"
+ },
+ {
+  "id": "L0107",
+  "record_type": "log",
+  "ts": "2026-09-06T12:34:27Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1076ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0108",
+  "record_type": "log",
+  "ts": "2026-09-06T12:34:41Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 13edf96b authorized in 359ms"
+ },
+ {
+  "id": "L0109",
+  "record_type": "log",
+  "ts": "2026-09-06T12:34:45Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 252ms"
+ },
+ {
+  "id": "L0110",
+  "record_type": "log",
+  "ts": "2026-09-06T12:35:18Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 146ms"
+ },
+ {
+  "id": "L0111",
+  "record_type": "log",
+  "ts": "2026-09-06T12:35:26Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0112",
+  "record_type": "log",
+  "ts": "2026-09-06T12:35:32Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix ea62b42c: 70 misses/s"
+ },
+ {
+  "id": "L0113",
+  "record_type": "log",
+  "ts": "2026-09-06T12:35:50Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 09c08404 in 371ms"
+ },
+ {
+  "id": "L0114",
+  "record_type": "log",
+  "ts": "2026-09-06T12:36:59Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 1a8a01cd"
+ },
+ {
+  "id": "L0115",
+  "record_type": "log",
+  "ts": "2026-09-06T12:37:13Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 0a43dfdb priced in 193ms"
+ },
+ {
+  "id": "L0116",
+  "record_type": "log",
+  "ts": "2026-09-06T12:37:18Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 9bddecc4 processed"
+ },
+ {
+  "id": "L0117",
+  "record_type": "log",
+  "ts": "2026-09-06T12:37:26Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 222ms"
+ },
+ {
+  "id": "L0118",
+  "record_type": "log",
+  "ts": "2026-09-06T12:37:43Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 129ms"
+ },
+ {
+  "id": "L0119",
+  "record_type": "log",
+  "ts": "2026-09-06T12:37:47Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1140 buffers"
+ },
+ {
+  "id": "L0120",
+  "record_type": "log",
+  "ts": "2026-09-06T12:38:24Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 1573cdf4"
+ },
+ {
+  "id": "L0121",
+  "record_type": "log",
+  "ts": "2026-09-06T12:39:34Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/82fa554e 200 375ms"
+ },
+ {
+  "id": "L0122",
+  "record_type": "log",
+  "ts": "2026-09-06T12:39:38Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9712 buffers"
+ },
+ {
+  "id": "L0123",
+  "record_type": "log",
+  "ts": "2026-09-06T12:39:44Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.992"
+ },
+ {
+  "id": "L0124",
+  "record_type": "log",
+  "ts": "2026-09-06T12:40:33Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0125",
+  "record_type": "log",
+  "ts": "2026-09-06T12:40:47Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 181ms"
+ },
+ {
+  "id": "L0126",
+  "record_type": "log",
+  "ts": "2026-09-06T12:40:55Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 8b12db52"
+ },
+ {
+  "id": "L0127",
+  "record_type": "log",
+  "ts": "2026-09-06T12:40:58Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge d496c402 authorized in 50ms"
+ },
+ {
+  "id": "L0128",
+  "record_type": "log",
+  "ts": "2026-09-06T12:41:02Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 45a0eb15"
+ },
+ {
+  "id": "L0129",
+  "record_type": "log",
+  "ts": "2026-09-06T12:41:51Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 93cb3a81: 80 misses/s"
+ },
+ {
+  "id": "L0130",
+  "record_type": "log",
+  "ts": "2026-09-06T12:41:58Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 161ms"
+ },
+ {
+  "id": "L0131",
+  "record_type": "log",
+  "ts": "2026-09-06T12:42:28Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart c574e87b priced in 319ms"
+ },
+ {
+  "id": "L0132",
+  "record_type": "log",
+  "ts": "2026-09-06T12:42:32Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 275ms"
+ },
+ {
+  "id": "L0133",
+  "record_type": "log",
+  "ts": "2026-09-06T12:43:05Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0134",
+  "record_type": "log",
+  "ts": "2026-09-06T12:43:08Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0135",
+  "record_type": "log",
+  "ts": "2026-09-06T12:43:59Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order ff5cc601"
+ },
+ {
+  "id": "L0136",
+  "record_type": "log",
+  "ts": "2026-09-06T12:44:23Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 5a331ba2 processed"
+ },
+ {
+  "id": "L0137",
+  "record_type": "log",
+  "ts": "2026-09-06T12:44:44Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 0f124f72: bad password"
+ },
+ {
+  "id": "L0138",
+  "record_type": "log",
+  "ts": "2026-09-06T12:44:49Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 293ms"
+ },
+ {
+  "id": "L0139",
+  "record_type": "log",
+  "ts": "2026-09-06T12:45:34Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 314ms"
+ },
+ {
+  "id": "L0140",
+  "record_type": "log",
+  "ts": "2026-09-06T12:46:01Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0141",
+  "record_type": "log",
+  "ts": "2026-09-06T12:46:06Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 250a29d8"
+ },
+ {
+  "id": "L0142",
+  "record_type": "log",
+  "ts": "2026-09-06T12:46:31Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/f1b41db9 200 116ms"
+ },
+ {
+  "id": "L0143",
+  "record_type": "log",
+  "ts": "2026-09-06T12:46:49Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 3a4dee31 authorized in 372ms"
+ },
+ {
+  "id": "L0144",
+  "record_type": "log",
+  "ts": "2026-09-06T12:47:24Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5240 buffers"
+ },
+ {
+  "id": "L0145",
+  "record_type": "log",
+  "ts": "2026-09-06T12:48:00Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "high heap usage: 91% of 1Gi"
+ },
+ {
+  "id": "L0146",
+  "record_type": "log",
+  "ts": "2026-09-06T12:48:07Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 813ms"
+ },
+ {
+  "id": "L0147",
+  "record_type": "log",
+  "ts": "2026-09-06T12:48:18Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 961ms"
+ },
+ {
+  "id": "L0148",
+  "record_type": "log",
+  "ts": "2026-09-06T12:48:33Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 4d8f36ee authorized in 147ms"
+ },
+ {
+  "id": "L0149",
+  "record_type": "log",
+  "ts": "2026-09-06T12:48:47Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user c625bdc1"
+ },
+ {
+  "id": "L0150",
+  "record_type": "log",
+  "ts": "2026-09-06T12:48:52Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 110ms"
+ },
+ {
+  "id": "L0151",
+  "record_type": "log",
+  "ts": "2026-09-06T12:48:57Z",
+  "service": "checkout-service",
+  "level": "ERROR",
+  "message": "order 5ec61e06 rejected: card declined by issuer"
+ },
+ {
+  "id": "L0152",
+  "record_type": "log",
+  "ts": "2026-09-06T12:49:15Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.972"
+ },
+ {
+  "id": "L0153",
+  "record_type": "log",
+  "ts": "2026-09-06T12:50:00Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0154",
+  "record_type": "log",
+  "ts": "2026-09-06T12:50:23Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 6bee200a processed"
+ },
+ {
+  "id": "L0155",
+  "record_type": "log",
+  "ts": "2026-09-06T12:50:46Z",
+  "service": "search-service",
+  "level": "ERROR",
+  "message": "query parse error: unbalanced quotes"
+ },
+ {
+  "id": "L0156",
+  "record_type": "log",
+  "ts": "2026-09-06T12:51:07Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 92ms"
+ },
+ {
+  "id": "L0157",
+  "record_type": "log",
+  "ts": "2026-09-06T12:51:36Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0158",
+  "record_type": "log",
+  "ts": "2026-09-06T12:52:26Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1312 buffers"
+ },
+ {
+  "id": "L0159",
+  "record_type": "log",
+  "ts": "2026-09-06T12:52:41Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 218ms"
+ },
+ {
+  "id": "L0160",
+  "record_type": "log",
+  "ts": "2026-09-06T12:52:50Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 911ms"
+ },
+ {
+  "id": "L0161",
+  "record_type": "log",
+  "ts": "2026-09-06T12:53:00Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 8e0d3299"
+ },
+ {
+  "id": "L0162",
+  "record_type": "log",
+  "ts": "2026-09-06T12:53:04Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 356ms"
+ },
+ {
+  "id": "L0163",
+  "record_type": "log",
+  "ts": "2026-09-06T12:53:07Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 800d25e0 priced in 85ms"
+ },
+ {
+  "id": "L0164",
+  "record_type": "log",
+  "ts": "2026-09-06T12:53:17Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3340 buffers"
+ },
+ {
+  "id": "L0165",
+  "record_type": "log",
+  "ts": "2026-09-06T12:53:30Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 9e29cb95"
+ },
+ {
+  "id": "L0166",
+  "record_type": "log",
+  "ts": "2026-09-06T12:54:30Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 58ms"
+ },
+ {
+  "id": "L0167",
+  "record_type": "log",
+  "ts": "2026-09-06T12:54:41Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 2ee34397 in 331ms"
+ },
+ {
+  "id": "L0168",
+  "record_type": "log",
+  "ts": "2026-09-06T12:54:56Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 124ms"
+ },
+ {
+  "id": "L0169",
+  "record_type": "log",
+  "ts": "2026-09-06T12:55:26Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/7587309e 200 205ms"
+ },
+ {
+  "id": "L0170",
+  "record_type": "log",
+  "ts": "2026-09-06T12:56:01Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 528c015d"
+ },
+ {
+  "id": "L0171",
+  "record_type": "log",
+  "ts": "2026-09-06T12:56:22Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0172",
+  "record_type": "log",
+  "ts": "2026-09-06T12:56:37Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 67ms"
+ },
+ {
+  "id": "L0173",
+  "record_type": "log",
+  "ts": "2026-09-06T12:56:39Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1328ms for charge ec370c1a"
+ },
+ {
+  "id": "L0174",
+  "record_type": "log",
+  "ts": "2026-09-06T12:57:04Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 169ms"
+ },
+ {
+  "id": "L0175",
+  "record_type": "log",
+  "ts": "2026-09-06T12:57:33Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2840 buffers"
+ },
+ {
+  "id": "L0176",
+  "record_type": "log",
+  "ts": "2026-09-06T12:57:40Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user ba2bb12b"
+ },
+ {
+  "id": "L0177",
+  "record_type": "log",
+  "ts": "2026-09-06T12:58:43Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 240ms"
+ },
+ {
+  "id": "L0178",
+  "record_type": "log",
+  "ts": "2026-09-06T12:58:51Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.931"
+ },
+ {
+  "id": "L0179",
+  "record_type": "log",
+  "ts": "2026-09-06T12:59:22Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 259ms"
+ },
+ {
+  "id": "L0180",
+  "record_type": "log",
+  "ts": "2026-09-06T12:59:32Z",
+  "service": "inventory-db",
+  "level": "ERROR",
+  "message": "replication: lost connection to primary db-inv-1 (timeout after 10s)"
+ },
+ {
+  "id": "L0181",
+  "record_type": "log",
+  "ts": "2026-09-06T12:59:43Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 8628ae92 created in 91ms"
+ },
+ {
+  "id": "L0182",
+  "record_type": "log",
+  "ts": "2026-09-06T12:59:49Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 150ms"
+ },
+ {
+  "id": "L0183",
+  "record_type": "log",
+  "ts": "2026-09-06T13:00:16Z",
+  "service": "inventory-db",
+  "level": "ERROR",
+  "message": "replication: lost connection to primary db-inv-1 (timeout after 10s)"
+ },
+ {
+  "id": "L0184",
+  "record_type": "log",
+  "ts": "2026-09-06T13:00:25Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0185",
+  "record_type": "log",
+  "ts": "2026-09-06T13:00:29Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0186",
+  "record_type": "log",
+  "ts": "2026-09-06T13:00:37Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 100ms"
+ },
+ {
+  "id": "L0187",
+  "record_type": "log",
+  "ts": "2026-09-06T13:00:38Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 809ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0188",
+  "record_type": "log",
+  "ts": "2026-09-06T13:01:09Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0189",
+  "record_type": "log",
+  "ts": "2026-09-06T13:01:37Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0190",
+  "record_type": "log",
+  "ts": "2026-09-06T13:02:00Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user d3a3ddf0"
+ },
+ {
+  "id": "L0191",
+  "record_type": "log",
+  "ts": "2026-09-06T13:02:14Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 05acb2b7 processed"
+ },
+ {
+  "id": "L0192",
+  "record_type": "log",
+  "ts": "2026-09-06T13:02:33Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0193",
+  "record_type": "log",
+  "ts": "2026-09-06T13:02:34Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 131ms"
+ },
+ {
+  "id": "L0194",
+  "record_type": "log",
+  "ts": "2026-09-06T13:02:45Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 2c94998c"
+ },
+ {
+  "id": "L0195",
+  "record_type": "log",
+  "ts": "2026-09-06T13:02:46Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 78f97b25 created in 279ms"
+ },
+ {
+  "id": "L0196",
+  "record_type": "log",
+  "ts": "2026-09-06T13:02:59Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart c275e89b"
+ },
+ {
+  "id": "L0197",
+  "record_type": "log",
+  "ts": "2026-09-06T13:03:15Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0198",
+  "record_type": "log",
+  "ts": "2026-09-06T13:03:31Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0199",
+  "record_type": "log",
+  "ts": "2026-09-06T13:03:34Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "standby db-inv-2 still in recovery: promotion pending manual approval"
+ },
+ {
+  "id": "L0200",
+  "record_type": "log",
+  "ts": "2026-09-06T13:03:38Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1140 buffers"
+ },
+ {
+  "id": "L0201",
+  "record_type": "log",
+  "ts": "2026-09-06T13:04:00Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 349ms"
+ },
+ {
+  "id": "L0202",
+  "record_type": "log",
+  "ts": "2026-09-06T13:04:01Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0203",
+  "record_type": "log",
+  "ts": "2026-09-06T13:04:38Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 231ms"
+ },
+ {
+  "id": "L0204",
+  "record_type": "log",
+  "ts": "2026-09-06T13:04:43Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart c6784077 priced in 43ms"
+ },
+ {
+  "id": "L0205",
+  "record_type": "log",
+  "ts": "2026-09-06T13:04:43Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=c1d0da79 in 24ms"
+ },
+ {
+  "id": "L0206",
+  "record_type": "log",
+  "ts": "2026-09-06T13:04:51Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0207",
+  "record_type": "log",
+  "ts": "2026-09-06T13:05:43Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0208",
+  "record_type": "log",
+  "ts": "2026-09-06T13:05:52Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0209",
+  "record_type": "log",
+  "ts": "2026-09-06T13:05:52Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 57ms"
+ },
+ {
+  "id": "L0210",
+  "record_type": "log",
+  "ts": "2026-09-06T13:06:13Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user ede9da09 in 249ms"
+ },
+ {
+  "id": "L0211",
+  "record_type": "log",
+  "ts": "2026-09-06T13:06:17Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0212",
+  "record_type": "log",
+  "ts": "2026-09-06T13:06:28Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "high heap usage: 91% of 1Gi"
+ },
+ {
+  "id": "L0213",
+  "record_type": "log",
+  "ts": "2026-09-06T13:06:34Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 3b88871f"
+ },
+ {
+  "id": "L0214",
+  "record_type": "log",
+  "ts": "2026-09-06T13:06:43Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 251ms"
+ },
+ {
+  "id": "L0215",
+  "record_type": "log",
+  "ts": "2026-09-06T13:07:02Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0216",
+  "record_type": "log",
+  "ts": "2026-09-06T13:07:08Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0217",
+  "record_type": "log",
+  "ts": "2026-09-06T13:07:45Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 2bc22ee6 processed"
+ },
+ {
+  "id": "L0218",
+  "record_type": "log",
+  "ts": "2026-09-06T13:08:00Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart a5a3fde5 priced in 182ms"
+ },
+ {
+  "id": "L0219",
+  "record_type": "log",
+  "ts": "2026-09-06T13:08:06Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0220",
+  "record_type": "log",
+  "ts": "2026-09-06T13:08:37Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 2cf954e9: 13 misses/s"
+ },
+ {
+  "id": "L0221",
+  "record_type": "log",
+  "ts": "2026-09-06T13:08:37Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0222",
+  "record_type": "log",
+  "ts": "2026-09-06T13:08:40Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 380ms"
+ },
+ {
+  "id": "L0223",
+  "record_type": "log",
+  "ts": "2026-09-06T13:08:41Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 1fdd9c68: bad password"
+ },
+ {
+  "id": "L0224",
+  "record_type": "log",
+  "ts": "2026-09-06T13:08:55Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9012 buffers"
+ },
+ {
+  "id": "L0225",
+  "record_type": "log",
+  "ts": "2026-09-06T13:08:58Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 869ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0226",
+  "record_type": "log",
+  "ts": "2026-09-06T13:09:09Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 132ms"
+ },
+ {
+  "id": "L0227",
+  "record_type": "log",
+  "ts": "2026-09-06T13:09:24Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0228",
+  "record_type": "log",
+  "ts": "2026-09-06T13:09:55Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 89ms"
+ },
+ {
+  "id": "L0229",
+  "record_type": "log",
+  "ts": "2026-09-06T13:10:03Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 298ms"
+ },
+ {
+  "id": "L0230",
+  "record_type": "log",
+  "ts": "2026-09-06T13:10:21Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0231",
+  "record_type": "log",
+  "ts": "2026-09-06T13:10:44Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8912 buffers"
+ },
+ {
+  "id": "L0232",
+  "record_type": "log",
+  "ts": "2026-09-06T13:10:48Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0233",
+  "record_type": "log",
+  "ts": "2026-09-06T13:10:50Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "standby db-inv-2 still in recovery: promotion pending manual approval"
+ },
+ {
+  "id": "L0234",
+  "record_type": "log",
+  "ts": "2026-09-06T13:10:52Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=5d2cfba0 in 335ms"
+ },
+ {
+  "id": "L0235",
+  "record_type": "log",
+  "ts": "2026-09-06T13:10:53Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0236",
+  "record_type": "log",
+  "ts": "2026-09-06T13:11:09Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order d24c13aa"
+ },
+ {
+  "id": "L0237",
+  "record_type": "log",
+  "ts": "2026-09-06T13:11:40Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 1a71aca6 created in 191ms"
+ },
+ {
+  "id": "L0238",
+  "record_type": "log",
+  "ts": "2026-09-06T13:12:05Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0239",
+  "record_type": "log",
+  "ts": "2026-09-06T13:12:40Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 73ms"
+ },
+ {
+  "id": "L0240",
+  "record_type": "log",
+  "ts": "2026-09-06T13:12:45Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0241",
+  "record_type": "log",
+  "ts": "2026-09-06T13:12:50Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user ea53022c"
+ },
+ {
+  "id": "L0242",
+  "record_type": "log",
+  "ts": "2026-09-06T13:12:56Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 215ms"
+ },
+ {
+  "id": "L0243",
+  "record_type": "log",
+  "ts": "2026-09-06T13:13:00Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 7982fce7: 82 misses/s"
+ },
+ {
+  "id": "L0244",
+  "record_type": "log",
+  "ts": "2026-09-06T13:13:23Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0245",
+  "record_type": "log",
+  "ts": "2026-09-06T13:13:38Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 166ms"
+ },
+ {
+  "id": "L0246",
+  "record_type": "log",
+  "ts": "2026-09-06T13:14:07Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0247",
+  "record_type": "log",
+  "ts": "2026-09-06T13:14:17Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0248",
+  "record_type": "log",
+  "ts": "2026-09-06T13:14:39Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 309ms"
+ },
+ {
+  "id": "L0249",
+  "record_type": "log",
+  "ts": "2026-09-06T13:14:45Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0250",
+  "record_type": "log",
+  "ts": "2026-09-06T13:14:52Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0251",
+  "record_type": "log",
+  "ts": "2026-09-06T13:15:10Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 533300cd priced in 230ms"
+ },
+ {
+  "id": "L0252",
+  "record_type": "log",
+  "ts": "2026-09-06T13:15:13Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 95e67812"
+ },
+ {
+  "id": "L0253",
+  "record_type": "log",
+  "ts": "2026-09-06T13:15:47Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 197ms"
+ },
+ {
+  "id": "L0254",
+  "record_type": "log",
+  "ts": "2026-09-06T13:15:55Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0255",
+  "record_type": "log",
+  "ts": "2026-09-06T13:16:35Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0256",
+  "record_type": "log",
+  "ts": "2026-09-06T13:16:35Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 72dcc95f processed"
+ },
+ {
+  "id": "L0257",
+  "record_type": "log",
+  "ts": "2026-09-06T13:16:37Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.965"
+ },
+ {
+  "id": "L0258",
+  "record_type": "log",
+  "ts": "2026-09-06T13:16:45Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0259",
+  "record_type": "log",
+  "ts": "2026-09-06T13:16:51Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user f0d2d674"
+ },
+ {
+  "id": "L0260",
+  "record_type": "log",
+  "ts": "2026-09-06T13:17:14Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0261",
+  "record_type": "log",
+  "ts": "2026-09-06T13:17:15Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 161ms"
+ },
+ {
+  "id": "L0262",
+  "record_type": "log",
+  "ts": "2026-09-06T13:17:27Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 20d31453 priced in 32ms"
+ },
+ {
+  "id": "L0263",
+  "record_type": "log",
+  "ts": "2026-09-06T13:17:27Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1430ms"
+ },
+ {
+  "id": "L0264",
+  "record_type": "log",
+  "ts": "2026-09-06T13:17:58Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0265",
+  "record_type": "log",
+  "ts": "2026-09-06T13:18:10Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "standby db-inv-2 still in recovery: promotion pending manual approval"
+ },
+ {
+  "id": "L0266",
+  "record_type": "log",
+  "ts": "2026-09-06T13:18:31Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 806ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0267",
+  "record_type": "log",
+  "ts": "2026-09-06T13:18:33Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0268",
+  "record_type": "log",
+  "ts": "2026-09-06T13:18:53Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 304ms"
+ },
+ {
+  "id": "L0269",
+  "record_type": "log",
+  "ts": "2026-09-06T13:19:42Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 247ms"
+ },
+ {
+  "id": "L0270",
+  "record_type": "log",
+  "ts": "2026-09-06T13:19:44Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 196fff87: 17 misses/s"
+ },
+ {
+  "id": "L0271",
+  "record_type": "log",
+  "ts": "2026-09-06T13:19:47Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0272",
+  "record_type": "log",
+  "ts": "2026-09-06T13:19:53Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 65ba4d04"
+ },
+ {
+  "id": "L0273",
+  "record_type": "log",
+  "ts": "2026-09-06T13:19:59Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 7883d0a1 created in 91ms"
+ },
+ {
+  "id": "L0274",
+  "record_type": "log",
+  "ts": "2026-09-06T13:20:30Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0275",
+  "record_type": "log",
+  "ts": "2026-09-06T13:20:33Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 132ms"
+ },
+ {
+  "id": "L0276",
+  "record_type": "log",
+  "ts": "2026-09-06T13:20:37Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0277",
+  "record_type": "log",
+  "ts": "2026-09-06T13:21:08Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 218ms"
+ },
+ {
+  "id": "L0278",
+  "record_type": "log",
+  "ts": "2026-09-06T13:21:11Z",
+  "service": "notification-worker",
+  "level": "ERROR",
+  "message": "bounce for recipient 6a5f9cb8@example.com"
+ },
+ {
+  "id": "L0279",
+  "record_type": "log",
+  "ts": "2026-09-06T13:21:16Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0280",
+  "record_type": "log",
+  "ts": "2026-09-06T13:21:47Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0281",
+  "record_type": "log",
+  "ts": "2026-09-06T13:21:53Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user ac0c0dc6 in 94ms"
+ },
+ {
+  "id": "L0282",
+  "record_type": "log",
+  "ts": "2026-09-06T13:22:15Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 9899e603 created in 255ms"
+ },
+ {
+  "id": "L0283",
+  "record_type": "log",
+  "ts": "2026-09-06T13:22:27Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0284",
+  "record_type": "log",
+  "ts": "2026-09-06T13:22:29Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0285",
+  "record_type": "log",
+  "ts": "2026-09-06T13:22:34Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 86ms"
+ },
+ {
+  "id": "L0286",
+  "record_type": "log",
+  "ts": "2026-09-06T13:23:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=befc8270 in 216ms"
+ },
+ {
+  "id": "L0287",
+  "record_type": "log",
+  "ts": "2026-09-06T13:23:26Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0288",
+  "record_type": "log",
+  "ts": "2026-09-06T13:23:28Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 32f004df processed"
+ },
+ {
+  "id": "L0289",
+  "record_type": "log",
+  "ts": "2026-09-06T13:23:54Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user b33da5c5"
+ },
+ {
+  "id": "L0290",
+  "record_type": "log",
+  "ts": "2026-09-06T13:24:01Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 80e07d44 created in 360ms"
+ },
+ {
+  "id": "L0291",
+  "record_type": "log",
+  "ts": "2026-09-06T13:24:07Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 155ms"
+ },
+ {
+  "id": "L0292",
+  "record_type": "log",
+  "ts": "2026-09-06T13:24:19Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0293",
+  "record_type": "log",
+  "ts": "2026-09-06T13:24:34Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6412 buffers"
+ },
+ {
+  "id": "L0294",
+  "record_type": "log",
+  "ts": "2026-09-06T13:24:39Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 42c28c9a"
+ },
+ {
+  "id": "L0295",
+  "record_type": "log",
+  "ts": "2026-09-06T13:24:43Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0296",
+  "record_type": "log",
+  "ts": "2026-09-06T13:25:07Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 603ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0297",
+  "record_type": "log",
+  "ts": "2026-09-06T13:25:14Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "high heap usage: 91% of 1Gi"
+ },
+ {
+  "id": "L0298",
+  "record_type": "log",
+  "ts": "2026-09-06T13:25:28Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0299",
+  "record_type": "log",
+  "ts": "2026-09-06T13:25:36Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "standby db-inv-2 still in recovery: promotion pending manual approval"
+ },
+ {
+  "id": "L0300",
+  "record_type": "log",
+  "ts": "2026-09-06T13:26:02Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart e8b08263"
+ },
+ {
+  "id": "L0301",
+  "record_type": "log",
+  "ts": "2026-09-06T13:26:03Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 0dc3ada1 in 114ms"
+ },
+ {
+  "id": "L0302",
+  "record_type": "log",
+  "ts": "2026-09-06T13:26:19Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 61ms"
+ },
+ {
+  "id": "L0303",
+  "record_type": "log",
+  "ts": "2026-09-06T13:26:23Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0304",
+  "record_type": "log",
+  "ts": "2026-09-06T13:26:47Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1344ms"
+ },
+ {
+  "id": "L0305",
+  "record_type": "log",
+  "ts": "2026-09-06T13:27:10Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0306",
+  "record_type": "log",
+  "ts": "2026-09-06T13:27:15Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/87d8050c 200 358ms"
+ },
+ {
+  "id": "L0307",
+  "record_type": "log",
+  "ts": "2026-09-06T13:27:26Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0308",
+  "record_type": "log",
+  "ts": "2026-09-06T13:27:36Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge e6b07431 authorized in 304ms"
+ },
+ {
+  "id": "L0309",
+  "record_type": "log",
+  "ts": "2026-09-06T13:27:49Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0310",
+  "record_type": "log",
+  "ts": "2026-09-06T13:28:21Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9440 buffers"
+ },
+ {
+  "id": "L0311",
+  "record_type": "log",
+  "ts": "2026-09-06T13:28:45Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 889ms"
+ },
+ {
+  "id": "L0312",
+  "record_type": "log",
+  "ts": "2026-09-06T13:28:47Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0313",
+  "record_type": "log",
+  "ts": "2026-09-06T13:29:13Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1045ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0314",
+  "record_type": "log",
+  "ts": "2026-09-06T13:29:26Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ },
+ {
+  "id": "L0315",
+  "record_type": "log",
+  "ts": "2026-09-06T13:29:43Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 135ms"
+ },
+ {
+  "id": "L0316",
+  "record_type": "log",
+  "ts": "2026-09-06T13:29:45Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user ea5b9084 in 291ms"
+ },
+ {
+  "id": "L0317",
+  "record_type": "log",
+  "ts": "2026-09-06T13:30:00Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "UPDATE stock_reservations failed: ERROR: cannot execute UPDATE in a read-only transaction (SQLSTATE 25006)"
+ }
+]

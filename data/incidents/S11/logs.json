@@ -1,0 +1,2650 @@
+[
+ {
+  "id": "L0001",
+  "record_type": "log",
+  "ts": "2026-09-11T11:00:00Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 601ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0002",
+  "record_type": "log",
+  "ts": "2026-09-11T11:00:11Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "archive command failed for WAL segment 0000000100000A2F00000075; WAL files accumulating"
+ },
+ {
+  "id": "L0003",
+  "record_type": "log",
+  "ts": "2026-09-11T11:00:20Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 469dfef8"
+ },
+ {
+  "id": "L0004",
+  "record_type": "log",
+  "ts": "2026-09-11T11:00:26Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user d4080c33"
+ },
+ {
+  "id": "L0005",
+  "record_type": "log",
+  "ts": "2026-09-11T11:00:35Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=f9809008 in 280ms"
+ },
+ {
+  "id": "L0006",
+  "record_type": "log",
+  "ts": "2026-09-11T11:00:58Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 183ms"
+ },
+ {
+  "id": "L0007",
+  "record_type": "log",
+  "ts": "2026-09-11T11:01:02Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 1148ms for cart 702f6f2d"
+ },
+ {
+  "id": "L0008",
+  "record_type": "log",
+  "ts": "2026-09-11T11:01:23Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0009",
+  "record_type": "log",
+  "ts": "2026-09-11T11:01:24Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 298ms"
+ },
+ {
+  "id": "L0010",
+  "record_type": "log",
+  "ts": "2026-09-11T11:01:28Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 133ms"
+ },
+ {
+  "id": "L0011",
+  "record_type": "log",
+  "ts": "2026-09-11T11:02:09Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 186ms"
+ },
+ {
+  "id": "L0012",
+  "record_type": "log",
+  "ts": "2026-09-11T11:03:19Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3940 buffers"
+ },
+ {
+  "id": "L0013",
+  "record_type": "log",
+  "ts": "2026-09-11T11:03:27Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 42ms"
+ },
+ {
+  "id": "L0014",
+  "record_type": "log",
+  "ts": "2026-09-11T11:03:33Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 75b6b051"
+ },
+ {
+  "id": "L0015",
+  "record_type": "log",
+  "ts": "2026-09-11T11:03:50Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 301ms"
+ },
+ {
+  "id": "L0016",
+  "record_type": "log",
+  "ts": "2026-09-11T11:03:59Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1135ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0017",
+  "record_type": "log",
+  "ts": "2026-09-11T11:04:04Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/8cda0e9d 200 190ms"
+ },
+ {
+  "id": "L0018",
+  "record_type": "log",
+  "ts": "2026-09-11T11:04:14Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 369e0535 authorized in 170ms"
+ },
+ {
+  "id": "L0019",
+  "record_type": "log",
+  "ts": "2026-09-11T11:04:15Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.985"
+ },
+ {
+  "id": "L0020",
+  "record_type": "log",
+  "ts": "2026-09-11T11:05:01Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1940 buffers"
+ },
+ {
+  "id": "L0021",
+  "record_type": "log",
+  "ts": "2026-09-11T11:05:26Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 316ms"
+ },
+ {
+  "id": "L0022",
+  "record_type": "log",
+  "ts": "2026-09-11T11:05:31Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 6b0d6d58"
+ },
+ {
+  "id": "L0023",
+  "record_type": "log",
+  "ts": "2026-09-11T11:05:50Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7312 buffers"
+ },
+ {
+  "id": "L0024",
+  "record_type": "log",
+  "ts": "2026-09-11T11:05:57Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 136ms"
+ },
+ {
+  "id": "L0025",
+  "record_type": "log",
+  "ts": "2026-09-11T11:05:59Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.950"
+ },
+ {
+  "id": "L0026",
+  "record_type": "log",
+  "ts": "2026-09-11T11:05:59Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 308ms"
+ },
+ {
+  "id": "L0027",
+  "record_type": "log",
+  "ts": "2026-09-11T11:06:47Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 49ms"
+ },
+ {
+  "id": "L0028",
+  "record_type": "log",
+  "ts": "2026-09-11T11:07:09Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 2d10aee7 priced in 260ms"
+ },
+ {
+  "id": "L0029",
+  "record_type": "log",
+  "ts": "2026-09-11T11:08:11Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user ceeae945 in 265ms"
+ },
+ {
+  "id": "L0030",
+  "record_type": "log",
+  "ts": "2026-09-11T11:08:16Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1640 buffers"
+ },
+ {
+  "id": "L0031",
+  "record_type": "log",
+  "ts": "2026-09-11T11:08:16Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "reservation fb329b1a expired before confirmation"
+ },
+ {
+  "id": "L0032",
+  "record_type": "log",
+  "ts": "2026-09-11T11:08:26Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund a9960d08 processed"
+ },
+ {
+  "id": "L0033",
+  "record_type": "log",
+  "ts": "2026-09-11T11:08:28Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 180ms"
+ },
+ {
+  "id": "L0034",
+  "record_type": "log",
+  "ts": "2026-09-11T11:09:39Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 296ms"
+ },
+ {
+  "id": "L0035",
+  "record_type": "log",
+  "ts": "2026-09-11T11:09:59Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0036",
+  "record_type": "log",
+  "ts": "2026-09-11T11:10:07Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1112 buffers"
+ },
+ {
+  "id": "L0037",
+  "record_type": "log",
+  "ts": "2026-09-11T11:10:37Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 88c2582d authorized in 214ms"
+ },
+ {
+  "id": "L0038",
+  "record_type": "log",
+  "ts": "2026-09-11T11:10:45Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 267ms"
+ },
+ {
+  "id": "L0039",
+  "record_type": "log",
+  "ts": "2026-09-11T11:11:05Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "archive command failed for WAL segment 0000000100000A2F00000031; WAL files accumulating"
+ },
+ {
+  "id": "L0040",
+  "record_type": "log",
+  "ts": "2026-09-11T11:11:10Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart fab5d1ed priced in 176ms"
+ },
+ {
+  "id": "L0041",
+  "record_type": "log",
+  "ts": "2026-09-11T11:11:35Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 07705d26 in 140ms"
+ },
+ {
+  "id": "L0042",
+  "record_type": "log",
+  "ts": "2026-09-11T11:11:52Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1425ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0043",
+  "record_type": "log",
+  "ts": "2026-09-11T11:12:19Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order c5ac3caa"
+ },
+ {
+  "id": "L0044",
+  "record_type": "log",
+  "ts": "2026-09-11T11:12:33Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix 161c80e7: 99 misses/s"
+ },
+ {
+  "id": "L0045",
+  "record_type": "log",
+  "ts": "2026-09-11T11:12:36Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 125ms"
+ },
+ {
+  "id": "L0046",
+  "record_type": "log",
+  "ts": "2026-09-11T11:13:13Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order c162ecbe created in 194ms"
+ },
+ {
+  "id": "L0047",
+  "record_type": "log",
+  "ts": "2026-09-11T11:13:20Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 292ms"
+ },
+ {
+  "id": "L0048",
+  "record_type": "log",
+  "ts": "2026-09-11T11:14:15Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user c3c79460 in 312ms"
+ },
+ {
+  "id": "L0049",
+  "record_type": "log",
+  "ts": "2026-09-11T11:14:21Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 100ms"
+ },
+ {
+  "id": "L0050",
+  "record_type": "log",
+  "ts": "2026-09-11T11:14:23Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0051",
+  "record_type": "log",
+  "ts": "2026-09-11T11:14:39Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge f65f5925 authorized in 134ms"
+ },
+ {
+  "id": "L0052",
+  "record_type": "log",
+  "ts": "2026-09-11T11:15:13Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3440 buffers"
+ },
+ {
+  "id": "L0053",
+  "record_type": "log",
+  "ts": "2026-09-11T11:15:29Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 280ms"
+ },
+ {
+  "id": "L0054",
+  "record_type": "log",
+  "ts": "2026-09-11T11:15:43Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 99ms"
+ },
+ {
+  "id": "L0055",
+  "record_type": "log",
+  "ts": "2026-09-11T11:16:26Z",
+  "service": "inventory-service",
+  "level": "ERROR",
+  "message": "reservation f4681e83 expired before confirmation"
+ },
+ {
+  "id": "L0056",
+  "record_type": "log",
+  "ts": "2026-09-11T11:17:31Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 254ms"
+ },
+ {
+  "id": "L0057",
+  "record_type": "log",
+  "ts": "2026-09-11T11:17:32Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/c847e7da 200 320ms"
+ },
+ {
+  "id": "L0058",
+  "record_type": "log",
+  "ts": "2026-09-11T11:18:00Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 252ms"
+ },
+ {
+  "id": "L0059",
+  "record_type": "log",
+  "ts": "2026-09-11T11:18:23Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user ce589986"
+ },
+ {
+  "id": "L0060",
+  "record_type": "log",
+  "ts": "2026-09-11T11:18:35Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8512 buffers"
+ },
+ {
+  "id": "L0061",
+  "record_type": "log",
+  "ts": "2026-09-11T11:18:46Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 209ms"
+ },
+ {
+  "id": "L0062",
+  "record_type": "log",
+  "ts": "2026-09-11T11:18:50Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge acd3c9c3 authorized in 299ms"
+ },
+ {
+  "id": "L0063",
+  "record_type": "log",
+  "ts": "2026-09-11T11:18:54Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7740 buffers"
+ },
+ {
+  "id": "L0064",
+  "record_type": "log",
+  "ts": "2026-09-11T11:19:04Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=2e6f6b4f in 132ms"
+ },
+ {
+  "id": "L0065",
+  "record_type": "log",
+  "ts": "2026-09-11T11:20:48Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 68a9dff3 priced in 213ms"
+ },
+ {
+  "id": "L0066",
+  "record_type": "log",
+  "ts": "2026-09-11T11:21:07Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user d5456a8f: bad password"
+ },
+ {
+  "id": "L0067",
+  "record_type": "log",
+  "ts": "2026-09-11T11:21:23Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0068",
+  "record_type": "log",
+  "ts": "2026-09-11T11:21:25Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 281487a1"
+ },
+ {
+  "id": "L0069",
+  "record_type": "log",
+  "ts": "2026-09-11T11:21:35Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 374ms"
+ },
+ {
+  "id": "L0070",
+  "record_type": "log",
+  "ts": "2026-09-11T11:21:54Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 1123ms for charge 6266a7b7"
+ },
+ {
+  "id": "L0071",
+  "record_type": "log",
+  "ts": "2026-09-11T11:22:02Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "archive command failed for WAL segment 0000000100000A2F00000014; WAL files accumulating"
+ },
+ {
+  "id": "L0072",
+  "record_type": "log",
+  "ts": "2026-09-11T11:22:07Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 172ms"
+ },
+ {
+  "id": "L0073",
+  "record_type": "log",
+  "ts": "2026-09-11T11:22:15Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4440 buffers"
+ },
+ {
+  "id": "L0074",
+  "record_type": "log",
+  "ts": "2026-09-11T11:22:18Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 35e1f149"
+ },
+ {
+  "id": "L0075",
+  "record_type": "log",
+  "ts": "2026-09-11T11:22:30Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "retrying idempotent call to payment-service (attempt 2)"
+ },
+ {
+  "id": "L0076",
+  "record_type": "log",
+  "ts": "2026-09-11T11:23:59Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 8af30e9e"
+ },
+ {
+  "id": "L0077",
+  "record_type": "log",
+  "ts": "2026-09-11T11:24:12Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7612 buffers"
+ },
+ {
+  "id": "L0078",
+  "record_type": "log",
+  "ts": "2026-09-11T11:24:48Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 38ms"
+ },
+ {
+  "id": "L0079",
+  "record_type": "log",
+  "ts": "2026-09-11T11:24:56Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 0d5ad698"
+ },
+ {
+  "id": "L0080",
+  "record_type": "log",
+  "ts": "2026-09-11T11:25:05Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 270ms"
+ },
+ {
+  "id": "L0081",
+  "record_type": "log",
+  "ts": "2026-09-11T11:25:10Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 2e3833fd priced in 300ms"
+ },
+ {
+  "id": "L0082",
+  "record_type": "log",
+  "ts": "2026-09-11T11:25:26Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0083",
+  "record_type": "log",
+  "ts": "2026-09-11T11:25:48Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0084",
+  "record_type": "log",
+  "ts": "2026-09-11T11:25:51Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 218ms"
+ },
+ {
+  "id": "L0085",
+  "record_type": "log",
+  "ts": "2026-09-11T11:26:13Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 25b1581b"
+ },
+ {
+  "id": "L0086",
+  "record_type": "log",
+  "ts": "2026-09-11T11:27:27Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1353ms"
+ },
+ {
+  "id": "L0087",
+  "record_type": "log",
+  "ts": "2026-09-11T11:27:37Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 1a570d9b created in 367ms"
+ },
+ {
+  "id": "L0088",
+  "record_type": "log",
+  "ts": "2026-09-11T11:28:11Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9812 buffers"
+ },
+ {
+  "id": "L0089",
+  "record_type": "log",
+  "ts": "2026-09-11T11:28:12Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "upstream response slow: 1279ms (route=/api/v1/search)"
+ },
+ {
+  "id": "L0090",
+  "record_type": "log",
+  "ts": "2026-09-11T11:28:12Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 204ms"
+ },
+ {
+  "id": "L0091",
+  "record_type": "log",
+  "ts": "2026-09-11T11:28:42Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0092",
+  "record_type": "log",
+  "ts": "2026-09-11T11:28:45Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=f9ceb485 in 172ms"
+ },
+ {
+  "id": "L0093",
+  "record_type": "log",
+  "ts": "2026-09-11T11:28:50Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 279ms"
+ },
+ {
+  "id": "L0094",
+  "record_type": "log",
+  "ts": "2026-09-11T11:29:10Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user f0e43c24"
+ },
+ {
+  "id": "L0095",
+  "record_type": "log",
+  "ts": "2026-09-11T11:30:11Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 4b26ba33 created in 253ms"
+ },
+ {
+  "id": "L0096",
+  "record_type": "log",
+  "ts": "2026-09-11T11:30:17Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6812 buffers"
+ },
+ {
+  "id": "L0097",
+  "record_type": "log",
+  "ts": "2026-09-11T11:30:28Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 52ms"
+ },
+ {
+  "id": "L0098",
+  "record_type": "log",
+  "ts": "2026-09-11T11:30:43Z",
+  "service": "inventory-service",
+  "level": "WARN",
+  "message": "cache miss storm for sku prefix d1b6373b: 82 misses/s"
+ },
+ {
+  "id": "L0099",
+  "record_type": "log",
+  "ts": "2026-09-11T11:31:04Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 0a0cdc5e processed"
+ },
+ {
+  "id": "L0100",
+  "record_type": "log",
+  "ts": "2026-09-11T11:31:35Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 299ms"
+ },
+ {
+  "id": "L0101",
+  "record_type": "log",
+  "ts": "2026-09-11T11:31:38Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 76ms"
+ },
+ {
+  "id": "L0102",
+  "record_type": "log",
+  "ts": "2026-09-11T11:32:02Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 7a678f12"
+ },
+ {
+  "id": "L0103",
+  "record_type": "log",
+  "ts": "2026-09-11T11:32:14Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 680ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0104",
+  "record_type": "log",
+  "ts": "2026-09-11T11:32:21Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7240 buffers"
+ },
+ {
+  "id": "L0105",
+  "record_type": "log",
+  "ts": "2026-09-11T11:32:39Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 265ms"
+ },
+ {
+  "id": "L0106",
+  "record_type": "log",
+  "ts": "2026-09-11T11:33:12Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "archive command failed for WAL segment 0000000100000A2F00000071; WAL files accumulating"
+ },
+ {
+  "id": "L0107",
+  "record_type": "log",
+  "ts": "2026-09-11T11:33:21Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 47ms"
+ },
+ {
+  "id": "L0108",
+  "record_type": "log",
+  "ts": "2026-09-11T11:33:25Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/901142e2 200 157ms"
+ },
+ {
+  "id": "L0109",
+  "record_type": "log",
+  "ts": "2026-09-11T11:34:06Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0110",
+  "record_type": "log",
+  "ts": "2026-09-11T11:34:30Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user d94a7cfb"
+ },
+ {
+  "id": "L0111",
+  "record_type": "log",
+  "ts": "2026-09-11T11:34:37Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 199ms"
+ },
+ {
+  "id": "L0112",
+  "record_type": "log",
+  "ts": "2026-09-11T11:34:42Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 7d4c244e"
+ },
+ {
+  "id": "L0113",
+  "record_type": "log",
+  "ts": "2026-09-11T11:35:00Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=0bfc93e5 in 242ms"
+ },
+ {
+  "id": "L0114",
+  "record_type": "log",
+  "ts": "2026-09-11T11:35:26Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3240 buffers"
+ },
+ {
+  "id": "L0115",
+  "record_type": "log",
+  "ts": "2026-09-11T11:35:54Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/669c4379 200 27ms"
+ },
+ {
+  "id": "L0116",
+  "record_type": "log",
+  "ts": "2026-09-11T11:35:55Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1195ms"
+ },
+ {
+  "id": "L0117",
+  "record_type": "log",
+  "ts": "2026-09-11T11:36:34Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1812 buffers"
+ },
+ {
+  "id": "L0118",
+  "record_type": "log",
+  "ts": "2026-09-11T11:36:36Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 13cb6153"
+ },
+ {
+  "id": "L0119",
+  "record_type": "log",
+  "ts": "2026-09-11T11:37:03Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 33efddec processed"
+ },
+ {
+  "id": "L0120",
+  "record_type": "log",
+  "ts": "2026-09-11T11:37:07Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.957"
+ },
+ {
+  "id": "L0121",
+  "record_type": "log",
+  "ts": "2026-09-11T11:37:21Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 79ms"
+ },
+ {
+  "id": "L0122",
+  "record_type": "log",
+  "ts": "2026-09-11T11:37:35Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user b146f899 in 236ms"
+ },
+ {
+  "id": "L0123",
+  "record_type": "log",
+  "ts": "2026-09-11T11:37:52Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 6240 buffers"
+ },
+ {
+  "id": "L0124",
+  "record_type": "log",
+  "ts": "2026-09-11T11:38:59Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 158ms"
+ },
+ {
+  "id": "L0125",
+  "record_type": "log",
+  "ts": "2026-09-11T11:39:01Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/7dbd283c 200 50ms"
+ },
+ {
+  "id": "L0126",
+  "record_type": "log",
+  "ts": "2026-09-11T11:39:02Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 223ms"
+ },
+ {
+  "id": "L0127",
+  "record_type": "log",
+  "ts": "2026-09-11T11:39:05Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 7b48a803 processed"
+ },
+ {
+  "id": "L0128",
+  "record_type": "log",
+  "ts": "2026-09-11T11:39:31Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8712 buffers"
+ },
+ {
+  "id": "L0129",
+  "record_type": "log",
+  "ts": "2026-09-11T11:39:44Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 1c8be5bd"
+ },
+ {
+  "id": "L0130",
+  "record_type": "log",
+  "ts": "2026-09-11T11:40:13Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=a2b5a2e4 in 319ms"
+ },
+ {
+  "id": "L0131",
+  "record_type": "log",
+  "ts": "2026-09-11T11:40:15Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 85ms"
+ },
+ {
+  "id": "L0132",
+  "record_type": "log",
+  "ts": "2026-09-11T11:40:34Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3240 buffers"
+ },
+ {
+  "id": "L0133",
+  "record_type": "log",
+  "ts": "2026-09-11T11:41:17Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/7da6300c 200 189ms"
+ },
+ {
+  "id": "L0134",
+  "record_type": "log",
+  "ts": "2026-09-11T11:42:08Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 39f08933 in 305ms"
+ },
+ {
+  "id": "L0135",
+  "record_type": "log",
+  "ts": "2026-09-11T11:42:09Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 243ms"
+ },
+ {
+  "id": "L0136",
+  "record_type": "log",
+  "ts": "2026-09-11T11:42:47Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1421ms"
+ },
+ {
+  "id": "L0137",
+  "record_type": "log",
+  "ts": "2026-09-11T11:42:50Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 6d8ddb99 authorized in 212ms"
+ },
+ {
+  "id": "L0138",
+  "record_type": "log",
+  "ts": "2026-09-11T11:43:00Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8340 buffers"
+ },
+ {
+  "id": "L0139",
+  "record_type": "log",
+  "ts": "2026-09-11T11:43:31Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order edd29f18"
+ },
+ {
+  "id": "L0140",
+  "record_type": "log",
+  "ts": "2026-09-11T11:43:43Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.974"
+ },
+ {
+  "id": "L0141",
+  "record_type": "log",
+  "ts": "2026-09-11T11:43:47Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0142",
+  "record_type": "log",
+  "ts": "2026-09-11T11:44:18Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "archive command failed for WAL segment 0000000100000A2F00000033; WAL files accumulating"
+ },
+ {
+  "id": "L0143",
+  "record_type": "log",
+  "ts": "2026-09-11T11:44:48Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 42c22347 created in 305ms"
+ },
+ {
+  "id": "L0144",
+  "record_type": "log",
+  "ts": "2026-09-11T11:44:55Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 114ms"
+ },
+ {
+  "id": "L0145",
+  "record_type": "log",
+  "ts": "2026-09-11T11:45:24Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=dbbefc28 in 357ms"
+ },
+ {
+  "id": "L0146",
+  "record_type": "log",
+  "ts": "2026-09-11T11:45:28Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0147",
+  "record_type": "log",
+  "ts": "2026-09-11T11:46:06Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 30ecd2b0"
+ },
+ {
+  "id": "L0148",
+  "record_type": "log",
+  "ts": "2026-09-11T11:46:26Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1333ms"
+ },
+ {
+  "id": "L0149",
+  "record_type": "log",
+  "ts": "2026-09-11T11:46:39Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 211ms"
+ },
+ {
+  "id": "L0150",
+  "record_type": "log",
+  "ts": "2026-09-11T11:46:43Z",
+  "service": "api-gateway",
+  "level": "ERROR",
+  "message": "client closed connection before response (499) route=/api/v1/products"
+ },
+ {
+  "id": "L0151",
+  "record_type": "log",
+  "ts": "2026-09-11T11:47:04Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1113ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0152",
+  "record_type": "log",
+  "ts": "2026-09-11T11:47:14Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=8a05dc03 in 41ms"
+ },
+ {
+  "id": "L0153",
+  "record_type": "log",
+  "ts": "2026-09-11T11:47:21Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1103ms"
+ },
+ {
+  "id": "L0154",
+  "record_type": "log",
+  "ts": "2026-09-11T11:48:02Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 4fd22923 priced in 251ms"
+ },
+ {
+  "id": "L0155",
+  "record_type": "log",
+  "ts": "2026-09-11T11:48:15Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5012 buffers"
+ },
+ {
+  "id": "L0156",
+  "record_type": "log",
+  "ts": "2026-09-11T11:48:25Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 20c81f8b authorized in 347ms"
+ },
+ {
+  "id": "L0157",
+  "record_type": "log",
+  "ts": "2026-09-11T11:48:56Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 7cbbefd9"
+ },
+ {
+  "id": "L0158",
+  "record_type": "log",
+  "ts": "2026-09-11T11:49:12Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 389904c9: bad password"
+ },
+ {
+  "id": "L0159",
+  "record_type": "log",
+  "ts": "2026-09-11T11:49:34Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 330ms"
+ },
+ {
+  "id": "L0160",
+  "record_type": "log",
+  "ts": "2026-09-11T11:49:51Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 242ms"
+ },
+ {
+  "id": "L0161",
+  "record_type": "log",
+  "ts": "2026-09-11T11:50:34Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order df5c3b45"
+ },
+ {
+  "id": "L0162",
+  "record_type": "log",
+  "ts": "2026-09-11T11:50:52Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3640 buffers"
+ },
+ {
+  "id": "L0163",
+  "record_type": "log",
+  "ts": "2026-09-11T11:51:24Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0164",
+  "record_type": "log",
+  "ts": "2026-09-11T11:51:30Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 70095685 priced in 230ms"
+ },
+ {
+  "id": "L0165",
+  "record_type": "log",
+  "ts": "2026-09-11T11:51:40Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 5b6c99a3: bad password"
+ },
+ {
+  "id": "L0166",
+  "record_type": "log",
+  "ts": "2026-09-11T11:51:59Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 81f3e1d7 authorized in 195ms"
+ },
+ {
+  "id": "L0167",
+  "record_type": "log",
+  "ts": "2026-09-11T11:52:31Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 360ms"
+ },
+ {
+  "id": "L0168",
+  "record_type": "log",
+  "ts": "2026-09-11T11:52:45Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart fa3f191d"
+ },
+ {
+  "id": "L0169",
+  "record_type": "log",
+  "ts": "2026-09-11T11:52:56Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 323ms"
+ },
+ {
+  "id": "L0170",
+  "record_type": "log",
+  "ts": "2026-09-11T11:53:46Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 238ms"
+ },
+ {
+  "id": "L0171",
+  "record_type": "log",
+  "ts": "2026-09-11T11:54:17Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9812 buffers"
+ },
+ {
+  "id": "L0172",
+  "record_type": "log",
+  "ts": "2026-09-11T11:54:20Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 9ddc3937"
+ },
+ {
+  "id": "L0173",
+  "record_type": "log",
+  "ts": "2026-09-11T11:54:27Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 377ms"
+ },
+ {
+  "id": "L0174",
+  "record_type": "log",
+  "ts": "2026-09-11T11:54:54Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1199ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0175",
+  "record_type": "log",
+  "ts": "2026-09-11T11:55:07Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 248ms"
+ },
+ {
+  "id": "L0176",
+  "record_type": "log",
+  "ts": "2026-09-11T11:55:21Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 392829cb priced in 106ms"
+ },
+ {
+  "id": "L0177",
+  "record_type": "log",
+  "ts": "2026-09-11T11:55:37Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "archive command failed for WAL segment 0000000100000A2F00000055; WAL files accumulating"
+ },
+ {
+  "id": "L0178",
+  "record_type": "log",
+  "ts": "2026-09-11T11:55:52Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.975"
+ },
+ {
+  "id": "L0179",
+  "record_type": "log",
+  "ts": "2026-09-11T11:55:56Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 207ms"
+ },
+ {
+  "id": "L0180",
+  "record_type": "log",
+  "ts": "2026-09-11T11:56:00Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token validated for user 120fd808 in 129ms"
+ },
+ {
+  "id": "L0181",
+  "record_type": "log",
+  "ts": "2026-09-11T11:57:06Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "canceling statement due to user request"
+ },
+ {
+  "id": "L0182",
+  "record_type": "log",
+  "ts": "2026-09-11T11:57:12Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 242ms"
+ },
+ {
+  "id": "L0183",
+  "record_type": "log",
+  "ts": "2026-09-11T11:57:33Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 6e31cad7 created in 48ms"
+ },
+ {
+  "id": "L0184",
+  "record_type": "log",
+  "ts": "2026-09-11T11:57:51Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 342ms"
+ },
+ {
+  "id": "L0185",
+  "record_type": "log",
+  "ts": "2026-09-11T11:58:33Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 324ms"
+ },
+ {
+  "id": "L0186",
+  "record_type": "log",
+  "ts": "2026-09-11T11:58:44Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "POST /charges 201 305ms"
+ },
+ {
+  "id": "L0187",
+  "record_type": "log",
+  "ts": "2026-09-11T11:59:04Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0188",
+  "record_type": "log",
+  "ts": "2026-09-11T11:59:23Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 5153ff14"
+ },
+ {
+  "id": "L0189",
+  "record_type": "log",
+  "ts": "2026-09-11T11:59:29Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0190",
+  "record_type": "log",
+  "ts": "2026-09-11T11:59:59Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 5e8fd9ce"
+ },
+ {
+  "id": "L0191",
+  "record_type": "log",
+  "ts": "2026-09-11T12:00:05Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 3612 buffers"
+ },
+ {
+  "id": "L0192",
+  "record_type": "log",
+  "ts": "2026-09-11T12:00:08Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "retrying idempotent call to payment-service (attempt 2)"
+ },
+ {
+  "id": "L0193",
+  "record_type": "log",
+  "ts": "2026-09-11T12:00:21Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0194",
+  "record_type": "log",
+  "ts": "2026-09-11T12:00:58Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 256ms"
+ },
+ {
+  "id": "L0195",
+  "record_type": "log",
+  "ts": "2026-09-11T12:00:59Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0196",
+  "record_type": "log",
+  "ts": "2026-09-11T12:01:10Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 174ms"
+ },
+ {
+  "id": "L0197",
+  "record_type": "log",
+  "ts": "2026-09-11T12:01:12Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 0ceeff0f"
+ },
+ {
+  "id": "L0198",
+  "record_type": "log",
+  "ts": "2026-09-11T12:01:12Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0199",
+  "record_type": "log",
+  "ts": "2026-09-11T12:01:43Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 92f31445"
+ },
+ {
+  "id": "L0200",
+  "record_type": "log",
+  "ts": "2026-09-11T12:02:14Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order bc1d44af created in 219ms"
+ },
+ {
+  "id": "L0201",
+  "record_type": "log",
+  "ts": "2026-09-11T12:02:15Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0202",
+  "record_type": "log",
+  "ts": "2026-09-11T12:02:43Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0203",
+  "record_type": "log",
+  "ts": "2026-09-11T12:02:55Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.924"
+ },
+ {
+  "id": "L0204",
+  "record_type": "log",
+  "ts": "2026-09-11T12:02:55Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0205",
+  "record_type": "log",
+  "ts": "2026-09-11T12:03:15Z",
+  "service": "inventory-db",
+  "level": "WARN",
+  "message": "slow query 1065ms: SELECT sku, qty FROM stock_levels WHERE warehouse_id = $1"
+ },
+ {
+  "id": "L0206",
+  "record_type": "log",
+  "ts": "2026-09-11T12:03:26Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 364ms"
+ },
+ {
+  "id": "L0207",
+  "record_type": "log",
+  "ts": "2026-09-11T12:03:49Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1110ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0208",
+  "record_type": "log",
+  "ts": "2026-09-11T12:04:10Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0209",
+  "record_type": "log",
+  "ts": "2026-09-11T12:04:18Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0210",
+  "record_type": "log",
+  "ts": "2026-09-11T12:04:50Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0211",
+  "record_type": "log",
+  "ts": "2026-09-11T12:05:13Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 8f074936"
+ },
+ {
+  "id": "L0212",
+  "record_type": "log",
+  "ts": "2026-09-11T12:05:23Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 285ms"
+ },
+ {
+  "id": "L0213",
+  "record_type": "log",
+  "ts": "2026-09-11T12:05:29Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 4f036a43"
+ },
+ {
+  "id": "L0214",
+  "record_type": "log",
+  "ts": "2026-09-11T12:05:37Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0215",
+  "record_type": "log",
+  "ts": "2026-09-11T12:05:44Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0216",
+  "record_type": "log",
+  "ts": "2026-09-11T12:05:53Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 124ms"
+ },
+ {
+  "id": "L0217",
+  "record_type": "log",
+  "ts": "2026-09-11T12:06:00Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 921ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0218",
+  "record_type": "log",
+  "ts": "2026-09-11T12:06:02Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order c1d13951 created in 340ms"
+ },
+ {
+  "id": "L0219",
+  "record_type": "log",
+  "ts": "2026-09-11T12:06:06Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0220",
+  "record_type": "log",
+  "ts": "2026-09-11T12:06:14Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund f05677fd processed"
+ },
+ {
+  "id": "L0221",
+  "record_type": "log",
+  "ts": "2026-09-11T12:06:15Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 03edc6fa"
+ },
+ {
+  "id": "L0222",
+  "record_type": "log",
+  "ts": "2026-09-11T12:06:23Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0223",
+  "record_type": "log",
+  "ts": "2026-09-11T12:07:12Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0224",
+  "record_type": "log",
+  "ts": "2026-09-11T12:07:24Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 3b14ba6d"
+ },
+ {
+  "id": "L0225",
+  "record_type": "log",
+  "ts": "2026-09-11T12:07:25Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0226",
+  "record_type": "log",
+  "ts": "2026-09-11T12:07:36Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 128ms"
+ },
+ {
+  "id": "L0227",
+  "record_type": "log",
+  "ts": "2026-09-11T12:07:49Z",
+  "service": "api-gateway",
+  "level": "WARN",
+  "message": "rate limiter: client 6f1c6ee3 near burst limit"
+ },
+ {
+  "id": "L0228",
+  "record_type": "log",
+  "ts": "2026-09-11T12:08:02Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0229",
+  "record_type": "log",
+  "ts": "2026-09-11T12:08:17Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0230",
+  "record_type": "log",
+  "ts": "2026-09-11T12:08:54Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0231",
+  "record_type": "log",
+  "ts": "2026-09-11T12:08:58Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=b752c17c in 379ms"
+ },
+ {
+  "id": "L0232",
+  "record_type": "log",
+  "ts": "2026-09-11T12:09:02Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 6935a6a8: bad password"
+ },
+ {
+  "id": "L0233",
+  "record_type": "log",
+  "ts": "2026-09-11T12:09:04Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge 8d4be0b8 authorized in 377ms"
+ },
+ {
+  "id": "L0234",
+  "record_type": "log",
+  "ts": "2026-09-11T12:09:18Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 5a62dfb4"
+ },
+ {
+  "id": "L0235",
+  "record_type": "log",
+  "ts": "2026-09-11T12:09:29Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0236",
+  "record_type": "log",
+  "ts": "2026-09-11T12:09:30Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 196ms"
+ },
+ {
+  "id": "L0237",
+  "record_type": "log",
+  "ts": "2026-09-11T12:09:59Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 758ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0238",
+  "record_type": "log",
+  "ts": "2026-09-11T12:10:02Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 8f20c15d created in 201ms"
+ },
+ {
+  "id": "L0239",
+  "record_type": "log",
+  "ts": "2026-09-11T12:10:12Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0240",
+  "record_type": "log",
+  "ts": "2026-09-11T12:10:58Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0241",
+  "record_type": "log",
+  "ts": "2026-09-11T12:10:59Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 120ms"
+ },
+ {
+  "id": "L0242",
+  "record_type": "log",
+  "ts": "2026-09-11T12:11:06Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user 1c0d3270"
+ },
+ {
+  "id": "L0243",
+  "record_type": "log",
+  "ts": "2026-09-11T12:11:12Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0244",
+  "record_type": "log",
+  "ts": "2026-09-11T12:11:33Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2140 buffers"
+ },
+ {
+  "id": "L0245",
+  "record_type": "log",
+  "ts": "2026-09-11T12:12:04Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0246",
+  "record_type": "log",
+  "ts": "2026-09-11T12:12:34Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0247",
+  "record_type": "log",
+  "ts": "2026-09-11T12:12:46Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "GET /cart/0950aee1 200 198ms"
+ },
+ {
+  "id": "L0248",
+  "record_type": "log",
+  "ts": "2026-09-11T12:12:49Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 4174e210"
+ },
+ {
+  "id": "L0249",
+  "record_type": "log",
+  "ts": "2026-09-11T12:12:49Z",
+  "service": "payment-service",
+  "level": "WARN",
+  "message": "payment-provider responded in 610ms for charge 9b0d980e"
+ },
+ {
+  "id": "L0250",
+  "record_type": "log",
+  "ts": "2026-09-11T12:12:49Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0251",
+  "record_type": "log",
+  "ts": "2026-09-11T12:12:54Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart a4ddcaff"
+ },
+ {
+  "id": "L0252",
+  "record_type": "log",
+  "ts": "2026-09-11T12:12:58Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 7712 buffers"
+ },
+ {
+  "id": "L0253",
+  "record_type": "log",
+  "ts": "2026-09-11T12:13:13Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 167ms"
+ },
+ {
+  "id": "L0254",
+  "record_type": "log",
+  "ts": "2026-09-11T12:13:23Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 1240 buffers"
+ },
+ {
+  "id": "L0255",
+  "record_type": "log",
+  "ts": "2026-09-11T12:13:29Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/products 200 195ms"
+ },
+ {
+  "id": "L0256",
+  "record_type": "log",
+  "ts": "2026-09-11T12:13:41Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 00822ac6: bad password"
+ },
+ {
+  "id": "L0257",
+  "record_type": "log",
+  "ts": "2026-09-11T12:13:41Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0258",
+  "record_type": "log",
+  "ts": "2026-09-11T12:14:03Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0259",
+  "record_type": "log",
+  "ts": "2026-09-11T12:14:24Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0260",
+  "record_type": "log",
+  "ts": "2026-09-11T12:14:51Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0261",
+  "record_type": "log",
+  "ts": "2026-09-11T12:15:39Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0262",
+  "record_type": "log",
+  "ts": "2026-09-11T12:15:55Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart b8a5c63c priced in 204ms"
+ },
+ {
+  "id": "L0263",
+  "record_type": "log",
+  "ts": "2026-09-11T12:15:55Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0264",
+  "record_type": "log",
+  "ts": "2026-09-11T12:15:56Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0265",
+  "record_type": "log",
+  "ts": "2026-09-11T12:16:16Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 6fdb80d6"
+ },
+ {
+  "id": "L0266",
+  "record_type": "log",
+  "ts": "2026-09-11T12:16:22Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 9240 buffers"
+ },
+ {
+  "id": "L0267",
+  "record_type": "log",
+  "ts": "2026-09-11T12:16:30Z",
+  "service": "auth-service",
+  "level": "WARN",
+  "message": "login failed for user 9b4364e0: bad password"
+ },
+ {
+  "id": "L0268",
+  "record_type": "log",
+  "ts": "2026-09-11T12:16:35Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 60a3e991"
+ },
+ {
+  "id": "L0269",
+  "record_type": "log",
+  "ts": "2026-09-11T12:17:01Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0270",
+  "record_type": "log",
+  "ts": "2026-09-11T12:17:12Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2012 buffers"
+ },
+ {
+  "id": "L0271",
+  "record_type": "log",
+  "ts": "2026-09-11T12:17:17Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0272",
+  "record_type": "log",
+  "ts": "2026-09-11T12:17:25Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 287ms"
+ },
+ {
+  "id": "L0273",
+  "record_type": "log",
+  "ts": "2026-09-11T12:17:30Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 263ms"
+ },
+ {
+  "id": "L0274",
+  "record_type": "log",
+  "ts": "2026-09-11T12:17:48Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0275",
+  "record_type": "log",
+  "ts": "2026-09-11T12:18:08Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0276",
+  "record_type": "log",
+  "ts": "2026-09-11T12:18:09Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge e7d08d23 authorized in 205ms"
+ },
+ {
+  "id": "L0277",
+  "record_type": "log",
+  "ts": "2026-09-11T12:18:42Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0278",
+  "record_type": "log",
+  "ts": "2026-09-11T12:18:44Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0279",
+  "record_type": "log",
+  "ts": "2026-09-11T12:19:01Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "cache hit ratio 0.971"
+ },
+ {
+  "id": "L0280",
+  "record_type": "log",
+  "ts": "2026-09-11T12:19:08Z",
+  "service": "search-service",
+  "level": "WARN",
+  "message": "search-index shard 3 responded in 1070ms"
+ },
+ {
+  "id": "L0281",
+  "record_type": "log",
+  "ts": "2026-09-11T12:19:23Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "sent order confirmation for order 2e5f265f"
+ },
+ {
+  "id": "L0282",
+  "record_type": "log",
+  "ts": "2026-09-11T12:19:27Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 77033f87"
+ },
+ {
+  "id": "L0283",
+  "record_type": "log",
+  "ts": "2026-09-11T12:20:04Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0284",
+  "record_type": "log",
+  "ts": "2026-09-11T12:20:18Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 2340 buffers"
+ },
+ {
+  "id": "L0285",
+  "record_type": "log",
+  "ts": "2026-09-11T12:20:31Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.payments"
+ },
+ {
+  "id": "L0286",
+  "record_type": "log",
+  "ts": "2026-09-11T12:20:32Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0287",
+  "record_type": "log",
+  "ts": "2026-09-11T12:20:45Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0288",
+  "record_type": "log",
+  "ts": "2026-09-11T12:20:53Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/checkout 200 130ms"
+ },
+ {
+  "id": "L0289",
+  "record_type": "log",
+  "ts": "2026-09-11T12:21:03Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'shoes' served in 343ms"
+ },
+ {
+  "id": "L0290",
+  "record_type": "log",
+  "ts": "2026-09-11T12:21:11Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=b13f6928 in 103ms"
+ },
+ {
+  "id": "L0291",
+  "record_type": "log",
+  "ts": "2026-09-11T12:21:13Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0292",
+  "record_type": "log",
+  "ts": "2026-09-11T12:21:50Z",
+  "service": "checkout-service",
+  "level": "WARN",
+  "message": "slow inventory reservation: 1293ms for cart 2ab18bec"
+ },
+ {
+  "id": "L0293",
+  "record_type": "log",
+  "ts": "2026-09-11T12:22:02Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "token issued for user c9314319"
+ },
+ {
+  "id": "L0294",
+  "record_type": "log",
+  "ts": "2026-09-11T12:22:08Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0295",
+  "record_type": "log",
+  "ts": "2026-09-11T12:22:10Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0296",
+  "record_type": "log",
+  "ts": "2026-09-11T12:23:10Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0297",
+  "record_type": "log",
+  "ts": "2026-09-11T12:23:14Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 273ms"
+ },
+ {
+  "id": "L0298",
+  "record_type": "log",
+  "ts": "2026-09-11T12:23:18Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 2e6c675b"
+ },
+ {
+  "id": "L0299",
+  "record_type": "log",
+  "ts": "2026-09-11T12:23:38Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 5340 buffers"
+ },
+ {
+  "id": "L0300",
+  "record_type": "log",
+  "ts": "2026-09-11T12:23:55Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 990ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0301",
+  "record_type": "log",
+  "ts": "2026-09-11T12:23:55Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0302",
+  "record_type": "log",
+  "ts": "2026-09-11T12:24:07Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "suggestions served in 32ms"
+ },
+ {
+  "id": "L0303",
+  "record_type": "log",
+  "ts": "2026-09-11T12:24:12Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "order 02933e4e created in 346ms"
+ },
+ {
+  "id": "L0304",
+  "record_type": "log",
+  "ts": "2026-09-11T12:24:15Z",
+  "service": "auth-service",
+  "level": "INFO",
+  "message": "session refreshed for user 7940e384"
+ },
+ {
+  "id": "L0305",
+  "record_type": "log",
+  "ts": "2026-09-11T12:24:16Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0306",
+  "record_type": "log",
+  "ts": "2026-09-11T12:25:00Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "POST /api/v1/login 200 27ms"
+ },
+ {
+  "id": "L0307",
+  "record_type": "log",
+  "ts": "2026-09-11T12:25:02Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0308",
+  "record_type": "log",
+  "ts": "2026-09-11T12:25:22Z",
+  "service": "notification-worker",
+  "level": "WARN",
+  "message": "email-provider responded in 1195ms"
+ },
+ {
+  "id": "L0309",
+  "record_type": "log",
+  "ts": "2026-09-11T12:25:28Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "charge e3e198cc authorized in 134ms"
+ },
+ {
+  "id": "L0310",
+  "record_type": "log",
+  "ts": "2026-09-11T12:25:37Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0311",
+  "record_type": "log",
+  "ts": "2026-09-11T12:25:48Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "reserved 2 units for cart 1e73a205"
+ },
+ {
+  "id": "L0312",
+  "record_type": "log",
+  "ts": "2026-09-11T12:26:05Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "autovacuum: processing table public.stock_levels"
+ },
+ {
+  "id": "L0313",
+  "record_type": "log",
+  "ts": "2026-09-11T12:26:11Z",
+  "service": "payments-db",
+  "level": "WARN",
+  "message": "slow query 1041ms: SELECT * FROM refunds WHERE created_at > $1"
+ },
+ {
+  "id": "L0314",
+  "record_type": "log",
+  "ts": "2026-09-11T12:26:13Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0315",
+  "record_type": "log",
+  "ts": "2026-09-11T12:26:37Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0316",
+  "record_type": "log",
+  "ts": "2026-09-11T12:26:40Z",
+  "service": "checkout-service",
+  "level": "INFO",
+  "message": "cart 89bf2b36 priced in 344ms"
+ },
+ {
+  "id": "L0317",
+  "record_type": "log",
+  "ts": "2026-09-11T12:26:46Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0318",
+  "record_type": "log",
+  "ts": "2026-09-11T12:27:41Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0319",
+  "record_type": "log",
+  "ts": "2026-09-11T12:27:52Z",
+  "service": "payment-service",
+  "level": "INFO",
+  "message": "refund 1bd89bb1 processed"
+ },
+ {
+  "id": "L0320",
+  "record_type": "log",
+  "ts": "2026-09-11T12:27:53Z",
+  "service": "inventory-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 8940 buffers"
+ },
+ {
+  "id": "L0321",
+  "record_type": "log",
+  "ts": "2026-09-11T12:28:05Z",
+  "service": "auth-service",
+  "level": "ERROR",
+  "message": "rejected malformed Authorization header from 6a4238f9"
+ },
+ {
+  "id": "L0322",
+  "record_type": "log",
+  "ts": "2026-09-11T12:28:10Z",
+  "service": "payments-db",
+  "level": "INFO",
+  "message": "checkpoint complete: wrote 4912 buffers"
+ },
+ {
+  "id": "L0323",
+  "record_type": "log",
+  "ts": "2026-09-11T12:28:19Z",
+  "service": "search-service",
+  "level": "INFO",
+  "message": "query 'jacket' served in 51ms"
+ },
+ {
+  "id": "L0324",
+  "record_type": "log",
+  "ts": "2026-09-11T12:28:38Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ },
+ {
+  "id": "L0325",
+  "record_type": "log",
+  "ts": "2026-09-11T12:28:49Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0326",
+  "record_type": "log",
+  "ts": "2026-09-11T12:29:03Z",
+  "service": "api-gateway",
+  "level": "INFO",
+  "message": "GET /api/v1/search 200 309ms"
+ },
+ {
+  "id": "L0327",
+  "record_type": "log",
+  "ts": "2026-09-11T12:29:10Z",
+  "service": "notification-worker",
+  "level": "INFO",
+  "message": "batch of 100 messages processed in 236ms"
+ },
+ {
+  "id": "L0328",
+  "record_type": "log",
+  "ts": "2026-09-11T12:29:21Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0329",
+  "record_type": "log",
+  "ts": "2026-09-11T12:29:46Z",
+  "service": "inventory-service",
+  "level": "INFO",
+  "message": "stock lookup sku=b8be3199 in 378ms"
+ },
+ {
+  "id": "L0330",
+  "record_type": "log",
+  "ts": "2026-09-11T12:30:00Z",
+  "service": "payment-service",
+  "level": "ERROR",
+  "message": "INSERT INTO payments failed: could not extend file: No space left on device (SQLSTATE 53100)"
+ },
+ {
+  "id": "L0331",
+  "record_type": "log",
+  "ts": "2026-09-11T12:30:00Z",
+  "service": "payments-db",
+  "level": "ERROR",
+  "message": "could not extend file \"base/16384/24576\": No space left on device"
+ }
+]
